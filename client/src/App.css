@@ -1,0 +1,58 @@
+/* Imports */
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
+
+/* Defualt Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Colors */
+html {
+    --primary-color: #2d9cdb;
+    --secondary-color: #fff;
+    --main-font: "Roboto";
+    --secondary-font: "Source Sans Pro";
+    color: #222222;
+}
+
+body {
+    font-family: var(--main-color), var(--secondary-font), Arial, Helvetica,
+        sans-serif;
+}
+p {
+    font-family: var(--main-font), Arial, Helvetica, sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--secondary-font), Arial, Helvetica, sans-serif;
+}
+strong {
+    color: #222222;
+}
+
+/* Buttons */
+button {
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+}
+button:focus {
+    outline: none;
+}
+
+/* Input */
+input {
+    border: none;
+}
+input:focus {
+    outline: none;
+}
