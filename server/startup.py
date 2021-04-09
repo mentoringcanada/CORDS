@@ -15,12 +15,12 @@ def load():
 
     print('parsing services into accessible list')
     items_list = []
-    limit = 500
+    # limit = 7500
     for _, row in GTA_Services.iterrows():
-        if limit == 0:
-            break
-        else:
-            limit -= 1
+        # if limit == 0:
+        #     break
+        # else:
+        #     limit -= 1
         try:
             description = converters.convert2text(
                 row['AgencyDescription'])
