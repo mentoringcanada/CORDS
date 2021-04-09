@@ -1,8 +1,6 @@
-GET - checkbox for taxonomies/data sets to search
-GET - most popular taxonomy elements that falls back to recommendations based on selections (one endpoint)
 GET - results from search
-GET - specific result by ID
 GET - recommendations based on that ID (by text and taxonomy)
+
 POST - add selection
 GET - selections
 DELETE - selection by ID
@@ -14,3 +12,6 @@ POST - your location (lat, long)
 
 add geolocation
 add "you may also be interested in"
+
+GET - checkbox for taxonomies/data sets to search
+GET - most popular taxonomy elements that falls back to recommendations based on selections (one endpoint)
