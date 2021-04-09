@@ -56,7 +56,7 @@ def load():
 
     app_state = result.AppState(
         items=items_dict,
-        ID_index_map=item_IDs,
+        index_to_ID=item_IDs,
         cache=cache.index
     )
 
