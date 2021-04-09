@@ -6,4 +6,4 @@ def convert2text(html):
     h.ignore_links = True
     h.emphasis = False
     output = h.handle(html)
-    return output.replace('\n', '')
+    return output.replace('\n', ' ')

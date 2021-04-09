@@ -12,7 +12,7 @@ def search(
     """Gets the search query, vectorizes, searches cache, returns agencies.
     """
     vector = np.asarray(vector_model(search_request.query))
-    number_of_results = 25
+    number_of_results = 10
     _, indexes = app_state.cache.search(vector, number_of_results)
     results = []
     for index in indexes[0]:

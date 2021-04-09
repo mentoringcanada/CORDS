@@ -1,6 +1,7 @@
 # import 3rd party modules
 from fastapi import FastAPI
 from fastapi import Header
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 
 # import local modules
@@ -10,8 +11,25 @@ import startup
 
 
 app = FastAPI()
+
+origins = [
+    "http://cordsconnect.ca:5000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 app_state, vector_model = startup.load()
 
+@app.options("/options")
+def options():
+    return {'ok': True}
 
 @app.post("/search")
 def search(search_request: result.SearchRequest, session_token: Optional[str] = Header(None)):
