@@ -9,19 +9,13 @@ from services import nlp_model
 def load():
     print('loading NLP model')
     vector_model = nlp_model.load_model()
-    print('model type:', type(vector_model))
 
     print('loading GTA services')
     GTA_Services = model.get_gta_services_csv()
 
     print('parsing services into accessible list')
     items_list = []
-    limit = 500
     for _, row in GTA_Services.iterrows():
-        if limit == 0:
-            break
-        else:
-            limit -= 1
         try:
             description = converters.convert2text(
                 row['AgencyDescription'])
@@ -35,7 +29,7 @@ def load():
             )
             items_list.append(item)
         except Exception as e:
-            print(row['PhysicalAddress1'], row['PhysicalCity'], e)
+            print(e)
 
     print('vectorizing and indexing services')
     items_dict = {}
