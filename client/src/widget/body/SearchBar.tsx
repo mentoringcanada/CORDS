@@ -2,7 +2,7 @@
 import React, { useState, FormEvent } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-// import axios from "axios";
+import axios from "axios";
 
 // Styling
 const StyledSearchBar = styled.form`
@@ -44,44 +44,48 @@ const SearchBar = ({ setServices }: Props) => {
         e.preventDefault();
 
         // Request
-        // const res = await axios.get(`/search?q=${search}`);
-        // const data = await res.data;
+        const res = await axios.post(`/search`, {
+            query: search,
+            // lat: 0,
+            // long: 0,
+        });
+        const data = await res.data.items;
 
         // Temp data
-        let data = {
-            services: [
-                {
-                    id: 1,
-                    name: "Daily Bread",
-                    link: "https://www.dailybread.ca/",
-                    description:
-                        "Daily Bread distributes fresh and shelf-stable food",
-                },
-                {
-                    id: 2,
-                    name: "Daily Bread",
-                    link: "https://www.dailybread.ca/",
-                    description:
-                        "Daily Bread distributes fresh and shelf-stable food",
-                },
-                {
-                    id: 3,
-                    name: "Daily Bread",
-                    link: "https://www.dailybread.ca/",
-                    description:
-                        "Daily Bread distributes fresh and shelf-stable food",
-                },
-                {
-                    id: 4,
-                    name: "Daily Bread",
-                    link: "https://www.dailybread.ca/",
-                    description:
-                        "Daily Bread distributes fresh and shelf-stable food",
-                },
-            ],
-        };
+        // let data = {
+        //     services: [
+        //         {
+        //             id: 1,
+        //             name: "Daily Bread",
+        //             link: "https://www.dailybread.ca/",
+        //             description:
+        //                 "Daily Bread distributes fresh and shelf-stable food",
+        //         },
+        //         {
+        //             id: 2,
+        //             name: "Daily Bread",
+        //             link: "https://www.dailybread.ca/",
+        //             description:
+        //                 "Daily Bread distributes fresh and shelf-stable food",
+        //         },
+        //         {
+        //             id: 3,
+        //             name: "Daily Bread",
+        //             link: "https://www.dailybread.ca/",
+        //             description:
+        //                 "Daily Bread distributes fresh and shelf-stable food",
+        //         },
+        //         {
+        //             id: 4,
+        //             name: "Daily Bread",
+        //             link: "https://www.dailybread.ca/",
+        //             description:
+        //                 "Daily Bread distributes fresh and shelf-stable food",
+        //         },
+        //     ],
+        // };
 
-        setServices(data.services);
+        setServices(data);
     };
 
     return (
