@@ -11,16 +11,11 @@ def search(
 ):
     """Gets the search query, vectorizes, searches cache, returns agencies.
     """
-    print(search_request.query)
     vector = np.asarray(vector_model(search_request.query))
-    print(vector.shape)
     number_of_results = 25
     _, indexes = app_state.cache.search(vector, number_of_results)
-    print(_)
-    print(indexes)
     results = []
     for index in indexes[0]:
-        print(index)
         item_id = app_state.ID_index_map[index]
         item = app_state.items[item_id]
         results.append(item)
