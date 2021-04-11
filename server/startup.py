@@ -15,7 +15,12 @@ def load():
 
     print('parsing services into accessible list')
     items_list = []
+    # limit = 7500
     for _, row in GTA_Services.iterrows():
+        # if limit == 0:
+        #     break
+        # else:
+        #     limit -= 1
         try:
             description = converters.convert2text(
                 row['AgencyDescription'])
@@ -56,7 +61,7 @@ def load():
 
     app_state = result.AppState(
         items=items_dict,
-        ID_index_map=item_IDs,
+        index_to_ID=item_IDs,
         cache=cache.index
     )
 
