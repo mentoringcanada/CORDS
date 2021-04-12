@@ -3,9 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Components
-import OutputBox from "../output/OutputBox";
-import SearchBar from "./SearchBar";
-import LocationBox from "../user/LocationBox";
+import OutputBox from "./OutputBox";
+import SearchBar from "../search/SearchBar";
+import LocationBox from "../search/LocationBox";
 import UserContext from "../user/UserContext";
 
 // Styling

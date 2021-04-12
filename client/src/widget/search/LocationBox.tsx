@@ -4,7 +4,7 @@ import styled from "styled-components";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import dotenv from "dotenv";
 import { geocodeByPlaceId } from "react-google-places-autocomplete";
-import UserContext from "./UserContext";
+import UserContext from "../user/UserContext";
 dotenv.config();
 
 const StyledLocationBox = styled.form`

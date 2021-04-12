@@ -3,8 +3,8 @@ import React from "react";
 import styled from "styled-components";
 
 // Components
-import Landing from "./Landing";
-import ResultList from "./ResultList";
+import Landing from "../Landing";
+import ResultList from "../results/ResultList";
 
 // Styling
 const StyledOutputBox = styled.div`
