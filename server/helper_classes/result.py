@@ -1,5 +1,4 @@
 from faiss import IndexFlatL2
-from humps.camel import case
 from pydantic import BaseConfig
 from pydantic import BaseModel
 from pydantic import Field
@@ -18,7 +17,6 @@ class Item(BaseModel):
     link: str
 
     class Config:
-        alias_generator = case
         allow_population_by_field_name = True
 
 

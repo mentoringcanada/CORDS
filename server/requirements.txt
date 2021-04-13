@@ -2,7 +2,6 @@ faiss-cpu==1.7.0
 fastapi==0.61.1
 html2text==2020.1.16
 httptools==0.1.1
-humps==0.2.2
 numpy==1.20.2
 pandas==1.2.3
 psycopg2-binary==2.8.6
