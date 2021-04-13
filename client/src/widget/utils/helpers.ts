@@ -56,19 +56,18 @@ export const getLocation = () => {
 };
 
 // Runs ('/link_out') if session exists
-export const linkOut = (e: BeforeUnloadEvent) => {
+export const linkOut = async (e: BeforeUnloadEvent) => {
     e.preventDefault();
     const session = localStorage.getItem("session_token");
 
     if (session) {
-        axios.post(
-            "/link_out",
-            {},
-            {
-                headers: {
-                    session_token: session,
-                },
-            }
-        );
+        fetch("http://cordsconnect.ca:8000/link_out", {
+            method: "post",
+            keepalive: true,
+            body: JSON.stringify({ item_id: "" }),
+            headers: {
+                session_token: session,
+            },
+        });
     }
 };
