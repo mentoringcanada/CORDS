@@ -1,6 +1,6 @@
 interface Service {
     name: string;
-    itemId: string;
+    item_id: string;
     lat: number;
     lng: number;
     address: string;
