@@ -20,10 +20,10 @@ function ResultList({ services }: Props): ReactElement {
                 services &&
                 services.map((service) => (
                     <Result
-                        key={service.id}
-                        id={service.id}
+                        key={service.item_id}
+                        id={service.item_id}
                         name={service.name}
-                        link={service.link}
+                        // link={service.link}
                         description={service.description}
                         setFocus={setFocus}
                     />

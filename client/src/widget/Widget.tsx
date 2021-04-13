@@ -1,7 +1,7 @@
 // Imports
 import React, { useState } from "react";
 import TriggerButton from "./TriggerButton";
-import Frame from "./body/Frame";
+import Frame from "./containers/Frame";
 import { useTransition, animated } from "react-spring";
 
 const Widget = () => {

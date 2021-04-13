@@ -2,7 +2,9 @@
 import React, { useState, FormEvent } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-import axios from "axios";
+
+// Utils
+import { getResults } from "../utils/apiCalls";
 
 // Styling
 const StyledSearchBar = styled.form`
@@ -39,53 +41,9 @@ interface Props {
 const SearchBar = ({ setServices }: Props) => {
     const [search, setSearch] = useState("");
 
-    // Search Request Event
-    const handleSearch = async (e: FormEvent) => {
+    const handleSearch = (e: FormEvent) => {
         e.preventDefault();
-
-        // Request
-        const res = await axios.post(`/search`, {
-            query: search,
-            // lat: 0,
-            // long: 0,
-        });
-        const data = await res.data.items;
-
-        // Temp data
-        // let data = {
-        //     services: [
-        //         {
-        //             id: 1,
-        //             name: "Daily Bread",
-        //             link: "https://www.dailybread.ca/",
-        //             description:
-        //                 "Daily Bread distributes fresh and shelf-stable food",
-        //         },
-        //         {
-        //             id: 2,
-        //             name: "Daily Bread",
-        //             link: "https://www.dailybread.ca/",
-        //             description:
-        //                 "Daily Bread distributes fresh and shelf-stable food",
-        //         },
-        //         {
-        //             id: 3,
-        //             name: "Daily Bread",
-        //             link: "https://www.dailybread.ca/",
-        //             description:
-        //                 "Daily Bread distributes fresh and shelf-stable food",
-        //         },
-        //         {
-        //             id: 4,
-        //             name: "Daily Bread",
-        //             link: "https://www.dailybread.ca/",
-        //             description:
-        //                 "Daily Bread distributes fresh and shelf-stable food",
-        //         },
-        //     ],
-        // };
-
-        setServices(data);
+        getResults(search).then((res) => setServices(res));
     };
 
     return (

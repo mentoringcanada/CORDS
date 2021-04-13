@@ -43,8 +43,8 @@ const Frame = ({ setWidget }: Props) => {
     const [services, setServices] = useState<Service[] | null>(null);
     const { setUser } = useContext(UserContext);
 
-    // Gets location when Frame mounts
     useEffect(() => {
+        // Get location
         navigator.geolocation.getCurrentPosition((position) => {
             setUser({
                 location: {
@@ -53,6 +53,7 @@ const Frame = ({ setWidget }: Props) => {
                 },
             });
         });
+        // Get session
     }, []);
 
     return (
