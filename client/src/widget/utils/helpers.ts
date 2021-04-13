@@ -36,7 +36,7 @@ export const setSession = async () => {
     let session = localStorage.getItem("session_token");
     // Check for first time on site
     if (!session) {
-        const res = await axios.post("/session");
+        const res = await axios.get("/session");
         const data = await res.data;
         localStorage.setItem("session_token", `${data.session_token}`);
     }
