@@ -1,10 +1,11 @@
+from faiss import IndexFlatL2
+from humps.camel import case
 from pydantic import BaseConfig
 from pydantic import BaseModel
+from pydantic import Field
 from typing import Dict
 from typing import List
 from typing import Optional
-from faiss import IndexFlatL2
-from tensorflow.keras import Model
 
 
 class Item(BaseModel):
@@ -14,6 +15,11 @@ class Item(BaseModel):
     lat: Optional[float] = 0
     lng: Optional[float] = 0
     address: str
+    link: str
+
+    class Config:
+        alias_generator = case
+        allow_population_by_field_name = True
 
 
 class SearchRequest(BaseModel):
@@ -29,3 +35,7 @@ class AppState(BaseModel):
 
     class Config(BaseConfig):
         arbitrary_types_allowed = True
+
+
+class LinkOut(BaseModel):
+    item_id: str

@@ -6,7 +6,7 @@ from services import converters
 from services import nlp_model
 
 
-def load():
+def load(load_full=False):
     print('loading NLP model')
     vector_model = nlp_model.load_model()
 
@@ -15,12 +15,12 @@ def load():
 
     print('parsing services into accessible list')
     items_list = []
-    # limit = 7500
+    limit = 500
     for _, row in GTA_Services.iterrows():
-        # if limit == 0:
-        #     break
-        # else:
-        #     limit -= 1
+        if limit == 0 and not load_full:
+            break
+        else:
+            limit -= 1
         try:
             description = converters.convert2text(
                 row['AgencyDescription'])
@@ -30,7 +30,8 @@ def load():
                 item_id=str(row['ResourceAgencyNum']),
                 lat=float(row['Latitude']),
                 lng=float(row['Longitude']),
-                address=row['PhysicalAddress1'] + ', ' + row['PhysicalCity']
+                address=row['PhysicalAddress1'] + ', ' + row['PhysicalCity'],
+                link='https://211central.ca/record/' + str(row['ResourceAgencyNum'])
             )
             items_list.append(item)
         except Exception as e:

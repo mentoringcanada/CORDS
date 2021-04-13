@@ -40,3 +40,11 @@ def get_similar(
     )
     results = search(session_token, search_request, app_state, vector_model)
     return results
+
+
+def get_session(client_host):
+    return model.check_session_pair(client_host)
+
+
+def link_out(link_out, session_token):
+    model.store_link_out(link_out.item_id, session_token)

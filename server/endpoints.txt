@@ -13,3 +13,17 @@ DELETE - to clear session
 
 GET - checkbox for taxonomies/data sets to search
 GET - most popular taxonomy elements that falls back to recommendations based on selections (one endpoint)
+
+-------------------
+
+2) geographic constraints
+3) recommendations by taxonomy
+
+We have a lot of behind-the-scenes work to do that is related.
+1) request a session ID and store it in the app state (every time it loads)
+2) send requests with the session_token header
+3) when clicking a link to a resource, concurrently send a request to the server to inform it
+
+An admin portal needs to be created too will a kinds of features:
+1) Manage data partners, create logins for them, and allow their sites to access our server
+2) Manage data sets and automatically include them in our results by deploying the services
