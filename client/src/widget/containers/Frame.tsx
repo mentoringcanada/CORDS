@@ -7,7 +7,9 @@ import OutputBox from "./OutputBox";
 import SearchBar from "../search/SearchBar";
 import LocationBox from "../search/LocationBox";
 import UserContext from "../user/UserContext";
-import axios from "axios";
+
+// Utils
+import { getLocation, setSession } from "../utils/helpers";
 
 // Styling
 const StyledFrame = styled.div`
@@ -44,17 +46,15 @@ const Frame = ({ setWidget }: Props) => {
     const [services, setServices] = useState<Service[] | null>(null);
     const { setUser } = useContext(UserContext);
 
+    /* Sets app default values */
     useEffect(() => {
-        // Get location
-        navigator.geolocation.getCurrentPosition((position) => {
-            setUser({
-                location: {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                },
-            });
+        // Set session
+        setSession();
+
+        // Set location
+        getLocation().then((location: any) => {
+            setUser({ location });
         });
-        // Get session
     }, []);
 
     return (

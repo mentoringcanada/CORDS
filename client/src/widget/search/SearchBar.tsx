@@ -1,10 +1,11 @@
 // Import
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useContext } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
+import UserContext from "../user/UserContext";
 
 // Utils
-import { getResults } from "../utils/apiCalls";
+import { getResults } from "../utils/helpers";
 
 // Styling
 const StyledSearchBar = styled.form`
@@ -40,10 +41,16 @@ interface Props {
 // Component
 const SearchBar = ({ setServices }: Props) => {
     const [search, setSearch] = useState("");
+    const { user } = useContext(UserContext);
 
     const handleSearch = (e: FormEvent) => {
         e.preventDefault();
-        getResults(search).then((res) => setServices(res));
+        const searchBody = {
+            search,
+            lat: user.location.lat,
+            lng: user.location.lng,
+        };
+        getResults(searchBody).then((res) => setServices(res));
     };
 
     return (

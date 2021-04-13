@@ -14,3 +14,9 @@ interface User {
         lng: number | undefined;
     };
 }
+
+interface SearchBody {
+    search: string;
+    lat: number;
+    lng: number;
+}
