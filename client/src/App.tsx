@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+// Import
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import TestSite from "./test-site/TestSite";
 import UserContext from "./widget/user/UserContext";
 import Widget from "./widget/Widget";
 
+// Utils
+import { linkOut } from "./widget/utils/helpers";
+
+// Component
 function App() {
     // Setting default user
     const [user, setUser] = useState<User>({
@@ -12,6 +17,11 @@ function App() {
             lng: undefined,
         },
     });
+
+    useEffect(() => {
+        // Calls link out on page close
+        window.onbeforeunload = linkOut;
+    }, []);
 
     return (
         <div>
