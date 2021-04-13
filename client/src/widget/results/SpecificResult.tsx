@@ -2,30 +2,32 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineRollback } from "react-icons/ai";
-// import { BiWorld } from "react-icons/bi";
+import { BiWorld } from "react-icons/bi";
 
 // Utils
 import { getSimilar } from "../utils/apiCalls";
+import Similar from "./Similar";
 
 // Styling
 const StyledSpecificResult = styled.div`
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    p,
-    h2,
-    h3 {
+    p.info,
+    h2.info,
+    h3.info {
         margin-top: 0.4rem;
     }
-    h2 {
-        margin-bottom: 0.3rem;
+    h2.info {
+        margin: 0rem 1.2rem 0.3rem 0rem;
+        font-size: 1.2rem;
     }
-    p {
+    p.info {
         font-size: 0.8rem;
         line-height: 1.1rem;
         color: #4d5156;
     }
-    button {
+    button.info {
         background-color: transparent;
         color: black;
         font-size: 1.5rem;
@@ -75,23 +77,21 @@ const SpecificResult = ({ id, setFocus }: Props) => {
         <StyledSpecificResult>
             {service && (
                 <>
-                    <button onClick={() => setFocus(null)}>
+                    <button className="info" onClick={() => setFocus(null)}>
                         <AiOutlineRollback />
                     </button>
-                    <h2>{service.name}</h2>
-                    <p>
+                    <h2 className="info">{service.name}</h2>
+                    <p className="info">
                         <strong>Address:</strong> {service.address}
                     </p>
-                    <p>{service.description}</p>
-                    {/* <div className="link">
+                    <p className="info">{service.description}</p>
+                    <div className="link">
                         <BiWorld />
                         <a href={service.link} target="_blank" rel="noreferrer">
                             {service.link}
                         </a>
-                    </div> */}
-                    {similar.map((service) => (
-                        <h4 key={service.item_id}>{service.name}</h4>
-                    ))}
+                    </div>
+                    <Similar similar={similar} setFocus={setFocus} />
                 </>
             )}
         </StyledSpecificResult>

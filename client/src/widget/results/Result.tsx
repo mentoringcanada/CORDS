@@ -53,17 +53,23 @@ const StyledResult = styled.div`
 interface Props {
     id: string;
     name: string;
+    link: string;
     description: string;
     setFocus: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 // Component
-const Result = ({ id, name, description, setFocus }: Props) => {
+const Result = ({ id, name, description, link, setFocus }: Props) => {
     return (
-        <StyledResult onClick={() => setFocus(Number(id))}>
+        <StyledResult
+            onClick={() => {
+                setFocus(null);
+                setFocus(Number(id));
+            }}
+        >
             <h3>{name}</h3>
             <a
-                href={"https://211ontario.ca/"}
+                href={link}
                 target="_blank"
                 rel="noreferrer"
                 onClick={(e) => e.stopPropagation()}

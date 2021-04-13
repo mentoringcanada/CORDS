@@ -1,10 +1,10 @@
 interface Service {
     name: string;
-    item_id: string;
+    itemId: string;
     lat: number;
     lng: number;
     address: string;
-    // link: string;
+    link: string;
     description: string;
 }
 

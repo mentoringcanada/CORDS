@@ -7,6 +7,7 @@ import OutputBox from "./OutputBox";
 import SearchBar from "../search/SearchBar";
 import LocationBox from "../search/LocationBox";
 import UserContext from "../user/UserContext";
+import axios from "axios";
 
 // Styling
 const StyledFrame = styled.div`
