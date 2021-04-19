@@ -67,6 +67,7 @@ export const linkOut = async (e: BeforeUnloadEvent) => {
             body: JSON.stringify({ item_id: "" }),
             headers: {
                 session_token: session,
+                "Content-Type": "application/json",
             },
         });
     }

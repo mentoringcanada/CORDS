@@ -5,7 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import UserContext from "../user/UserContext";
 
 // Utils
-import { getResults } from "../utils/helpers";
+import { getResults } from "../utils/api";
 
 // Styling
 const StyledSearchBar = styled.form`

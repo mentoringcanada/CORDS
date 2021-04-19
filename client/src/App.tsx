@@ -6,7 +6,7 @@ import UserContext from "./widget/user/UserContext";
 import Widget from "./widget/Widget";
 
 // Utils
-import { linkOut } from "./widget/utils/helpers";
+import { linkOut } from "./widget/utils/api";
 
 // Component
 function App() {

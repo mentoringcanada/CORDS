@@ -7,9 +7,10 @@ import OutputBox from "./OutputBox";
 import SearchBar from "../search/SearchBar";
 import LocationBox from "../search/LocationBox";
 import UserContext from "../user/UserContext";
+import Password from "../user/Password";
 
 // Utils
-import { getLocation, setSession } from "../utils/helpers";
+import { getLocation, setSession } from "../utils/api";
 
 // Styling
 const StyledFrame = styled.div`
@@ -43,6 +44,9 @@ interface Props {
 
 // Body of Widget holding components
 const Frame = ({ setWidget }: Props) => {
+    // Password
+    const [auth, setAuth] = useState(false);
+    // Searched Services
     const [services, setServices] = useState<Service[] | null>(null);
     const { setUser } = useContext(UserContext);
 
@@ -59,12 +63,18 @@ const Frame = ({ setWidget }: Props) => {
 
     return (
         <StyledFrame>
-            <SearchBar setServices={setServices} />
+            {auth ? (
+                <>
+                    <SearchBar setServices={setServices} />
+                    <LocationBox />
+                    <OutputBox services={services} />
+                </>
+            ) : (
+                <Password setAuth={setAuth} />
+            )}
             <button className="close-button" onClick={() => setWidget(false)}>
                 &minus;
             </button>
-            <LocationBox />
-            <OutputBox services={services} />
         </StyledFrame>
     );
 };
