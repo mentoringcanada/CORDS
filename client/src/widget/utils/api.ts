@@ -1,6 +1,7 @@
 // Imports
 import axios from "axios";
 
+// SEARCH //
 // Takes id and returns similar results array
 export const getSimilar = async (id: number) => {
     const res = await axios.get(`/similar/${id}`, {
@@ -11,7 +12,6 @@ export const getSimilar = async (id: number) => {
     const data = await res.data;
     return data.items;
 };
-
 // Takes Search and returns results array
 export const getResults = async (searchBody: SearchBody) => {
     const res = await axios.post(
@@ -31,6 +31,7 @@ export const getResults = async (searchBody: SearchBody) => {
     return data.items;
 };
 
+// SESSION //
 // Sets Session token if there isn't one
 export const setSession = async () => {
     let session = localStorage.getItem("session_token");
@@ -42,6 +43,7 @@ export const setSession = async () => {
     }
 };
 
+// LOCATION //
 // Gets and Returns Location (lat, lng)
 export const getLocation = () => {
     return new Promise((res) => {
@@ -55,6 +57,7 @@ export const getLocation = () => {
     });
 };
 
+// LINK OUT //
 // Runs ('/link_out') if session exists
 export const linkOut = async (e: BeforeUnloadEvent) => {
     e.preventDefault();
@@ -71,4 +74,17 @@ export const linkOut = async (e: BeforeUnloadEvent) => {
             },
         });
     }
+};
+
+// SELECTIONS - TODO //
+
+// Adds a selection
+export const addSelection = (id: string) => {
+    return "temp add";
+};
+export const removeSelection = (id: string) => {
+    return "temp remove";
+};
+export const getSelections = () => {
+    return "list of selections";
 };

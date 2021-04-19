@@ -1,25 +1,20 @@
 // Import
-import React, { ReactElement, useState } from "react";
-import Result from "./Result";
-import SpecificResult from "./SpecificResult";
+import React, { ReactElement } from "react";
+import Service from "./Service";
 
 // Props
 interface Props {
     services: Service[] | null;
+    setFocus: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 // Component
-function ResultList({ services }: Props): ReactElement {
-    const [focus, setFocus] = useState<number | null>(null);
-
+function ServiceList({ services, setFocus }: Props): ReactElement {
     return (
         <>
-            {focus ? (
-                <SpecificResult id={focus} setFocus={setFocus} />
-            ) : (
-                services &&
+            {services &&
                 services.map((service) => (
-                    <Result
+                    <Service
                         key={service.item_id}
                         id={service.item_id}
                         name={service.name}
@@ -27,10 +22,9 @@ function ResultList({ services }: Props): ReactElement {
                         description={service.description}
                         setFocus={setFocus}
                     />
-                ))
-            )}
+                ))}
         </>
     );
 }
 
-export default ResultList;
+export default ServiceList;

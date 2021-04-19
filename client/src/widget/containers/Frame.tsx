@@ -3,14 +3,16 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Components
-import OutputBox from "./OutputBox";
-import SearchBar from "../search/SearchBar";
-import LocationBox from "../search/LocationBox";
 import UserContext from "../user/UserContext";
 import Password from "../user/Password";
 
 // Utils
 import { getLocation, setSession } from "../utils/api";
+import Search from "../pages/search/Search";
+import Landing from "../pages/Landing";
+import SearchBar from "../common/SearchBar";
+import NavBar from "../common/NavBar";
+import Selections from "../pages/Selections";
 
 // Styling
 const StyledFrame = styled.div`
@@ -46,8 +48,8 @@ interface Props {
 const Frame = ({ setWidget }: Props) => {
     // Password
     const [auth, setAuth] = useState(false);
-    // Searched Services
-    const [services, setServices] = useState<Service[] | null>(null);
+    const [results, setResults] = useState<Service[]>([]);
+    const [page, setPage] = useState("landing");
     const { setUser } = useContext(UserContext);
 
     /* Sets app default values */
@@ -63,18 +65,14 @@ const Frame = ({ setWidget }: Props) => {
 
     return (
         <StyledFrame>
-            {auth ? (
-                <>
-                    <SearchBar setServices={setServices} />
-                    <LocationBox />
-                    <OutputBox services={services} />
-                </>
-            ) : (
-                <Password setAuth={setAuth} />
-            )}
             <button className="close-button" onClick={() => setWidget(false)}>
                 &minus;
             </button>
+            <SearchBar setResults={setResults} setPage={setPage} />
+            <NavBar setPage={setPage} />
+            {page === "landing" && <Landing />}
+            {page === "search" && <Search results={results} />}
+            {page === "selections" && <Selections />}
         </StyledFrame>
     );
 };

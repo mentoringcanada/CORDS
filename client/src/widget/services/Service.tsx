@@ -1,13 +1,12 @@
 // Import
 import React from "react";
 import styled from "styled-components";
-import { FaLink } from "react-icons/fa";
+import { FaLink, FaSave } from "react-icons/fa";
+import { addSelection } from "../utils/api";
 
 // Styling
-const StyledResult = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+const StyledService = styled.div`
+    position: relative;
     border: 2px solid var(--primary-color);
     padding: 0.5rem;
     margin: 0.5rem;
@@ -22,11 +21,12 @@ const StyledResult = styled.div`
         width: 75%;
     }
     /* Link button */
-    a {
-        justify-self: flex-end;
+    a,
+    button {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: 0.2rem;
         font-size: 1.2rem;
         width: 2rem;
         height: 2rem;
@@ -35,11 +35,18 @@ const StyledResult = styled.div`
         background-color: transparent;
         transition: background-color 0.4s linear;
     }
-    a:hover {
+    a:hover,
+    button:hover {
         background-color: #eee;
     }
     svg {
         color: var(--primary-color);
+    }
+    .buttons {
+        display: flex;
+        position: absolute;
+        top: 0.2rem;
+        right: 0.2rem;
     }
     p {
         margin-top: 0.5rem;
@@ -59,26 +66,36 @@ interface Props {
 }
 
 // Component
-const Result = ({ id, name, description, link, setFocus }: Props) => {
+const Service = ({ id, name, description, link, setFocus }: Props) => {
+    const handleSelection = (e: any) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(addSelection(id));
+    };
     return (
-        <StyledResult
+        <StyledService
             onClick={() => {
                 setFocus(null);
                 setFocus(Number(id));
             }}
         >
             <h3>{name}</h3>
-            <a
-                href={link}
-                target="_blank"
-                rel="noreferrer"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <FaLink />
-            </a>
+            <div className="buttons">
+                <a
+                    href={link}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <FaLink />
+                </a>
+                <button onClick={handleSelection}>
+                    <FaSave />
+                </button>
+            </div>
             <p>{description}</p>
-        </StyledResult>
+        </StyledService>
     );
 };
 
-export default Result;
+export default Service;

@@ -1,7 +1,7 @@
 // Import
 import React from "react";
 import styled from "styled-components";
-import Result from "./Result";
+import Result from "./Service";
 
 const StyledSimilar = styled.div`
     border-radius: 3px;
