@@ -71,9 +71,7 @@ const Frame = ({ setWidget }: Props) => {
             <SearchBar setResults={setResults} setPage={setPage} />
             <NavBar setPage={setPage} />
             {page === "landing" && <Landing />}
-            {page === "search" && (
-                <Search results={results} setResults={setResults} />
-            )}
+            {page === "search" && <Search results={results} />}
             {page === "selections" && <Selections />}
         </StyledFrame>
     );

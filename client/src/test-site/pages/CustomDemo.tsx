@@ -5,25 +5,43 @@ import ServiceList from "../../widget/services/ServiceList";
 import SpecificResult from "../../widget/services/SpecificResult";
 import { getResults } from "../../widget/utils/api";
 import Demo from "../common/Demo";
+import { MdEdit } from "react-icons/md";
 
-const Demo1 = () => {
+const CustomDemo = () => {
     const [similar, setSimilar] = useState<any>([]);
     const [focus, setFocus] = useState<number | null>(null);
-    const desc =
-        "Free or low-cost food to individuals and families in need on an on-going, seasonal, and emergency basis.";
+    const [customDesc, setCustomDesc] = useState("");
+    const [customTitle, setCustomTitle] = useState("");
 
     const handleSimilar = () => {
         getResults({
-            search: desc,
+            search: customDesc,
             lat: 0,
             lng: 0,
         }).then((res) => setSimilar(res));
     };
-
     return (
         <Demo>
-            <h2 className="demo">Food Bank</h2>
-            <p className="demo">{desc}</p>
+            <label className="demo title">
+                <input
+                    type="text"
+                    placeholder="Title"
+                    value={customTitle}
+                    onChange={(e) => setCustomTitle(e.target.value)}
+                    style={{ width: !customTitle ? "6rem" : "100%" }}
+                />
+                {!customTitle && <MdEdit />}
+            </label>
+            <label className="demo desc">
+                <input
+                    type="text"
+                    placeholder="Description"
+                    value={customDesc}
+                    onChange={(e) => setCustomDesc(e.target.value)}
+                    style={{ width: !customDesc ? "6rem" : "100%" }}
+                />
+                {!customDesc && <MdEdit />}
+            </label>
             <button className="demo" onClick={handleSimilar}>
                 View similar services
             </button>
@@ -40,4 +58,4 @@ const Demo1 = () => {
     );
 };
 
-export default Demo1;
+export default CustomDemo;

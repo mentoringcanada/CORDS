@@ -23,11 +23,13 @@ const Demo3 = () => {
 
     return (
         <Demo>
-            <h1>Clothing</h1>
-            <p>{desc}</p>
-            <button onClick={handleSimilar}>View similar services</button>
+            <h2 className="demo">Clothing</h2>
+            <p className="demo">{desc}</p>
+            <button className="demo" onClick={handleSimilar}>
+                View similar services
+            </button>
             {similar && (
-                <OutputBox>
+                <OutputBox style={{ height: "50vh" }}>
                     {focus ? (
                         <SpecificResult id={focus} setFocus={setFocus} />
                     ) : (

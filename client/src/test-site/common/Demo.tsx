@@ -5,10 +5,28 @@ const Demo = styled.div`
     margin: auto;
     padding: 2rem;
     margin-bottom: 2rem;
-    * {
-        margin-top: 1rem;
+    .demo {
+        margin-bottom: 1rem;
     }
-    button {
+    label.demo {
+        display: flex;
+        align-items: center;
+        input {
+            width: auto;
+        }
+        &.title {
+            * {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+        }
+        &.desc {
+            * {
+                font-size: 1rem;
+            }
+        }
+    }
+    button.demo {
         background-color: var(--primary-color);
         padding: 0.5rem;
         border-radius: 0.3rem;

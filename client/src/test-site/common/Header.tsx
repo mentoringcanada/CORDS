@@ -35,6 +35,7 @@ const Header = () => {
                 <Link to="/demo1">Demo 1</Link>
                 <Link to="/demo2">Demo 2</Link>
                 <Link to="/demo3">Demo 3</Link>
+                <Link to="/custom">Custom Demo</Link>
             </nav>
         </StyledHeader>
     );
