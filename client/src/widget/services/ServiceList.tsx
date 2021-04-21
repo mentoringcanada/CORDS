@@ -12,17 +12,22 @@ interface Props {
 function ServiceList({ services, setFocus }: Props): ReactElement {
     return (
         <>
-            {services &&
-                services.map((service) => (
-                    <Service
-                        key={service.item_id}
-                        id={service.item_id}
-                        name={service.name}
-                        link={service.link}
-                        description={service.description}
-                        setFocus={setFocus}
-                    />
-                ))}
+            {services ? (
+                <>
+                    {services.map((service) => (
+                        <Service
+                            key={service.item_id}
+                            id={service.item_id}
+                            name={service.name}
+                            link={service.link}
+                            description={service.description}
+                            setFocus={setFocus}
+                        />
+                    ))}
+                </>
+            ) : (
+                <button></button>
+            )}
         </>
     );
 }

@@ -46,41 +46,12 @@ const SearchBar = ({ setResults, setPage }: Props) => {
 
     const handleSearch = (e: FormEvent) => {
         e.preventDefault();
-        // const searchBody = {
-        //     search,
-        //     lat: user.location.lat,
-        //     lng: user.location.lng,
-        // };
-        // getResults(searchBody).then((res) => setServices(res));
-        setResults([
-            {
-                address: "345 Simcoe St S, Oshawa",
-                description: "  ",
-                item_id: "71315356",
-                lat: 43.888552,
-                link: "https://211central.ca/record/71315356",
-                lng: -78.859292,
-                name: "United Way of Durham Region - Volunteer Durham",
-            },
-            {
-                address: "345 Simcoe St S, Oshawa",
-                description: "  ",
-                item_id: "71315356",
-                lat: 43.888552,
-                link: "https://211central.ca/record/71315356",
-                lng: -78.859292,
-                name: "United Way of Durham Region - Volunteer Durham",
-            },
-            {
-                address: "345 Simcoe St S, Oshawa",
-                description: "  ",
-                item_id: "71315356",
-                lat: 43.888552,
-                link: "https://211central.ca/record/71315356",
-                lng: -78.859292,
-                name: "United Way of Durham Region - Volunteer Durham",
-            },
-        ]);
+        const searchBody = {
+            search,
+            lat: user.location.lat,
+            lng: user.location.lng,
+        };
+        getResults(searchBody).then((res) => setResults(res));
         setPage("search");
     };
 

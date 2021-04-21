@@ -6,12 +6,16 @@ import OutputBox from "../containers/OutputBox";
 import ServiceList from "../services/ServiceList";
 import SpecificResult from "../services/SpecificResult";
 
+// Utils
+import { getSelections } from "../utils/api";
+
 const Selections = () => {
     const [selections, setSelections] = useState<Service[]>([]);
     const [focus, setFocus] = useState<number | null>(null);
 
+    // Gets Selections
     useEffect(() => {
-        setSelections([]);
+        getSelections().then((res) => setSelections(res));
     }, []);
 
     return (

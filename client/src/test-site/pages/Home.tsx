@@ -1,32 +1,9 @@
+// Imports
 import React from "react";
 import styled from "styled-components";
-import heroImg from "./images/hero.jpg";
+import heroImg from "../images/hero.jpg";
 
-const StyledTestSite = styled.div`
-    button {
-        font-family: var(--secondary-font);
-        color: white;
-        background-color: transparent;
-        font-size: 1.1rem;
-        font-weight: 600;
-    }
-    header {
-        background-color: #c22418;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        height: 5rem;
-    }
-    header h2 {
-        font-size: 1.7rem;
-    }
-    nav {
-        display: flex;
-        justify-content: space-around;
-        width: 30rem;
-        font-size: 1.1rem;
-    }
+const StyledHome = styled.div`
     .hero {
         background-image: url(${heroImg});
         background-repeat: no-repeat;
@@ -50,18 +27,9 @@ const StyledTestSite = styled.div`
     }
 `;
 
-export default function TestSite() {
+const Home = () => {
     return (
-        <StyledTestSite>
-            <header>
-                <h2>CORDS Test Site</h2>
-                <nav>
-                    <button>Home</button>
-                    <button>About</button>
-                    <button>Ways to Help</button>
-                    <button>Contact</button>
-                </nav>
-            </header>
+        <StyledHome>
             <section className="hero"></section>
             <section className="articles">
                 <article>
@@ -94,6 +62,8 @@ export default function TestSite() {
                     </p>
                 </article>
             </section>
-        </StyledTestSite>
+        </StyledHome>
     );
-}
+};
+
+export default Home;

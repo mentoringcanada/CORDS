@@ -19,7 +19,7 @@ html {
 }
 
 body {
-    font-family: var(--main-color), var(--secondary-font), Arial, Helvetica,
+    font-family: var(--main-font), var(--secondary-font), Arial, Helvetica,
         sans-serif;
 }
 p {

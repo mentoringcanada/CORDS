@@ -39,6 +39,7 @@ export const setSession = async () => {
     if (!session) {
         const res = await axios.get("/session");
         const data = await res.data;
+        console.log(data);
         localStorage.setItem("session_token", `${data.session_token}`);
     }
 };
@@ -85,6 +86,16 @@ export const addSelection = (id: string) => {
 export const removeSelection = (id: string) => {
     return "temp remove";
 };
-export const getSelections = () => {
-    return "list of selections";
+export const getSelections = async () => {
+    let session = localStorage.getItem("session_token");
+    // Get selections with session id
+    if (session) {
+        const res = await axios.get("/selections", {
+            headers: {
+                session_token: session,
+            },
+        });
+        const data = await res.data;
+        return data;
+    }
 };
