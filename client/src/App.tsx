@@ -1,23 +1,16 @@
 // Import
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
+
+// Components
 import TestSite from "./test-site/TestSite";
-import UserContext from "./widget/user/UserContext";
-import Widget from "./widget/Widget";
+import StartScreen from "./start-screen/StartScreen";
 
 // Utils
 import { linkOut } from "./widget/utils/api";
 
 // Component
 function App() {
-    // Setting default user
-    const [user, setUser] = useState<User>({
-        location: {
-            lat: undefined,
-            lng: undefined,
-        },
-    });
-
     useEffect(() => {
         // Calls link out on page close
         window.onbeforeunload = linkOut;
@@ -25,10 +18,8 @@ function App() {
 
     return (
         <div>
+            <StartScreen />
             <TestSite />
-            <UserContext.Provider value={{ user, setUser }}>
-                <Widget />
-            </UserContext.Provider>
         </div>
     );
 }

@@ -12,13 +12,14 @@
 /* Colors */
 html {
     --primary-color: #2d9cdb;
-    --secondary-color: #fff;
+    --secondary-color: #c22418;
     --main-font: "Roboto";
     --secondary-font: "Source Sans Pro";
     color: #222222;
 }
 
-body {
+body,
+button {
     font-family: var(--main-font), var(--secondary-font), Arial, Helvetica,
         sans-serif;
 }

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const Demo = styled.div`
-    width: 1200px;
     margin: auto;
     padding: 2rem;
     margin-bottom: 2rem;

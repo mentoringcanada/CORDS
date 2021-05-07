@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 // Components
 import UserContext from "../user/UserContext";
-import Password from "../user/Password";
 
 // Utils
 import { getLocation, setSession } from "../utils/api";
@@ -46,8 +45,6 @@ interface Props {
 
 // Body of Widget holding components
 const Frame = ({ setWidget }: Props) => {
-    // Password
-    const [auth, setAuth] = useState(false);
     const [results, setResults] = useState<Service[]>([]);
     const [page, setPage] = useState("landing");
     const { setUser } = useContext(UserContext);
