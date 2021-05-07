@@ -63,7 +63,7 @@ const PopUp = ({ setAllowUse }: Props) => {
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
-                    password === "JavaScript" && setAllowUse(true);
+                    password === "cordspass" && setAllowUse(true);
                 }}
             >
                 Welcome to the CORDS Demo
