@@ -1,7 +1,7 @@
 // Import
 import React, { useState } from "react";
 import styled from "styled-components";
-import OutputBox from "../containers/OutputBox";
+import OutputBox from "../../general/OutputBox";
 
 // Styling
 const StyledLanding = styled.div`

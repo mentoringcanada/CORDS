@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 
 // Components
-import ServiceList from "../../services/ServiceList";
-import SpecificResult from "../../services/SpecificResult";
-import OutputBox from "../../containers/OutputBox";
+import ServiceList from "../../../general/services/ServiceList";
+import SpecificResult from "../../../general/services/SpecificResult";
+import OutputBox from "../../../general/OutputBox";
 import LocationBox from "./LocationBox";
 
 interface Props {

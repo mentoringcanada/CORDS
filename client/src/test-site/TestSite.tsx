@@ -8,7 +8,7 @@ import Demo2 from "./pages/DemoShelter";
 import Demo3 from "./pages/DemoClothing";
 import CustomDemo from "./pages/CustomDemo";
 import Widget from "../widget/Widget";
-import UserContext from "../widget/user/UserContext";
+import UserContext from "../general/user/UserContext";
 
 export default function TestSite() {
     // Setting default user

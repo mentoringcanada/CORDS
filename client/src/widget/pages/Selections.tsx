@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 
 // Component
-import OutputBox from "../containers/OutputBox";
-import ServiceList from "../services/ServiceList";
-import SpecificResult from "../services/SpecificResult";
+import OutputBox from "../../general/OutputBox";
+import ServiceList from "../../general/services/ServiceList";
+import SpecificResult from "../../general/services/SpecificResult";
 
 // Utils
 import { getSelections } from "../utils/api";

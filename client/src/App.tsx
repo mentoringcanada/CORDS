@@ -4,8 +4,8 @@ import "./App.css";
 
 // Components
 import TestSite from "./test-site/TestSite";
-import StartScreen from "./start-screen/StartScreen";
-import { Helmet } from "react-helmet";
+import StartScreen from "./test-site/start-screen/StartScreen";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // Utils
 import { linkOut } from "./widget/utils/api";
@@ -18,15 +18,24 @@ function App() {
     }, []);
 
     return (
-        <div>
-            <Helmet>
-                <title>CORDS</title>
-                <meta name="description" content="CORDS project website" />
-                <meta name="keywords" content="help, cords, youth, search" />
-            </Helmet>
-            <StartScreen />
-            <TestSite />
-        </div>
+        <HelmetProvider>
+            <div>
+                <Helmet>
+                    <title>CORDS</title>
+                    <meta name="description" content="CORDS project website" />
+                    <meta
+                        name="keywords"
+                        content="help, cords, youth, search"
+                    />
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1, minimum-scale=1"
+                    />
+                </Helmet>
+                <StartScreen />
+                <TestSite />
+            </div>
+        </HelmetProvider>
     );
 }
 

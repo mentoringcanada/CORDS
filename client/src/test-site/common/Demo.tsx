@@ -31,6 +31,9 @@ const Demo = styled.div`
         padding: 0.5rem;
         border-radius: 0.3rem;
     }
+    @media only screen and (max-width: 768px) {
+        padding: 1rem;
+    } ;
 `;
 
 export default Demo;

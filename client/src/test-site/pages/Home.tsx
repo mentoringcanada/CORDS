@@ -5,32 +5,45 @@ import heroImg from "../images/hero.jpg";
 
 const StyledHome = styled.div`
     .hero {
-        background-image: url(${heroImg});
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 80vh;
+        width: 100%;
+        img {
+            width: 100%;
+        }
     }
     .articles {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         padding: 2rem 7%;
+        article {
+            width: 25rem;
+            height: 30vh;
+            padding: 3%;
+            text-align: center;
+            p {
+                margin-top: 1.5rem;
+            }
+        }
     }
-    .articles article {
-        width: 25rem;
-        height: 30vh;
-        padding: 3%;
-        text-align: center;
-    }
-    .articles article p {
-        margin-top: 1.5rem;
+
+    @media only screen and (max-width: 768px) {
+        .hero {
+            background-size: auto;
+        }
+        .articles {
+            article {
+                height: auto;
+            }
+        }
     }
 `;
 
 const Home = () => {
     return (
         <StyledHome>
-            <section className="hero"></section>
+            <section className="hero">
+                <img src={heroImg} alt="Hands holding give sign" />
+            </section>
             <section className="articles">
                 <article>
                     <h2>Integrity</h2>

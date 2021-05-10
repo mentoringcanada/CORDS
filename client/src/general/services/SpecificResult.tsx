@@ -5,7 +5,7 @@ import { AiOutlineRollback } from "react-icons/ai";
 import { BiWorld } from "react-icons/bi";
 
 // Utils
-import { getSimilar } from "../utils/api";
+import { getSimilar } from "../../widget/utils/api";
 import Similar from "./Similar";
 
 // Styling

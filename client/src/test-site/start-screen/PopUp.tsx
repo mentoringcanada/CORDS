@@ -17,6 +17,7 @@ const StyledPopUp = styled.div`
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        width: 24rem;
         padding: 2rem;
         border-radius: 1rem;
         background-color: white;
@@ -46,6 +47,20 @@ const StyledPopUp = styled.div`
             color: white;
             font-weight: bold;
             background-color: var(--primary-color);
+        }
+    }
+    @media only screen and (max-width: 768px) {
+        form {
+            width: 90%;
+            padding: 1rem;
+            font-size: 6vw;
+            label {
+                input {
+                    padding: 0.3rem;
+                    height: 1.5rem;
+                    font-size: 0.8rem;
+                }
+            }
         }
     }
 `;

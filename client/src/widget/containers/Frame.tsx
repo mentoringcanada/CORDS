@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Components
-import UserContext from "../user/UserContext";
+import UserContext from "../../general/user/UserContext";
 
 // Utils
 import { getLocation, setSession } from "../utils/api";
@@ -35,6 +35,11 @@ const StyledFrame = styled.div`
         top: 0.25rem;
         right: 0.5rem;
         background-color: transparent;
+    }
+    @media only screen and (max-width: 375px) {
+        width: 90%;
+        bottom: 0.5rem;
+        right: 0.5rem;
     }
 `;
 

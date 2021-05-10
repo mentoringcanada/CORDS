@@ -2,7 +2,7 @@
 import React, { useState, FormEvent, useContext } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-import UserContext from "../user/UserContext";
+import UserContext from "../../general/user/UserContext";
 
 // Utils
 import { getResults } from "../utils/api";

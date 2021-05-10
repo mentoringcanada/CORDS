@@ -1,8 +1,8 @@
 // Imports
 import React, { useState } from "react";
-import OutputBox from "../../widget/containers/OutputBox";
-import ServiceList from "../../widget/services/ServiceList";
-import SpecificResult from "../../widget/services/SpecificResult";
+import OutputBox from "../../general/OutputBox";
+import ServiceList from "../../general/services/ServiceList";
+import SpecificResult from "../../general/services/SpecificResult";
 import { getResults } from "../../widget/utils/api";
 import Demo from "../common/Demo";
 import { MdEdit } from "react-icons/md";

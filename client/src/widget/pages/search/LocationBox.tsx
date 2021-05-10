@@ -4,7 +4,7 @@ import styled from "styled-components";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import dotenv from "dotenv";
 import { geocodeByPlaceId } from "react-google-places-autocomplete";
-import UserContext from "../../user/UserContext";
+import UserContext from "../../../general/user/UserContext";
 dotenv.config();
 
 // Styling
@@ -53,7 +53,7 @@ const LocationBox = () => {
                     onChange: setLocation,
                     styles: customStyling,
                 }}
-                apiKey="temp"
+                apiKey="AIzaSyAfKsvjQLoBQpRrWCEJraXSvMFnUunnOeI"
                 autocompletionRequest={{
                     componentRestrictions: { country: ["ca"] },
                 }}

@@ -10,22 +10,40 @@ const StyledNav = styled.nav`
     display: flex;
     justify-content: space-around;
     font-size: 1.1rem;
-    * {
-        margin-right: 0.5rem;
-    }
     a {
         display: flex;
         align-items: center;
         text-decoration: none;
         padding: 0.4rem 1rem;
+        &.normlink {
+            max-height: 100px;
+            color: #eee;
+            margin: 0.2rem 0.5rem 0.2rem 0rem;
+            :hover {
+                color: #fff;
+                box-shadow: inset 0 -5px 1px -2px white;
+            }
+        }
     }
-    a.normlink {
-        max-height: 100px;
-        color: #eee;
-        margin: 0.2rem 0.5rem 0.2rem 0rem;
-        :hover {
-            color: #fff;
-            box-shadow: inset 0 -5px 1px -2px white;
+    @media only screen and (max-width: 768px) {
+        display: none;
+        position: absolute;
+        top: 100%;
+        height: 70px;
+        width: 100%;
+        background-color: #22262add;
+        a {
+            width: 50%;
+            justify-content: center;
+            &.normlink {
+                margin: 0;
+                :hover {
+                    box-shadow: none;
+                }
+            }
+        }
+        &.open {
+            display: flex;
         }
     }
 `;
@@ -43,6 +61,7 @@ const StyledDropdown = styled.div`
         background-color: transparent;
         span {
             display: flex;
+            justify-content: center;
             align-items: center;
             margin-left: 0.4rem;
             font-size: 1rem;
@@ -74,6 +93,32 @@ const StyledDropdown = styled.div`
             background-color: #ddd;
         }
     }
+    @media only screen and (max-width: 768px) {
+        width: 50%;
+        margin: 0;
+        button {
+            width: 100%;
+            height: 70px;
+            justify-content: center;
+            margin: 0;
+            span {
+                margin: none;
+            }
+        }
+        div {
+            width: 100%;
+        }
+    }
+`;
+
+const StyledBurgerButton = styled.div`
+    display: none;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    @media only screen and (max-width: 768px) {
+        display: flex;
+    }
 `;
 
 const Nav = () => {
@@ -82,6 +127,9 @@ const Nav = () => {
     // For clicking out of dropdown
     const dropdownRef = React.createRef<HTMLDivElement>();
 
+    // Mobile
+    const [isOpen, setIsOpen] = useState(false);
+
     const handleClickOutside = (e: any) => {
         if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
             setShowDemos(false);
@@ -89,47 +137,65 @@ const Nav = () => {
     };
 
     return (
-        <StyledNav>
-            <NavLink className="normlink" to="/" exact activeClassName="active">
-                Home
-            </NavLink>
-            <StyledDropdown ref={dropdownRef}>
-                <button onClick={() => setShowDemos(!showDemos)}>
-                    Demos{" "}
-                    <span>
-                        <FaAngleDown />
-                    </span>
-                </button>
-                {showDemos && (
-                    <DropdownBox handleClickOutside={handleClickOutside}>
-                        <NavLink to="/demo/food" exact activeClassName="active">
-                            Food
-                        </NavLink>
-                        <NavLink
-                            to="/demo/shelter"
-                            exact
-                            activeClassName="active"
-                        >
-                            Shelter
-                        </NavLink>
-                        <NavLink
-                            to="/demo/clothing"
-                            exact
-                            activeClassName="active"
-                        >
-                            Clothing
-                        </NavLink>
-                        <NavLink
-                            to="/demo/custom"
-                            exact
-                            activeClassName="demoactive"
-                        >
-                            Custom
-                        </NavLink>
-                    </DropdownBox>
-                )}
-            </StyledDropdown>
-        </StyledNav>
+        <>
+            <StyledBurgerButton onClick={() => setIsOpen(!isOpen)}>
+                &#9776;
+            </StyledBurgerButton>
+            <StyledNav className={isOpen ? "open" : ""}>
+                <NavLink
+                    className="normlink"
+                    to="/"
+                    exact
+                    onClick={() => setIsOpen(false)}
+                >
+                    Home
+                </NavLink>
+                <StyledDropdown ref={dropdownRef}>
+                    <button onClick={() => setShowDemos(!showDemos)}>
+                        Demos{" "}
+                        <span>
+                            <FaAngleDown />
+                        </span>
+                    </button>
+                    {showDemos && (
+                        <DropdownBox handleClickOutside={handleClickOutside}>
+                            <NavLink
+                                to="/demo/food"
+                                exact
+                                activeClassName="active"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Food
+                            </NavLink>
+                            <NavLink
+                                to="/demo/shelter"
+                                exact
+                                activeClassName="active"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Shelter
+                            </NavLink>
+                            <NavLink
+                                to="/demo/clothing"
+                                exact
+                                activeClassName="active"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Clothing
+                            </NavLink>
+                            <NavLink
+                                to="/demo/custom"
+                                exact
+                                activeClassName="demoactive"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Custom
+                            </NavLink>
+                        </DropdownBox>
+                    )}
+                </StyledDropdown>
+            </StyledNav>
+        </>
     );
 };
 
