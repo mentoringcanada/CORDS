@@ -4,6 +4,7 @@ const Demo = styled.div`
     margin: auto;
     padding: 2rem;
     margin-bottom: 2rem;
+    max-width: 1200px;
     .demo {
         margin-bottom: 1rem;
     }

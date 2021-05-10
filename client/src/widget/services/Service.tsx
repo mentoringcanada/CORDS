@@ -1,8 +1,8 @@
 // Import
 import React from "react";
 import styled from "styled-components";
-import { FaLink, FaSave } from "react-icons/fa";
-import { addSelection } from "../utils/api";
+import { FaLink } from "react-icons/fa";
+// import { addSelection } from "../utils/api";
 
 // Styling
 const StyledService = styled.div`
@@ -67,11 +67,11 @@ interface Props {
 
 // Component
 const Service = ({ id, name, description, link, setFocus }: Props) => {
-    const handleSelection = (e: any) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log(addSelection(id));
-    };
+    // const handleSelection = (e: any) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     console.log(addSelection(id));
+    // };
     return (
         <StyledService
             onClick={() => {
@@ -89,9 +89,9 @@ const Service = ({ id, name, description, link, setFocus }: Props) => {
                 >
                     <FaLink />
                 </a>
-                <button onClick={handleSelection}>
+                {/* <button onClick={handleSelection}>
                     <FaSave />
-                </button>
+                </button> */}
             </div>
             <p>{description}</p>
         </StyledService>

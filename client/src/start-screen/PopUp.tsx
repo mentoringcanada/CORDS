@@ -10,7 +10,7 @@ const StyledPopUp = styled.div`
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: #ffffff77;
+    background-color: #ffffff99;
     z-index: 10;
     form {
         display: flex;

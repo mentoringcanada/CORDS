@@ -6,11 +6,11 @@ import SpecificResult from "../../widget/services/SpecificResult";
 import { getResults } from "../../widget/utils/api";
 import Demo from "../common/Demo";
 
-const Demo2 = () => {
-    const [similar, setSimilar] = useState([]);
+const DemoFood = () => {
+    const [similar, setSimilar] = useState<Service[]>([]);
     const [focus, setFocus] = useState<number | null>(null);
     const desc =
-        "we provide temporary accommodation and related support services that assist people to move into housing";
+        "Free or low-cost food to individuals and families in need on an on-going, seasonal, and emergency basis.";
 
     const handleSimilar = () => {
         getResults({
@@ -22,13 +22,13 @@ const Demo2 = () => {
 
     return (
         <Demo>
-            <h2 className="demo">Shelter</h2>
+            <h2 className="demo">Food Bank</h2>
             <p className="demo">{desc}</p>
             <button className="demo" onClick={handleSimilar}>
                 View similar services
             </button>
-            {similar && (
-                <OutputBox style={{ height: "50vh" }}>
+            {similar && similar.length !== 0 && (
+                <OutputBox>
                     {focus ? (
                         <SpecificResult id={focus} setFocus={setFocus} />
                     ) : (
@@ -40,4 +40,4 @@ const Demo2 = () => {
     );
 };
 
-export default Demo2;
+export default DemoFood;

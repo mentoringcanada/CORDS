@@ -8,10 +8,10 @@ import UserContext from "../user/UserContext";
 // Utils
 import { getLocation, setSession } from "../utils/api";
 import Search from "../pages/search/Search";
-import Landing from "../pages/Landing";
 import SearchBar from "../common/SearchBar";
-import NavBar from "../common/NavBar";
-import Selections from "../pages/Selections";
+// import Landing from "../pages/Landing";
+// import NavBar from "../common/NavBar";
+// import Selections from "../pages/Selections";
 
 // Styling
 const StyledFrame = styled.div`
@@ -66,10 +66,11 @@ const Frame = ({ setWidget }: Props) => {
                 &minus;
             </button>
             <SearchBar setResults={setResults} setPage={setPage} />
-            <NavBar setPage={setPage} />
-            {page === "landing" && <Landing />}
-            {page === "search" && <Search results={results} />}
-            {page === "selections" && <Selections />}
+            {/* <NavBar setPage={setPage} /> */}
+            {/* {page === "landing" && <Landing />} */}
+            {/* {page === "search" && <Search results={results} />} */}
+            {/* {page === "selections" && <Selections />} */}
+            <Search results={results} />
         </StyledFrame>
     );
 };

@@ -8,7 +8,7 @@ import Demo from "../common/Demo";
 import { MdEdit } from "react-icons/md";
 
 const CustomDemo = () => {
-    const [similar, setSimilar] = useState<any>([]);
+    const [similar, setSimilar] = useState<Service[]>([]);
     const [focus, setFocus] = useState<number | null>(null);
     const [customDesc, setCustomDesc] = useState("");
     const [customTitle, setCustomTitle] = useState("");
@@ -45,8 +45,8 @@ const CustomDemo = () => {
             <button className="demo" onClick={handleSimilar}>
                 View similar services
             </button>
-            {similar && (
-                <OutputBox style={{ height: "50vh" }}>
+            {similar && similar.length !== 0 && (
+                <OutputBox>
                     {focus ? (
                         <SpecificResult id={focus} setFocus={setFocus} />
                     ) : (
