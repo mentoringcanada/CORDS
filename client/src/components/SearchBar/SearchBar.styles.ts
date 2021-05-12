@@ -7,7 +7,7 @@ export const StyledSearchBar = styled.form`
     margin: 0rem 0rem 16px 0.2rem;
     input {
         font-size: 0.75rem;
-        padding: 0.7rem;
+        padding: 0.7rem 2.5rem 0.7rem 0.7rem;
         border-radius: 2rem;
         width: 100%;
         box-shadow: 2px 2px 5px grey;

@@ -46,8 +46,9 @@ export const StyledLargeService = styled.div`
         align-items: center;
         justify-content: center;
         margin: 1rem 0rem;
-        width: 100%;
+        width: calc(100% + 20px);
         height: 2rem;
+        background-color: var(--primary-color);
         h3 {
             color: white;
         }

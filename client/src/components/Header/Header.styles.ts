@@ -8,13 +8,13 @@ export const StyledHeader = styled.header`
     align-items: center;
     justify-content: space-between;
     height: 90px;
-    h2 {
-        font-size: 1.7rem;
+    img {
+        height: 2.6rem;
         margin-left: 2rem;
     }
     @media only screen and (max-width: 500px) {
-        h2 {
-            font-size: 8vw;
+        img {
+            height: 2.3rem;
             margin-left: 1rem;
         }
     }

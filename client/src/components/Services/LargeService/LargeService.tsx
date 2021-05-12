@@ -36,7 +36,7 @@ const LargeService = ({ id, setFocus }: Props) => {
                         </a>
                     </div>
                     <div className="similar">
-                        <h3>Simlar</h3>
+                        <h3>Similar</h3>
                     </div>
                     <ServiceList services={similar} setFocus={setFocus} />
                 </>
