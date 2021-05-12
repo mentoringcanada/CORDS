@@ -28,7 +28,7 @@ export const StyledDropdownButton = styled.button`
     font-size: 1.1rem;
     font-weight: normal;
     padding: 0.5rem 1rem;
-    color: #eee;
+    color: #ccc;
     background-color: transparent;
     span {
         display: flex;
@@ -38,7 +38,7 @@ export const StyledDropdownButton = styled.button`
         font-size: 1rem;
     }
     :hover {
-        color: #fff;
+        color: #ddd;
     }
 `;
 

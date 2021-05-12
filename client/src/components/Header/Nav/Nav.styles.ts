@@ -11,10 +11,10 @@ export const StyledNav = styled.nav`
         padding: 0.4rem 1rem;
         &.normlink {
             max-height: 100px;
-            color: #eee;
+            color: #ccc;
             margin: 0.2rem 0.5rem 0.2rem 0rem;
             :hover {
-                color: #fff;
+                color: #ddd;
                 box-shadow: inset 0 -5px 1px -2px white;
             }
         }

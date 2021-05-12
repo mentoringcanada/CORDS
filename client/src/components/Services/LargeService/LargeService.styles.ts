@@ -45,7 +45,7 @@ export const StyledLargeService = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 1rem 0rem;
+        margin: 2rem -10px 10px -10px;
         width: calc(100% + 20px);
         height: 2rem;
         background-color: var(--primary-color);
