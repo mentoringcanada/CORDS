@@ -1,7 +1,7 @@
 // Imports
 import axios from "axios";
 // Types
-import { SearchBody } from "../types";
+import { SearchBody, GeoSearchBody } from "../types";
 
 // SEARCH //
 // Takes id and returns similar results array
@@ -20,8 +20,25 @@ export const getSearchResults = async (searchBody: SearchBody) => {
         "/search",
         {
             query: searchBody.search,
+        },
+        {
+            headers: {
+                session_token: `${localStorage.getItem("session_token")}`,
+            },
+        }
+    );
+    const data = await res.data;
+    return data.items;
+};
+export const getGeoSearchResults = async (searchBody: GeoSearchBody) => {
+    const res = await axios.post(
+        "/geosearch",
+        {
+            query: searchBody.search,
             lat: searchBody.lat,
-            long: searchBody.lng,
+            lng: searchBody.lng,
+            distance: searchBody.distance,
+            page: searchBody.page,
         },
         {
             headers: {
@@ -44,20 +61,6 @@ export const setSession = async () => {
         console.log(data);
         localStorage.setItem("session_token", `${data.session_token}`);
     }
-};
-
-// LOCATION //
-// Gets and Returns Location (lat, lng)
-export const getLocation = () => {
-    return new Promise((res) => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const location = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            };
-            res(location);
-        });
-    });
 };
 
 // LINK OUT //

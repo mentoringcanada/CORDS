@@ -41,6 +41,17 @@ export const StyledLargeService = styled.div`
             color: #1a73e8;
         }
     }
+    .similar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem 0rem;
+        width: 100%;
+        height: 2rem;
+        h3 {
+            color: white;
+        }
+    }
 `;
 
 export const StyledSimilarBox = styled.div`

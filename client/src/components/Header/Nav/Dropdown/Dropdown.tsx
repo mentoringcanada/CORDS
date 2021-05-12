@@ -51,7 +51,7 @@ const Dropdown = () => {
                     <NavLink
                         to="/demo/custom"
                         exact
-                        activeClassName="demoactive"
+                        activeClassName="active"
                         onClick={toggleBurgerMenu}
                     >
                         Custom

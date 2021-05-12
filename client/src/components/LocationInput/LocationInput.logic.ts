@@ -6,7 +6,7 @@ const LocationInputLogic = () => {
     const [location, setLocation] = useState<any>(null);
     const { setUser } = useContext(UserContext);
 
-    const useUpdateLocation = () => {
+    const useUpdateLocation = (location: any) => {
         useEffect(() => {
             const setLocation = async () => {
                 const res = await geocodeByPlaceId(location.value.place_id);

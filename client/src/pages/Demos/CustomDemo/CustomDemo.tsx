@@ -7,9 +7,11 @@ import CustomDemoLogic from "./CustomDemo.logic";
 import DemoStyles from "../Demo.styles";
 
 const CustomDemo = () => {
-    const { similar, focus, setFocus, handleSimilar } = DemoLogic();
+    const { similar, focus, setFocus, handleSimilar, useHandleDemoChange } =
+        DemoLogic();
     const { description, title, handleDescriptionChange, handleTitleChange } =
         CustomDemoLogic();
+    useHandleDemoChange("");
 
     return (
         <DemoStyles>
@@ -33,7 +35,7 @@ const CustomDemo = () => {
                 />
                 {!title && <MdEdit />}
             </label>
-            <button className="demo" onClick={() => handleSimilar}>
+            <button className="demo" onClick={() => handleSimilar(description)}>
                 View similar services
             </button>
             {similar && similar.length !== 0 && (

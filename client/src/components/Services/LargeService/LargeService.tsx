@@ -1,11 +1,10 @@
 // Imports
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AiOutlineRollback } from "react-icons/ai";
 import { BiWorld } from "react-icons/bi";
 import { StyledLargeService } from "./LargeService.styles";
-import { Service } from "../../../types";
-import { getSimilar } from "../../../helper/api";
 import ServiceList from "../ServiceList/ServiceList";
+import LargeServiceLogic from "./LargeService.logic";
 
 // Props
 interface Props {
@@ -15,16 +14,8 @@ interface Props {
 
 // Component
 const LargeService = ({ id, setFocus }: Props) => {
-    const [similar, setSimilar] = useState<Service[]>([]);
-    const [service, setService] = useState<Service | null>(null);
-
-    useEffect(() => {
-        // Gets service data on component startup
-        getSimilar(id).then((res) => {
-            setService(res[0]);
-            setSimilar(res.slice(1));
-        });
-    }, [id]);
+    const { similar, service, useSetState } = LargeServiceLogic();
+    useSetState(id);
 
     return (
         <StyledLargeService>
@@ -43,6 +34,9 @@ const LargeService = ({ id, setFocus }: Props) => {
                         <a href={service.link} target="_blank" rel="noreferrer">
                             {service.link}
                         </a>
+                    </div>
+                    <div className="similar">
+                        <h3>Simlar</h3>
                     </div>
                     <ServiceList services={similar} setFocus={setFocus} />
                 </>

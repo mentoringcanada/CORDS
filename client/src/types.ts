@@ -17,6 +17,11 @@ export interface User {
 
 export interface SearchBody {
     search: string;
+}
+export interface GeoSearchBody {
+    search: string;
     lat: number;
     lng: number;
+    distance: number;
+    page: number;
 }

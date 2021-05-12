@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import ServiceList from "../../../Services/ServiceList/ServiceList";
 import LargeService from "../../../Services/LargeService/LargeService";
 import OutputBox from "../../../OutputBox/OutputBox";
-import LocationBox from "../../../LocationInput/LocationInput";
 
 // Types
 import { Service } from "../../../../types";
@@ -20,7 +19,6 @@ const Search = ({ searchResults }: Props) => {
 
     return (
         <>
-            <LocationBox />
             <OutputBox>
                 {focus ? (
                     <LargeService id={focus} setFocus={setFocus} />

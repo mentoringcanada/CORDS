@@ -5,7 +5,7 @@ import LocationInputLogic from "./LocationInput.logic";
 
 const LocationInput = () => {
     const { location, setLocation, useUpdateLocation } = LocationInputLogic();
-    useUpdateLocation();
+    useUpdateLocation(location);
 
     return (
         <GooglePlacesAutocomplete

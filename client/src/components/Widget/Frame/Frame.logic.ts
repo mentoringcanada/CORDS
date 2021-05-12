@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { getLocation, setSession } from "../../../helper/api";
+import { setSession } from "../../../helper/api";
+import { getLocation } from "../../../helper/user/UserContext.logic";
 import UserContext from "../../../helper/user/UserContext";
 import { Service } from "../../../types";
 

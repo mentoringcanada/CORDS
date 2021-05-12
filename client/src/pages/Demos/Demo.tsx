@@ -9,8 +9,10 @@ interface Props {
     title: string;
 }
 
-const DemoClothing = ({ description, title }: Props) => {
-    const { similar, focus, setFocus, handleSimilar } = DemoLogic();
+const Demo = ({ description, title }: Props) => {
+    const { similar, focus, setFocus, handleSimilar, useHandleDemoChange } =
+        DemoLogic();
+    useHandleDemoChange(description);
 
     return (
         <StyledDemo>
@@ -32,4 +34,4 @@ const DemoClothing = ({ description, title }: Props) => {
     );
 };
 
-export default DemoClothing;
+export default Demo;
