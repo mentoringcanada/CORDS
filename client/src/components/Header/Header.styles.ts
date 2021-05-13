@@ -8,6 +8,8 @@ export const StyledHeader = styled.header`
     align-items: center;
     justify-content: space-between;
     height: 90px;
+    box-shadow: 0px 1px 5px grey;
+    outline: 3px solid #ccc;
     img {
         height: 2.6rem;
         margin-left: 2rem;

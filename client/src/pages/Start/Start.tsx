@@ -6,7 +6,7 @@ const StartScreen = () => {
     return (
         <>
             {!allowUse && (
-                <StyledPopUp>
+                <StyledPopUp data-testid="pop-up">
                     <form onSubmit={handleAuth}>
                         Welcome to the CORDS Demo
                         <label>
@@ -15,6 +15,7 @@ const StartScreen = () => {
                                 type="password"
                                 onChange={handlePassword}
                                 value={password}
+                                data-testid="password-input"
                             />
                         </label>
                         <input type="submit" />

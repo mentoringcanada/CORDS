@@ -11,7 +11,7 @@ const LocationInput = () => {
     const Styles = SelectStyles(true);
 
     return (
-        <StyledLocationSelect>
+        <StyledLocationSelect data-testid="location-select">
             <GooglePlacesAutocomplete
                 selectProps={{
                     geoInputLocation,

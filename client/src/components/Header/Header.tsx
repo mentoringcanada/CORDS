@@ -4,7 +4,7 @@ import Title from "../../media/Title.png";
 
 const Header = () => {
     return (
-        <StyledHeader>
+        <StyledHeader data-testID="header">
             <img src={Title} alt="Title Logo" />
             <Nav />
         </StyledHeader>

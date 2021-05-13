@@ -3,12 +3,12 @@ import { StyledDistanceSelect } from "./DistanceSelect.styles";
 import DistanceSelectLogic from "./DistanceSelect.logic";
 import { SelectStyles } from "../LocationBar.styles";
 
-const DistanceInput = () => {
+const DistanceSelect = () => {
     const { handleDistanceChange, distanceSelectOptions } =
         DistanceSelectLogic();
 
     return (
-        <StyledDistanceSelect>
+        <StyledDistanceSelect data-testID="distance-select">
             <Select
                 options={distanceSelectOptions}
                 styles={SelectStyles(false)}
@@ -21,4 +21,4 @@ const DistanceInput = () => {
     );
 };
 
-export default DistanceInput;
+export default DistanceSelect;

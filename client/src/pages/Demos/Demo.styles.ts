@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const StyledDemo = styled.div`
+    height: 100%;
     margin: auto;
     padding: 2rem;
     margin-bottom: 2rem;
@@ -12,6 +13,7 @@ const StyledDemo = styled.div`
         display: flex;
         align-items: center;
         input {
+            background-color: transparent;
             width: auto;
         }
         &.title {
@@ -28,6 +30,8 @@ const StyledDemo = styled.div`
     }
     button.demo {
         background-color: var(--primary-color);
+        margin-top: 1rem;
+        font-size: 1.1rem;
         padding: 0.5rem;
         border-radius: 0.3rem;
     }
