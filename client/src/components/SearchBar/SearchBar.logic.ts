@@ -1,29 +1,30 @@
 import React from "react";
 import { useContext, useState } from "react";
-import { getSearchResults } from "../../helper/api";
-import UserContext from "../../helper/user/UserContext";
-import { Service } from "../../types";
+import { getGeoSearchResults } from "../../helper/api";
+import LocationContext from "../../helper/LocationContext/LocationContext";
+import { GeoSearchBody, Service } from "../../types";
 
 const SearchBarLogic = (
     setSearchResults: React.Dispatch<React.SetStateAction<Service[]>>
 ) => {
     const [search, setSearch] = useState("");
-    const { user } = useContext(UserContext);
+    const { location } = useContext(LocationContext);
 
-    const handleSearch = (e: React.FormEvent) => {
+    const handleGeoSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const searchBody = {
+        const geoSearchBody: GeoSearchBody = {
             search,
-            lat: user.location.lat,
-            lng: user.location.lng,
+            lat: location.lat,
+            lng: location.lng,
+            distance: location.distance,
         };
-        getSearchResults(searchBody).then((res) => setSearchResults(res));
+        getGeoSearchResults(geoSearchBody).then((res) => setSearchResults(res));
     };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
         setSearch(e.target.value);
 
-    return { handleSearch, handleSearchChange };
+    return { handleGeoSearch, handleSearchChange };
 };
 
 export default SearchBarLogic;

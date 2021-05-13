@@ -21,20 +21,18 @@ import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
 import Home from "./pages/Home/Home";
 
 // Types
-import { User } from "./types";
+import { Location } from "./types";
 
 // Utils
 import { linkOut } from "./helper/api";
-import UserContext from "./helper/user/UserContext";
+import LocationContext from "./helper/LocationContext/LocationContext";
 
 // Component
 function App() {
-    // UserContext
-    const [user, setUser] = useState<User>({
-        location: {
-            lat: undefined,
-            lng: undefined,
-        },
+    const [location, setLocation] = useState<Location>({
+        lat: undefined,
+        lng: undefined,
+        distance: undefined,
     });
     useEffect(() => {
         // Calls link out on page close
@@ -87,9 +85,9 @@ function App() {
                         <CustomDemo />
                     </Route>
                 </Switch>
-                <UserContext.Provider value={{ user, setUser }}>
+                <LocationContext.Provider value={{ location, setLocation }}>
                     <Widget />
-                </UserContext.Provider>
+                </LocationContext.Provider>
             </Router>
         </HelmetProvider>
     );

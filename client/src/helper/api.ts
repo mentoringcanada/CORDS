@@ -30,15 +30,15 @@ export const getSearchResults = async (searchBody: SearchBody) => {
     const data = await res.data;
     return data.items;
 };
-export const getGeoSearchResults = async (searchBody: GeoSearchBody) => {
+export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
+    console.log(geoSearchBody);
     const res = await axios.post(
         "/geosearch",
         {
-            query: searchBody.search,
-            lat: searchBody.lat,
-            lng: searchBody.lng,
-            distance: searchBody.distance,
-            page: searchBody.page,
+            query: geoSearchBody.search,
+            lat: geoSearchBody.lat.toFixed(5),
+            lng: geoSearchBody.lng.toFixed(5),
+            distance: geoSearchBody.distance,
         },
         {
             headers: {

@@ -1,15 +1,10 @@
-// Imports
-import React, { useState } from "react";
-
-// Components
+import { useState } from "react";
 import ServiceList from "../../../Services/ServiceList/ServiceList";
 import LargeService from "../../../Services/LargeService/LargeService";
 import OutputBox from "../../../OutputBox/OutputBox";
-
-// Types
 import { Service } from "../../../../types";
+import LocationBar from "../../../LocationBar/LocationBar";
 
-// Props
 interface Props {
     searchResults: Service[];
 }
@@ -19,6 +14,7 @@ const Search = ({ searchResults }: Props) => {
 
     return (
         <>
+            <LocationBar />
             <OutputBox>
                 {focus ? (
                     <LargeService id={focus} setFocus={setFocus} />

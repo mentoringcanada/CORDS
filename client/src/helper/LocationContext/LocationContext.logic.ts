@@ -1,6 +1,6 @@
 // LOCATION //
 // Gets and Returns Location (lat, lng)
-export const getLocation = () => {
+export const getLocalLocation = () => {
     return new Promise((res) => {
         navigator.geolocation.getCurrentPosition((position) => {
             const location = {

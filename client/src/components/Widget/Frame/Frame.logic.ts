@@ -1,26 +1,34 @@
 import { useContext, useEffect, useState } from "react";
 import { setSession } from "../../../helper/api";
-import { getLocation } from "../../../helper/user/UserContext.logic";
-import UserContext from "../../../helper/user/UserContext";
+import { getLocalLocation } from "../../../helper/LocationContext/LocationContext.logic";
+import LocationContext from "../../../helper/LocationContext/LocationContext";
 import { Service } from "../../../types";
 
 const FrameLogic = () => {
     const [searchResults, setSearchResults] = useState<Service[]>([]);
     const [page, setPage] = useState("landing");
-    const { setUser } = useContext(UserContext);
+    const { setLocation } = useContext(LocationContext);
 
     /* Sets app default values */
-    useEffect(() => {
-        // Set session
-        setSession();
+    const useHandleStartFunctions = () => {
+        useEffect(() => {
+            // Set session
+            setSession();
 
-        // Set location
-        getLocation().then((location: any) => {
-            setUser({ location });
-        });
-    }, []);
+            // Set location
+            getLocalLocation().then((location: any) => {
+                setLocation({ lat: location.lat, lng: location.lng });
+            });
+        }, []);
+    };
 
-    return { searchResults, setSearchResults, page, setPage, setUser };
+    return {
+        searchResults,
+        setSearchResults,
+        page,
+        setPage,
+        useHandleStartFunctions,
+    };
 };
 
 export default FrameLogic;

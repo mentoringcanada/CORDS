@@ -12,7 +12,13 @@ interface Props {
 
 // Body of Widget holding components
 const Frame = ({ setWidget }: Props) => {
-    const { searchResults, setSearchResults, setPage } = FrameLogic();
+    const {
+        searchResults,
+        setSearchResults,
+        setPage,
+        useHandleStartFunctions,
+    } = FrameLogic();
+    useHandleStartFunctions();
 
     return (
         <StyledFrame>

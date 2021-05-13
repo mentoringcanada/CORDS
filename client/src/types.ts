@@ -8,11 +8,10 @@ export interface Service {
     description: string;
 }
 
-export interface User {
-    location: {
-        lat: number | undefined;
-        lng: number | undefined;
-    };
+export interface Location {
+    lat: number | undefined;
+    lng: number | undefined;
+    distance: number | undefined;
 }
 
 export interface SearchBody {
@@ -23,5 +22,4 @@ export interface GeoSearchBody {
     lat: number;
     lng: number;
     distance: number;
-    page: number;
 }

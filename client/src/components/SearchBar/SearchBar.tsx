@@ -10,10 +10,10 @@ interface Props {
 }
 
 const SearchBar = ({ setSearchResults, setPage }: Props) => {
-    const { handleSearch, handleSearchChange } =
+    const { handleGeoSearch, handleSearchChange } =
         SearchBarLogic(setSearchResults);
     return (
-        <StyledSearchBar onSubmit={handleSearch}>
+        <StyledSearchBar onSubmit={handleGeoSearch}>
             <input
                 type="text"
                 placeholder="How can we help?"
