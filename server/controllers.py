@@ -1,8 +1,7 @@
 from helper_classes import result
 import model
 import numpy as np
-import queries
-
+from services import converters
 
 def search(
     session_token: str,
@@ -20,7 +19,7 @@ def search(
         item_id = app_state.index_to_ID[index]
         result_IDs.append("'" + item_id + "'")
     result_IDs_string = ', '.join(result_IDs)
-    results = model.get_results(result_IDs_string)
+    results = model.get_results(result_IDs_string, result_IDs)
     return results
 
 
@@ -36,7 +35,7 @@ def get_similar(
     # model.store_pair(session_token, item_id)
 
     # Get description from item ID, create a SearchRequest, then call search()
-    description = model.get_description_from_ID(item_id)
+    description = converters.convert2text(model.get_description_from_ID(item_id))
     search_request = result.SearchRequest(
         query=description,
     )

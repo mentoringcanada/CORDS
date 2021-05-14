@@ -20,6 +20,7 @@ def load():
     app_state = result.AppState(
         index_to_ID=[row['resource_agency_number'] for row in vectors_and_IDs],
         cache=index)
+    print('loaded app state')
     return app_state, vector_model
 
 

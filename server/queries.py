@@ -9,6 +9,7 @@ AND geocoordinates <@> POINT({0}, {1}) < {2}
 get_results = """SELECT *
 FROM resources
 WHERE resource_agency_number in ({0})
+ORDER BY array_position(ARRAY[{0}]::varchar[], resource_agency_number)
 LIMIT 10;
 """
 

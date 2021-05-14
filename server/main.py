@@ -1,7 +1,6 @@
 # import 3rd party modules
 from fastapi import FastAPI
 from fastapi import Header
-from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 
 # import local modules
@@ -11,21 +10,6 @@ import startup
 
 
 app = FastAPI()
-
-origins = [
-    "cordsconnect.ca",
-    "staging.cordsconnect.ca",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
 app_state, vector_model = startup.load()
 
 

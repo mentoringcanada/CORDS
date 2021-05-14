@@ -11,7 +11,7 @@ def test_search():
 
 
 def test_similar():
-    response = requests.get('http://localhost:8000/similar/69801332')
+    response = requests.get('http://localhost:8000/similar/69795486')
     print(response.json())
 
 
@@ -26,6 +26,6 @@ def test_geo_search():
 
 
 
-test_search()
-# test_similar()
+# test_search()
+test_similar()
 # test_geo_search()

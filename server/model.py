@@ -56,9 +56,11 @@ def clean_text(text):
     return cleaned_text
 
 
-def get_results(result_IDs: str):
-    query_results = execute(queries.get_results.format(result_IDs),
+def get_results(result_IDs_str: str, result_IDs: list):
+    print(result_IDs_str)
+    query_results = execute(queries.get_results.format(result_IDs_str, result_IDs),
                             ())
+    [print(query_result['resource_agency_number']) for query_result in query_results]
     items = []
     for query_result in query_results:
         geocoordinates = query_result['geocoordinates'][1:-1].split(',')
