@@ -1,5 +1,4 @@
 import DemoLogic from "./Demo.logic";
-import OutputBox from "../../components/OutputBox/OutputBox";
 import ServiceList from "../../components/Services/ServiceList/ServiceList";
 import LargeService from "../../components/Services/LargeService/LargeService";
 import {
@@ -9,6 +8,7 @@ import {
 } from "./Demo.styles";
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
+import { StyledOutputBox } from "../../styles/StyledOutputBox";
 
 interface Props {
     description: string;
@@ -27,7 +27,6 @@ const Demo = ({ description, title }: Props) => {
                     <StyledDefaultInfo>
                         <h2>{title}</h2>
                         <p>{description}</p>
-                        {similar}
                         <StyledViewSimilarButton
                             onClick={() => handleSimilar(description)}
                         >
@@ -36,8 +35,8 @@ const Demo = ({ description, title }: Props) => {
                     </StyledDefaultInfo>
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
-                    <StyledContainer>
-                        <OutputBox data-testid="output-box">
+                    <StyledContainer className="output">
+                        <StyledOutputBox data-testid="output-box">
                             {focus ? (
                                 <LargeService id={focus} setFocus={setFocus} />
                             ) : (
@@ -46,7 +45,7 @@ const Demo = ({ description, title }: Props) => {
                                     setFocus={setFocus}
                                 />
                             )}
-                        </OutputBox>
+                        </StyledOutputBox>
                     </StyledContainer>
                 )}
             </StyledDemo>

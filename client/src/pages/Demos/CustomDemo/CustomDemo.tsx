@@ -1,4 +1,3 @@
-import OutputBox from "../../../components/OutputBox/OutputBox";
 import ServiceList from "../../../components/Services/ServiceList/ServiceList";
 import LargeService from "../../../components/Services/LargeService/LargeService";
 import { MdEdit } from "react-icons/md";
@@ -11,6 +10,7 @@ import {
 } from "../Demo.styles";
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
+import { StyledOutputBox } from "../../../styles/StyledOutputBox";
 
 const CustomDemo = () => {
     const { similar, focus, setFocus, handleSimilar, useHandleDemoChange } =
@@ -56,7 +56,7 @@ const CustomDemo = () => {
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
                     <StyledContainer>
-                        <OutputBox>
+                        <StyledOutputBox>
                             {focus ? (
                                 <LargeService id={focus} setFocus={setFocus} />
                             ) : (
@@ -65,7 +65,7 @@ const CustomDemo = () => {
                                     setFocus={setFocus}
                                 />
                             )}
-                        </OutputBox>
+                        </StyledOutputBox>
                     </StyledContainer>
                 )}
             </StyledDemo>

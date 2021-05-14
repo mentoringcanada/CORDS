@@ -8,9 +8,10 @@ const DemoLogic = () => {
     const [focus, setFocus] = useState<number | null>(null);
 
     const handleSimilar = (description: string) => {
-        getSearchResults({
+        const searchBody = {
             search: description,
-        }).then((res) => setSimilar(res));
+        };
+        getSearchResults(searchBody).then((res) => setSimilar(res));
     };
 
     const useHandleDemoChange = (description: string) => {

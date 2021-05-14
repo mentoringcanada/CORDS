@@ -8,7 +8,7 @@ const DistanceSelect = () => {
         DistanceSelectLogic();
 
     return (
-        <StyledDistanceSelect data-testID="distance-select">
+        <StyledDistanceSelect data-testid="distance-select">
             <Select
                 options={distanceSelectOptions}
                 styles={SelectStyles(false)}

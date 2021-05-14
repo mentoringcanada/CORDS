@@ -23,8 +23,9 @@ export const StyledLargeService = styled.div`
         color: black;
         font-size: 1.5rem;
         position: absolute;
-        top: 0.3rem;
-        right: 0.3rem;
+        top: 1rem;
+        right: 1rem;
+        color: #4d5156;
     }
     .link {
         display: flex;

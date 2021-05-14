@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ServiceList from "../../../Services/ServiceList/ServiceList";
 import LargeService from "../../../Services/LargeService/LargeService";
-import OutputBox from "../../../OutputBox/OutputBox";
+import { StyledOutputBox } from "../../../../styles/StyledOutputBox";
 import { Service } from "../../../../types";
 import LocationBar from "../../../LocationBar/LocationBar";
 
@@ -15,13 +15,13 @@ const Search = ({ searchResults }: Props) => {
     return (
         <>
             <LocationBar />
-            <OutputBox>
+            <StyledOutputBox className="widget">
                 {focus ? (
                     <LargeService id={focus} setFocus={setFocus} />
                 ) : (
                     <ServiceList services={searchResults} setFocus={setFocus} />
                 )}
-            </OutputBox>
+            </StyledOutputBox>
         </>
     );
 };

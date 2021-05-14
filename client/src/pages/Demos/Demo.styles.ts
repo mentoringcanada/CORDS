@@ -1,11 +1,16 @@
 import styled from "styled-components";
 
 export const StyledDemo = styled.div`
-    height: 100%;
     margin: auto;
     padding: 2rem;
     margin-bottom: 2rem;
     max-width: 1200px;
+    & > div {
+        margin-bottom: 2rem;
+    }
+    .output {
+        height: 60vh;
+    }
     @media only screen and (max-width: 768px) {
         padding: 1rem;
     }

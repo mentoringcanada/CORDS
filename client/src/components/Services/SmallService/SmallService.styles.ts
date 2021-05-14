@@ -2,13 +2,13 @@ import styled from "styled-components";
 
 export const StyledSmallService = styled.div`
     position: relative;
-    border: 2px solid var(--primary-color);
-    padding: 0.5rem;
+    padding: 0.8rem;
     margin: 0.5rem;
     border-radius: 0.3rem;
     cursor: pointer;
-    box-shadow: 2px 2px 3px grey;
+    box-shadow: 0px 4px 7px grey;
     transition: background-color 0.1s linear;
+    background-color: white;
     :hover {
         background-color: #fbfbfb;
     }

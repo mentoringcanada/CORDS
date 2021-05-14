@@ -1,5 +1,5 @@
 import React from "react";
-import { FaLink } from "react-icons/fa";
+// import { FaLink } from "react-icons/fa";
 import { StyledSmallService } from "./SmallService.styles";
 
 interface Props {
@@ -21,14 +21,14 @@ const SmallService = ({ id, name, description, link, setFocus }: Props) => {
         >
             <h3>{name}</h3>
             <div className="buttons">
-                <a
+                {/* <a
                     href={link}
                     target="_blank"
                     rel="noreferrer"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <FaLink />
-                </a>
+                </a> */}
                 {/* <button onClick={handleSelection}>
                     <FaSave />
                 </button> */}
