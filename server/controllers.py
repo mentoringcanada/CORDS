@@ -1,6 +1,7 @@
 from helper_classes import result
 import model
 import numpy as np
+import queries
 
 
 def search(
@@ -14,11 +15,12 @@ def search(
     vector = np.asarray(vector_model(search_request.query))
     number_of_results = 10
     _, indexes = app_state.cache.search(vector, number_of_results)
-    results = []
+    result_IDs = []
     for index in indexes[0]:
         item_id = app_state.index_to_ID[index]
-        item = app_state.items[item_id]
-        results.append(item)
+        result_IDs.append("'" + item_id + "'")
+    result_IDs_string = ', '.join(result_IDs)
+    results = model.get_results(result_IDs_string)
     return results
 
 
@@ -31,12 +33,30 @@ def get_similar(
     """Get similar services based on the item_id description.
     """
     # Store pair for better recommendations in the future
-    model.store_pair(session_token, item_id)
+    # model.store_pair(session_token, item_id)
 
     # Get description from item ID, create a SearchRequest, then call search()
-    description = app_state.items[item_id].description
+    description = model.get_description_from_ID(item_id)
     search_request = result.SearchRequest(
         query=description,
     )
     results = search(session_token, search_request, app_state, vector_model)
+    return results
+
+
+def geo_search(
+        session_token: str,
+        geo_search_request: result.GeoSearchRequest,
+        app_state: result.AppState,
+        vector_model):
+    """Return distance-constrained query."""
+    vector = np.asarray(vector_model(geo_search_request.query))
+    number_of_results = 100
+    _, indexes = app_state.cache.search(vector, number_of_results)
+    result_IDs = []
+    for index in indexes[0]:
+        item_id = app_state.index_to_ID[index]
+        result_IDs.append("'" + item_id + "'")
+    result_IDs_string = ', '.join(result_IDs)
+    results = model.get_constrained_results(result_IDs_string, geo_search_request)
     return results

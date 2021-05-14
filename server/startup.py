@@ -9,7 +9,21 @@ from services import nlp_model
 def load():
     print('loading NLP model')
     vector_model = nlp_model.load_model()
+    print('loaded')
 
+    print('loading app state')
+    vectors_and_IDs = model.get_all_vectors()
+    cache.load_index()
+    vectors = np.asarray([np.asarray(row['description_vector']).astype(np.float32)
+                         for row in vectors_and_IDs])
+    index = cache.add_vectors(vectors)
+    app_state = result.AppState(
+        index_to_ID=[row['resource_agency_number'] for row in vectors_and_IDs],
+        cache=index)
+    return app_state, vector_model
+
+
+def vectorize():
     print('loading GTA services')
     GTA_Services = model.get_gta_services_csv()
 
@@ -64,6 +78,3 @@ def load():
         index_to_ID=item_IDs,
         cache=cache.index
     )
-
-    print('loaded')
-    return app_state, vector_model

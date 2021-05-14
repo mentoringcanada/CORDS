@@ -14,6 +14,7 @@ class Item(BaseModel):
     lat: Optional[float] = 0
     lng: Optional[float] = 0
     address: str
+    distance: Optional[float] = None
 
 
 class SearchRequest(BaseModel):
@@ -22,8 +23,14 @@ class SearchRequest(BaseModel):
     lng: Optional[float] = 0
 
 
+class GeoSearchRequest(BaseModel):
+    query: str
+    lat: float
+    lng: float
+    distance: float
+
+
 class AppState(BaseModel):
-    items: Dict[str, Item]
     index_to_ID: List[str]
     cache: Optional[IndexFlatL2] = None
 
