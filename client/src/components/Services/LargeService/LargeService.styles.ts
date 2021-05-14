@@ -43,9 +43,7 @@ export const StyledLargeService = styled.div`
         color: white;
         text-decoration: none;
         margin: 1rem auto 0 auto;
-        width: 60%;
-        svg {
-        }
+        width: 8rem;
     }
     .similar {
         display: flex;

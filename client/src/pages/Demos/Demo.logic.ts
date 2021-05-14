@@ -17,6 +17,7 @@ const DemoLogic = () => {
     const useHandleDemoChange = (description: string) => {
         useEffect(() => {
             setSimilar([]);
+            setFocus(null);
         }, [description]);
     };
 
