@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ServiceList from "../../../Services/ServiceList/ServiceList";
 import LargeService from "../../../Services/LargeService/LargeService";
 import { StyledOutputBox } from "../../../../styles/StyledOutputBox";
@@ -11,6 +11,10 @@ interface Props {
 
 const Search = ({ searchResults }: Props) => {
     const [focus, setFocus] = useState<number | null>(null);
+
+    useEffect(() => {
+        setFocus(null);
+    }, [searchResults]);
 
     return (
         <>

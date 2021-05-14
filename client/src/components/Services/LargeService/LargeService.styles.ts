@@ -25,21 +25,26 @@ export const StyledLargeService = styled.div`
         position: absolute;
         top: 1rem;
         right: 1rem;
-        color: #4d5156;
+        color: #aaa;
+        :hover {
+            color: #999;
+        }
     }
     .link {
         display: flex;
         align-items: center;
+        justify-content: space-around;
+        font-size: 0.9rem;
+        border-radius: 1rem;
+        padding: 0.4rem;
+        background-color: var(--primary-color);
+        font-family: var(--secondary-font), Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        margin: 1rem auto 0 auto;
+        width: 60%;
         svg {
-            color: #4d5156;
-            margin: 0.5rem 0;
-            font-size: 1.4rem;
-        }
-        a {
-            margin-left: 0.5rem;
-            font-family: var(--secondary-font), Arial, Helvetica, sans-serif;
-            font-size: 0.85rem;
-            color: #1a73e8;
         }
     }
     .similar {

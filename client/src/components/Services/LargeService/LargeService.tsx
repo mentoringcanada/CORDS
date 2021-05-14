@@ -1,11 +1,11 @@
 // Imports
 import React from "react";
-import { AiOutlineRollback } from "react-icons/ai";
-import { BiWorld } from "react-icons/bi";
+import { FaAngleLeft } from "react-icons/fa";
 import { StyledLargeService } from "./LargeService.styles";
 import ServiceList from "../ServiceList/ServiceList";
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../styles/StyledContainer";
+import { FaLink } from "react-icons/fa";
 
 interface Props {
     id: number;
@@ -23,23 +23,22 @@ const LargeService = ({ id, setFocus }: Props) => {
                 <>
                     <StyledContainer className="widget">
                         <button className="info" onClick={() => setFocus(null)}>
-                            <AiOutlineRollback />
+                            <FaAngleLeft />
                         </button>
                         <h2 className="info">{service.name}</h2>
                         <p className="info">
                             <strong>Address:</strong> {service.address}
                         </p>
                         <p className="info">{service.description}</p>
-                        <div className="link">
-                            <BiWorld />
-                            <a
-                                href={service.link}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {service.link}
-                            </a>
-                        </div>
+                        <a
+                            href={service.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="link"
+                        >
+                            <FaLink />
+                            Visit Website
+                        </a>
                     </StyledContainer>
                     <div className="similar">
                         <h3>Similar</h3>

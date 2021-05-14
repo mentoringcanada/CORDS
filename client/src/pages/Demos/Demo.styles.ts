@@ -33,6 +33,10 @@ export const StyledDefaultInfo = styled.div`
 export const StyledCustomInputs = styled.div`
     display: flex;
     flex-direction: column;
+    h2 {
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+    }
     label {
         display: flex;
         align-items: center;

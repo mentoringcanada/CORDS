@@ -24,10 +24,11 @@ const CustomDemo = () => {
             <StyledDemo>
                 <StyledContainer>
                     <StyledCustomInputs>
+                        <h2>Custom Organization</h2>
                         <label className="title">
                             <input
                                 type="text"
-                                placeholder="Title"
+                                placeholder="Name"
                                 value={title}
                                 onChange={handleTitleChange}
                                 style={{ width: !title ? "6rem" : "100%" }}

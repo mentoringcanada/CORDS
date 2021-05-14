@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { setSession } from "../../../helper/api";
+// import { setSession } from "../../../helper/api";
 import { getLocalLocation } from "../../../helper/LocationContext/LocationContext.logic";
 import LocationContext from "../../../helper/LocationContext/LocationContext";
 import { Service } from "../../../types";
@@ -13,7 +13,7 @@ const FrameLogic = () => {
     const useHandleStartFunctions = () => {
         useEffect(() => {
             // Set session
-            setSession();
+            // setSession();
 
             // Set location
             getLocalLocation().then((location: any) => {

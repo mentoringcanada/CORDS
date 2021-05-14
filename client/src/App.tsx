@@ -24,7 +24,7 @@ import Home from "./pages/Home/Home";
 import { Location } from "./types";
 
 // Utils
-import { linkOut } from "./helper/api";
+// import { linkOut } from "./helper/api";
 import LocationContext from "./helper/LocationContext/LocationContext";
 
 // Component
@@ -36,7 +36,7 @@ function App() {
     });
     useEffect(() => {
         // Calls link out on page close
-        window.onbeforeunload = linkOut;
+        // window.onbeforeunload = linkOut;
     }, []);
 
     return (
@@ -65,19 +65,19 @@ function App() {
                     </Route>
                     <Route path="/demo/food">
                         <Demo
-                            title="Food"
-                            description="Free or low-cost food to individuals and families in need on an on-going, seasonal, and emergency basis."
+                            title="Food Bank"
+                            description="Dedicated to helping Canadians living with food insecurity on an on-going, seasonal, and emergency basis."
                         />
                     </Route>
                     <Route path="/demo/shelter">
                         <Demo
-                            title="Shelter"
-                            description="We provide temporary accommodation and related support services that assist people to move into housing."
+                            title="Homeless Shelter"
+                            description="We provide temporary residence for homeless individuals and families."
                         />
                     </Route>
                     <Route path="/demo/clothing">
                         <Demo
-                            title="Clothing"
+                            title="Clothing Bank"
                             description="Drop-off site for donations of used/unwanted clothing."
                         />
                     </Route>
