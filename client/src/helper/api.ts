@@ -31,13 +31,16 @@ export const getSearchResults = async (searchBody: SearchBody) => {
     return data.items;
 };
 export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
-    console.log(geoSearchBody);
     const res = await axios.post(
         "/geosearch",
         {
             query: geoSearchBody.search,
-            lat: geoSearchBody.lat ? geoSearchBody.lat.toFixed(4) : 43.6532,
-            lng: geoSearchBody.lng ? geoSearchBody.lng.toFixed(4) : -79.3832,
+            lat: geoSearchBody.lat
+                ? Number(geoSearchBody.lat.toFixed(4))
+                : 43.6532,
+            lng: geoSearchBody.lng
+                ? Number(geoSearchBody.lng.toFixed(4))
+                : -79.3832,
             distance: geoSearchBody.distance || 100,
         },
         {
@@ -58,7 +61,6 @@ export const setSession = async () => {
     if (!session) {
         const res = await axios.get("/session");
         const data = await res.data;
-        console.log(data);
         localStorage.setItem("session_token", `${data.session_token}`);
     }
 };

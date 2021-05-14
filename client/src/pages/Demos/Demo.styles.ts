@@ -8,7 +8,7 @@ export const StyledDemo = styled.div`
     & > div {
         margin-bottom: 2rem;
     }
-    .output {
+    .demo-output {
         height: 55vh;
     }
     @media only screen and (max-width: 768px) {

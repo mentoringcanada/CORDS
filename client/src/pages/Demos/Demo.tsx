@@ -35,7 +35,7 @@ const Demo = ({ description, title }: Props) => {
                     </StyledDefaultInfo>
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
-                    <StyledContainer className="output">
+                    <StyledContainer className="demo-output">
                         <StyledOutputBox data-testid="output-box">
                             {focus ? (
                                 <LargeService id={focus} setFocus={setFocus} />

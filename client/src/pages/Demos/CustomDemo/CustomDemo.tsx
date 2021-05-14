@@ -55,7 +55,7 @@ const CustomDemo = () => {
                     </StyledViewSimilarButton>
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
-                    <StyledContainer>
+                    <StyledContainer className="demo-output">
                         <StyledOutputBox>
                             {focus ? (
                                 <LargeService id={focus} setFocus={setFocus} />
