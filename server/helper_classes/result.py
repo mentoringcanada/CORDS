@@ -15,6 +15,7 @@ class Item(BaseModel):
     lng: Optional[float] = 0
     address: str
     distance: Optional[float] = None
+    link: str
 
 
 class SearchRequest(BaseModel):

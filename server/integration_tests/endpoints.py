@@ -26,6 +26,6 @@ def test_geo_search():
 
 
 
-# test_search()
+test_search()
 # test_similar()
 # test_geo_search()

@@ -69,13 +69,15 @@ def get_results(result_IDs: str):
                 item_id=query_result['resource_agency_number'],
                 lat=float(geocoordinates[0]),
                 lng=float(geocoordinates[1]),
-                address=query_result['physical_address'])
+                address=query_result['physical_address'],
+                link=query_result['link'])
         except:
             item = result.Item(
                 name=query_result['public_name'],
                 description=query_result['resource_description'],
                 item_id=query_result['resource_agency_number'],
-                address=query_result['physical_address'])
+                address=query_result['physical_address'],
+                link=query_result['link'])
         items.append(item)
 
     return items
@@ -94,7 +96,8 @@ def get_constrained_results(result_IDs: str, request: result.GeoSearchRequest):
             lat=float(geocoordinates[0]),
             lng=float(geocoordinates[1]),
             address=query_result['physical_address'],
-            distance=query_result['distance'])
+            distance=query_result['distance'],
+            link=query_result['link'])
         items.append(item)
 
     return items
