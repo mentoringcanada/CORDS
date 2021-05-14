@@ -1,11 +1,12 @@
 export interface Service {
-    name: string;
     item_id: string;
+    name: string;
+    description: string;
     lat: number;
     lng: number;
     address: string;
+    distance: number;
     link: string;
-    description: string;
 }
 
 export interface Location {

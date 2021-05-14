@@ -10,7 +10,7 @@ const DemoLogic = () => {
     const handleSimilar = (description: string) => {
         getSearchResults({
             search: description,
-        }).then((res) => setSimilar(res));
+        }).then((res: Service[]) => setSimilar(res));
     };
 
     const useHandleDemoChange = (description: string) => {

@@ -7,7 +7,7 @@ import { Service } from "../../../types";
 const FrameLogic = () => {
     const [searchResults, setSearchResults] = useState<Service[]>([]);
     const [page, setPage] = useState("landing");
-    const { setLocation } = useContext(LocationContext);
+    const { location, setLocation } = useContext(LocationContext);
 
     /* Sets app default values */
     const useHandleStartFunctions = () => {
@@ -17,7 +17,11 @@ const FrameLogic = () => {
 
             // Set location
             getLocalLocation().then((location: any) => {
-                setLocation({ lat: location.lat, lng: location.lng });
+                setLocation({
+                    lat: location.lat,
+                    lng: location.lng,
+                    distance: location.distance,
+                });
             });
         }, []);
     };

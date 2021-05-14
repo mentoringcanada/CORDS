@@ -3,11 +3,11 @@
 export const getLocalLocation = () => {
     return new Promise((res) => {
         navigator.geolocation.getCurrentPosition((position) => {
-            const location = {
+            const localLocation = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
-            res(location);
+            res(localLocation);
         });
     });
 };

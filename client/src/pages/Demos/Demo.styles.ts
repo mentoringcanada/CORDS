@@ -6,6 +6,9 @@ export const StyledDemo = styled.div`
     padding: 2rem;
     margin-bottom: 2rem;
     max-width: 1200px;
+    * {
+        margin-bottom: 2rem;
+    }
     @media only screen and (max-width: 768px) {
         padding: 1rem;
     }
