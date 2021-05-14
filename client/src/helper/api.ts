@@ -31,7 +31,6 @@ export const getSearchResults = async (searchBody: SearchBody) => {
     return data.items;
 };
 export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
-    console.log(geoSearchBody);
     const res = await axios.post(
         "/geosearch",
         {

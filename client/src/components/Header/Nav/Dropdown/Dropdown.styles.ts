@@ -56,12 +56,13 @@ export const StyledDropdownMenu = styled.div`
         border-radius: 0;
         width: 100%;
         :hover {
-            background-color: #ddd;
+            background-color: #6d9cdb34;
             color: #444;
             border: none;
         }
     }
     a.active {
-        background-color: #ddd;
+        color: white;
+        background-color: var(--primary-color);
     }
 `;

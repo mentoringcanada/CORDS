@@ -2,8 +2,13 @@ import DemoLogic from "./Demo.logic";
 import OutputBox from "../../components/OutputBox/OutputBox";
 import ServiceList from "../../components/Services/ServiceList/ServiceList";
 import LargeService from "../../components/Services/LargeService/LargeService";
-import StyledDemo from "./Demo.styles";
-import { StyledPageContainer } from "../PageContainer.styles";
+import {
+    StyledDefaultInfo,
+    StyledDemo,
+    StyledViewSimilarButton,
+} from "./Demo.styles";
+import { StyledPageContainer } from "../../styles/StyledPageContainer";
+import { StyledContainer } from "../../styles/StyledContainer";
 
 interface Props {
     description: string;
@@ -18,25 +23,31 @@ const Demo = ({ description, title }: Props) => {
     return (
         <StyledPageContainer>
             <StyledDemo>
-                <h2 className="demo">{title}</h2>
-                <p className="demo">{description}</p>
-                <button
-                    className="demo"
-                    onClick={() => handleSimilar(description)}
-                >
-                    View similar services
-                </button>
+                <StyledContainer>
+                    <StyledDefaultInfo>
+                        <h2>{title}</h2>
+                        <p>{description}</p>
+                        {similar}
+                        <StyledViewSimilarButton
+                            onClick={() => handleSimilar(description)}
+                        >
+                            View similar services
+                        </StyledViewSimilarButton>
+                    </StyledDefaultInfo>
+                </StyledContainer>
                 {similar && similar.length !== 0 && (
-                    <OutputBox data-testid="output-box">
-                        {focus ? (
-                            <LargeService id={focus} setFocus={setFocus} />
-                        ) : (
-                            <ServiceList
-                                services={similar}
-                                setFocus={setFocus}
-                            />
-                        )}
-                    </OutputBox>
+                    <StyledContainer>
+                        <OutputBox data-testid="output-box">
+                            {focus ? (
+                                <LargeService id={focus} setFocus={setFocus} />
+                            ) : (
+                                <ServiceList
+                                    services={similar}
+                                    setFocus={setFocus}
+                                />
+                            )}
+                        </OutputBox>
+                    </StyledContainer>
                 )}
             </StyledDemo>
         </StyledPageContainer>

@@ -14,13 +14,9 @@ export const StyledPopUp = styled.div`
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        width: 24rem;
-        padding: 2rem;
-        border-radius: 1rem;
-        background-color: white;
         font-family: var(--secondary-font);
+        padding: 1rem 2rem;
         font-size: 1.5rem;
-        box-shadow: 2px 2px 5px grey;
         label {
             display: flex;
             margin-top: 1.5rem;
@@ -39,18 +35,20 @@ export const StyledPopUp = styled.div`
             }
         }
         input[type="submit"] {
+            cursor: pointer;
             margin-top: 1rem;
             padding: 0.5rem 1rem;
             color: white;
             font-weight: bold;
             background-color: var(--primary-color);
+            border-radius: 0.4rem;
+            -webkit-appearance: none;
         }
     }
     @media only screen and (max-width: 768px) {
         form {
-            width: 90%;
-            padding: 1rem;
-            font-size: 6vw;
+            padding: 0;
+            font-size: 5.2vw;
             label {
                 input {
                     padding: 0.3rem;

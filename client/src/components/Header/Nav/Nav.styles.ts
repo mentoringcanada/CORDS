@@ -4,6 +4,7 @@ export const StyledNav = styled.nav`
     display: flex;
     justify-content: space-around;
     font-size: 1.1rem;
+    margin-right: 1rem;
     a {
         display: flex;
         align-items: center;
@@ -46,7 +47,7 @@ export const StyledBurgerButton = styled.div`
     cursor: pointer;
     display: none;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 2rem;
     margin-right: 1rem;
     @media only screen and (max-width: 768px) {
         display: flex;
