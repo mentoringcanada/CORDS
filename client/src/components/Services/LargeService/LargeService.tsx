@@ -1,7 +1,7 @@
 // Imports
 import React from "react";
 import { AiOutlineRollback } from "react-icons/ai";
-// import { BiWorld } from "react-icons/bi";
+import { BiWorld } from "react-icons/bi";
 import { StyledLargeService } from "./LargeService.styles";
 import ServiceList from "../ServiceList/ServiceList";
 import LargeServiceLogic from "./LargeService.logic";
@@ -30,12 +30,16 @@ const LargeService = ({ id, setFocus }: Props) => {
                             <strong>Address:</strong> {service.address}
                         </p>
                         <p className="info">{service.description}</p>
-                        {/* <div className="link">
-                        <BiWorld />
-                        <a href={service.link} target="_blank" rel="noreferrer">
-                            {service.link}
-                        </a>
-                    </div> */}
+                        <div className="link">
+                            <BiWorld />
+                            <a
+                                href={service.link}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {service.link}
+                            </a>
+                        </div>
                     </StyledContainer>
                     <div className="similar">
                         <h3>Similar</h3>
