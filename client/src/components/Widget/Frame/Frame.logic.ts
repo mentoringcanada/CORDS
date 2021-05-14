@@ -16,10 +16,10 @@ const FrameLogic = () => {
             setSession();
 
             // Set location
-            getLocalLocation().then((location: any) => {
+            getLocalLocation().then((localLocation: any) => {
                 setLocation({
-                    lat: location.lat,
-                    lng: location.lng,
+                    lat: localLocation.lat,
+                    lng: localLocation.lng,
                     distance: location.distance,
                 });
             });

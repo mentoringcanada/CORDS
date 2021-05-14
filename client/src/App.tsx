@@ -30,14 +30,27 @@ import LocationContext from "./helper/LocationContext/LocationContext";
 // Component
 function App() {
     const [location, setLocation] = useState<Location>({
-        lat: undefined,
-        lng: undefined,
-        distance: undefined,
+        lat: 15.13036,
+        lng: -106.34677,
+        distance: 10,
     });
     useEffect(() => {
         // Calls link out on page close
         window.onbeforeunload = linkOut;
     }, []);
+
+    const [foodTitle, setFoodTitle] = useState("Food");
+    const [foodDescription, setFoodDescription] = useState(
+        "Free or low-cost food to individuals and families in need on an on-going, seasonal, and emergency basis."
+    );
+    const [shelterTitle, setShelterTitle] = useState("Shelter");
+    const [shelterDescription, setShelterDescription] = useState(
+        "We provide temporary accommodation and related support services that assist people to move into housing."
+    );
+    const [clothingTitle, setClothingTitle] = useState("Clothing");
+    const [clothingDescription, setClothingDescription] = useState(
+        "Drop-off site for donations of used/unwanted clothing."
+    );
 
     return (
         <HelmetProvider>
@@ -64,21 +77,18 @@ function App() {
                         <Home />
                     </Route>
                     <Route path="/demo/food">
-                        <Demo
-                            title="Food"
-                            description="Free or low-cost food to individuals and families in need on an on-going, seasonal, and emergency basis."
-                        />
+                        <Demo title={foodTitle} description={foodDescription} />
                     </Route>
                     <Route path="/demo/shelter">
                         <Demo
-                            title="Shelter"
-                            description="We provide temporary accommodation and related support services that assist people to move into housing."
+                            title={shelterTitle}
+                            description={shelterDescription}
                         />
                     </Route>
                     <Route path="/demo/clothing">
                         <Demo
-                            title="Clothing"
-                            description="Drop-off site for donations of used/unwanted clothing."
+                            title={clothingTitle}
+                            description={clothingDescription}
                         />
                     </Route>
                     <Route path="/demo/custom">

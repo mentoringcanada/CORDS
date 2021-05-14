@@ -34,10 +34,10 @@ export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
     const res = await axios.post(
         "/geosearch",
         {
-            query: geoSearchBody.search,
-            lat: geoSearchBody.lat ? geoSearchBody.lat.toFixed(5) : null,
-            lng: geoSearchBody.lng ? geoSearchBody.lng.toFixed(5) : null,
-            distance: geoSearchBody.distance ? geoSearchBody.distance : null,
+            query: geoSearchBody.search || "",
+            lat: geoSearchBody.lat.toFixed(5),
+            lng: geoSearchBody.lng.toFixed(5),
+            distance: geoSearchBody.distance,
         },
         {
             headers: {

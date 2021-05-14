@@ -15,11 +15,9 @@ interface Props {
     title: string;
 }
 
-const Demo = (props: Props) => {
+const Demo = ({ description, title }: Props) => {
     const { similar, focus, setFocus, handleSimilar, useHandleDemoChange } =
         DemoLogic();
-    const description: string = props.description;
-    const title: string = props.title;
     useHandleDemoChange(description);
 
     return (
