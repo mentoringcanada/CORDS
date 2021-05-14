@@ -16,12 +16,11 @@ export const StyledDefaultInfo = styled.div`
         margin-bottom: 1rem;
     }
     @media only screen and (max-width: 768px) {
-        padding: 1rem;
         h2 {
             font-size: 1.3rem;
         }
         p {
-            font-size: 0.85rem;
+            font-size: 0.95rem;
         }
     } ;
 `;
@@ -43,6 +42,18 @@ export const StyledCustomInputs = styled.div`
     label.desc {
         * {
             font-size: 1rem;
+        }
+    }
+    @media only screen and (max-width: 768px) {
+        label.title {
+            * {
+                font-size: 1.3rem;
+            }
+        }
+        label.desc {
+            * {
+                font-size: 0.95rem;
+            }
         }
     }
 `;

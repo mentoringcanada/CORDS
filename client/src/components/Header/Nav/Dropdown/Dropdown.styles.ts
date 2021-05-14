@@ -30,12 +30,8 @@ export const StyledDropdownButton = styled.button`
     padding: 0.5rem 1rem;
     color: #ccc;
     background-color: transparent;
-    span {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    svg {
         margin-left: 0.4rem;
-        font-size: 1rem;
     }
     :hover {
         color: #ddd;
