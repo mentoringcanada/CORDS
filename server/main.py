@@ -29,11 +29,6 @@ app.add_middleware(
 app_state, vector_model = startup.load()
 
 
-@app.options("/options")
-def options():
-    return {'ok': True}
-
-
 @app.post("/search")
 def search(search_request: result.SearchRequest, session_token: Optional[str] = Header(None)):
     """Text search through resources and opportunities.

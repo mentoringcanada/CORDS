@@ -27,7 +27,7 @@ class GeoSearchRequest(BaseModel):
     query: str
     lat: float
     lng: float
-    distance: float
+    distance: Optional[float] = 25
 
 
 class AppState(BaseModel):
