@@ -32,7 +32,7 @@ const CustomDemo = () => {
                                 onChange={handleTitleChange}
                                 style={{ width: !title ? "6rem" : "100%" }}
                             />
-                            {!title && <MdEdit />}
+                            <MdEdit />
                         </label>
                         <label className="desc">
                             <input
@@ -44,7 +44,7 @@ const CustomDemo = () => {
                                     width: !description ? "6rem" : "100%",
                                 }}
                             />
-                            {!title && <MdEdit />}
+                            <MdEdit />
                         </label>
                     </StyledCustomInputs>
                     <StyledViewSimilarButton

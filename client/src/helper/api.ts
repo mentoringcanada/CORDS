@@ -36,9 +36,9 @@ export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
         "/geosearch",
         {
             query: geoSearchBody.search,
-            lat: geoSearchBody.lat || 43.6532,
-            lng: geoSearchBody.lng || -79.3832,
-            distance: geoSearchBody.distance || 50,
+            lat: geoSearchBody.lat ? geoSearchBody.lat.toFixed(4) : 43.6532,
+            lng: geoSearchBody.lng ? geoSearchBody.lng.toFixed(4) : -79.3832,
+            distance: geoSearchBody.distance || 100,
         },
         {
             headers: {
