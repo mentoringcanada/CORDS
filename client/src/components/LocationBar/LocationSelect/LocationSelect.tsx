@@ -14,10 +14,10 @@ const LocationInput = () => {
         <StyledLocationSelect data-testid="location-select">
             <GooglePlacesAutocomplete
                 selectProps={{
-                    geoInputLocation,
+                    inputValue: geoInputLocation,
                     onChange: setGeoInputLocation,
                     styles: Styles,
-                    placeholder: "Where...",
+                    placeholder: "Where",
                 }}
                 apiKey="AIzaSyAfKsvjQLoBQpRrWCEJraXSvMFnUunnOeI"
                 autocompletionRequest={{

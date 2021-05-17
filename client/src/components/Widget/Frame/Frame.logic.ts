@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-// import { setSession } from "../../../helper/api";
-import { getLocalLocation } from "../../../helper/LocationContext/LocationContext.logic";
+import LocationContextLogic from "../../../helper/LocationContext/LocationContext.logic";
 import LocationContext from "../../../helper/LocationContext/LocationContext";
 import { Service } from "../../../types";
 
@@ -8,6 +7,7 @@ const FrameLogic = () => {
     const [searchResults, setSearchResults] = useState<Service[]>([]);
     const [page, setPage] = useState("landing");
     const { setLocation } = useContext(LocationContext);
+    const { getLocalLocation } = LocationContextLogic();
 
     /* Sets app default values */
     const useHandleStartFunctions = () => {

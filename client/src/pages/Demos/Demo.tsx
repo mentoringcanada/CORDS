@@ -8,7 +8,7 @@ import {
 } from "./Demo.styles";
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
-import { StyledOutputBox } from "../../styles/StyledOutputBox";
+import OutputContainer from "../../components/OutputContainer/OutputContainer";
 
 interface Props {
     description: string;
@@ -36,7 +36,7 @@ const Demo = ({ description, title }: Props) => {
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
                     <StyledContainer className="demo-output">
-                        <StyledOutputBox data-testid="output-box">
+                        <OutputContainer data-testid="output-box">
                             {focus ? (
                                 <LargeService id={focus} setFocus={setFocus} />
                             ) : (
@@ -45,7 +45,7 @@ const Demo = ({ description, title }: Props) => {
                                     setFocus={setFocus}
                                 />
                             )}
-                        </StyledOutputBox>
+                        </OutputContainer>
                     </StyledContainer>
                 )}
             </StyledDemo>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getSimilar } from "../../../helper/api";
+import { getSimilar } from "../../../helper/API";
 import { Service } from "../../../types";
 
 const LargeServiceLogic = () => {

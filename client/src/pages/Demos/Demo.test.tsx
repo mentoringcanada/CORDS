@@ -3,7 +3,7 @@ import Demo from "./Demo";
 
 afterEach(cleanup);
 
-test("Home page renders", () => {
+test("Demo renders", () => {
     render(<Demo title="Service Title" description="Service Description" />);
 
     screen.getByText("Service Title");

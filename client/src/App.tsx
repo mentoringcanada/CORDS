@@ -1,43 +1,20 @@
-// Import
-import React, { useEffect, useState } from "react";
-import "./App.styles.ts";
-
-// Components
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import GlobalStyle from "./App.styles";
 import Header from "./components/Header/Header";
 import Widget from "./components/Widget/Widget";
-
-// Meta
-import { Helmet, HelmetProvider } from "react-helmet-async";
-
-//Styling
-import GlobalStyle from "./App.styles";
-
-// Routing
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// Pages
 import Start from "./pages/Start/Start";
 import Demo from "./pages/Demos/Demo";
 import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
 import Home from "./pages/Home/Home";
-
-// Types
-import { Location } from "./types";
-
-// Utils
-// import { linkOut } from "./helper/api";
 import LocationContext from "./helper/LocationContext/LocationContext";
+import LocationContextLogic from "./helper/LocationContext/LocationContext.logic";
+import AppLogic from "./App.logic";
 
-// Component
 function App() {
-    const [location, setLocation] = useState<Location>({
-        lat: undefined,
-        lng: undefined,
-        distance: undefined,
-    });
-    useEffect(() => {
-        // Calls link out on page close
-        // window.onbeforeunload = linkOut;
-    }, []);
+    const { location, setLocation } = LocationContextLogic();
+    const { useStartupEffect } = AppLogic();
+    useStartupEffect();
 
     return (
         <HelmetProvider>

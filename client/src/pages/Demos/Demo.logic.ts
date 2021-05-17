@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getSearchResults } from "../../helper/api";
+import { getSearchResults } from "../../helper/API";
 import { Service } from "../../types";
 
 const DemoLogic = () => {

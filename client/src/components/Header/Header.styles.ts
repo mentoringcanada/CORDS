@@ -7,7 +7,7 @@ export const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 90px;
+    height: 80px;
     box-shadow: 0px 1px 5px grey;
     outline: 3px solid #ccc;
     img {

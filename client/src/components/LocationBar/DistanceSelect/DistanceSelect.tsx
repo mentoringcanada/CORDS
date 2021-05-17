@@ -13,7 +13,7 @@ const DistanceSelect = () => {
                 options={distanceSelectOptions}
                 styles={SelectStyles(false)}
                 onChange={handleDistanceChange}
-                placeholder="Within..."
+                placeholder="Within"
                 inputId="select-distance"
                 isSearchable
             />

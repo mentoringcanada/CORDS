@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext, useState } from "react";
-import { getGeoSearchResults } from "../../helper/api";
+import { getGeoSearchResults } from "../../helper/API";
 import LocationContext from "../../helper/LocationContext/LocationContext";
 import { GeoSearchBody, Service } from "../../types";
 

@@ -10,7 +10,7 @@ import {
 } from "../Demo.styles";
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
-import { StyledOutputBox } from "../../../styles/StyledOutputBox";
+import OutputContainer from "../../../components/OutputContainer/OutputContainer";
 
 const CustomDemo = () => {
     const { similar, focus, setFocus, handleSimilar, useHandleDemoChange } =
@@ -57,7 +57,7 @@ const CustomDemo = () => {
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
                     <StyledContainer className="demo-output">
-                        <StyledOutputBox>
+                        <OutputContainer>
                             {focus ? (
                                 <LargeService id={focus} setFocus={setFocus} />
                             ) : (
@@ -66,7 +66,7 @@ const CustomDemo = () => {
                                     setFocus={setFocus}
                                 />
                             )}
-                        </StyledOutputBox>
+                        </OutputContainer>
                     </StyledContainer>
                 )}
             </StyledDemo>

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ServiceList from "../../../Services/ServiceList/ServiceList";
 import LargeService from "../../../Services/LargeService/LargeService";
-import { StyledOutputBox } from "../../../../styles/StyledOutputBox";
 import { Service } from "../../../../types";
 import LocationBar from "../../../LocationBar/LocationBar";
+import OutputContainer from "../../../OutputContainer/OutputContainer";
 
 interface Props {
     searchResults: Service[];
@@ -19,13 +19,13 @@ const Search = ({ searchResults }: Props) => {
     return (
         <>
             <LocationBar />
-            <StyledOutputBox className="widget">
+            <OutputContainer>
                 {focus ? (
                     <LargeService id={focus} setFocus={setFocus} />
                 ) : (
                     <ServiceList services={searchResults} setFocus={setFocus} />
                 )}
-            </StyledOutputBox>
+            </OutputContainer>
         </>
     );
 };

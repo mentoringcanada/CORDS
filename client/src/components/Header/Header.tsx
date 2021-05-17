@@ -5,7 +5,7 @@ import Title from "../../media/Title.png";
 const Header = () => {
     return (
         <StyledHeader data-testid="header">
-            <img src={Title} alt="Title Logo" />
+            <img src={Title} alt="CORDS Title Logo" />
             <Nav />
         </StyledHeader>
     );

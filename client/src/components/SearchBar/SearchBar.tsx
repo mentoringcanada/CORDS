@@ -9,7 +9,7 @@ interface Props {
     setPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchBar = ({ setSearchResults, setPage }: Props) => {
+const SearchBar = ({ setSearchResults }: Props) => {
     const { handleGeoSearch, handleSearchChange } =
         SearchBarLogic(setSearchResults);
     return (

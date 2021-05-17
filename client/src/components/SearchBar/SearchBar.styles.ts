@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const StyledSearchBar = styled.form`
     display: flex;
     align-items: center;
-    width: 92%;
-    margin: 0rem 0rem 16px 0.2rem;
+    width: 94%;
+    margin: 0 0 0.5rem 0;
     input {
         font-size: 0.75rem;
         padding: 0.7rem 2.5rem 0.7rem 0.7rem;

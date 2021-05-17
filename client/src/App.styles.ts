@@ -63,7 +63,7 @@ const GlobalStyles = createGlobalStyle`
     }
     ::-webkit-scrollbar-track {
         background: #f1f1f1;
-        border-radius: 0px 0px 3px 0px;
+        border-radius: 0px 3px 3px 0px;
     }
     ::-webkit-scrollbar-thumb {
         background: #888;

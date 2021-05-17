@@ -10,10 +10,11 @@ export const SelectStyles = (left: boolean) => {
         }),
         control: (provided: any) => ({
             ...provided,
-            borderRadius: left ? "3px 0 0 0" : "0 3px 0 0",
+            borderRadius: "0.4rem",
             "&:hover": { borderColor: "#aaa" },
             border: "1px solid #ccc",
             boxShadow: "none",
+            marginRight: left ? "0.4rem" : "",
         }),
         option: (styles: any, state: any) => ({
             ...styles,
@@ -26,4 +27,5 @@ export const SelectStyles = (left: boolean) => {
 
 export const StyledLocationBar = styled.div`
     display: flex;
+    margin-bottom: 0.8rem;
 `;

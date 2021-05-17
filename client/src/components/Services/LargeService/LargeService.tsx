@@ -1,7 +1,7 @@
 // Imports
 import React from "react";
-import { FaAngleLeft } from "react-icons/fa";
-import { StyledLargeService } from "./LargeService.styles";
+import { FaAngleLeft, FaMapMarkerAlt } from "react-icons/fa";
+import { StyledLargeService, StyledLinks } from "./LargeService.styles";
 import ServiceList from "../ServiceList/ServiceList";
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../styles/StyledContainer";
@@ -29,16 +29,31 @@ const LargeService = ({ id, setFocus }: Props) => {
                         <p className="info">
                             <strong>Address:</strong> {service.address}
                         </p>
+                        {service.distance && (
+                            <p className="info">
+                                <strong>Distance:</strong>{" "}
+                                {service.distance.toFixed(1)}
+                            </p>
+                        )}
                         <p className="info">{service.description}</p>
-                        <a
-                            href={service.link}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="link"
-                        >
-                            <FaLink />
-                            Visit Website
-                        </a>
+                        <StyledLinks>
+                            <a
+                                href={service.link}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FaLink />
+                                View More
+                            </a>
+                            <a
+                                href={`https://www.google.com/maps/place/${service.lat},${service.lng}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FaMapMarkerAlt />
+                                Directions
+                            </a>
+                        </StyledLinks>
                     </StyledContainer>
                     <div className="similar">
                         <h3>Similar</h3>

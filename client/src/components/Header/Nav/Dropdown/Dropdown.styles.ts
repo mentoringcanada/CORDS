@@ -24,7 +24,7 @@ export const StyledDropdown = styled.div`
 export const StyledDropdownButton = styled.button`
     display: flex;
     align-items: center;
-    height: 90px;
+    height: 80px;
     font-size: 1.1rem;
     font-weight: normal;
     padding: 0.5rem 1rem;
@@ -39,22 +39,18 @@ export const StyledDropdownButton = styled.button`
 `;
 
 export const StyledDropdownMenu = styled.div`
-    display: flex;
     position: absolute;
     top: 100%;
+    width: 100%;
     background-color: #f9f9f9;
-    margin-right: 0.5rem;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    flex-direction: column;
+    text-align: center;
     a {
         color: #444;
-        border-radius: 0;
-        width: 100%;
         :hover {
             background-color: #6d9cdb34;
             color: #444;
-            border: none;
         }
     }
     a.active {
