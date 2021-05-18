@@ -31,7 +31,7 @@ const LocationBar = ({ location, setLocation }: Props) => {
             <StyledLocationSelect data-testid="location-select">
                 <GooglePlacesAutocomplete
                     selectProps={{
-                        inputValue: geoInputLocation,
+                        value: geoInputLocation,
                         onChange: setGeoInputLocation,
                         styles: Styles,
                         placeholder: "Where",
