@@ -7,13 +7,14 @@ def test_search():
     response = requests.post('http://localhost:8000/search', json={
         'query': 'i need clothes for an interview'
     })
-    print(response.json())
+    data = response.json()
+    assert len(data['items']) == 10
 
 
 def test_similar():
     response = requests.get('http://localhost:8000/similar/69795486')
-    print(response.json())
-
+    data = response.json()
+    assert len(data['items']) == 10
 
 def test_geo_search():
     response = requests.post('http://localhost:8000/geosearch', json={
@@ -22,10 +23,10 @@ def test_geo_search():
         'lng': -79.5,
         'distance': 50
     })
-    print(response.json())
+    data = response.json()
+    assert len(data['items']) == 10
 
 
-
-# test_search()
+test_search()
 test_similar()
-# test_geo_search()
+test_geo_search()

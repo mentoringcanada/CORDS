@@ -5,7 +5,8 @@ from typing import Optional
 
 # import local modules
 import controllers
-from helper_classes import result
+from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
+from helper_classes.request_classes.searchRequest import SearchRequest
 import startup
 
 
@@ -14,7 +15,7 @@ app_state, vector_model = startup.load()
 
 
 @app.post("/search")
-def search(search_request: result.SearchRequest, session_token: Optional[str] = Header(None)):
+def search(search_request: SearchRequest, session_token: Optional[str] = Header(None)):
     """Text search through resources and opportunities.
     Chercher a travers les resources et opportunites par texte.
     """
@@ -28,7 +29,6 @@ def get_item_by_id(item_id: str, session_token: Optional[str] = Header(None)):
     """(EN) Returns similar resources and opportunities based on description text.
     Also stores the session-item pair in order to make future recommendations.
     (FR) Retourne des resources et opportunites selon le texte similier a l'object.
-    Aussi sauve les donnees du pair session-object pour ameliorer les recommendations.
     """
     results = controllers.get_similar(
         session_token, item_id, app_state, vector_model)
@@ -36,7 +36,10 @@ def get_item_by_id(item_id: str, session_token: Optional[str] = Header(None)):
 
 
 @app.post("/geosearch")
-def get_geo_search(geo_search_request: result.GeoSearchRequest, session_token: Optional[str] = Header(None)):
+def get_geo_search(geo_search_request: GeoSearchRequest, session_token: Optional[str] = Header(None)):
+    """(EN) Returns resources and opportunities based on search, geographically constrained.
+    (FR) Retourne des resources and opportunies selon le texte, proche des coordonees partages.
+    """
     results = controllers.geo_search(
         session_token, geo_search_request, app_state, vector_model)
     return {"items": results}

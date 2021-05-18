@@ -3,7 +3,8 @@ import pandas
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import queries
-from helper_classes import result
+from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
+from helper_classes.other_classes.item import Item
 
 
 PSQL_CONNECT_STR = os.environ.get('PSQL_CONNECT_STR')
@@ -56,50 +57,23 @@ def clean_text(text):
     return cleaned_text
 
 
-def get_results(result_IDs_str: str, result_IDs: list):
-    print(result_IDs_str)
-    query_results = execute(queries.get_results.format(result_IDs_str, result_IDs),
+def get_results(result_IDs: list):
+    result_IDs_string = ', '.join(result_IDs)
+    query_results = execute(queries.get_results.format(result_IDs_string, result_IDs),
                             ())
-    [print(query_result['resource_agency_number']) for query_result in query_results]
     items = []
     for query_result in query_results:
-        geocoordinates = query_result['geocoordinates'][1:-1].split(',')
-        try:
-            item = result.Item(
-                name=query_result['public_name'],
-                description=query_result['resource_description'],
-                item_id=query_result['resource_agency_number'],
-                lat=float(geocoordinates[0]),
-                lng=float(geocoordinates[1]),
-                address=query_result['physical_address'],
-                link=query_result['link'])
-        except:
-            item = result.Item(
-                name=query_result['public_name'],
-                description=query_result['resource_description'],
-                item_id=query_result['resource_agency_number'],
-                address=query_result['physical_address'],
-                link=query_result['link'])
-        items.append(item)
+        items.append(Item.from_db_row(query_result))
 
     return items
 
 
-def get_constrained_results(result_IDs: str, request: result.GeoSearchRequest):
+def get_constrained_results(request: GeoSearchRequest, result_IDs: list):
+    result_IDs = ', '.join(result_IDs)
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance))
     items = []
     for query_result in query_results:
-        geocoordinates = query_result['geocoordinates'][1:-1].split(',')
-        item = result.Item(
-            name=query_result['public_name'],
-            description=query_result['resource_description'],
-            item_id=query_result['resource_agency_number'],
-            lat=float(geocoordinates[0]),
-            lng=float(geocoordinates[1]),
-            address=query_result['physical_address'],
-            distance=query_result['distance'],
-            link=query_result['link'])
-        items.append(item)
+        items.append(Item.from_db_row(query_result))
 
     return items
