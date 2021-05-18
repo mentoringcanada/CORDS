@@ -1,8 +1,6 @@
-import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Dropdown from "./Dropdown";
-
-afterEach(cleanup);
 
 test("Dropdown renders", () => {
     render(

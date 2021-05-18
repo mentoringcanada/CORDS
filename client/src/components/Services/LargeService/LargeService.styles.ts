@@ -18,19 +18,6 @@ export const StyledLargeService = styled.div`
         line-height: 1.1rem;
         color: #4d5156;
     }
-    button.info {
-        background-color: transparent;
-        color: black;
-        font-size: 1.5rem;
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        color: #aaa;
-        :hover {
-            color: #999;
-        }
-    }
-
     .similar {
         display: flex;
         align-items: center;
@@ -42,6 +29,19 @@ export const StyledLargeService = styled.div`
         h3 {
             color: white;
         }
+    }
+`;
+
+export const StyledBackButton = styled.button`
+    background-color: transparent;
+    color: black;
+    font-size: 1.5rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: #aaa;
+    :hover {
+        color: #999;
     }
 `;
 

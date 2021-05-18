@@ -1,5 +1,4 @@
-import ServiceList from "../../../components/Services/ServiceList/ServiceList";
-import LargeService from "../../../components/Services/LargeService/LargeService";
+import ServicesOutput from "../../../components/Services/ServicesOutput/ServicesOutput";
 import { MdEdit } from "react-icons/md";
 import DemoLogic from "../Demo.logic";
 import CustomDemoLogic from "./CustomDemo.logic";
@@ -13,8 +12,7 @@ import { StyledContainer } from "../../../styles/StyledContainer";
 import OutputContainer from "../../../components/OutputContainer/OutputContainer";
 
 const CustomDemo = () => {
-    const { similar, focus, setFocus, handleSimilar, useHandleDemoChange } =
-        DemoLogic();
+    const { similar, handleSimilar, useHandleDemoChange } = DemoLogic();
     const { description, title, handleDescriptionChange, handleTitleChange } =
         CustomDemoLogic();
     useHandleDemoChange("");
@@ -58,14 +56,7 @@ const CustomDemo = () => {
                 {similar && similar.length !== 0 && (
                     <StyledContainer className="demo-output">
                         <OutputContainer>
-                            {focus ? (
-                                <LargeService id={focus} setFocus={setFocus} />
-                            ) : (
-                                <ServiceList
-                                    services={similar}
-                                    setFocus={setFocus}
-                                />
-                            )}
+                            <ServicesOutput services={similar} />
                         </OutputContainer>
                     </StyledContainer>
                 )}

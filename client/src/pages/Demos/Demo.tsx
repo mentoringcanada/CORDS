@@ -1,6 +1,5 @@
 import DemoLogic from "./Demo.logic";
-import ServiceList from "../../components/Services/ServiceList/ServiceList";
-import LargeService from "../../components/Services/LargeService/LargeService";
+import ServicesOutput from "../../components/Services/ServicesOutput/ServicesOutput";
 import {
     StyledDefaultInfo,
     StyledDemo,
@@ -16,8 +15,7 @@ interface Props {
 }
 
 const Demo = ({ description, title }: Props) => {
-    const { similar, focus, setFocus, handleSimilar, useHandleDemoChange } =
-        DemoLogic();
+    const { similar, handleSimilar, useHandleDemoChange } = DemoLogic();
     useHandleDemoChange(description);
 
     return (
@@ -36,15 +34,8 @@ const Demo = ({ description, title }: Props) => {
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
                     <StyledContainer className="demo-output">
-                        <OutputContainer data-testid="output-box">
-                            {focus ? (
-                                <LargeService id={focus} setFocus={setFocus} />
-                            ) : (
-                                <ServiceList
-                                    services={similar}
-                                    setFocus={setFocus}
-                                />
-                            )}
+                        <OutputContainer data-testid="output-container">
+                            <ServicesOutput services={similar} />
                         </OutputContainer>
                     </StyledContainer>
                 )}

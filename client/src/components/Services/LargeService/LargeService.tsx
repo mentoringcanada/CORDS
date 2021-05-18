@@ -1,8 +1,12 @@
 // Imports
 import React from "react";
 import { FaAngleLeft, FaMapMarkerAlt } from "react-icons/fa";
-import { StyledLargeService, StyledLinks } from "./LargeService.styles";
-import ServiceList from "../ServiceList/ServiceList";
+import {
+    StyledBackButton,
+    StyledLargeService,
+    StyledLinks,
+} from "./LargeService.styles";
+import ServicesOutput from "../ServicesOutput/ServicesOutput";
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../styles/StyledContainer";
 import { FaLink } from "react-icons/fa";
@@ -22,9 +26,13 @@ const LargeService = ({ id, setFocus }: Props) => {
             {service && (
                 <>
                     <StyledContainer className="widget">
-                        <button className="info" onClick={() => setFocus(null)}>
+                        <StyledBackButton
+                            className="info"
+                            onClick={() => setFocus(null)}
+                            data-testid="back-button"
+                        >
                             <FaAngleLeft />
-                        </button>
+                        </StyledBackButton>
                         <h2 className="info">{service.name}</h2>
                         <p className="info">
                             <strong>Address:</strong> {service.address}
@@ -58,7 +66,7 @@ const LargeService = ({ id, setFocus }: Props) => {
                     <div className="similar">
                         <h3>Similar</h3>
                     </div>
-                    <ServiceList services={similar} setFocus={setFocus} />
+                    <ServicesOutput services={similar} />
                 </>
             )}
         </StyledLargeService>

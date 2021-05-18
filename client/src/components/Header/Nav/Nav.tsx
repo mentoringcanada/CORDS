@@ -8,7 +8,10 @@ const Nav = () => {
 
     return (
         <>
-            <StyledBurgerButton onClick={toggleBurgerMenu}>
+            <StyledBurgerButton
+                data-testid="burger-button"
+                onClick={toggleBurgerMenu}
+            >
                 &#9776;
             </StyledBurgerButton>
             <StyledNav className={burgerMenu ? "open" : ""}>

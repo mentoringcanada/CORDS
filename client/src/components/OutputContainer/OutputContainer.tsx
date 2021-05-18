@@ -11,7 +11,7 @@ const OutputContainer = ({ children }: Props) => {
     useScrollEffect(children);
 
     return (
-        <StyledOutputContainer ref={outputRef}>
+        <StyledOutputContainer ref={outputRef} data-testid="output-container">
             {children}
         </StyledOutputContainer>
     );
