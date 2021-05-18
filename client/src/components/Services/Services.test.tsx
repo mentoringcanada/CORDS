@@ -1,4 +1,10 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import {
+    render,
+    screen,
+    fireEvent,
+    act,
+    waitFor,
+} from "@testing-library/react";
 import axios from "axios";
 import ServicesOutput from "./ServicesOutput/ServicesOutput";
 import "@testing-library/jest-dom/extend-expect";
@@ -30,6 +36,33 @@ const res = {
     },
 };
 
+const secondRes = {
+    data: {
+        items: [
+            {
+                name: "Test Service Two",
+                description: "This is the second fake service",
+                item_id: "69797998",
+                lat: 49.0,
+                lng: -82.0,
+                address: "30 Up Street",
+                distance: 20,
+                link: "google.com",
+            },
+            {
+                name: "Test Service One",
+                description: "This is the first fake service",
+                item_id: "69797999",
+                lat: 45.0,
+                lng: -80.0,
+                address: "20 Made Street",
+                distance: 15,
+                link: "www.google.com",
+            },
+        ],
+    },
+};
+
 jest.mock("axios");
 
 describe("Services", () => {
@@ -44,31 +77,32 @@ describe("Services", () => {
 
         const smallLink = await screen.getAllByRole("link")[0];
         await fireEvent.click(smallLink);
-        expect(smallLink.closest("a")).toHaveAttribute(
+        await expect(smallLink.closest("a")).toHaveAttribute(
             "href",
             "www.google.com"
         );
     });
-
     test("Click in-out of service", async () => {
-        Object(axios.get).mockResolvedValueOnce(res);
         render(<ServicesOutput services={res.data.items} />);
+        Object(axios.get).mockResolvedValueOnce(res);
 
         const serviceOne = await screen.getByText("Test Service One");
         await fireEvent.click(serviceOne);
 
-        expect(axios.get).toHaveBeenCalled();
+        await waitFor(() => expect(axios.get).toHaveBeenCalled());
 
-        await screen.findByText("Test Service One");
-        await screen.findByText("Address:");
-        await screen.findByText("This is the first fake service");
+        await expect(screen.getByTestId("large-title")).toHaveTextContent(
+            "Test Service One"
+        );
+        await screen.getByText("Address:");
+        await screen.getByText("This is the first fake service");
 
-        await screen.findByText("View More");
-        await screen.findByText("Directions");
+        await screen.getByText("View More");
+        await screen.getByText("Directions");
 
-        await screen.findByText("Similar");
-        await screen.findByText("Test Service Two");
-        await screen.findByText("This is the second fake service");
+        await screen.getByText("Similar");
+        await screen.getByText("Test Service Two");
+        await screen.getByText("This is the second fake service");
 
         const backButton = await screen.getByTestId("back-button");
         await fireEvent.click(backButton);
@@ -77,5 +111,26 @@ describe("Services", () => {
         await expect(screen.queryByText("View More")).toBeNull();
         await expect(screen.queryByText("Directions")).toBeNull();
         await expect(screen.queryByText("Similar")).toBeNull();
+    });
+    test("Click into similar", async () => {
+        Object(axios.get)
+            .mockReturnValueOnce(res)
+            .mockReturnValueOnce(secondRes);
+        render(<ServicesOutput services={res.data.items} />);
+
+        const serviceOne = await screen.getByText("Test Service One");
+        await fireEvent.click(serviceOne);
+
+        await waitFor(() => expect(axios.get).toHaveBeenCalled());
+
+        const similarService = await screen.getByText("Test Service Two");
+        await fireEvent.click(similarService);
+
+        await waitFor(() => expect(axios.get).toHaveBeenCalled());
+
+        await expect(screen.getByTestId("large-title")).toHaveTextContent(
+            "Test Service Two"
+        );
+        await screen.getByText("Test Service One");
     });
 });

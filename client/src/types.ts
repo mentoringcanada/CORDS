@@ -12,7 +12,7 @@ export interface Service {
 export interface Location {
     lat: number | undefined;
     lng: number | undefined;
-    distance: number | undefined;
+    distance?: number | undefined;
 }
 
 export interface SearchBody {
@@ -20,7 +20,12 @@ export interface SearchBody {
 }
 export interface GeoSearchBody {
     search: string;
-    lat: number;
-    lng: number;
-    distance: number;
+    lat: number | undefined;
+    lng: number | undefined;
+    distance: number | undefined;
+}
+export interface SimilarBody {
+    resourceId: number;
+    lat: number | undefined;
+    lng: number | undefined;
 }

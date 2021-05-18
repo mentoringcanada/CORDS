@@ -55,7 +55,7 @@ export const StyledLinks = styled.div`
         justify-content: space-around;
         font-size: 0.85rem;
         border-radius: 1rem;
-        padding: 0.3rem 0.5rem;
+        padding: 0.3rem 0.7rem 0.3rem 0.5rem;
         background-color: var(--primary-color);
         font-family: var(--secondary-font), Arial, Helvetica, sans-serif;
         font-weight: bold;

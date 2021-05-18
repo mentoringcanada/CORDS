@@ -1,14 +1,13 @@
 import React from "react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { getGeoSearchResults } from "../../helper/API";
-import LocationContext from "../../helper/LocationContext/LocationContext";
-import { GeoSearchBody, Service } from "../../types";
+import { GeoSearchBody, Service, Location } from "../../types";
 
 const SearchBarLogic = (
-    setSearchResults: React.Dispatch<React.SetStateAction<Service[]>>
+    setSearchResults: React.Dispatch<React.SetStateAction<Service[]>>,
+    location: Location
 ) => {
     const [search, setSearch] = useState("");
-    const { location } = useContext(LocationContext);
 
     const handleGeoSearch = (e: React.FormEvent) => {
         e.preventDefault();

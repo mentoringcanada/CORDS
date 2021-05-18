@@ -1,23 +1,35 @@
 import SmallService from "../SmallService/SmallService";
-import { Service } from "../../../types";
+import { Location, Service } from "../../../types";
 import LargeService from "../LargeService/LargeService";
 import ServicesOutputLogic from "./ServiceOutput.logic";
+import { StyledServiceOutput } from "./ServiceOutput.styles";
 
 interface Props {
     services: Service[];
+    location?: Location;
 }
 
-function ServiceOutput({ services }: Props) {
-    const { focus, setFocus, useOnServicesChange } =
-        ServicesOutputLogic(services);
-    useOnServicesChange();
+function ServiceOutput({
+    services,
+    location = { lat: undefined, lng: undefined },
+}: Props) {
+    const {
+        outputRef,
+        focus,
+        setFocus,
+        useOnServicesChange,
+        useOnFocusChange,
+    } = ServicesOutputLogic();
+    useOnServicesChange(services);
+    useOnFocusChange(focus);
 
     return (
-        <>
+        <StyledServiceOutput ref={outputRef} data-testid="output-container">
             {focus ? (
                 <LargeService
                     id={focus}
                     setFocus={setFocus}
+                    location={location}
                     data-testid="large-service"
                 />
             ) : (
@@ -34,7 +46,7 @@ function ServiceOutput({ services }: Props) {
                     />
                 ))
             )}
-        </>
+        </StyledServiceOutput>
     );
 }
 

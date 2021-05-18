@@ -48,6 +48,7 @@ export const StyledDropdownMenu = styled.div`
     text-align: center;
     a {
         color: #444;
+        width: 100%;
         :hover {
             background-color: #6d9cdb34;
             color: #444;

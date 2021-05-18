@@ -34,7 +34,7 @@ jest.mock("axios");
 
 describe("Demos", () => {
     test("Demo renders & functions", async () => {
-        await render(
+        render(
             <Demo title="Service Title" description="Service Description" />
         );
 
@@ -54,7 +54,7 @@ describe("Demos", () => {
         await screen.getByText("Test Service Two");
     });
     test("CustomDemo renders & functions", async () => {
-        await render(<CustomDemo />);
+        render(<CustomDemo />);
 
         await screen.getByText("Custom Organization");
         await screen.getByText("View similar services");

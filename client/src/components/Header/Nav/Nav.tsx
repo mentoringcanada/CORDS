@@ -23,6 +23,14 @@ const Nav = () => {
                 >
                     Home
                 </NavLink>
+                <NavLink
+                    className="normlink"
+                    to="/search"
+                    exact
+                    onClick={toggleBurgerMenu}
+                >
+                    Search
+                </NavLink>
                 <Dropdown />
             </StyledNav>
         </>

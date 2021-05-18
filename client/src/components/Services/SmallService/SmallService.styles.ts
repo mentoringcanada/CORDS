@@ -12,14 +12,8 @@ export const StyledSmallService = styled.div`
     :hover {
         background-color: #fbfbfb;
     }
-    h3 {
+    .service-title {
         width: 75%;
-    }
-    p {
-        margin-top: 0.5rem;
-        color: #4d5156;
-        font-size: 0.8rem;
-        line-height: 1.1rem;
     }
 `;
 
@@ -30,7 +24,6 @@ export const StyledLink = styled.a`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 0.2rem;
     font-size: 1.2rem;
     width: 2rem;
     height: 2rem;
@@ -43,5 +36,22 @@ export const StyledLink = styled.a`
     }
     svg {
         color: var(--primary-color);
+    }
+`;
+
+export const StyledDescription = styled.div`
+    width: 100%;
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    color: #4d5156;
+    font-size: 0.8rem;
+    line-height: 1.1rem;
+    ul {
+        margin-left: 1rem;
+    }
+    a {
+        display: block;
+        word-wrap: break-word;
+        max-width: 100%;
     }
 `;

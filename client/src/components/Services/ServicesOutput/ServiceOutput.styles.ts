@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledOutputContainer = styled.div`
+export const StyledServiceOutput = styled.div`
     position: relative;
     border-radius: 3px;
     height: 100%;

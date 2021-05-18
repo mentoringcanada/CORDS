@@ -7,7 +7,6 @@ import {
 } from "./Demo.styles";
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
-import OutputContainer from "../../components/OutputContainer/OutputContainer";
 
 interface Props {
     description: string;
@@ -34,9 +33,7 @@ const Demo = ({ description, title }: Props) => {
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
                     <StyledContainer className="demo-output">
-                        <OutputContainer data-testid="output-container">
-                            <ServicesOutput services={similar} />
-                        </OutputContainer>
+                        <ServicesOutput services={similar} />
                     </StyledContainer>
                 )}
             </StyledDemo>

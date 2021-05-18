@@ -7,12 +7,10 @@ import Start from "./pages/Start/Start";
 import Demo from "./pages/Demos/Demo";
 import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
 import Home from "./pages/Home/Home";
-import LocationContext from "./helper/LocationContext/LocationContext";
-import LocationContextLogic from "./helper/LocationContext/LocationContext.logic";
 import AppLogic from "./App.logic";
+import Search from "./pages/Search/Search";
 
 function App() {
-    const { location, setLocation } = LocationContextLogic();
     const { useStartupEffect } = AppLogic();
     useStartupEffect();
 
@@ -61,10 +59,11 @@ function App() {
                     <Route path="/demo/custom">
                         <CustomDemo />
                     </Route>
+                    <Route path="/search">
+                        <Search />
+                    </Route>
                 </Switch>
-                <LocationContext.Provider value={{ location, setLocation }}>
-                    <Widget />
-                </LocationContext.Provider>
+                <Widget />
             </Router>
         </HelmetProvider>
     );

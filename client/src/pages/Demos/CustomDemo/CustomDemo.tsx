@@ -9,7 +9,6 @@ import {
 } from "../Demo.styles";
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
-import OutputContainer from "../../../components/OutputContainer/OutputContainer";
 
 const CustomDemo = () => {
     const { similar, handleSimilar, useHandleDemoChange } = DemoLogic();
@@ -55,9 +54,7 @@ const CustomDemo = () => {
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
                     <StyledContainer className="demo-output">
-                        <OutputContainer>
-                            <ServicesOutput services={similar} />
-                        </OutputContainer>
+                        <ServicesOutput services={similar} />
                     </StyledContainer>
                 )}
             </StyledDemo>

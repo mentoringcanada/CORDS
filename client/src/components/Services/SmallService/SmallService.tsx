@@ -1,6 +1,10 @@
 import React from "react";
 import { FaLink } from "react-icons/fa";
-import { StyledSmallService, StyledLink } from "./SmallService.styles";
+import {
+    StyledSmallService,
+    StyledLink,
+    StyledDescription,
+} from "./SmallService.styles";
 
 interface Props {
     id: string;
@@ -19,7 +23,7 @@ const SmallService = ({ id, name, description, link, setFocus }: Props) => {
                 setFocus(Number(id));
             }}
         >
-            <h3>{name}</h3>
+            <h3 className="service-title">{name}</h3>
             <StyledLink
                 href={link}
                 target="_blank"
@@ -29,7 +33,9 @@ const SmallService = ({ id, name, description, link, setFocus }: Props) => {
             >
                 <FaLink />
             </StyledLink>
-            <p>{description}</p>
+            <StyledDescription
+                dangerouslySetInnerHTML={{ __html: description }}
+            ></StyledDescription>
         </StyledSmallService>
     );
 };

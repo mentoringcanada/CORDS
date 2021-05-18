@@ -1,11 +1,10 @@
-// Imports
 import React from "react";
-import Search from "../pages/search/Search";
 import SearchBar from "../../SearchBar/SearchBar";
 import { StyledCloseButton, StyledFrame } from "./Frame.styles";
 import FrameLogic from "./Frame.logic";
+import LocationBar from "../../LocationBar/LocationBar";
+import ServicesOutput from "../../Services/ServicesOutput/ServicesOutput";
 
-// Props
 interface Props {
     setWidget: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -13,20 +12,28 @@ interface Props {
 // Body of Widget holding components
 const Frame = ({ setWidget }: Props) => {
     const {
+        location,
+        setLocation,
         searchResults,
         setSearchResults,
-        setPage,
         useHandleStartFunctions,
     } = FrameLogic();
     useHandleStartFunctions();
 
     return (
         <StyledFrame>
-            <StyledCloseButton onClick={() => setWidget(false)}>
+            <StyledCloseButton
+                onClick={() => setWidget(false)}
+                data-testid="close-button"
+            >
                 &minus;
             </StyledCloseButton>
-            <SearchBar setSearchResults={setSearchResults} setPage={setPage} />
-            <Search searchResults={searchResults} />
+            <SearchBar
+                setSearchResults={setSearchResults}
+                location={location}
+            />
+            <LocationBar location={location} setLocation={setLocation} />
+            <ServicesOutput services={searchResults} location={location} />
         </StyledFrame>
     );
 };

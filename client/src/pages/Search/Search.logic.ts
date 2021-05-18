@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Service, Location } from "../../../types";
+import { Service, Location } from "../../types";
 
-const FrameLogic = () => {
+const SearchLogic = () => {
     const [searchResults, setSearchResults] = useState<Service[]>([]);
     const [location, setLocation] = useState<Location>({
         lat: undefined,
@@ -31,8 +31,6 @@ const FrameLogic = () => {
     /* Sets app default values */
     const useHandleStartFunctions = () => {
         useEffect(() => {
-            // setSession();
-
             getLocalLocation().then((localLocation: any) =>
                 setLocation({
                     lat: localLocation.lat,
@@ -52,4 +50,4 @@ const FrameLogic = () => {
     };
 };
 
-export default FrameLogic;
+export default SearchLogic;
