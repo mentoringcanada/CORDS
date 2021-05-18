@@ -9,12 +9,14 @@ def test_search():
     })
     data = response.json()
     assert len(data['items']) == 10
+    print(data)
 
 
 def test_similar():
     response = requests.get('http://localhost:8000/similar/69795486')
     data = response.json()
     assert len(data['items']) == 10
+
 
 def test_geo_search():
     response = requests.post('http://localhost:8000/geosearch', json={
@@ -24,9 +26,10 @@ def test_geo_search():
         'distance': 50
     })
     data = response.json()
+    print(data)
     assert len(data['items']) == 10
 
 
-test_search()
-test_similar()
+# test_search()
+# test_similar()
 test_geo_search()

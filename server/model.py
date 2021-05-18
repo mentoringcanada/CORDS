@@ -71,7 +71,7 @@ def get_results(result_IDs: list):
 def get_constrained_results(request: GeoSearchRequest, result_IDs: list):
     result_IDs = ', '.join(result_IDs)
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
-                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance))
+                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))
     items = []
     for query_result in query_results:
         items.append(Item.from_db_row(query_result))
