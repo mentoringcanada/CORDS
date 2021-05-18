@@ -1,0 +1,1 @@
+all = ["test_controllers", "test_services", "mocks"]
