@@ -20,5 +20,6 @@ class Item(BaseModel):
                     item_id=db_row['resource_agency_number'],
                     lat=float(geocoordinates[0]),
                     lng=float(geocoordinates[1]),
+                    distance=db_row['distance'],
                     address=db_row['physical_address'],
                     link=db_row['link'])

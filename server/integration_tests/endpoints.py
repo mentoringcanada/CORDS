@@ -3,7 +3,7 @@
 import requests
 
 # SERVER = 'http://localhost:8000'
-SERVER = 'https://server.cordsconnect.ca'
+SERVER = 'http://51.222.139.147'
 
 
 def test_search():
@@ -42,7 +42,7 @@ def test_geo_search():
     assert len(data['items']) == 10
 
 
-# test_search()
-# test_similar()
+test_search()
+test_similar()
 test_geo_similar()
 test_geo_search()
