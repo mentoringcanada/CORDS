@@ -2,9 +2,12 @@
 
 import requests
 
+# SERVER = 'http://localhost:8000'
+SERVER = 'https://server.cordsconnect.ca'
+
 
 def test_search():
-    response = requests.post('http://localhost:8000/search', json={
+    response = requests.post(SERVER + '/search', json={
         'query': 'i need clothes for an interview'
     })
     data = response.json()
@@ -12,13 +15,13 @@ def test_search():
 
 
 def test_similar():
-    response = requests.get('http://localhost:8000/similar/69795365')
+    response = requests.get(SERVER + '/similar/69795365')
     data = response.json()
     assert len(data['items']) == 10
 
 
 def test_geo_similar():
-    response = requests.post('http://localhost:8000/similar', json={
+    response = requests.post(SERVER + '/similar', json={
         'item_id': '69795365',
         'lat': 43.5,
         'lng': -79.5
@@ -29,7 +32,7 @@ def test_geo_similar():
 
 
 def test_geo_search():
-    response = requests.post('http://localhost:8000/geosearch', json={
+    response = requests.post(SERVER + '/geosearch', json={
         'query': 'i need clothes for an interview',
         'lat': 43.5,
         'lng': -79.5,
@@ -39,7 +42,7 @@ def test_geo_search():
     assert len(data['items']) == 10
 
 
-test_search()
-test_similar()
+# test_search()
+# test_similar()
 test_geo_similar()
 test_geo_search()
