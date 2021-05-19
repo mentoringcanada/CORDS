@@ -7,3 +7,4 @@ class GeoSearchRequest(BaseModel):
     lat: float
     lng: float
     distance: Optional[float] = 25
+    item_id: Optional[str] = 'None'

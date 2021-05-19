@@ -1,6 +1,7 @@
 from numpy.lib.shape_base import apply_over_axes
 import controllers
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
+from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 from tests.mocks import app_state
 from tests.mocks.app_state import AppState
@@ -55,3 +56,21 @@ def test_get_similar():
         vectorizer
     )
     assert output == ['get_results'] * 10
+
+
+def test_get_geo_similar():
+    "We will test the get_similar function. It gets the same data as search"
+    session_token = '12345'
+    search_request = GeoSimilarRequest(
+        item_id="item id",
+        lat=1,
+        lng=2
+    )
+    output = controllers.geo_similar_search(
+        session_token,
+        search_request,
+        app_state,
+        vectorizer
+    )
+    print('this is the length', len(output))
+    assert output == ['get_constrained_results'] * 10

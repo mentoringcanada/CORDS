@@ -6,6 +6,7 @@ from typing import Optional
 # import local modules
 import controllers
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
+from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 import startup
 
@@ -43,3 +44,14 @@ def get_geo_search(geo_search_request: GeoSearchRequest, session_token: Optional
     results = controllers.geo_search(
         session_token, geo_search_request, app_state, vector_model)
     return {"items": results}
+
+
+@app.post("/similar")
+def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Optional[str] = Header(None)):
+    """(EN) Returns resources and opportunities based on search, geographically constrained.
+    (FR) Retourne des resources and opportunies selon le texte, proche des coordonees partages.
+    """
+    results = controllers.geo_similar_search(
+        session_token, geo_similar_request, app_state, vector_model)
+    return {"items": results}
+
