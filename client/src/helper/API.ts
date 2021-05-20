@@ -49,7 +49,7 @@ export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
     const res = await axios.post(
         "/geosearch",
         {
-            query: geoSearchBody.search,
+            query: geoSearchBody.search || "",
             lat: geoSearchBody.location.lat
                 ? Number(geoSearchBody.location.lat.toFixed(4))
                 : 43.6532,
