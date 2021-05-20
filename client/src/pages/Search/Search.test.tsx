@@ -29,6 +29,12 @@ const res = {
     },
 };
 
+const emptyRes = {
+    data: {
+        items: [],
+    },
+};
+
 jest.mock("axios");
 
 describe("Search", () => {
@@ -49,5 +55,17 @@ describe("Search", () => {
         await screen.getByTestId("output-container");
         await screen.getByText("Test Service One");
         await screen.getByText("Test Service Two");
+    });
+    test("No results found", async () => {
+        render(<Search />);
+
+        Object(axios.post).mockResolvedValueOnce(emptyRes);
+
+        const searchButton = await screen.getByTestId("search-button");
+        await fireEvent.click(searchButton);
+
+        await waitFor(() => expect(axios.post).toHaveBeenCalled());
+
+        await screen.getByText("No results found in your area...");
     });
 });

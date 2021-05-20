@@ -6,28 +6,26 @@ import { SearchBody, GeoSearchBody, SimilarBody } from "../types";
 // SEARCH //
 // Takes id and returns similar results array
 export const getSimilar = async (similarBody: SimilarBody) => {
-    // const res = await axios.post(
-    //     `/similar`,
-    //     {
-    //         resourceId: similarBody.resourceId,
-    //         lat: similarBody.lat
-    //             ? Number(similarBody.lat.toFixed(4))
-    //             : undefined,
-    //         lng: similarBody.lng
-    //             ? Number(similarBody.lng.toFixed(4))
-    //             : undefined,
-    //     },
-    //     {
-    //         headers: {
-    //             session_token: `${localStorage.getItem("session_token")}`,
-    //         },
-    //     }
-    // );
-    const res = await axios.get(`/similar/${similarBody.resourceId}`, {
-        headers: {
-            session_token: `${localStorage.getItem("session_token")}`,
+    const res = await axios.post(
+        `/similar`,
+        {
+            item_id: similarBody.resourceId,
+            lat: similarBody.lat ? Number(similarBody.lat.toFixed(4)) : 43.6532,
+            lng: similarBody.lng
+                ? Number(similarBody.lng.toFixed(4))
+                : -79.3832,
         },
-    });
+        {
+            headers: {
+                session_token: `${localStorage.getItem("session_token")}`,
+            },
+        }
+    );
+    // const res = await axios.get(`/similar/${similarBody.resourceId}`, {
+    //     headers: {
+    //         session_token: `${localStorage.getItem("session_token")}`,
+    //     },
+    // });
     const data = await res.data;
     return data.items;
 };
@@ -52,11 +50,11 @@ export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
         "/geosearch",
         {
             query: geoSearchBody.search,
-            lat: geoSearchBody.lat
-                ? Number(geoSearchBody.lat.toFixed(4))
+            lat: geoSearchBody.location.lat
+                ? Number(geoSearchBody.location.lat.toFixed(4))
                 : 43.6532,
-            lng: geoSearchBody.lng
-                ? Number(geoSearchBody.lng.toFixed(4))
+            lng: geoSearchBody.location.lng
+                ? Number(geoSearchBody.location.lng.toFixed(4))
                 : -79.3832,
             distance: geoSearchBody.distance || 100,
         },
@@ -68,6 +66,25 @@ export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
     );
     const data = await res.data;
     return data.items;
+};
+
+export const getLocalLocation = async () => {
+    return await new Promise((res) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const localLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    res(localLocation);
+                },
+                (error) => {
+                    console.log(`Location error: ${error.code}`);
+                }
+            );
+        }
+    });
 };
 
 // SESSION //

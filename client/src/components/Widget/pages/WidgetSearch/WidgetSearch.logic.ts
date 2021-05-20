@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { getGeoSearchResults } from "../../helper/API";
-import { Service, GeoSearchBody } from "../../types";
+import { getGeoSearchResults } from "../../../../helper/API";
+import { GeoSearchBody, Service } from "../../../../types";
 
-const SearchLogic = () => {
+const WidgetSearchLogic = () => {
     const [searchResults, setSearchResults] = useState<Service[]>([]);
     const [searchState, setSearchState] = useState("");
 
@@ -28,4 +28,4 @@ const SearchLogic = () => {
     };
 };
 
-export default SearchLogic;
+export default WidgetSearchLogic;

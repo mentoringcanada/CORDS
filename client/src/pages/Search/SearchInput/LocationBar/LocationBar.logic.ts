@@ -1,4 +1,4 @@
-import { Location } from "../../types";
+import { GeoSearchBody } from "../../../../types";
 import { geocodeByPlaceId } from "react-google-places-autocomplete";
 import { useEffect, useState } from "react";
 
@@ -12,8 +12,8 @@ const distanceSelectOptions = [
 ];
 
 const LocationBarLogic = (
-    location: Location,
-    setLocation: React.Dispatch<React.SetStateAction<Location>>
+    geoSearchBody: GeoSearchBody,
+    setGeoSearchBody: React.Dispatch<React.SetStateAction<GeoSearchBody>>
 ) => {
     // Location
     const [geoInputLocation, setGeoInputLocation] = useState<any>();
@@ -24,10 +24,12 @@ const LocationBarLogic = (
                 const res = await geocodeByPlaceId(
                     geoInputLocation.value.place_id
                 );
-                await setLocation({
-                    lat: res[0].geometry.location.lat(),
-                    lng: res[0].geometry.location.lng(),
-                    distance: location.distance,
+                await setGeoSearchBody({
+                    ...geoSearchBody,
+                    location: {
+                        lat: res[0].geometry.location.lat(),
+                        lng: res[0].geometry.location.lng(),
+                    },
                 });
             };
             geoInputLocation && setLocationContext();
@@ -36,9 +38,8 @@ const LocationBarLogic = (
 
     // Distance
     const handleDistanceChange = (distanceValue: any) => {
-        setLocation({
-            lat: location.lat,
-            lng: location.lng,
+        setGeoSearchBody({
+            ...geoSearchBody,
             distance: distanceValue.value,
         });
     };

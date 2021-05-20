@@ -20,8 +20,7 @@ export interface SearchBody {
 }
 export interface GeoSearchBody {
     search: string;
-    lat: number | undefined;
-    lng: number | undefined;
+    location: Location;
     distance: number | undefined;
 }
 export interface SimilarBody {

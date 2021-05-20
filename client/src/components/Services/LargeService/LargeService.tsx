@@ -16,12 +16,16 @@ import { StyledDescription } from "../SmallService/SmallService.styles";
 interface Props {
     id: number;
     setFocus: React.Dispatch<React.SetStateAction<number | null>>;
+    setSearchState?: React.Dispatch<React.SetStateAction<string>>;
     location: Location;
 }
 
 // Component
-const LargeService = ({ id, setFocus, location }: Props) => {
-    const { similar, service, useSetState } = LargeServiceLogic(location);
+const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
+    const { similar, service, useSetState } = LargeServiceLogic(
+        location,
+        setSearchState
+    );
     useSetState(id);
 
     return (

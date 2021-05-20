@@ -1,9 +1,6 @@
 import React from "react";
-import SearchBar from "../../SearchBar/SearchBar";
 import { StyledCloseButton, StyledFrame } from "./Frame.styles";
-import FrameLogic from "./Frame.logic";
-import LocationBar from "../../LocationBar/LocationBar";
-import ServicesOutput from "../../Services/ServicesOutput/ServicesOutput";
+import WidgetSearch from "../pages/WidgetSearch/WidgetSearch";
 
 interface Props {
     setWidget: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,15 +8,6 @@ interface Props {
 
 // Body of Widget holding components
 const Frame = ({ setWidget }: Props) => {
-    const {
-        location,
-        setLocation,
-        searchResults,
-        setSearchResults,
-        useHandleStartFunctions,
-    } = FrameLogic();
-    useHandleStartFunctions();
-
     return (
         <StyledFrame>
             <StyledCloseButton
@@ -28,12 +16,7 @@ const Frame = ({ setWidget }: Props) => {
             >
                 &minus;
             </StyledCloseButton>
-            <SearchBar
-                setSearchResults={setSearchResults}
-                location={location}
-            />
-            <LocationBar location={location} setLocation={setLocation} />
-            <ServicesOutput services={searchResults} location={location} />
+            <WidgetSearch />
         </StyledFrame>
     );
 };

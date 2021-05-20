@@ -54,7 +54,7 @@ const CustomDemo = () => {
                 </StyledContainer>
                 {similar && similar.length !== 0 && (
                     <StyledContainer className="demo-output">
-                        <ServicesOutput services={similar} />
+                        <ServicesOutput services={similar}></ServicesOutput>
                     </StyledContainer>
                 )}
             </StyledDemo>

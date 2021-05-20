@@ -11,3 +11,13 @@ export const StyledServiceOutput = styled.div`
     box-shadow: 2px 2px 5px grey;
     background-color: white;
 `;
+
+export const StyledStateContainer = styled.div`
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h4 {
+        color: #aaa;
+    }
+`;

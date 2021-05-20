@@ -16,55 +16,64 @@ function App() {
 
     return (
         <HelmetProvider>
-            <Helmet>
-                <title>CORDS</title>
-                <meta name="description" content="CORDS project website" />
-                <meta name="keywords" content="help, cords, youth, search" />
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1, minimum-scale=1"
-                />
-                <link rel="preconnect" href="https://fonts.gstatic.com" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro&display=swap"
-                    rel="stylesheet"
-                />
-            </Helmet>
-            <GlobalStyle />
-            <Start />
-            <Router>
-                <Header />
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route path="/demo/food">
-                        <Demo
-                            title="Food Bank"
-                            description="Dedicated to helping Canadians living with food insecurity on an on-going, seasonal, and emergency basis."
-                        />
-                    </Route>
-                    <Route path="/demo/shelter">
-                        <Demo
-                            title="Homeless Shelter"
-                            description="We provide temporary residence for homeless individuals and families."
-                        />
-                    </Route>
-                    <Route path="/demo/clothing">
-                        <Demo
-                            title="Clothing Bank"
-                            description="Drop-off site for donations of used/unwanted clothing."
-                        />
-                    </Route>
-                    <Route path="/demo/custom">
-                        <CustomDemo />
-                    </Route>
-                    <Route path="/search">
-                        <Search />
-                    </Route>
-                </Switch>
-                <Widget />
-            </Router>
+            <>
+                <Helmet>
+                    <title>CORDS</title>
+                    <meta
+                        http-equiv="Content-Type"
+                        content="text/html; charset=UTF-8"
+                    />
+                    <meta name="description" content="CORDS project website" />
+                    <meta
+                        name="keywords"
+                        content="help, cords, youth, search"
+                    />
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1, minimum-scale=1"
+                    />
+                    <link rel="preconnect" href="https://fonts.gstatic.com" />
+                    <link
+                        href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro&display=swap"
+                        rel="stylesheet"
+                    />
+                </Helmet>
+                <GlobalStyle />
+                <Start />
+                <Router>
+                    <Header />
+                    <Switch>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+                        <Route path="/demo/food">
+                            <Demo
+                                title="Food Bank"
+                                description="Dedicated to helping Canadians living with food insecurity on an on-going, seasonal, and emergency basis."
+                            />
+                        </Route>
+                        <Route path="/demo/shelter">
+                            <Demo
+                                title="Homeless Shelter"
+                                description="We provide temporary residence for homeless individuals and families."
+                            />
+                        </Route>
+                        <Route path="/demo/clothing">
+                            <Demo
+                                title="Clothing Bank"
+                                description="Drop-off site for donations of used/unwanted clothing."
+                            />
+                        </Route>
+                        <Route path="/demo/custom">
+                            <CustomDemo />
+                        </Route>
+                        <Route path="/search">
+                            <Search />
+                        </Route>
+                    </Switch>
+                    <Widget />
+                </Router>
+            </>
         </HelmetProvider>
     );
 }

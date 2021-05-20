@@ -1,4 +1,3 @@
-import { Location } from "../../types";
 import {
     SelectStyles,
     StyledDistanceSelect,
@@ -6,23 +5,20 @@ import {
     StyledLocationSelect,
 } from "./LocationBar.styles";
 import LocationBarLogic from "./LocationBar.logic";
-import React from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import Select from "react-select";
+import SearchInputContext from "../SearchInputContext";
+import { useContext } from "react";
 
-interface Props {
-    location: Location;
-    setLocation: React.Dispatch<React.SetStateAction<Location>>;
-}
-
-const LocationBar = ({ location, setLocation }: Props) => {
+const LocationBar = () => {
+    const { geoSearchBody, setGeoSearchBody } = useContext(SearchInputContext);
     const {
         geoInputLocation,
         setGeoInputLocation,
         useLocationInputChange,
         distanceSelectOptions,
         handleDistanceChange,
-    } = LocationBarLogic(location, setLocation);
+    } = LocationBarLogic(geoSearchBody, setGeoSearchBody);
     useLocationInputChange(geoInputLocation);
     const Styles = SelectStyles(true);
 

@@ -5,12 +5,12 @@ export const SelectStyles = (left: boolean) => {
         container: (provided: any) => ({
             ...provided,
             fontFamily: "var(--secondary-font), Arial",
-            fontSize: "0.75rem",
+            fontSize: "0.8rem",
             color: "#222222",
         }),
         control: (provided: any) => ({
             ...provided,
-            borderRadius: "1rem",
+            borderRadius: "1.2rem",
             transition: "0.3s border",
             border: "1px solid transparent",
             boxShadow: "1px 1px 3px grey",
@@ -29,7 +29,7 @@ export const SelectStyles = (left: boolean) => {
 export const StyledLocationBar = styled.div`
     display: flex;
     margin-bottom: 0.8rem;
-    max-width: 20rem;
+    max-width: 25rem;
 `;
 
 export const StyledLocationSelect = styled.div`

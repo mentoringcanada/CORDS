@@ -84,12 +84,12 @@ describe("Services", () => {
     });
     test("Click in-out of service", async () => {
         render(<ServicesOutput services={res.data.items} />);
-        Object(axios.get).mockResolvedValueOnce(res);
+        Object(axios.post).mockResolvedValueOnce(res);
 
         const serviceOne = await screen.getByText("Test Service One");
         await fireEvent.click(serviceOne);
 
-        await waitFor(() => expect(axios.get).toHaveBeenCalled());
+        await waitFor(() => expect(axios.post).toHaveBeenCalled());
 
         await expect(screen.getByTestId("large-title")).toHaveTextContent(
             "Test Service One"
@@ -113,7 +113,7 @@ describe("Services", () => {
         await expect(screen.queryByText("Similar")).toBeNull();
     });
     test("Click into similar", async () => {
-        Object(axios.get)
+        Object(axios.post)
             .mockReturnValueOnce(res)
             .mockReturnValueOnce(secondRes);
         render(<ServicesOutput services={res.data.items} />);
@@ -121,12 +121,12 @@ describe("Services", () => {
         const serviceOne = await screen.getByText("Test Service One");
         await fireEvent.click(serviceOne);
 
-        await waitFor(() => expect(axios.get).toHaveBeenCalled());
+        await waitFor(() => expect(axios.post).toHaveBeenCalled());
 
         const similarService = await screen.getByText("Test Service Two");
         await fireEvent.click(similarService);
 
-        await waitFor(() => expect(axios.get).toHaveBeenCalled());
+        await waitFor(() => expect(axios.post).toHaveBeenCalled());
 
         await expect(screen.getByTestId("large-title")).toHaveTextContent(
             "Test Service Two"
