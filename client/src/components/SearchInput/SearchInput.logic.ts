@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getLocalLocation } from "../../../helper/API";
-import { GeoSearchBody } from "../../../types";
+import { getLocalLocation } from "../../helper/API";
+import { GeoSearchBody } from "../../types";
 
 const SearchInputLogic = () => {
     const [geoSearchBody, setGeoSearchBody] = useState<GeoSearchBody>({

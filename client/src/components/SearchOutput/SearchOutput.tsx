@@ -1,5 +1,5 @@
-import ServiceOutput from "../../../components/Services/ServicesOutput/ServicesOutput";
-import { Service } from "../../../types";
+import ServiceOutput from "../Services/ServicesOutput/ServicesOutput";
+import { Service } from "../../types";
 
 interface Props {
     searchResults: Service[];

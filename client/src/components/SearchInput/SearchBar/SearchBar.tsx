@@ -2,7 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import { StyledSearchBar } from "./SearchBar.styles";
 import SearchInputContext from "../SearchInputContext";
 import { useContext } from "react";
-import { GeoSearchBody } from "../../../../types";
+import { GeoSearchBody } from "../../../types";
 
 interface Props {
     handleGeoSearch: (geoSearchBody: GeoSearchBody) => void;

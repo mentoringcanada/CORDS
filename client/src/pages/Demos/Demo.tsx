@@ -7,6 +7,7 @@ import {
 } from "./Demo.styles";
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
+import DemoInfo from "./DemoInfo/DemoInfo";
 
 interface Props {
     description: string;
@@ -20,6 +21,7 @@ const Demo = ({ description, title }: Props) => {
     return (
         <StyledPageContainer>
             <StyledDemo>
+                <DemoInfo />
                 <StyledContainer>
                     <StyledDefaultInfo>
                         <h2>{title}</h2>

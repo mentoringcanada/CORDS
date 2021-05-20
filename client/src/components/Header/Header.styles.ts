@@ -10,9 +10,11 @@ export const StyledHeader = styled.header`
     height: 80px;
     box-shadow: 0px 1px 5px grey;
     outline: 3px solid #ccc;
-    img {
-        height: 2.6rem;
+    .logo-link {
         margin-left: 2rem;
+        img {
+            height: 2.6rem;
+        }
     }
     @media only screen and (max-width: 500px) {
         img {

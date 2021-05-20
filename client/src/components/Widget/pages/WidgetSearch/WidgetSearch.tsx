@@ -1,6 +1,5 @@
-import React from "react";
-import SearchInput from "../../../../pages/Search/SearchInput/SearchInput";
-import SearchOutput from "../../../../pages/Search/SearchOutput/SearchOutput";
+import SearchInput from "../../../SearchInput/SearchInput";
+import SearchOutput from "../../../SearchOutput/SearchOutput";
 import WidgetSearchLogic from "./WidgetSearch.logic";
 
 const WidgetSearch = () => {

@@ -32,7 +32,7 @@ const LocationBar = () => {
                         styles: Styles,
                         placeholder: "Where",
                     }}
-                    apiKey="AIzaSyAfKsvjQLoBQpRrWCEJraXSvMFnUunnOeI"
+                    apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                     autocompletionRequest={{
                         componentRestrictions: { country: ["ca"] },
                     }}

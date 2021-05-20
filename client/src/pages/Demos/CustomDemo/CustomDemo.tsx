@@ -9,6 +9,7 @@ import {
 } from "../Demo.styles";
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
+import DemoInfo from "../DemoInfo/DemoInfo";
 
 const CustomDemo = () => {
     const { similar, handleSimilar, useHandleDemoChange } = DemoLogic();
@@ -19,6 +20,7 @@ const CustomDemo = () => {
     return (
         <StyledPageContainer>
             <StyledDemo>
+                <DemoInfo />
                 <StyledContainer>
                     <StyledCustomInputs>
                         <h2>Custom Organization</h2>

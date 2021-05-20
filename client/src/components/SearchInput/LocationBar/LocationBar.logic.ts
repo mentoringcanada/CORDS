@@ -1,4 +1,4 @@
-import { GeoSearchBody } from "../../../../types";
+import { GeoSearchBody } from "../../../types";
 import { geocodeByPlaceId } from "react-google-places-autocomplete";
 import { useEffect, useState } from "react";
 

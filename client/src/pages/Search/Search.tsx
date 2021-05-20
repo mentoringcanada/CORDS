@@ -2,8 +2,8 @@ import { StyledContainer } from "../../styles/StyledContainer";
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import SearchLogic from "./Search.logic";
 import { StyledSearch } from "./Search.styles";
-import SearchInput from "./SearchInput/SearchInput";
-import SearchOutput from "./SearchOutput/SearchOutput";
+import SearchInput from "../../components/SearchInput/SearchInput";
+import SearchOutput from "../../components/SearchOutput/SearchOutput";
 
 const Search = () => {
     const { searchResults, searchState, setSearchState, handleGeoSearch } =

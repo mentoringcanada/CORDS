@@ -6,7 +6,7 @@ export const StyledDemo = styled.div`
     margin-bottom: 2rem;
     max-width: 1200px;
     & > div {
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
     .demo-output {
         height: 55vh;
