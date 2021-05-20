@@ -16,7 +16,10 @@ const SearchInputLogic = () => {
     const useHandleLocalLocation = () => {
         useEffect(() => {
             getLocalLocation().then((localLocation: any) =>
-                setGeoSearchBody(localLocation)
+                setGeoSearchBody({
+                    ...geoSearchBody,
+                    location: localLocation,
+                })
             );
         }, []);
     };
