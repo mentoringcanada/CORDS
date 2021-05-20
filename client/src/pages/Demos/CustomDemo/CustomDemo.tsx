@@ -12,7 +12,7 @@ import { StyledContainer } from "../../../styles/StyledContainer";
 import DemoInfo from "../DemoInfo/DemoInfo";
 
 const CustomDemo = () => {
-    const { similar, handleSimilar, useHandleDemoChange } = DemoLogic();
+    const { similarResults, handleSimilar, useHandleDemoChange } = DemoLogic();
     const { description, title, handleDescriptionChange, handleTitleChange } =
         CustomDemoLogic();
     useHandleDemoChange("");
@@ -20,7 +20,12 @@ const CustomDemo = () => {
     return (
         <StyledPageContainer>
             <StyledDemo>
-                <DemoInfo />
+                <DemoInfo
+                    title="Custom Demo Help"
+                    description="In the custom demo you can create a fictitious organization with a personalized name and description. By clicking the 'view similar' button you search our services database for ones similar to your own. This is intended to be used on service websites to
+                    connect organizations over the web by showing users
+                    other services they might be interested in."
+                />
                 <StyledContainer>
                     <StyledCustomInputs>
                         <h2>Custom Organization</h2>
@@ -54,11 +59,14 @@ const CustomDemo = () => {
                         View similar services
                     </StyledViewSimilarButton>
                 </StyledContainer>
-                {similar && similar.length !== 0 && (
-                    <StyledContainer className="demo-output">
-                        <ServicesOutput services={similar}></ServicesOutput>
-                    </StyledContainer>
-                )}
+                {similarResults.services &&
+                    similarResults.services.length !== 0 && (
+                        <StyledContainer className="demo-output">
+                            <ServicesOutput
+                                serviceResults={similarResults}
+                            ></ServicesOutput>
+                        </StyledContainer>
+                    )}
             </StyledDemo>
         </StyledPageContainer>
     );

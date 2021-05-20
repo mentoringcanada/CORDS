@@ -1,20 +1,35 @@
 import { useState } from "react";
 import { getGeoSearchResults } from "../../../../helper/API";
-import { GeoSearchBody, Service } from "../../../../types";
+import { GeoSearchBody, SearchResults } from "../../../../types";
 
 const WidgetSearchLogic = () => {
-    const [searchResults, setSearchResults] = useState<Service[]>([]);
     const [searchState, setSearchState] = useState("");
+    const [searchResults, setSearchResults] = useState<SearchResults>({
+        services: [],
+        location: {
+            lat: undefined,
+            lng: undefined,
+        },
+    });
 
     const handleGeoSearch = (geoSearchBody: GeoSearchBody) => {
-        setSearchResults([]);
+        setSearchResults({
+            services: [],
+            location: {
+                lat: undefined,
+                lng: undefined,
+            },
+        });
         setSearchState("searching");
         getGeoSearchResults(geoSearchBody).then((res) => {
             if (Array.isArray(res) && !res.length) {
                 setSearchState("no-results");
             } else {
                 setSearchState("");
-                setSearchResults(res);
+                setSearchResults({
+                    services: res,
+                    location: geoSearchBody.location,
+                });
             }
         });
     };

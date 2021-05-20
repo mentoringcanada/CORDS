@@ -1,27 +1,18 @@
 import SmallService from "../SmallService/SmallService";
-import { Location, Service } from "../../../types";
+import { SearchResults } from "../../../types";
 import LargeService from "../LargeService/LargeService";
 import ServicesOutputLogic from "./ServiceOutput.logic";
 import { StyledServiceOutput } from "./ServiceOutput.styles";
-import { StyledStateContainer } from "./ServiceOutput.styles";
-import { SyncLoader } from "react-spinners";
 import React from "react";
+import SearchFeedback from "./SearchFeedback";
 
 interface Props {
-    services: Service[];
-    children?: React.ReactNode;
+    serviceResults: SearchResults;
     searchState?: string;
     setSearchState?: React.Dispatch<React.SetStateAction<string>>;
-    location?: Location;
 }
 
-function ServiceOutput({
-    services,
-    children,
-    searchState,
-    setSearchState,
-    location = { lat: undefined, lng: undefined },
-}: Props) {
+function ServiceOutput({ serviceResults, searchState, setSearchState }: Props) {
     const {
         outputRef,
         focus,
@@ -29,30 +20,24 @@ function ServiceOutput({
         useOnServicesChange,
         useOnFocusChange,
     } = ServicesOutputLogic();
-    useOnServicesChange(services);
+    useOnServicesChange(serviceResults.services);
     useOnFocusChange(focus);
 
     return (
         <StyledServiceOutput ref={outputRef} data-testid="output-container">
             {searchState && searchState !== "" && (
-                <StyledStateContainer>
-                    {searchState === "searching" && <SyncLoader color="#bbb" />}
-                    {searchState === "no-results" && (
-                        <h4>No results found in your area...</h4>
-                    )}
-                </StyledStateContainer>
-            )}
+                <SearchFeedback searchState={searchState} />
+            )}{" "}
             {focus ? (
                 <LargeService
                     id={focus}
                     setFocus={setFocus}
-                    location={location}
+                    location={serviceResults.location}
                     setSearchState={setSearchState}
                     data-testid="large-service"
                 />
             ) : (
-                services &&
-                services.map((service) => (
+                serviceResults.services.map((service) => (
                     <SmallService
                         key={service.item_id}
                         id={service.item_id}
@@ -64,7 +49,6 @@ function ServiceOutput({
                     />
                 ))
             )}
-            {children}
         </StyledServiceOutput>
     );
 }

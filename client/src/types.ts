@@ -28,3 +28,8 @@ export interface SimilarBody {
     lat: number | undefined;
     lng: number | undefined;
 }
+
+export interface SearchResults {
+    services: Service[];
+    location: Location;
+}

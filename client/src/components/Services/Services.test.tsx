@@ -67,7 +67,17 @@ jest.mock("axios");
 
 describe("Services", () => {
     test("ServiceList renders services", async () => {
-        render(<ServicesOutput services={res.data.items} />);
+        render(
+            <ServicesOutput
+                serviceResults={{
+                    services: res.data.items,
+                    location: {
+                        lat: undefined,
+                        lng: undefined,
+                    },
+                }}
+            />
+        );
 
         await screen.getByText("Test Service One");
         await screen.getByText("This is the first fake service");
@@ -83,7 +93,17 @@ describe("Services", () => {
         );
     });
     test("Click in-out of service", async () => {
-        render(<ServicesOutput services={res.data.items} />);
+        render(
+            <ServicesOutput
+                serviceResults={{
+                    services: res.data.items,
+                    location: {
+                        lat: undefined,
+                        lng: undefined,
+                    },
+                }}
+            />
+        );
         Object(axios.post).mockResolvedValueOnce(res);
 
         const serviceOne = await screen.getByText("Test Service One");
@@ -116,7 +136,17 @@ describe("Services", () => {
         Object(axios.post)
             .mockReturnValueOnce(res)
             .mockReturnValueOnce(secondRes);
-        render(<ServicesOutput services={res.data.items} />);
+        render(
+            <ServicesOutput
+                serviceResults={{
+                    services: res.data.items,
+                    location: {
+                        lat: undefined,
+                        lng: undefined,
+                    },
+                }}
+            />
+        );
 
         const serviceOne = await screen.getByText("Test Service One");
         await fireEvent.click(serviceOne);

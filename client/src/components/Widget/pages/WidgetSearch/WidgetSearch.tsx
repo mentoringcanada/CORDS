@@ -1,5 +1,5 @@
 import SearchInput from "../../../SearchInput/SearchInput";
-import SearchOutput from "../../../SearchOutput/SearchOutput";
+import ServiceOutput from "../../../Services/ServicesOutput/ServicesOutput";
 import WidgetSearchLogic from "./WidgetSearch.logic";
 
 const WidgetSearch = () => {
@@ -9,8 +9,8 @@ const WidgetSearch = () => {
     return (
         <>
             <SearchInput handleGeoSearch={handleGeoSearch} />
-            <SearchOutput
-                searchResults={searchResults}
+            <ServiceOutput
+                serviceResults={searchResults}
                 searchState={searchState}
                 setSearchState={setSearchState}
             />

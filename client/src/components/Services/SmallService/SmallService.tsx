@@ -17,12 +17,7 @@ interface Props {
 // Component
 const SmallService = ({ id, name, description, link, setFocus }: Props) => {
     return (
-        <StyledSmallService
-            onClick={() => {
-                setFocus(null);
-                setFocus(Number(id));
-            }}
-        >
+        <StyledSmallService onClick={() => setFocus(Number(id))}>
             <h3 className="service-title">{name}</h3>
             <StyledLink
                 href={link}

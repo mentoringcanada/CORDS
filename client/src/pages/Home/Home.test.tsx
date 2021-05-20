@@ -4,8 +4,7 @@ import Home from "./Home";
 test("Home page renders", () => {
     render(<Home />);
 
-    screen.getByAltText("Hands holding give sign");
-    screen.getByText("Integrity");
-    screen.getByText("Giving");
-    screen.getByText("Unity");
+    screen.getByText("CORDS Portal");
+    screen.getByText("Search");
+    screen.getByText("Organization Demos");
 });
