@@ -17,7 +17,10 @@ const DemoInfo = ({ title, description }: Props) => {
                 <h3>{title}</h3>
                 <p>{description}</p>
             </StyledDemoInfo>
-            <StyledToggle onClick={() => setOpen(!open)}>
+            <StyledToggle
+                onClick={() => setOpen(!open)}
+                data-testid="help-toggle"
+            >
                 {open ? (
                     <div>
                         Hide <FaAngleUp />

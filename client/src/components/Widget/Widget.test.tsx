@@ -1,33 +1,8 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import axios from "axios";
+import WidgetSearch from "./pages/WidgetSearch/WidgetSearch";
 import Widget from "./Widget";
-
-const res = {
-    data: {
-        items: [
-            {
-                name: "Test Service One",
-                description: "This is the first fake service",
-                item_id: "69797999",
-                lat: 45.0,
-                lng: -80.0,
-                address: "20 Made Street",
-                distance: 15,
-                link: "www.google.com",
-            },
-            {
-                name: "Test Service Two",
-                description: "This is the second fake service",
-                item_id: "69797998",
-                lat: 49.0,
-                lng: -82.0,
-                address: "30 Up Street",
-                distance: 20,
-                link: "google.com",
-            },
-        ],
-    },
-};
+import { servicesRes, emptyRes } from "../../helper/testData";
 
 jest.mock("axios");
 
@@ -52,14 +27,8 @@ describe("Widget", () => {
     });
     describe("Search", () => {
         test("No location/distance", async () => {
-            await Object(axios.post).mockResolvedValueOnce(res);
-            render(<Widget />);
-
-            const triggerButton = await screen.getByRole("button");
-            await fireEvent.click(triggerButton);
-            await waitFor(() =>
-                screen.getByPlaceholderText("How can we help?")
-            );
+            render(<WidgetSearch />);
+            await Object(axios.post).mockResolvedValueOnce(servicesRes);
 
             const searchBar = await screen.getByTestId("search-input");
             await fireEvent.change(searchBar, {
@@ -73,6 +42,17 @@ describe("Widget", () => {
 
             await screen.getByText("Test Service One");
             await screen.getByText("Test Service Two");
+        });
+        test("No results found", async () => {
+            render(<WidgetSearch />);
+            Object(axios.post).mockResolvedValueOnce(emptyRes);
+
+            const searchButton = await screen.getByTestId("search-button");
+            await fireEvent.click(searchButton);
+
+            await waitFor(() => expect(axios.post).toHaveBeenCalled());
+
+            await screen.getByText("No results found in your area...");
         });
     });
 });

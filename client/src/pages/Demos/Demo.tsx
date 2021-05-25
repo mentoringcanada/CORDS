@@ -21,10 +21,6 @@ const Demo = ({ description, title }: Props) => {
     return (
         <StyledPageContainer>
             <StyledDemo>
-                <DemoInfo
-                    title="Demo Help"
-                    description="Each demo represents a fictitious organization's website with a name and description. By clicking the 'view similar' button you search our services database for ones similar to this organization. This is intended to be used on service websites to connect organizations over the web by showing users other services they might be interested in."
-                />
                 <StyledContainer>
                     <StyledDefaultInfo>
                         <h2>{title}</h2>
@@ -35,6 +31,10 @@ const Demo = ({ description, title }: Props) => {
                             View similar services
                         </StyledViewSimilarButton>
                     </StyledDefaultInfo>
+                    <DemoInfo
+                        title="Demo Help"
+                        description="Each demo represents a fictitious organization's website with a name and description. By clicking the 'view similar' button you search our services database for ones similar to this organization. This is intended to be used on service websites to connect organizations over the web by showing users other services they might be interested in."
+                    />
                 </StyledContainer>
                 {similarResults.services &&
                     similarResults.services.length !== 0 && (

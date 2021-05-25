@@ -8,33 +8,8 @@ import {
 import axios from "axios";
 import ServicesOutput from "./ServicesOutput/ServicesOutput";
 import "@testing-library/jest-dom/extend-expect";
-
-const res = {
-    data: {
-        items: [
-            {
-                name: "Test Service One",
-                description: "This is the first fake service",
-                item_id: "69797999",
-                lat: 45.0,
-                lng: -80.0,
-                address: "20 Made Street",
-                distance: 15,
-                link: "www.google.com",
-            },
-            {
-                name: "Test Service Two",
-                description: "This is the second fake service",
-                item_id: "69797998",
-                lat: 49.0,
-                lng: -82.0,
-                address: "30 Up Street",
-                distance: 20,
-                link: "google.com",
-            },
-        ],
-    },
-};
+import { servicesRes } from "../../helper/testData";
+import Search from "../../pages/Search/Search";
 
 const secondRes = {
     data: {
@@ -70,7 +45,7 @@ describe("Services", () => {
         render(
             <ServicesOutput
                 serviceResults={{
-                    services: res.data.items,
+                    services: servicesRes.data.items,
                     location: {
                         lat: undefined,
                         lng: undefined,
@@ -96,7 +71,7 @@ describe("Services", () => {
         render(
             <ServicesOutput
                 serviceResults={{
-                    services: res.data.items,
+                    services: servicesRes.data.items,
                     location: {
                         lat: undefined,
                         lng: undefined,
@@ -104,7 +79,7 @@ describe("Services", () => {
                 }}
             />
         );
-        Object(axios.post).mockResolvedValueOnce(res);
+        Object(axios.post).mockResolvedValueOnce(servicesRes);
 
         const serviceOne = await screen.getByText("Test Service One");
         await fireEvent.click(serviceOne);
@@ -115,6 +90,8 @@ describe("Services", () => {
             "Test Service One"
         );
         await screen.getByText("Address:");
+        await screen.queryByText("Distance:");
+        await screen.queryByText("Phone Number:");
         await screen.getByText("This is the first fake service");
 
         await screen.getByText("View More");
@@ -128,18 +105,17 @@ describe("Services", () => {
         await fireEvent.click(backButton);
 
         await expect(screen.queryByText("Address:")).toBeNull();
+        await expect(screen.queryByText("Distance:")).toBeNull();
+        await expect(screen.queryByText("Phone Number:")).toBeNull();
         await expect(screen.queryByText("View More")).toBeNull();
         await expect(screen.queryByText("Directions")).toBeNull();
         await expect(screen.queryByText("Similar")).toBeNull();
     });
     test("Click into similar", async () => {
-        Object(axios.post)
-            .mockReturnValueOnce(res)
-            .mockReturnValueOnce(secondRes);
         render(
             <ServicesOutput
                 serviceResults={{
-                    services: res.data.items,
+                    services: servicesRes.data.items,
                     location: {
                         lat: undefined,
                         lng: undefined,
@@ -147,6 +123,9 @@ describe("Services", () => {
                 }}
             />
         );
+        Object(axios.post)
+            .mockReturnValueOnce(servicesRes)
+            .mockReturnValueOnce(secondRes);
 
         const serviceOne = await screen.getByText("Test Service One");
         await fireEvent.click(serviceOne);
@@ -161,6 +140,23 @@ describe("Services", () => {
         await expect(screen.getByTestId("large-title")).toHaveTextContent(
             "Test Service Two"
         );
+        await screen.getByText("Test Service One");
+    });
+    test("Full use and state", async () => {
+        Object(axios.post)
+            .mockReturnValueOnce(servicesRes)
+            .mockReturnValueOnce(secondRes);
+        render(<Search />);
+
+        const searchButton = await screen.getByTestId("search-button");
+        await fireEvent.click(searchButton);
+
+        await waitFor(() => expect(axios.post).toHaveBeenCalled());
+
+        const serviceOne = await screen.getByText("Test Service One");
+        await fireEvent.click(serviceOne);
+
+        await waitFor(() => expect(axios.post).toHaveBeenCalled());
         await screen.getByText("Test Service One");
     });
 });

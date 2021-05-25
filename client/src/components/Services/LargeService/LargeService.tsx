@@ -44,13 +44,22 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                             <h2 className="info" data-testid="large-title">
                                 {service.name}
                             </h2>
-                            <p className="info">
-                                <strong>Address:</strong> {service.address}
-                            </p>
+                            {service.address !== "" && (
+                                <p className="info">
+                                    <strong>Address: </strong>
+                                    {service.address}
+                                </p>
+                            )}
                             {service.distance && (
                                 <p className="info">
-                                    <strong>Distance:</strong>{" "}
-                                    {service.distance.toFixed(1)}
+                                    <strong>Distance: </strong>
+                                    {`${service.distance.toFixed(1)} km`}
+                                </p>
+                            )}
+                            {service.phone !== "" && (
+                                <p className="info">
+                                    <strong>Phone Number: </strong>
+                                    {service.phone}
                                 </p>
                             )}
                             <StyledDescription

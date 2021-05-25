@@ -1,34 +1,8 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import axios from "axios";
+import { servicesRes } from "../../helper/testData";
 import CustomDemo from "./CustomDemo/CustomDemo";
 import Demo from "./Demo";
-
-const res = {
-    data: {
-        items: [
-            {
-                name: "Test Service One",
-                description: "This is the first fake service",
-                item_id: "69797999",
-                lat: 45.0,
-                lng: -80.0,
-                address: "20 Made Street",
-                distance: null,
-                link: "google.com",
-            },
-            {
-                name: "Test Service Two",
-                description: "This is the second fake service",
-                item_id: "69797998",
-                lat: 49.0,
-                lng: -82.0,
-                address: "30 Up Street",
-                distance: null,
-                link: "google.com",
-            },
-        ],
-    },
-};
 
 jest.mock("axios");
 
@@ -37,12 +11,11 @@ describe("Demos", () => {
         render(
             <Demo title="Service Title" description="Service Description" />
         );
+        Object(axios.post).mockResolvedValueOnce(servicesRes);
 
         await screen.getByText("Service Title");
         await screen.getByText("Service Description");
         await screen.getByText("View similar services");
-
-        Object(axios.post).mockResolvedValueOnce(res);
 
         const viewButton = await screen.getByText("View similar services");
         await fireEvent.click(viewButton);
@@ -66,7 +39,7 @@ describe("Demos", () => {
             target: { value: "Service Description" },
         });
 
-        Object(axios.post).mockResolvedValueOnce(res);
+        Object(axios.post).mockResolvedValueOnce(servicesRes);
 
         const viewButton = await screen.getByText("View similar services");
         await fireEvent.click(viewButton);
@@ -76,5 +49,20 @@ describe("Demos", () => {
         await screen.getByTestId("output-container");
         await screen.getByText("Test Service One");
         await screen.getByText("Test Service Two");
+    });
+    describe("Demo Info", () => {
+        test("Open and close", async () => {
+            render(
+                <Demo title="Service Title" description="Service Description" />
+            );
+
+            await screen.getByText("Demo Help");
+            await screen.getByText("Hide");
+
+            const toggleButton = await screen.getByTestId("help-toggle");
+            await fireEvent.click(toggleButton);
+
+            await screen.getByText("Help");
+        });
     });
 });

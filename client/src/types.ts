@@ -7,6 +7,7 @@ export interface Service {
     link: string;
     description: string;
     distance: number;
+    phone: string;
 }
 
 export interface Location {

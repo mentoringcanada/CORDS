@@ -19,7 +19,6 @@ const LargeServiceLogic = (
             // Gets service data on component startup
             if (setSearchState !== undefined) setSearchState("searching");
             getSimilar(similarBody).then((res) => {
-                console.log(res);
                 if (setSearchState !== undefined) setSearchState("");
                 setService(res[0]);
                 setSimilar(res.slice(1));

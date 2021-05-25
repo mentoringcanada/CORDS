@@ -3,6 +3,8 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@sentry/react": "^6.4.1",
+        "@sentry/tracing": "^6.4.1",
         "@testing-library/react": "^11.2.6",
         "@testing-library/user-event": "^12.8.3",
         "@types/jest": "^26.0.22",
@@ -31,7 +33,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "DEBUG_PRINT_LIMIT=10000 react-scripts test --coverage",
+        "test": "DEBUG_PRINT_LIMIT=10000 react-scripts test --coverage --watchAll=false",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {

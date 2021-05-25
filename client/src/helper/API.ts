@@ -80,7 +80,7 @@ export const getLocalLocation = async () => {
                     res(localLocation);
                 },
                 (error) => {
-                    console.log(`Location error: ${error.code}`);
+                    console.log(`Location error: ${error.message}`);
                 }
             );
         }
