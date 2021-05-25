@@ -7,12 +7,12 @@ export const StyledSearch = styled.div`
     max-width: 1200px;
     & > div {
         margin-bottom: 2rem;
-        & > form {
+        & > * {
             margin-bottom: 1rem;
         }
     }
-    .search-output {
-        height: 55vh;
+    .search-container {
+        height: 80vh;
     }
     @media only screen and (max-width: 768px) {
         padding: 1rem;

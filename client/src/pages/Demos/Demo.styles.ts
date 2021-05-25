@@ -20,6 +20,9 @@ export const StyledDefaultInfo = styled.div`
     h2 {
         margin-bottom: 1rem;
     }
+    p {
+        color: #4d5156;
+    }
     @media only screen and (max-width: 768px) {
         h2 {
             font-size: 1.3rem;
@@ -69,6 +72,7 @@ export const StyledCustomInputs = styled.div`
 
 export const StyledViewSimilarButton = styled.button`
     background-color: var(--primary-color);
+    width: 13rem;
     margin-top: 1.5rem;
     font-size: 1.1rem;
     padding: 0.5rem;

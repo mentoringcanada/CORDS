@@ -6,15 +6,17 @@ export const StyledSearchBar = styled.form`
     width: 100%;
     margin: 0.5rem 0 0.5rem 0;
     input {
-        transition: 0.3s border;
+        transition: 0.3s all;
         border: 1px solid transparent;
         font-size: 0.75rem;
         padding: 0.7rem 2.5rem 0.7rem 0.7rem;
         border-radius: 2rem;
         width: 100%;
-        box-shadow: 2px 2px 5px grey;
+        border: 1px solid #ccc;
+        box-shadow: 1px 1px 2px grey;
         :hover {
-            border-color: #ccc;
+            border-color: #aaa;
+            box-shadow: 1px 1px 4px grey;
         }
     }
     button {

@@ -56,7 +56,6 @@ describe("Demos", () => {
                 <Demo title="Service Title" description="Service Description" />
             );
 
-            await screen.getByText("Demo Help");
             await screen.getByText("Hide");
 
             const toggleButton = await screen.getByTestId("help-toggle");

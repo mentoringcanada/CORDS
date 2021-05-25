@@ -12,10 +12,8 @@ const Search = () => {
     return (
         <StyledPageContainer>
             <StyledSearch>
-                <StyledContainer>
+                <StyledContainer className="search-container">
                     <SearchInput handleGeoSearch={handleGeoSearch} />
-                </StyledContainer>
-                <StyledContainer className="search-output">
                     <ServiceOutput
                         serviceResults={searchResults}
                         searchState={searchState}

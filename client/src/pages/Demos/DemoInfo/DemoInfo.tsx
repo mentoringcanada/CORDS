@@ -4,18 +4,16 @@ import { StyledContainer } from "../../../styles/StyledContainer";
 import { StyledDemoInfo, StyledToggle } from "./DemoInfo.styles";
 
 interface Props {
-    title: string;
-    description: string;
+    explanation: string;
 }
 
-const DemoInfo = ({ title, description }: Props) => {
+const DemoInfo = ({ explanation }: Props) => {
     const [open, setOpen] = useState(true);
 
     return (
         <StyledContainer>
             <StyledDemoInfo className={open ? "" : "closed"}>
-                <h3>{title}</h3>
-                <p>{description}</p>
+                <p>{explanation}</p>
             </StyledDemoInfo>
             <StyledToggle
                 onClick={() => setOpen(!open)}

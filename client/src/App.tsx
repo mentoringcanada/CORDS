@@ -48,19 +48,19 @@ function App() {
                         </Route>
                         <Route path="/demo/food">
                             <Demo
-                                title="Food Bank"
+                                title="Sherri's Snack Shack - Food Bank"
                                 description="Dedicated to helping Canadians living with food insecurity on an on-going, seasonal, and emergency basis."
                             />
                         </Route>
                         <Route path="/demo/shelter">
                             <Demo
-                                title="Homeless Shelter"
+                                title="Kevin's Couch - Homeless Shelter"
                                 description="We provide temporary residence for homeless individuals and families."
                             />
                         </Route>
                         <Route path="/demo/clothing">
                             <Demo
-                                title="Clothing Bank"
+                                title="Dave's Drop-off - Clothing Bank"
                                 description="Drop-off site for donations of used/unwanted clothing."
                             />
                         </Route>

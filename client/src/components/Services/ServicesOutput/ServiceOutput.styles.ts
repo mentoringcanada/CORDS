@@ -8,7 +8,7 @@ export const StyledServiceOutput = styled.div`
     background-color: white;
     overflow-y: scroll;
     overflow-x: hidden;
-    box-shadow: 2px 2px 5px grey;
+    box-shadow: 0px 0px 3px grey;
     background-color: white;
 `;
 
