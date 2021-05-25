@@ -2,8 +2,8 @@
 
 import requests
 
-# SERVER = 'http://localhost:8000'
-SERVER = 'http://51.222.139.147'
+SERVER = 'http://localhost:8000'
+# SERVER = 'http://51.222.139.147'
 
 
 def test_search():
