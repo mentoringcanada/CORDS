@@ -1,7 +1,10 @@
 # import 3rd party modules
 from fastapi import FastAPI
 from fastapi import Header
+import os
+import sentry_sdk
 from typing import Optional
+
 
 # import local modules
 import controllers
@@ -14,6 +17,13 @@ import startup
 
 app = FastAPI()
 app_state, vector_model = startup.load()
+
+
+if os.environ['production'] == True:
+    sentry_sdk.init(
+        os.environ['SENTRY_URL'],
+        traces_sample_rate=1.0
+    )
 
 
 @app.post("/search", response_model=ItemList)
@@ -55,4 +65,3 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Option
     results = controllers.geo_similar_search(
         session_token, geo_similar_request, app_state, vector_model)
     return {"items": results}
-

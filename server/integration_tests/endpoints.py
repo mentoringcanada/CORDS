@@ -4,7 +4,7 @@ import requests
 
 SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
-
+# SERVER = 'https://server.cordsconnect.ca'
 
 def test_search():
     response = requests.post(SERVER + '/search', json={
