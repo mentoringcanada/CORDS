@@ -68,7 +68,10 @@ def get_results(result_IDs: list):
     return items
 
 
-def get_constrained_results(request: GeoSearchRequest, result_IDs: list):
+def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False):
+    if specific_id:
+        result_IDs.remove(specific_id)
+        result_IDs = [specific_id] + result_IDs
     result_IDs = ', '.join(result_IDs)
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))

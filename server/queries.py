@@ -1,4 +1,4 @@
-get_constrained_results_1 = """SELECT *, (geocoordinates <@> POINT({0}, {1}))*1.6 as distance
+get_constrained_results_1 = """SELECT (geocoordinates <@> POINT({0}, {1}))*1.6 as distance, *
 FROM resources
 WHERE resource_agency_number in (
 """
