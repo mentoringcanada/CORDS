@@ -26,7 +26,7 @@ export const StyledCloseButton = styled.button`
     position: absolute;
     width: 1rem;
     height: 1rem;
-    top: 0.25rem;
-    right: 0.5rem;
+    top: 0.15rem;
+    right: 0.25rem;
     background-color: transparent;
 `;

@@ -6,7 +6,7 @@ export const StyledDemo = styled.div`
     margin-bottom: 2rem;
     max-width: 1200px;
     & > div {
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
     .demo-output {
         height: 55vh;
@@ -19,6 +19,9 @@ export const StyledDemo = styled.div`
 export const StyledDefaultInfo = styled.div`
     h2 {
         margin-bottom: 1rem;
+    }
+    p {
+        color: #4d5156;
     }
     @media only screen and (max-width: 768px) {
         h2 {
@@ -69,6 +72,7 @@ export const StyledCustomInputs = styled.div`
 
 export const StyledViewSimilarButton = styled.button`
     background-color: var(--primary-color);
+    width: 13rem;
     margin-top: 1.5rem;
     font-size: 1.1rem;
     padding: 0.5rem;

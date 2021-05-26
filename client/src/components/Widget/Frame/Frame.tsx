@@ -1,32 +1,22 @@
-// Imports
 import React from "react";
-import Search from "../pages/search/Search";
-import SearchBar from "../../SearchBar/SearchBar";
 import { StyledCloseButton, StyledFrame } from "./Frame.styles";
-import FrameLogic from "./Frame.logic";
+import WidgetSearch from "../pages/WidgetSearch/WidgetSearch";
 
-// Props
 interface Props {
     setWidget: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // Body of Widget holding components
 const Frame = ({ setWidget }: Props) => {
-    const {
-        searchResults,
-        setSearchResults,
-        setPage,
-        useHandleStartFunctions,
-    } = FrameLogic();
-    useHandleStartFunctions();
-
     return (
         <StyledFrame>
-            <StyledCloseButton onClick={() => setWidget(false)}>
+            <StyledCloseButton
+                onClick={() => setWidget(false)}
+                data-testid="close-button"
+            >
                 &minus;
             </StyledCloseButton>
-            <SearchBar setSearchResults={setSearchResults} setPage={setPage} />
-            <Search searchResults={searchResults} />
+            <WidgetSearch />
         </StyledFrame>
     );
 };

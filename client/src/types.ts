@@ -6,12 +6,14 @@ export interface Service {
     address: string;
     link: string;
     description: string;
+    distance: number;
+    phone: string;
 }
 
 export interface Location {
     lat: number | undefined;
     lng: number | undefined;
-    distance: number | undefined;
+    distance?: number | undefined;
 }
 
 export interface SearchBody {
@@ -19,7 +21,16 @@ export interface SearchBody {
 }
 export interface GeoSearchBody {
     search: string;
-    lat: number;
-    lng: number;
-    distance: number;
+    location: Location;
+    distance: number | undefined;
+}
+export interface SimilarBody {
+    resourceId: number;
+    lat: number | undefined;
+    lng: number | undefined;
+}
+
+export interface SearchResults {
+    services: Service[];
+    location: Location;
 }

@@ -1,94 +1,79 @@
-// Import
-import React, { useEffect, useState } from "react";
-import "./App.styles.ts";
-
-// Components
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import GlobalStyle from "./App.styles";
 import Header from "./components/Header/Header";
 import Widget from "./components/Widget/Widget";
-
-// Meta
-import { Helmet, HelmetProvider } from "react-helmet-async";
-
-//Styling
-import GlobalStyle from "./App.styles";
-
-// Routing
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// Pages
 import Start from "./pages/Start/Start";
 import Demo from "./pages/Demos/Demo";
 import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
 import Home from "./pages/Home/Home";
+import AppLogic from "./App.logic";
+import Search from "./pages/Search/Search";
 
-// Types
-import { Location } from "./types";
-
-// Utils
-// import { linkOut } from "./helper/api";
-import LocationContext from "./helper/LocationContext/LocationContext";
-
-// Component
 function App() {
-    const [location, setLocation] = useState<Location>({
-        lat: undefined,
-        lng: undefined,
-        distance: undefined,
-    });
-    useEffect(() => {
-        // Calls link out on page close
-        // window.onbeforeunload = linkOut;
-    }, []);
+    const { useStartupEffect } = AppLogic();
+    useStartupEffect();
 
     return (
         <HelmetProvider>
-            <Helmet>
-                <title>CORDS</title>
-                <meta name="description" content="CORDS project website" />
-                <meta name="keywords" content="help, cords, youth, search" />
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1, minimum-scale=1"
-                />
-                <link rel="preconnect" href="https://fonts.gstatic.com" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro&display=swap"
-                    rel="stylesheet"
-                />
-            </Helmet>
-            <GlobalStyle />
-            <Start />
-            <Router>
-                <Header />
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route path="/demo/food">
-                        <Demo
-                            title="Food Bank"
-                            description="Dedicated to helping Canadians living with food insecurity on an on-going, seasonal, and emergency basis."
-                        />
-                    </Route>
-                    <Route path="/demo/shelter">
-                        <Demo
-                            title="Homeless Shelter"
-                            description="We provide temporary residence for homeless individuals and families."
-                        />
-                    </Route>
-                    <Route path="/demo/clothing">
-                        <Demo
-                            title="Clothing Bank"
-                            description="Drop-off site for donations of used/unwanted clothing."
-                        />
-                    </Route>
-                    <Route path="/demo/custom">
-                        <CustomDemo />
-                    </Route>
-                </Switch>
-                <LocationContext.Provider value={{ location, setLocation }}>
+            <>
+                <Helmet>
+                    <title>CORDS</title>
+                    <meta
+                        http-equiv="Content-Type"
+                        content="text/html; charset=UTF-8"
+                    />
+                    <meta name="description" content="CORDS project website" />
+                    <meta
+                        name="keywords"
+                        content="help, cords, youth, search"
+                    />
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1, minimum-scale=1"
+                    />
+                    <link rel="preconnect" href="https://fonts.gstatic.com" />
+                    <link
+                        href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro&display=swap"
+                        rel="stylesheet"
+                    />
+                </Helmet>
+                <GlobalStyle />
+                <Start />
+                <Router>
+                    <Header />
+                    <Switch>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+                        <Route path="/demo/food">
+                            <Demo
+                                title="Sherri's Snack Shack - Food Bank"
+                                description="Dedicated to helping Canadians living with food insecurity on an on-going, seasonal, and emergency basis."
+                            />
+                        </Route>
+                        <Route path="/demo/shelter">
+                            <Demo
+                                title="Kevin's Couch - Homeless Shelter"
+                                description="We provide temporary residence for homeless individuals and families."
+                            />
+                        </Route>
+                        <Route path="/demo/clothing">
+                            <Demo
+                                title="Dave's Drop-off - Clothing Bank"
+                                description="Drop-off site for donations of used/unwanted clothing."
+                            />
+                        </Route>
+                        <Route path="/demo/custom">
+                            <CustomDemo />
+                        </Route>
+                        <Route path="/search">
+                            <Search />
+                        </Route>
+                    </Switch>
                     <Widget />
-                </LocationContext.Provider>
-            </Router>
+                </Router>
+            </>
         </HelmetProvider>
     );
 }

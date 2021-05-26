@@ -1,27 +1,40 @@
 import { useEffect, useState } from "react";
-import { getSearchResults } from "../../helper/api";
-import { Service } from "../../types";
+import { getSearchResults } from "../../helper/API";
+import { SearchResults } from "../../types";
 
 const DemoLogic = () => {
-    // State
-    const [similar, setSimilar] = useState<Service[]>([]);
-    const [focus, setFocus] = useState<number | null>(null);
-
+    const [similarResults, setSimilarResults] = useState<SearchResults>({
+        services: [],
+        location: {
+            lat: undefined,
+            lng: undefined,
+        },
+    });
     const handleSimilar = (description: string) => {
         const searchBody = {
             search: description,
         };
-        getSearchResults(searchBody).then((res) => setSimilar(res));
+        getSearchResults(searchBody).then((res) =>
+            setSimilarResults({
+                ...similarResults,
+                services: res,
+            })
+        );
     };
 
     const useHandleDemoChange = (description: string) => {
         useEffect(() => {
-            setSimilar([]);
-            setFocus(null);
+            setSimilarResults({
+                services: [],
+                location: {
+                    lat: undefined,
+                    lng: undefined,
+                },
+            });
         }, [description]);
     };
 
-    return { similar, focus, setFocus, handleSimilar, useHandleDemoChange };
+    return { similarResults, handleSimilar, useHandleDemoChange };
 };
 
 export default DemoLogic;

@@ -1,44 +1,43 @@
-import heroImg from "./images/hero.jpg";
 import { StyledHome } from "./Home.styles";
+import { StyledContainer } from "../../styles/StyledContainer";
+import { StyledPageContainer } from "../../styles/StyledPageContainer";
 
 const Home = () => {
     return (
-        <StyledHome>
-            <section className="hero">
-                <img src={heroImg} alt="Hands holding give sign" />
-            </section>
-            <section className="articles">
-                <article>
-                    <h2>Integrity</h2>
+        <StyledPageContainer>
+            <StyledHome>
+                <StyledContainer>
+                    <h2>CORDS Portal</h2>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Officiis est, neque nulla reprehenderit voluptatem,
-                        temporibus ea amet dolorum quaerat porro unde rerum
-                        dolor possimus corrupti fuga deleniti, incidunt odio ut!
+                        This portal provides access to 211 service listings data
+                        in the Greater Toronto Area. The two core functions so
+                        far are searching services and browsing similar services
+                        to specific organizations.
                     </p>
-                </article>
-                <article>
-                    <h2>Giving</h2>
+                    <h3>Search</h3>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Molestias, similique qui ipsam odio incidunt nemo,
-                        aliquid veritatis quod excepturi et rem cum laboriosam
-                        suscipit culpa! Illum voluptatum quas, nostrum eveniet
-                        repellat corporis.
+                        Search allows direct look up of our services data. The
+                        search functionality accommodates natural language
+                        processing, geolocation and synonyms of 16 different
+                        languages thanks to open source software from companies
+                        such as Facebook and Google.
                     </p>
-                </article>
-                <article>
-                    <h2>Unity</h2>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ab quo consequuntur reprehenderit possimus architecto,
-                        cum quisquam quae necessitatibus explicabo commodi
-                        fugiat odio ut omnis minima cupiditate! Voluptatibus,
-                        dolorum!
+                        We will be tracking searches in the future for the sake
+                        of quality assurance and to provide related results.
                     </p>
-                </article>
-            </section>
-        </StyledHome>
+                    <h3>Organization Demos</h3>
+                    <p>
+                        Each demo represents a fictitious organization with a
+                        name and description. You are able to search our
+                        services database for ones similar to this organization.
+                        This is intended to be used on service websites to
+                        connect organizations over the web by showing users
+                        other services they might be interested in.
+                    </p>
+                </StyledContainer>
+            </StyledHome>
+        </StyledPageContainer>
     );
 };
 
