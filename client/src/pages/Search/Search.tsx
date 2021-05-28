@@ -1,4 +1,3 @@
-import { StyledContainer } from "../../styles/StyledContainer";
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import SearchLogic from "./Search.logic";
 import { StyledSearch } from "./Search.styles";
@@ -12,14 +11,13 @@ const Search = () => {
     return (
         <StyledPageContainer>
             <StyledSearch>
-                <StyledContainer className="search-container">
-                    <SearchInput handleGeoSearch={handleGeoSearch} />
-                    <ServiceOutput
-                        serviceResults={searchResults}
-                        searchState={searchState}
-                        setSearchState={setSearchState}
-                    />
-                </StyledContainer>
+                <SearchInput handleGeoSearch={handleGeoSearch} />
+                <div className="break" />
+                <ServiceOutput
+                    serviceResults={searchResults}
+                    searchState={searchState}
+                    setSearchState={setSearchState}
+                />
             </StyledSearch>
         </StyledPageContainer>
     );

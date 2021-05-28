@@ -2,6 +2,7 @@ import Nav from "./Nav/Nav";
 import { StyledHeader } from "./Header.styles";
 import Title from "../../media/Title.png";
 import { Link } from "react-router-dom";
+import LanguageToggle from "../LanguageToggle/LanguageToggle";
 
 const Header = () => {
     return (
@@ -9,7 +10,11 @@ const Header = () => {
             <Link to="/" className="logo-link">
                 <img src={Title} alt="CORDS Title Logo" />
             </Link>
-            <Nav />
+            <div className="right">
+                <LanguageToggle />
+                <div className="break" />
+                <Nav />
+            </div>
         </StyledHeader>
     );
 };

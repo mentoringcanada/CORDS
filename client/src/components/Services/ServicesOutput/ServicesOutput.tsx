@@ -8,26 +8,27 @@ import SearchFeedback from "./SearchFeedback";
 
 interface Props {
     serviceResults: SearchResults;
+    outputRef?: React.MutableRefObject<any> | undefined;
     searchState?: string;
     setSearchState?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function ServiceOutput({ serviceResults, searchState, setSearchState }: Props) {
-    const {
-        outputRef,
-        focus,
-        setFocus,
-        useOnServicesChange,
-        useOnFocusChange,
-    } = ServicesOutputLogic();
-    useOnServicesChange(serviceResults.services);
-    useOnFocusChange(focus);
+function ServiceOutput({
+    serviceResults,
+    outputRef,
+    searchState,
+    setSearchState,
+}: Props) {
+    const { focus, setFocus, useOnServicesChange, useOnFocusChange } =
+        ServicesOutputLogic();
+    useOnServicesChange(serviceResults.services, outputRef);
+    useOnFocusChange(focus, outputRef);
 
     return (
-        <StyledServiceOutput ref={outputRef} data-testid="output-container">
+        <StyledServiceOutput data-testid="output-container">
             {searchState && searchState !== "" && (
                 <SearchFeedback searchState={searchState} />
-            )}{" "}
+            )}
             {focus ? (
                 <LargeService
                     id={focus}

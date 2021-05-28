@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
 import { getSearchResults } from "../../helper/API";
+import { GET_DEMO_CONTENT } from "../../helper/CMS";
+import LanguageContext from "../../helper/LanguageContext";
 import { SearchResults } from "../../types";
 
 const DemoLogic = () => {
@@ -10,6 +13,7 @@ const DemoLogic = () => {
             lng: undefined,
         },
     });
+
     const handleSimilar = (description: string) => {
         const searchBody = {
             search: description,
@@ -34,7 +38,20 @@ const DemoLogic = () => {
         }, [description]);
     };
 
-    return { similarResults, handleSimilar, useHandleDemoChange };
+    // Text content
+    const { language } = useContext(LanguageContext);
+    const { error, data } = useQuery(GET_DEMO_CONTENT, {
+        variables: { language },
+    });
+    const demoContent = data ? data.demos[0] : {};
+
+    return {
+        similarResults,
+        handleSimilar,
+        useHandleDemoChange,
+        error,
+        demoContent,
+    };
 };
 
 export default DemoLogic;

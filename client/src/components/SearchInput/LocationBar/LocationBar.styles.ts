@@ -14,7 +14,7 @@ export const SelectStyles = (left: boolean) => {
             transition: "0.3s border",
             border: "1px solid transparent",
             boxShadow: "1px 1px 3px grey",
-            marginRight: left ? "0.4rem" : "",
+            marginRight: left ? "0.6rem" : "",
             "&:hover": { borderColor: "#aaa" },
         }),
         option: (styles: any, state: any) => ({
@@ -28,23 +28,15 @@ export const SelectStyles = (left: boolean) => {
 
 export const StyledLocationBar = styled.div`
     display: flex;
+    justify-content: left;
     margin-bottom: 0.8rem;
-    max-width: 25rem;
+    width: 100%;
 `;
 
 export const StyledLocationSelect = styled.div`
-    flex: 4;
-    border-radius: 3px 0 0 0;
+    width: 16rem;
 `;
 
 export const StyledDistanceSelect = styled.div`
-    border-radius: 0 3px 0 0;
-    flex: 2;
-    input {
-        width: 100%;
-        height: 100%;
-        padding: 2px 8px;
-        font-family: var(--secondary-font), Arial;
-        font-size: 0.8rem;
-    }
+    width: 8rem;
 `;

@@ -4,7 +4,12 @@ import NavLogic from "./Nav.logic";
 import Dropdown from "./Dropdown/Dropdown";
 
 const Nav = () => {
-    const { burgerMenu, toggleBurgerMenu } = NavLogic();
+    const { burgerMenu, toggleBurgerMenu, error, data, demoDropName } =
+        NavLogic();
+
+    if (error) {
+        return <p>Content collection error...</p>;
+    }
 
     return (
         <>
@@ -15,23 +20,19 @@ const Nav = () => {
                 &#9776;
             </StyledBurgerButton>
             <StyledNav className={burgerMenu ? "open" : ""}>
-                <NavLink
-                    className="normlink"
-                    to="/"
-                    exact
-                    onClick={toggleBurgerMenu}
-                >
-                    Home
-                </NavLink>
-                <NavLink
-                    className="normlink"
-                    to="/search"
-                    exact
-                    onClick={toggleBurgerMenu}
-                >
-                    Search
-                </NavLink>
-                <Dropdown />
+                {data &&
+                    data.navLinks.map((navLink: any, index: number) => (
+                        <NavLink
+                            className="normlink"
+                            to={`/${navLink.route ? navLink.route : ""}`}
+                            exact
+                            onClick={toggleBurgerMenu}
+                            key={index}
+                        >
+                            {navLink.name}
+                        </NavLink>
+                    ))}
+                <Dropdown name={demoDropName} links={data && data.demoPages} />
             </StyledNav>
         </>
     );

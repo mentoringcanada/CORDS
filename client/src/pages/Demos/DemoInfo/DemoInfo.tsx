@@ -1,14 +1,16 @@
-import React, { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { StyledContainer } from "../../../styles/StyledContainer";
+import DemoInfoLogic from "./DemoInfo.logic";
 import { StyledDemoInfo, StyledToggle } from "./DemoInfo.styles";
 
 interface Props {
     explanation: string;
+    openText: string;
+    closeText: string;
 }
 
-const DemoInfo = ({ explanation }: Props) => {
-    const [open, setOpen] = useState(true);
+const DemoInfo = ({ explanation, openText, closeText }: Props) => {
+    const { open, setOpen } = DemoInfoLogic();
 
     return (
         <StyledContainer>
@@ -21,11 +23,13 @@ const DemoInfo = ({ explanation }: Props) => {
             >
                 {open ? (
                     <div>
-                        Hide <FaAngleUp />
+                        {closeText}
+                        <FaAngleUp />
                     </div>
                 ) : (
                     <div>
-                        Help <FaAngleDown />
+                        {openText}
+                        <FaAngleDown />
                     </div>
                 )}
             </StyledToggle>

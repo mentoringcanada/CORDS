@@ -15,8 +15,18 @@ interface Props {
 }
 
 const Demo = ({ description, title }: Props) => {
-    const { similarResults, handleSimilar, useHandleDemoChange } = DemoLogic();
+    const {
+        similarResults,
+        handleSimilar,
+        useHandleDemoChange,
+        error,
+        demoContent,
+    } = DemoLogic();
     useHandleDemoChange(description);
+
+    if (error) {
+        return <p>Content collection error...</p>;
+    }
 
     return (
         <StyledPageContainer>
@@ -29,16 +39,18 @@ const Demo = ({ description, title }: Props) => {
                             onClick={() => handleSimilar(description)}
                             className="demo"
                         >
-                            View similar services
+                            {demoContent.buttonText}
                         </StyledViewSimilarButton>
                     </StyledDefaultInfo>
                 </StyledContainer>
-                <DemoInfo explanation="Each demo represents a fictitious organization's website with a name and description. By clicking the 'view similar' button you search our services database for ones similar to this organization. This is intended to be used on service websites to connect organizations over the web by showing users other services they might be interested in." />
+                <DemoInfo
+                    explanation={demoContent.explanation}
+                    openText={demoContent.infoOpenText}
+                    closeText={demoContent.infoCloseText}
+                />
                 {similarResults.services &&
                     similarResults.services.length !== 0 && (
-                        <StyledContainer className="demo-output">
-                            <ServicesOutput serviceResults={similarResults} />
-                        </StyledContainer>
+                        <ServicesOutput serviceResults={similarResults} />
                     )}
             </StyledDemo>
         </StyledPageContainer>

@@ -4,7 +4,6 @@ export const StyledSearchBar = styled.form`
     display: flex;
     align-items: center;
     width: 100%;
-    margin: 0.5rem 0 0.5rem 0;
     input {
         transition: 0.3s all;
         border: 1px solid transparent;

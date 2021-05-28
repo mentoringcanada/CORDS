@@ -1,4 +1,5 @@
 import React from "react";
+import TriggerButtonLogic from "./TriggerButton.logic";
 import { StyledTriggerButton } from "./TriggerButton.styles";
 
 interface Props {
@@ -6,9 +7,15 @@ interface Props {
 }
 
 const TriggerButton = ({ setWidget }: Props) => {
+    const { error, widgetContent } = TriggerButtonLogic();
+
+    if (error) {
+        return <p>Content collection error...</p>;
+    }
+
     return (
         <StyledTriggerButton onClick={() => setWidget(true)}>
-            Find Resources
+            {widgetContent.triggerButtonText}
         </StyledTriggerButton>
     );
 };

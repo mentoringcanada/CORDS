@@ -1,5 +1,5 @@
-import React from "react";
+import { createContext } from "react";
 
-const SearchInputContext = React.createContext<any>(null);
+const SearchInputContext = createContext<any>(null);
 
 export default SearchInputContext;

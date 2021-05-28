@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledSmallService = styled.div`
     position: relative;
     padding: 0.8rem;
-    margin: 0.5rem;
+    margin: 0.5rem 0.5rem 1rem 0.5rem;
     border-radius: 0.3rem;
     cursor: pointer;
     box-shadow: 0px 4px 7px grey;

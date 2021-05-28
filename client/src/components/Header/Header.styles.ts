@@ -16,6 +16,18 @@ export const StyledHeader = styled.header`
             height: 2.6rem;
         }
     }
+    .right {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .break {
+            margin: 0 1rem 0 1rem;
+            height: 55px;
+            width: 2px;
+            background-color: #ccc;
+        }
+    }
     @media only screen and (max-width: 500px) {
         img {
             height: 2.3rem;

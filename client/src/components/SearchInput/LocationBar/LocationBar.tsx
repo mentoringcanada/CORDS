@@ -10,7 +10,12 @@ import Select from "react-select";
 import SearchInputContext from "../SearchInputContext";
 import { useContext } from "react";
 
-const LocationBar = () => {
+interface Props {
+    locationPlaceholder: string;
+    distancePlaceholder: string;
+}
+
+const LocationBar = ({ locationPlaceholder, distancePlaceholder }: Props) => {
     const { geoSearchBody, setGeoSearchBody } = useContext(SearchInputContext);
     const {
         geoInputLocation,
@@ -30,7 +35,7 @@ const LocationBar = () => {
                         value: geoInputLocation,
                         onChange: setGeoInputLocation,
                         styles: Styles,
-                        placeholder: "Where",
+                        placeholder: `${locationPlaceholder}`,
                     }}
                     apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                     autocompletionRequest={{
@@ -43,8 +48,9 @@ const LocationBar = () => {
                     options={distanceSelectOptions}
                     styles={SelectStyles(false)}
                     onChange={handleDistanceChange}
-                    placeholder="Within"
+                    placeholder={distancePlaceholder}
                     inputId="select-distance"
+                    data-testid="distance-select"
                     isSearchable
                 />
             </StyledDistanceSelect>

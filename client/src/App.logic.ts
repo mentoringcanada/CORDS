@@ -1,14 +1,22 @@
-import { useEffect } from "react";
+import { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { GET_DEMO_PAGES } from "./helper/CMS";
 
 const AppLogic = () => {
-    const useStartupEffect = () => {
-        useEffect(() => {
-            // Calls link out on page close
-            // window.onbeforeunload = linkOut;
-        }, []);
-    };
+    const [language, setLanguage] = useState("en");
 
-    return { useStartupEffect };
+    const { error, data } = useQuery(GET_DEMO_PAGES, {
+        variables: { language },
+    });
+    const demoPages = data ? data.demoPages : [];
+
+    return {
+        data,
+        language,
+        setLanguage,
+        error,
+        demoPages,
+    };
 };
 
 export default AppLogic;

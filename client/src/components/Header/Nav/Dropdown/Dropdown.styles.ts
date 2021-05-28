@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const StyledDropdown = styled.div`
     position: relative;
+    display: flex;
+    justify-content: center;
 
     @media only screen and (max-width: 768px) {
         width: 50%;
@@ -41,7 +43,6 @@ export const StyledDropdownButton = styled.button`
 export const StyledDropdownMenu = styled.div`
     position: absolute;
     top: 100%;
-    width: 100%;
     background-color: #f9f9f9;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;

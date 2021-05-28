@@ -1,9 +1,10 @@
-import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import axios from "axios";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
 
 axios.defaults.baseURL = `${process.env.REACT_APP_SERVER_IP}`;
 
@@ -13,9 +14,14 @@ Sentry.init({
     tracesSampleRate: 1.0,
 });
 
+const client = new ApolloClient({
+    uri: "https://portal.cordsconnect.ca/graphql",
+    cache: new InMemoryCache(),
+});
+
 ReactDOM.render(
-    <React.StrictMode>
+    <ApolloProvider client={client}>
         <App />
-    </React.StrictMode>,
+    </ApolloProvider>,
     document.getElementById("root")
 );

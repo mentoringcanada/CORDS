@@ -9,10 +9,15 @@ import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
 import Home from "./pages/Home/Home";
 import AppLogic from "./App.logic";
 import Search from "./pages/Search/Search";
+import { Demos } from "./types";
+import LanguageContext from "./helper/LanguageContext";
 
 function App() {
-    const { useStartupEffect } = AppLogic();
-    useStartupEffect();
+    const { language, setLanguage, error, demoPages } = AppLogic();
+
+    if (error) {
+        return <p>Content collection error...</p>;
+    }
 
     return (
         <HelmetProvider>
@@ -41,37 +46,39 @@ function App() {
                 <GlobalStyle />
                 <Start />
                 <Router>
-                    <Header />
-                    <Switch>
-                        <Route exact path="/">
-                            <Home />
-                        </Route>
-                        <Route path="/demo/food">
-                            <Demo
-                                title="Sherri's Snack Shack - Food Bank"
-                                description="Dedicated to helping Canadians living with food insecurity on an on-going, seasonal, and emergency basis."
-                            />
-                        </Route>
-                        <Route path="/demo/shelter">
-                            <Demo
-                                title="Kevin's Couch - Homeless Shelter"
-                                description="We provide temporary residence for homeless individuals and families."
-                            />
-                        </Route>
-                        <Route path="/demo/clothing">
-                            <Demo
-                                title="Dave's Drop-off - Clothing Bank"
-                                description="Drop-off site for donations of used/unwanted clothing."
-                            />
-                        </Route>
-                        <Route path="/demo/custom">
-                            <CustomDemo />
-                        </Route>
-                        <Route path="/search">
-                            <Search />
-                        </Route>
-                    </Switch>
-                    <Widget />
+                    <LanguageContext.Provider value={{ language, setLanguage }}>
+                        <Header />
+                        <Switch>
+                            <Route exact path="/">
+                                <Home />
+                            </Route>
+                            {demoPages.map(
+                                (
+                                    { route, name, description }: Demos,
+                                    index: number
+                                ) =>
+                                    route === "custom" ? (
+                                        <Route path="/demo/custom" key={index}>
+                                            <CustomDemo />
+                                        </Route>
+                                    ) : (
+                                        <Route
+                                            path={`/demo/${route}`}
+                                            key={index}
+                                        >
+                                            <Demo
+                                                title={name}
+                                                description={description}
+                                            />
+                                        </Route>
+                                    )
+                            )}
+                            <Route path="/search">
+                                <Search />
+                            </Route>
+                        </Switch>
+                        <Widget />
+                    </LanguageContext.Provider>
                 </Router>
             </>
         </HelmetProvider>

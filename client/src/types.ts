@@ -34,3 +34,14 @@ export interface SearchResults {
     services: Service[];
     location: Location;
 }
+
+export interface Demos {
+    route: string;
+    name: string;
+    description: string;
+}
+
+export interface NavLink {
+    linkName: string;
+    route: string;
+}

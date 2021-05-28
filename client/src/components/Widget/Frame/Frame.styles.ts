@@ -7,11 +7,10 @@ export const StyledFrame = styled.div`
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
-    padding: 0.8rem 0.5rem 0.5rem 0.5rem;
-    width: 350px;
-    height: 500px;
+    width: 375px;
+    height: 550px;
     border-radius: 10px;
-    background-color: var(--primary-color);
+    background-color: white;
     box-shadow: 2px 2px 5px grey;
 
     @media only screen and (max-width: 375px) {
@@ -26,7 +25,11 @@ export const StyledCloseButton = styled.button`
     position: absolute;
     width: 1rem;
     height: 1rem;
-    top: 0.15rem;
-    right: 0.25rem;
+    top: 0.5rem;
+    right: 0.5rem;
     background-color: transparent;
+    transition: background-color 0.1s linear;
+    :hover {
+        background-color: #ffffff22;
+    }
 `;

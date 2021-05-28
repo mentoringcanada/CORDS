@@ -10,6 +10,9 @@ import ServicesOutput from "./ServicesOutput/ServicesOutput";
 import "@testing-library/jest-dom/extend-expect";
 import { servicesRes } from "../../helper/testData";
 import Search from "../../pages/Search/Search";
+import LanguageContext from "../../helper/LanguageContext";
+import React from "react";
+import { MockedProvider } from "@apollo/client/testing";
 
 const secondRes = {
     data: {
@@ -143,10 +146,16 @@ describe("Services", () => {
         await screen.getByText("Test Service One");
     });
     test("Full use and state", async () => {
+        render(
+            <MockedProvider mocks={[]} addTypename={false}>
+                <LanguageContext.Provider value={{ language: "en" }}>
+                    <Search />
+                </LanguageContext.Provider>
+            </MockedProvider>
+        );
         Object(axios.post)
             .mockReturnValueOnce(servicesRes)
             .mockReturnValueOnce(secondRes);
-        render(<Search />);
 
         const searchButton = await screen.getByTestId("search-button");
         await fireEvent.click(searchButton);

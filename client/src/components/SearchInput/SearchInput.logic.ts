@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
 import { getLocalLocation } from "../../helper/API";
+import { GET_SEARCH_INPUT_CONTENT } from "../../helper/CMS";
+import LanguageContext from "../../helper/LanguageContext";
 import { GeoSearchBody } from "../../types";
 
 const SearchInputLogic = () => {
@@ -24,10 +27,20 @@ const SearchInputLogic = () => {
         }, []);
     };
 
+    // Text content
+    const { language } = useContext(LanguageContext);
+    const { error, data } = useQuery(GET_SEARCH_INPUT_CONTENT, {
+        variables: { language },
+    });
+
+    const searchInputContent = data ? data.searches[0] : [];
+
     return {
         geoSearchBody,
         setGeoSearchBody,
         useHandleLocalLocation,
+        error,
+        searchInputContent,
     };
 };
 

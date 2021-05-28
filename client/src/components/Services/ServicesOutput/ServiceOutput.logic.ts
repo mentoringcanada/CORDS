@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Service } from "../../../types";
 
 const ServiceOutputLogic = () => {
     const [focus, setFocus] = useState<number | null>(null);
-    const outputRef = useRef(null);
 
     const resetScrollEffect = (
         ref: React.MutableRefObject<HTMLDivElement | null>
@@ -11,21 +10,26 @@ const ServiceOutputLogic = () => {
         if (ref.current) ref.current.scrollTop = 0;
     };
 
-    const useOnFocusChange = (focus: number | null) => {
+    const useOnFocusChange = (
+        focus: number | null,
+        outputRef: React.MutableRefObject<any> | undefined
+    ) => {
         useEffect(() => {
-            resetScrollEffect(outputRef);
-        }, [focus]);
+            outputRef ? resetScrollEffect(outputRef) : window.scrollTo(0, 0);
+        }, [focus, outputRef]);
     };
 
-    const useOnServicesChange = (services: Service[]) => {
+    const useOnServicesChange = (
+        services: Service[],
+        outputRef: React.MutableRefObject<any> | undefined
+    ) => {
         useEffect(() => {
             setFocus(null);
-            resetScrollEffect(outputRef);
-        }, [services]);
+            outputRef ? resetScrollEffect(outputRef) : window.scrollTo(0, 0);
+        }, [services, outputRef]);
     };
 
     return {
-        outputRef,
         focus,
         setFocus,
         useOnServicesChange,

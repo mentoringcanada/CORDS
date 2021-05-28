@@ -13,20 +13,32 @@ import DemoInfo from "../DemoInfo/DemoInfo";
 
 const CustomDemo = () => {
     const { similarResults, handleSimilar, useHandleDemoChange } = DemoLogic();
-    const { description, title, handleDescriptionChange, handleTitleChange } =
-        CustomDemoLogic();
+    const {
+        description,
+        title,
+        handleDescriptionChange,
+        handleTitleChange,
+        error,
+        customDemoContent,
+    } = CustomDemoLogic();
     useHandleDemoChange("");
+
+    if (error) {
+        return <p>Content collection error...</p>;
+    }
 
     return (
         <StyledPageContainer>
             <StyledDemo>
                 <StyledContainer>
                     <StyledCustomInputs>
-                        <h2>Custom Organization</h2>
+                        <h2>{customDemoContent.customTitle}</h2>
                         <label className="title">
                             <input
                                 type="text"
-                                placeholder="Name"
+                                placeholder={
+                                    customDemoContent.customNamePlaceholder
+                                }
                                 value={title}
                                 onChange={handleTitleChange}
                                 style={{ width: !title ? "6rem" : "100%" }}
@@ -36,7 +48,9 @@ const CustomDemo = () => {
                         <label className="desc">
                             <input
                                 type="text"
-                                placeholder="Description"
+                                placeholder={
+                                    customDemoContent.customDescriptionPlaceholder
+                                }
                                 value={description}
                                 onChange={handleDescriptionChange}
                                 style={{
@@ -50,21 +64,19 @@ const CustomDemo = () => {
                         className="demo"
                         onClick={() => handleSimilar(description)}
                     >
-                        View similar services
+                        {customDemoContent.buttonText}
                     </StyledViewSimilarButton>
                 </StyledContainer>
                 <DemoInfo
-                    explanation="In the custom demo you can create a fictitious organization with a personalized name and description. By clicking the 'view similar' button you search our services database for ones similar to your own. This is intended to be used on service websites to
-                    connect organizations over the web by showing users
-                    other services they might be interested in."
+                    explanation={customDemoContent.customExplanation}
+                    openText={customDemoContent.infoOpenText}
+                    closeText={customDemoContent.infoCloseText}
                 />
                 {similarResults.services &&
                     similarResults.services.length !== 0 && (
-                        <StyledContainer className="demo-output">
-                            <ServicesOutput
-                                serviceResults={similarResults}
-                            ></ServicesOutput>
-                        </StyledContainer>
+                        <ServicesOutput
+                            serviceResults={similarResults}
+                        ></ServicesOutput>
                     )}
             </StyledDemo>
         </StyledPageContainer>
