@@ -36,6 +36,10 @@ const LocationBar = ({ locationPlaceholder, distancePlaceholder }: Props) => {
                         onChange: setGeoInputLocation,
                         styles: Styles,
                         placeholder: `${locationPlaceholder}`,
+                        noOptionsMessage: () =>
+                            geoSearchBody.location
+                                ? "Using local location"
+                                : "Search locations",
                     }}
                     apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                     autocompletionRequest={{
@@ -45,6 +49,7 @@ const LocationBar = ({ locationPlaceholder, distancePlaceholder }: Props) => {
             </StyledLocationSelect>
             <StyledDistanceSelect data-testid="distance-select">
                 <Select
+                    defaultValue={{ label: "50km", value: 50 }}
                     options={distanceSelectOptions}
                     styles={SelectStyles(false)}
                     onChange={handleDistanceChange}

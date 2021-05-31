@@ -1,39 +1,25 @@
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { StyledContainer } from "../../../styles/StyledContainer";
+import React from "react";
+import { MdClose } from "react-icons/md";
 import DemoInfoLogic from "./DemoInfo.logic";
 import { StyledDemoInfo, StyledToggle } from "./DemoInfo.styles";
 
 interface Props {
     explanation: string;
-    openText: string;
-    closeText: string;
 }
 
-const DemoInfo = ({ explanation, openText, closeText }: Props) => {
+const DemoInfo = ({ explanation }: Props) => {
     const { open, setOpen } = DemoInfoLogic();
 
     return (
-        <StyledContainer>
-            <StyledDemoInfo className={open ? "" : "closed"}>
-                <p>{explanation}</p>
-            </StyledDemoInfo>
+        <StyledDemoInfo className={open ? "" : "closed"}>
+            <p>{explanation}</p>
             <StyledToggle
                 onClick={() => setOpen(!open)}
                 data-testid="help-toggle"
             >
-                {open ? (
-                    <div>
-                        {closeText}
-                        <FaAngleUp />
-                    </div>
-                ) : (
-                    <div>
-                        {openText}
-                        <FaAngleDown />
-                    </div>
-                )}
+                {open ? <MdClose /> : "?"}
             </StyledToggle>
-        </StyledContainer>
+        </StyledDemoInfo>
     );
 };
 

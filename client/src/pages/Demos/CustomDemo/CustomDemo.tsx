@@ -66,12 +66,10 @@ const CustomDemo = () => {
                     >
                         {customDemoContent.buttonText}
                     </StyledViewSimilarButton>
+                    <DemoInfo
+                        explanation={customDemoContent.customExplanation}
+                    />
                 </StyledContainer>
-                <DemoInfo
-                    explanation={customDemoContent.customExplanation}
-                    openText={customDemoContent.infoOpenText}
-                    closeText={customDemoContent.infoCloseText}
-                />
                 {similarResults.services &&
                     similarResults.services.length !== 0 && (
                         <ServicesOutput

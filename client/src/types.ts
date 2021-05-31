@@ -22,7 +22,7 @@ export interface SearchBody {
 export interface GeoSearchBody {
     search: string;
     location: Location;
-    distance: number | undefined;
+    distance: number;
 }
 export interface SimilarBody {
     resourceId: number;

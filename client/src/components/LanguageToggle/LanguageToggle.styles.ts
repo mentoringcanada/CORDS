@@ -10,4 +10,7 @@ export const StyledLanguageToggle = styled.button`
     :hover {
         text-decoration: underline;
     }
+    @media only screen and (max-width: 500px) {
+        margin: 0rem;
+    }
 `;

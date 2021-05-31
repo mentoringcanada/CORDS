@@ -56,7 +56,7 @@ export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
             lng: geoSearchBody.location.lng
                 ? Number(geoSearchBody.location.lng.toFixed(4))
                 : -79.3832,
-            distance: geoSearchBody.distance || 100,
+            distance: geoSearchBody.distance,
         },
         {
             headers: {

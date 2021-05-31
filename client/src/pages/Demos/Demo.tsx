@@ -42,12 +42,8 @@ const Demo = ({ description, title }: Props) => {
                             {demoContent.buttonText}
                         </StyledViewSimilarButton>
                     </StyledDefaultInfo>
+                    <DemoInfo explanation={demoContent.explanation} />
                 </StyledContainer>
-                <DemoInfo
-                    explanation={demoContent.explanation}
-                    openText={demoContent.infoOpenText}
-                    closeText={demoContent.infoCloseText}
-                />
                 {similarResults.services &&
                     similarResults.services.length !== 0 && (
                         <ServicesOutput serviceResults={similarResults} />

@@ -11,7 +11,7 @@ const GlobalStyles = createGlobalStyle`
     /* Colors */
     html {
         --primary-color: #2d9cdb;
-        --secondary-color: #c22418;
+        --secondary-color: #22262a;
         --main-font: "Roboto";
         --secondary-font: "Source Sans Pro";
         color: #222222;

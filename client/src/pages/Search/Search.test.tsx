@@ -19,7 +19,6 @@ const GET_SEARCH_INPUT_MOCK = {
                 {
                     searchBarPlaceholder: "How can we help?",
                     locationPlaceholder: "Where",
-                    distancePlaceholder: "Within",
                 },
             ],
         },
@@ -41,7 +40,6 @@ describe("Search", () => {
 
         await waitFor(() => screen.getByPlaceholderText("How can we help?"));
         await screen.getByText("Where");
-        await screen.getByText("Within");
 
         const searchButton = await screen.getByTestId("search-button");
         await fireEvent.click(searchButton);

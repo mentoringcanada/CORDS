@@ -6,6 +6,8 @@ import CustomDemo from "./CustomDemo/CustomDemo";
 import Demo from "./Demo";
 import { GET_CUSTOM_DEMO_CONTENT, GET_DEMO_CONTENT } from "../../helper/CMS";
 import LanguageContext from "../../helper/LanguageContext";
+import { debug } from "node:console";
+import { isConstructorDeclaration } from "typescript";
 
 // Mocks
 const GET_DEMO_MOCK = {
@@ -21,8 +23,6 @@ const GET_DEMO_MOCK = {
                 {
                     explanation: "Fake demo explanation",
                     buttonText: "View similar services",
-                    infoCloseText: "Hide",
-                    infoOpenText: "Help",
                 },
             ],
         },
@@ -41,8 +41,6 @@ const GET_CUSTOM_DEMO_MOCK = {
                 {
                     customExplanation: "Fake custom demo explanation",
                     buttonText: "View similar services",
-                    infoCloseText: "Hide",
-                    infoOpenText: "Help",
                     customTitle: "Fake title",
                     customNamePlaceholder: "Fake name placeholder",
                     customDescriptionPlaceholder:
@@ -72,10 +70,9 @@ describe("Demos", () => {
         // Content
         await screen.getByText("Service Title");
         await screen.getByText("Service Description");
-        await waitFor(() => screen.getByText("View similar services"));
-        await screen.getByText("Fake demo explanation");
 
         // View similar
+        await waitFor(() => screen.getByText("View similar services"));
         const viewButton = await screen.getByText("View similar services");
         await fireEvent.click(viewButton);
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
@@ -116,7 +113,6 @@ describe("Demos", () => {
             // Content
             await waitFor(() => screen.getByText("Fake title"));
             await screen.getByText("View similar services");
-            await screen.getByText("Fake custom demo explanation");
 
             // Inputs
             const nameInput = await screen.getByPlaceholderText(
@@ -164,13 +160,14 @@ describe("Demos", () => {
                 </MockedProvider>
             );
 
-            await waitFor(() => screen.getByText("Hide"));
-            await screen.getByText("Fake demo explanation");
-
-            const toggleButton = await screen.getByTestId("help-toggle");
-            await fireEvent.click(toggleButton);
-
-            await screen.getByText("Help");
+            const toggle = await screen.getByText("?");
+            await fireEvent.click(toggle);
+            await waitFor(() => screen.getByText("Fake demo explanation"));
+            await expect(screen.queryByText("?")).toBeNull();
+            await fireEvent.click(toggle);
+            await waitFor(() =>
+                expect(screen.queryByText("Fake demo explantion")).toBeNull()
+            );
         });
     });
 });

@@ -19,17 +19,3 @@ export const StyledFrame = styled.div`
         right: 0.5rem;
     }
 `;
-
-export const StyledCloseButton = styled.button`
-    font-size: 0.8rem;
-    position: absolute;
-    width: 1rem;
-    height: 1rem;
-    top: 0.5rem;
-    right: 0.5rem;
-    background-color: transparent;
-    transition: background-color 0.1s linear;
-    :hover {
-        background-color: #ffffff22;
-    }
-`;

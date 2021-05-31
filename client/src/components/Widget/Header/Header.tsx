@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledCloseButton } from "../Frame/Frame.styles";
+import { StyledCloseButton } from "./Header.styles";
 import { StyledHeader } from "./Header.styles";
 
 interface Props {

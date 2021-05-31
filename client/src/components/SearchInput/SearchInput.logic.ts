@@ -12,7 +12,7 @@ const SearchInputLogic = () => {
             lat: undefined,
             lng: undefined,
         },
-        distance: undefined,
+        distance: 50,
     });
 
     // Gets local location when location bar renders

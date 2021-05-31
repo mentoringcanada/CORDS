@@ -4,11 +4,12 @@ export const StyledSmallService = styled.div`
     position: relative;
     padding: 0.8rem;
     margin: 0.5rem 0.5rem 1rem 0.5rem;
-    border-radius: 0.3rem;
+    border-radius: 0.2rem;
     cursor: pointer;
-    box-shadow: 0px 4px 7px grey;
     transition: background-color 0.1s linear;
     background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: rgb(59 59 59 / 5%) 0px 5px 15px 0px;
     :hover {
         background-color: #fbfbfb;
     }

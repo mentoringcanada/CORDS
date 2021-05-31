@@ -11,6 +11,8 @@ export const StyledHeader = styled.header`
     box-shadow: 0px 1px 5px grey;
     outline: 3px solid #ccc;
     .logo-link {
+        display: flex;
+        align-items: center;
         margin-left: 2rem;
         img {
             height: 2.6rem;
@@ -28,10 +30,15 @@ export const StyledHeader = styled.header`
             background-color: #ccc;
         }
     }
-    @media only screen and (max-width: 500px) {
-        img {
+    @media only screen and (max-width: 768px) {
+        .logo-link {
+            margin-left: 0.5rem;
             height: 2.3rem;
-            margin-left: 1rem;
+        }
+        .right {
+            .break {
+                margin: 0 0.3rem;
+            }
         }
     }
 `;

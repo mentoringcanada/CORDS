@@ -5,8 +5,6 @@ export const GET_DEMO_CONTENT = gql`
         demos(locale: $language) {
             explanation
             buttonText
-            infoCloseText
-            infoOpenText
         }
     }
 `;
@@ -19,8 +17,6 @@ export const GET_CUSTOM_DEMO_CONTENT = gql`
             buttonText
             customNamePlaceholder
             customDescriptionPlaceholder
-            infoCloseText
-            infoOpenText
         }
     }
 `;
@@ -30,7 +26,6 @@ export const GET_SEARCH_INPUT_CONTENT = gql`
         searches(locale: $language) {
             searchBarPlaceholder
             locationPlaceholder
-            distancePlaceholder
         }
     }
 `;

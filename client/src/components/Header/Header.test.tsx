@@ -2,10 +2,8 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Header from "./Header";
 import { BrowserRouter as Router } from "react-router-dom";
 import LanguageContext from "../../helper/LanguageContext";
-import React from "react";
 import { MockedProvider } from "@apollo/client/testing";
 import { GET_NAV_CONTENT } from "../../helper/CMS";
-import Nav from "./Nav/Nav";
 
 const GET_NAV_MOCK = {
     request: {
@@ -68,7 +66,7 @@ describe("Header", () => {
     });
     describe("Dropdown", () => {
         test("Demos dropdown menu opens and closes", async () => {
-            render(
+            const { debug } = render(
                 <MockedProvider mocks={[GET_NAV_MOCK]} addTypename={false}>
                     <LanguageContext.Provider value={{ language: "en" }}>
                         <Router>
@@ -77,17 +75,18 @@ describe("Header", () => {
                     </LanguageContext.Provider>
                 </MockedProvider>
             );
-            await expect(screen.queryByText("Food")).toBeNull;
+            await expect(screen.queryByText("Food")).toBeNull();
             const dropdownButton = await screen.getByText("Demos");
             await fireEvent.click(dropdownButton);
 
             await waitFor(() => screen.getByText("Food"));
 
-            const logo = await screen.getByAltText("CORDS Title Logo");
-            await fireEvent.click(logo);
+            await screen.getByAltText("CORDS Title Logo");
+            await fireEvent.click(dropdownButton);
 
             const foodLink = await screen.queryByText("Food");
-            await expect(foodLink).toBeNull;
+            await waitFor(() => expect(foodLink).toBeNull());
+            debug();
         });
         test("Click link", async () => {
             render(
