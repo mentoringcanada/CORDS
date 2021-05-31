@@ -72,5 +72,4 @@ def test_get_geo_similar():
         app_state,
         vectorizer
     )
-    print('this is the length', len(output))
     assert output == ['get_constrained_results'] * 10

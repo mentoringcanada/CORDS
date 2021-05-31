@@ -43,8 +43,9 @@ def get_similar(
     # Get description from item ID, create a SearchRequest, then call search()
     description = converters.convert2text(
         model.get_description_from_ID(item_id))
+    text = converters.convert2text(description)
     search_request = SearchRequest(
-        query=description,
+        query=text,
     )
     results = search(session_token, search_request, app_state, vector_model)
     return results
