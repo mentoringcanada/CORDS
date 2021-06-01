@@ -5,7 +5,7 @@ export const StyledSearch = styled.div`
     height: 100%;
     overflow: auto;
     .break {
-        margin: 0.8rem 0 0.2rem 0 !important;
+        margin: 0.5rem 0 0.5rem 0 !important;
         width: 100%;
         background-color: #ddd;
         border-radius: 1px;

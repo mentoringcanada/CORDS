@@ -79,6 +79,6 @@ export const StyledViewSimilarButton = styled.button`
     font-size: 1.1rem;
     border-radius: 0.3rem;
     @media only screen and (max-width: 768px) {
-        font-size: 0.9rem;
+        font-size: 1rem;
     } ;
 `;

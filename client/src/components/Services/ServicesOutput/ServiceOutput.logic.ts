@@ -3,6 +3,11 @@ import { Service } from "../../../types";
 
 const ServiceOutputLogic = () => {
     const [focus, setFocus] = useState<number | null>(null);
+    const [filterOption, setFilterOption] = useState("best");
+
+    const handleFilterOption = (filter: any) => {
+        setFilterOption(filter.value);
+    };
 
     const resetScrollEffect = (
         ref: React.MutableRefObject<HTMLDivElement | null>
@@ -34,6 +39,8 @@ const ServiceOutputLogic = () => {
         setFocus,
         useOnServicesChange,
         useOnFocusChange,
+        filterOption,
+        handleFilterOption,
     };
 };
 

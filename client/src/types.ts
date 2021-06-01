@@ -1,11 +1,13 @@
 export interface Service {
     name: string;
+    nom: string;
     item_id: string;
     lat: number;
     lng: number;
     address: string;
     link: string;
     description: string;
+    description_fr: string;
     distance: number;
     phone: string;
 }

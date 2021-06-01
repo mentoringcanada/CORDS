@@ -32,7 +32,8 @@ const SearchInput = ({ handleGeoSearch }: Props) => {
             />
             <LocationBar
                 locationPlaceholder={searchInputContent.locationPlaceholder}
-                distancePlaceholder={searchInputContent.distancePlaceholder}
+                distanceTextLocal={searchInputContent.distanceTextLocal}
+                distanceTextNoLocal={searchInputContent.distanceTextNoLocal}
             />
         </SearchInputContext.Provider>
     );

@@ -26,6 +26,8 @@ const secondRes = {
                 address: "30 Up Street",
                 distance: 20,
                 link: "google.com",
+                description_fr: "french desc",
+                nom: "french nom",
             },
             {
                 name: "Test Service One",
@@ -36,6 +38,8 @@ const secondRes = {
                 address: "20 Made Street",
                 distance: 15,
                 link: "www.google.com",
+                description_fr: "french desc",
+                nom: "french nom",
             },
         ],
     },
@@ -46,15 +50,17 @@ jest.mock("axios");
 describe("Services", () => {
     test("ServiceList renders services", async () => {
         render(
-            <ServicesOutput
-                serviceResults={{
-                    services: servicesRes.data.items,
-                    location: {
-                        lat: undefined,
-                        lng: undefined,
-                    },
-                }}
-            />
+            <LanguageContext.Provider value={{ language: "en" }}>
+                <ServicesOutput
+                    serviceResults={{
+                        services: servicesRes.data.items,
+                        location: {
+                            lat: undefined,
+                            lng: undefined,
+                        },
+                    }}
+                />
+            </LanguageContext.Provider>
         );
 
         await screen.getByText("Test Service One");
@@ -70,17 +76,19 @@ describe("Services", () => {
             "www.google.com"
         );
     });
-    test("Click in-out of service", async () => {
+    it("Clicks in-out of service", async () => {
         render(
-            <ServicesOutput
-                serviceResults={{
-                    services: servicesRes.data.items,
-                    location: {
-                        lat: undefined,
-                        lng: undefined,
-                    },
-                }}
-            />
+            <LanguageContext.Provider value={{ language: "en" }}>
+                <ServicesOutput
+                    serviceResults={{
+                        services: servicesRes.data.items,
+                        location: {
+                            lat: undefined,
+                            lng: undefined,
+                        },
+                    }}
+                />
+            </LanguageContext.Provider>
         );
         Object(axios.post).mockResolvedValueOnce(servicesRes);
 
@@ -93,8 +101,7 @@ describe("Services", () => {
             "Test Service One"
         );
         await screen.getByText("Address:");
-        await screen.queryByText("Distance:");
-        await screen.queryByText("Phone Number:");
+        await screen.getByText("Phone Number:");
         await screen.getByText("This is the first fake service");
 
         await screen.getByText("View More");
@@ -108,7 +115,6 @@ describe("Services", () => {
         await fireEvent.click(backButton);
 
         await expect(screen.queryByText("Address:")).toBeNull();
-        await expect(screen.queryByText("Distance:")).toBeNull();
         await expect(screen.queryByText("Phone Number:")).toBeNull();
         await expect(screen.queryByText("View More")).toBeNull();
         await expect(screen.queryByText("Directions")).toBeNull();
@@ -116,15 +122,17 @@ describe("Services", () => {
     });
     test("Click into similar", async () => {
         render(
-            <ServicesOutput
-                serviceResults={{
-                    services: servicesRes.data.items,
-                    location: {
-                        lat: undefined,
-                        lng: undefined,
-                    },
-                }}
-            />
+            <LanguageContext.Provider value={{ language: "en" }}>
+                <ServicesOutput
+                    serviceResults={{
+                        services: servicesRes.data.items,
+                        location: {
+                            lat: undefined,
+                            lng: undefined,
+                        },
+                    }}
+                />
+            </LanguageContext.Provider>
         );
         Object(axios.post)
             .mockReturnValueOnce(servicesRes)

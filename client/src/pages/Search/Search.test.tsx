@@ -19,6 +19,8 @@ const GET_SEARCH_INPUT_MOCK = {
                 {
                     searchBarPlaceholder: "How can we help?",
                     locationPlaceholder: "Where",
+                    distanceTextLocal: "Text",
+                    distanceTextNoLocal: "Text",
                 },
             ],
         },

@@ -3,6 +3,7 @@ import React from "react";
 import { FaAngleLeft, FaMapMarkerAlt } from "react-icons/fa";
 import {
     StyledBackButton,
+    StyledInfo,
     StyledLargeService,
     StyledLinks,
 } from "./LargeService.styles";
@@ -44,24 +45,26 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                             <h2 className="info" data-testid="large-title">
                                 {service.name}
                             </h2>
-                            {service.address !== "" && (
-                                <p className="info">
-                                    <strong>Address: </strong>
-                                    {service.address}
-                                </p>
-                            )}
-                            {service.distance && (
-                                <p className="info">
-                                    <strong>Distance: </strong>
-                                    {`${service.distance.toFixed(1)} km`}
-                                </p>
-                            )}
-                            {service.phone !== "" && (
-                                <p className="info">
-                                    <strong>Phone Number: </strong>
-                                    {service.phone}
-                                </p>
-                            )}
+                            <StyledInfo>
+                                {service.address !== "" && (
+                                    <p>
+                                        <strong>Address: </strong>
+                                        {service.address}
+                                    </p>
+                                )}
+                                {service.distance && (
+                                    <p>
+                                        <strong>Distance: </strong>
+                                        {`${service.distance.toFixed(1)} km`}
+                                    </p>
+                                )}
+                                {service.phone !== "" && (
+                                    <p>
+                                        <strong>Phone Number: </strong>
+                                        {service.phone}
+                                    </p>
+                                )}
+                            </StyledInfo>
                             <StyledDescription
                                 className="info-desc"
                                 dangerouslySetInnerHTML={{
@@ -101,6 +104,7 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                                     link={service.link}
                                     description={service.description}
                                     setFocus={setFocus}
+                                    distance={service.distance}
                                     data-testid="small-service"
                                 />
                             ))}

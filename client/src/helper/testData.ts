@@ -11,6 +11,8 @@ export const servicesRes = {
                 phone: "416-555-5555",
                 distance: 15,
                 link: "www.google.com",
+                description_fr: "french desc",
+                nom: "french nom",
             },
             {
                 name: "Test Service Two",
@@ -22,6 +24,8 @@ export const servicesRes = {
                 phone: "416-555-5555",
                 distance: 20,
                 link: "google.com",
+                description_fr: "french desc",
+                nom: "french nom",
             },
         ],
     },

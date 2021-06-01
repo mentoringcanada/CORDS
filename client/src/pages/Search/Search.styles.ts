@@ -13,6 +13,7 @@ export const StyledSearch = styled.div`
     }
     .break {
         width: 100%;
+        margin-bottom: 0.5rem !important;
         background-color: #ddd;
         border-radius: 1px;
         height: 2px;

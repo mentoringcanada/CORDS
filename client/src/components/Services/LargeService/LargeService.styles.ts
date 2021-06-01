@@ -4,20 +4,6 @@ export const StyledLargeService = styled.div`
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    p.info,
-    h2.info,
-    h3.info {
-        margin-top: 0.4rem;
-    }
-    h2.info {
-        margin: 0rem 1.2rem 0.3rem 0rem;
-        font-size: 1.2rem;
-    }
-    p.info {
-        font-size: 0.8rem;
-        line-height: 1.1rem;
-        color: #4d5156;
-    }
     .similar {
         display: flex;
         align-items: center;
@@ -29,6 +15,23 @@ export const StyledLargeService = styled.div`
         h3 {
             color: white;
         }
+    }
+`;
+
+export const StyledInfo = styled.div`
+    p,
+    h2,
+    h3 {
+        margin-top: 0.4rem;
+    }
+    h2 {
+        margin: 0rem 1.2rem 0.3rem 0rem;
+        font-size: 1.2rem;
+    }
+    p {
+        font-size: 0.8rem;
+        line-height: 1.1rem;
+        color: #4d5156;
     }
 `;
 

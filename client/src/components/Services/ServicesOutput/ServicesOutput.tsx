@@ -1,10 +1,11 @@
-import SmallService from "../SmallService/SmallService";
 import { SearchResults } from "../../../types";
 import LargeService from "../LargeService/LargeService";
 import ServicesOutputLogic from "./ServiceOutput.logic";
 import { StyledServiceOutput } from "./ServiceOutput.styles";
 import React from "react";
 import SearchFeedback from "./SearchFeedback";
+import ServicesList from "../ServicesList/ServicesList";
+import ServicesFilter from "../ServicesFilter/ServicesFilter";
 
 interface Props {
     serviceResults: SearchResults;
@@ -19,13 +20,22 @@ function ServiceOutput({
     searchState,
     setSearchState,
 }: Props) {
-    const { focus, setFocus, useOnServicesChange, useOnFocusChange } =
-        ServicesOutputLogic();
+    const {
+        focus,
+        setFocus,
+        useOnServicesChange,
+        useOnFocusChange,
+        filterOption,
+        handleFilterOption,
+    } = ServicesOutputLogic();
     useOnServicesChange(serviceResults.services, outputRef);
     useOnFocusChange(focus, outputRef);
 
     return (
         <StyledServiceOutput data-testid="output-container">
+            {!focus && setSearchState && (
+                <ServicesFilter handleFilterOption={handleFilterOption} />
+            )}
             {searchState && searchState !== "" && (
                 <SearchFeedback searchState={searchState} />
             )}
@@ -37,18 +47,18 @@ function ServiceOutput({
                     setSearchState={setSearchState}
                     data-testid="large-service"
                 />
+            ) : filterOption === "proximity" ? (
+                <ServicesList
+                    services={serviceResults.services
+                        .concat()
+                        .sort((a, b) => a.distance - b.distance)}
+                    setFocus={setFocus}
+                />
             ) : (
-                serviceResults.services.map((service) => (
-                    <SmallService
-                        key={service.item_id}
-                        id={service.item_id}
-                        name={service.name}
-                        link={service.link}
-                        description={service.description}
-                        setFocus={setFocus}
-                        data-testid="small-service"
-                    />
-                ))
+                <ServicesList
+                    services={serviceResults.services}
+                    setFocus={setFocus}
+                />
             )}
         </StyledServiceOutput>
     );

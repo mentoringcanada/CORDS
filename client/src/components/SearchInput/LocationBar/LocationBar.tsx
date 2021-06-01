@@ -12,10 +12,15 @@ import { useContext } from "react";
 
 interface Props {
     locationPlaceholder: string;
-    distancePlaceholder: string;
+    distanceTextLocal: string;
+    distanceTextNoLocal: string;
 }
 
-const LocationBar = ({ locationPlaceholder, distancePlaceholder }: Props) => {
+const LocationBar = ({
+    locationPlaceholder,
+    distanceTextLocal,
+    distanceTextNoLocal,
+}: Props) => {
     const { geoSearchBody, setGeoSearchBody } = useContext(SearchInputContext);
     const {
         geoInputLocation,
@@ -38,8 +43,8 @@ const LocationBar = ({ locationPlaceholder, distancePlaceholder }: Props) => {
                         placeholder: `${locationPlaceholder}`,
                         noOptionsMessage: () =>
                             geoSearchBody.location
-                                ? "Using local location"
-                                : "Search locations",
+                                ? distanceTextLocal
+                                : distanceTextNoLocal,
                     }}
                     apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                     autocompletionRequest={{
@@ -53,7 +58,6 @@ const LocationBar = ({ locationPlaceholder, distancePlaceholder }: Props) => {
                     options={distanceSelectOptions}
                     styles={SelectStyles(false)}
                     onChange={handleDistanceChange}
-                    placeholder={distancePlaceholder}
                     inputId="select-distance"
                     data-testid="distance-select"
                     isSearchable
