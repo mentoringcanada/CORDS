@@ -1,18 +1,35 @@
-import {
-    render,
-    screen,
-    fireEvent,
-    act,
-    waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import axios from "axios";
 import ServicesOutput from "./ServicesOutput/ServicesOutput";
 import "@testing-library/jest-dom/extend-expect";
 import { servicesRes } from "../../helper/testData";
 import Search from "../../pages/Search/Search";
 import LanguageContext from "../../helper/LanguageContext";
-import React from "react";
 import { MockedProvider } from "@apollo/client/testing";
+import { GET_SEARCH_FILTERS } from "../../helper/CMS";
+
+const GET_SEARCH_FILTERS_MOCK = {
+    request: {
+        query: GET_SEARCH_FILTERS,
+        variables: {
+            language: "en",
+        },
+    },
+    result: {
+        data: {
+            searchFilters: [
+                {
+                    label: "label1",
+                    value: "lab1",
+                },
+                {
+                    label: "label2",
+                    value: "lab2",
+                },
+            ],
+        },
+    },
+};
 
 const secondRes = {
     data: {
@@ -50,17 +67,22 @@ jest.mock("axios");
 describe("Services", () => {
     test("ServiceList renders services", async () => {
         render(
-            <LanguageContext.Provider value={{ language: "en" }}>
-                <ServicesOutput
-                    serviceResults={{
-                        services: servicesRes.data.items,
-                        location: {
-                            lat: undefined,
-                            lng: undefined,
-                        },
-                    }}
-                />
-            </LanguageContext.Provider>
+            <MockedProvider
+                mocks={[GET_SEARCH_FILTERS_MOCK]}
+                addTypename={false}
+            >
+                <LanguageContext.Provider value={{ language: "en" }}>
+                    <ServicesOutput
+                        serviceResults={{
+                            services: servicesRes.data.items,
+                            location: {
+                                lat: undefined,
+                                lng: undefined,
+                            },
+                        }}
+                    />
+                </LanguageContext.Provider>
+            </MockedProvider>
         );
 
         await screen.getByText("Test Service One");
@@ -78,17 +100,22 @@ describe("Services", () => {
     });
     it("Clicks in-out of service", async () => {
         render(
-            <LanguageContext.Provider value={{ language: "en" }}>
-                <ServicesOutput
-                    serviceResults={{
-                        services: servicesRes.data.items,
-                        location: {
-                            lat: undefined,
-                            lng: undefined,
-                        },
-                    }}
-                />
-            </LanguageContext.Provider>
+            <MockedProvider
+                mocks={[GET_SEARCH_FILTERS_MOCK]}
+                addTypename={false}
+            >
+                <LanguageContext.Provider value={{ language: "en" }}>
+                    <ServicesOutput
+                        serviceResults={{
+                            services: servicesRes.data.items,
+                            location: {
+                                lat: undefined,
+                                lng: undefined,
+                            },
+                        }}
+                    />
+                </LanguageContext.Provider>
+            </MockedProvider>
         );
         Object(axios.post).mockResolvedValueOnce(servicesRes);
 
@@ -122,17 +149,22 @@ describe("Services", () => {
     });
     test("Click into similar", async () => {
         render(
-            <LanguageContext.Provider value={{ language: "en" }}>
-                <ServicesOutput
-                    serviceResults={{
-                        services: servicesRes.data.items,
-                        location: {
-                            lat: undefined,
-                            lng: undefined,
-                        },
-                    }}
-                />
-            </LanguageContext.Provider>
+            <MockedProvider
+                mocks={[GET_SEARCH_FILTERS_MOCK]}
+                addTypename={false}
+            >
+                <LanguageContext.Provider value={{ language: "en" }}>
+                    <ServicesOutput
+                        serviceResults={{
+                            services: servicesRes.data.items,
+                            location: {
+                                lat: undefined,
+                                lng: undefined,
+                            },
+                        }}
+                    />
+                </LanguageContext.Provider>
+            </MockedProvider>
         );
         Object(axios.post)
             .mockReturnValueOnce(servicesRes)
@@ -155,7 +187,10 @@ describe("Services", () => {
     });
     test("Full use and state", async () => {
         render(
-            <MockedProvider mocks={[]} addTypename={false}>
+            <MockedProvider
+                mocks={[GET_SEARCH_FILTERS_MOCK]}
+                addTypename={false}
+            >
                 <LanguageContext.Provider value={{ language: "en" }}>
                     <Search />
                 </LanguageContext.Provider>

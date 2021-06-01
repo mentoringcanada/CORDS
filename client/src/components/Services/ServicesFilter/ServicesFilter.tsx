@@ -8,12 +8,19 @@ interface Props {
 }
 
 const ServicesFilter = ({ handleFilterOption }: Props) => {
-    const { filterOptions } = ServicesFilterLogic();
+    const { error, filterOptions } = ServicesFilterLogic();
+
+    if (error) {
+        return <p>Content collection error...</p>;
+    }
 
     return (
         <StyledServicesFilter>
             <Select
-                defaultValue={{ label: "Best Match", value: "best" }}
+                defaultValue={{
+                    label: "Best Match",
+                    value: "best",
+                }}
                 options={filterOptions}
                 styles={FilterStyles()}
                 onChange={handleFilterOption}

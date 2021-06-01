@@ -70,3 +70,12 @@ export const GET_DEMO_PAGES = gql`
         }
     }
 `;
+
+export const GET_SEARCH_FILTERS = gql`
+    query ($language: String!) {
+        searchFilters(locale: $language) {
+            label
+            value
+        }
+    }
+`;
