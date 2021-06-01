@@ -16,7 +16,11 @@ def execute(sql, params=()):
         PSQL_CONNECT_STR, cursor_factory=RealDictCursor)
     cursor = connection.cursor()
     cursor.execute(sql, params)
-    return cursor.fetchall()
+    connection.commit()
+    try:
+        return cursor.fetchall()
+    except:
+        return []
 
 
 def get_gta_services_csv():
@@ -42,9 +46,14 @@ def get_all_vectors():
 
 
 def get_description_from_ID(item_id):
-    row = execute(queries.get_item_by_id, (clean_text(item_id),))
-    if len(row):
-        return row[0]['resource_description']
+    item = execute(queries.get_item_by_id, (clean_text(item_id),))
+    if len(item):
+        item = item[0]
+        text = (item['resource_description'] or '') + ' ' + \
+            (item['public_name'] or '') + ' ' + \
+            (item['nom_publique'] or '') + ' ' + \
+            (item['description_francais'] or '')
+        return text
 
 
 def clean_text(text):
@@ -62,8 +71,11 @@ def get_results(result_IDs: list):
     query_results = execute(queries.get_results.format(result_IDs_string, result_IDs),
                             ())
     items = []
+    sort_order = 1
     for query_result in query_results:
         items.append(Item.from_db_row(query_result))
+        items[-1].sortOrder = sort_order
+        sort_order += 1
 
     return items
 
@@ -76,7 +88,10 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))
     items = []
+    sort_order = 1
     for query_result in query_results:
         items.append(Item.from_db_row(query_result))
+        items[-1].sortOrder = sort_order
+        sort_order += 1
 
     return items

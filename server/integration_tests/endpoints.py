@@ -15,7 +15,7 @@ def test_search():
 
 
 def test_similar():
-    response = requests.get(SERVER + '/similar/69795365')
+    response = requests.get(SERVER + '/similar/68976436')
     data = response.json()
     assert len(data['items']) == 10
 

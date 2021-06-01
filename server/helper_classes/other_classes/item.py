@@ -3,8 +3,8 @@ from typing import Optional
 
 
 class Item(BaseModel):
-    name: str = 'test'
-    description: str = 'description'
+    name: Optional[str]
+    description: Optional[str]
     item_id: str
     lat: Optional[float] = 0
     lng: Optional[float] = 0
@@ -12,13 +12,18 @@ class Item(BaseModel):
     distance: Optional[float] = None
     link: str
     phone: str
+    nom: Optional[str]
+    description_fr: Optional[str]
+    sortOrder: Optional[int]
 
     @classmethod
     def from_db_row(cls, db_row):
         geocoordinates = db_row['geocoordinates'][1:-1].split(',')
         if 'distance' in db_row:
-            return Item(name=db_row['public_name'],
-                        description=db_row['resource_description'],
+            return Item(name=db_row['public_name'] or '',
+                        nom=db_row['nom_publique'] or '',
+                        description=db_row['resource_description'] or '',
+                        description_fr=db_row['description_francais'] or '',
                         item_id=db_row['resource_agency_number'],
                         lat=float(geocoordinates[0]),
                         lng=float(geocoordinates[1]),
@@ -27,8 +32,10 @@ class Item(BaseModel):
                         link=db_row['link'],
                         phone=db_row['phone'])
         else:
-            return Item(name=db_row['public_name'],
-                        description=db_row['resource_description'],
+            return Item(name=db_row['public_name'] or '',
+                        nom=db_row['nom_publique'] or '',
+                        description=db_row['resource_description'] or '',
+                        description_fr=db_row['description_francais'] or '',
                         item_id=db_row['resource_agency_number'],
                         lat=float(geocoordinates[0]),
                         lng=float(geocoordinates[1]),

@@ -2,3 +2,5 @@
 */model-directory
 */GTA_211_Services.csv
 server/scripts/.env.sh
+*.pytest_cache
+*.env.sh
