@@ -12,24 +12,21 @@ import { useContext } from "react";
 
 interface Props {
     locationPlaceholder: string;
-    distanceTextLocal: string;
-    distanceTextNoLocal: string;
+    locationMenuText: string;
 }
 
-const LocationBar = ({
-    locationPlaceholder,
-    distanceTextLocal,
-    distanceTextNoLocal,
-}: Props) => {
+const LocationBar = ({ locationPlaceholder, locationMenuText }: Props) => {
     const { geoSearchBody, setGeoSearchBody } = useContext(SearchInputContext);
     const {
         geoInputLocation,
         setGeoInputLocation,
         useLocationInputChange,
         distanceSelectOptions,
+        useHandleLocalLocation,
         handleDistanceChange,
     } = LocationBarLogic(geoSearchBody, setGeoSearchBody);
     useLocationInputChange(geoInputLocation);
+    useHandleLocalLocation();
     const Styles = SelectStyles(true);
 
     return (
@@ -42,11 +39,10 @@ const LocationBar = ({
                         styles: Styles,
                         placeholder: `${locationPlaceholder}`,
                         noOptionsMessage: () =>
-                            geoSearchBody.location
-                                ? distanceTextLocal
-                                : distanceTextNoLocal,
+                            locationMenuText
+                                ? locationMenuText
+                                : "Search locations",
                     }}
-                    apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                     autocompletionRequest={{
                         componentRestrictions: { country: ["ca"] },
                     }}

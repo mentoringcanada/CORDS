@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { useContext, useEffect, useState } from "react";
-import { getLocalLocation } from "../../helper/API";
+import { useContext, useState } from "react";
 import { GET_SEARCH_INPUT_CONTENT } from "../../helper/CMS";
 import LanguageContext from "../../helper/LanguageContext";
 import { GeoSearchBody } from "../../types";
@@ -15,18 +14,6 @@ const SearchInputLogic = () => {
         distance: 50,
     });
 
-    // Gets local location when location bar renders
-    const useHandleLocalLocation = () => {
-        useEffect(() => {
-            getLocalLocation().then((localLocation: any) =>
-                setGeoSearchBody({
-                    ...geoSearchBody,
-                    location: localLocation,
-                })
-            );
-        }, []);
-    };
-
     // Text content
     const { language } = useContext(LanguageContext);
     const { error, data } = useQuery(GET_SEARCH_INPUT_CONTENT, {
@@ -38,7 +25,6 @@ const SearchInputLogic = () => {
     return {
         geoSearchBody,
         setGeoSearchBody,
-        useHandleLocalLocation,
         error,
         searchInputContent,
     };

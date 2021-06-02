@@ -24,6 +24,7 @@ const ServicesFilter = ({ handleFilterOption }: Props) => {
                 options={filterOptions}
                 styles={FilterStyles()}
                 onChange={handleFilterOption}
+                isSearchable={false}
             />
         </StyledServicesFilter>
     );

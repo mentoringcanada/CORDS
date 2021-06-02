@@ -26,8 +26,7 @@ export const GET_SEARCH_INPUT_CONTENT = gql`
         searches(locale: $language) {
             searchBarPlaceholder
             locationPlaceholder
-            distanceTextLocal
-            distanceTextNoLocal
+            locationMenuText
         }
     }
 `;

@@ -1,6 +1,10 @@
 import { GeoSearchBody } from "../../../types";
-import { geocodeByPlaceId } from "react-google-places-autocomplete";
+import {
+    geocodeByPlaceId,
+    geocodeByLatLng,
+} from "react-google-places-autocomplete";
 import { useEffect, useState } from "react";
+import { getLocalLocation } from "../../../helper/API";
 
 const distanceSelectOptions = [
     { value: 1, label: "1km" },
@@ -17,6 +21,27 @@ const LocationBarLogic = (
 ) => {
     // Location
     const [geoInputLocation, setGeoInputLocation] = useState<any>();
+
+    // Gets local location when location bar renders
+    const useHandleLocalLocation = () => {
+        useEffect(() => {
+            const setLocalLocation = async () => {
+                const localLocation: any = await getLocalLocation();
+                setGeoSearchBody({
+                    ...geoSearchBody,
+                    location: localLocation,
+                });
+                const res = await geocodeByLatLng(localLocation);
+                setGeoInputLocation({
+                    value: {
+                        place_id: res[0].place_id,
+                    },
+                    label: res[0].formatted_address,
+                });
+            };
+            setLocalLocation();
+        }, []);
+    };
 
     const useLocationInputChange = (geoInputLocation: any) => {
         useEffect(() => {
@@ -48,6 +73,7 @@ const LocationBarLogic = (
         geoInputLocation,
         setGeoInputLocation,
         useLocationInputChange,
+        useHandleLocalLocation,
         handleDistanceChange,
         distanceSelectOptions,
     };

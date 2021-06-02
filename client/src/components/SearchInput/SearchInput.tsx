@@ -9,14 +9,8 @@ interface Props {
 }
 
 const SearchInput = ({ handleGeoSearch }: Props) => {
-    const {
-        geoSearchBody,
-        setGeoSearchBody,
-        useHandleLocalLocation,
-        error,
-        searchInputContent,
-    } = SearchInputLogic();
-    useHandleLocalLocation();
+    const { geoSearchBody, setGeoSearchBody, error, searchInputContent } =
+        SearchInputLogic();
 
     if (error) {
         return <p>Content collection error...</p>;
@@ -32,8 +26,7 @@ const SearchInput = ({ handleGeoSearch }: Props) => {
             />
             <LocationBar
                 locationPlaceholder={searchInputContent.locationPlaceholder}
-                distanceTextLocal={searchInputContent.distanceTextLocal}
-                distanceTextNoLocal={searchInputContent.distanceTextNoLocal}
+                locationMenuText={searchInputContent.locationMenuText}
             />
         </SearchInputContext.Provider>
     );
