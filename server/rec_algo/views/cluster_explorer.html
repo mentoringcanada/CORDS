@@ -1,0 +1,159 @@
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 80rem;
+            padding: 2rem;
+            margin: auto;
+            background: #fafafa;
+            font-size: 2em;
+        }
+        
+        #taxonomies {
+            overflow: scroll;
+            height: 600px;
+        }
+        
+        #explanation {
+            display: none;
+        }
+    </style>
+    <title>Cluster-based recommendation demo</title>
+</head>
+
+<body>
+    <h1>Cluster-based recommendation demo</h1>
+
+    <div id="app">
+        <button onclick="toggleExplanation()">toggle explanation</button>
+        <div id="explanation">
+            This demo allows you to see our innovative and helpful cluster-based recommendations. <br/> Every service has a taxonomy but what about recommendations across taxonomies?<br/>
+            <p><u>Demo:</u></p>
+            <p>1) See which clusters are most related.</p>
+            <p>2) Select a cluster.</p>
+            <p>3) Review that cluster's items.</p><br>
+            <hr>
+            <p><u>Methodology:</u></p>
+            <p>1) Each service description was vectorized using an open source, multilingual <a href="https://tfhub.dev/google/universal-sentence-encoder-multilingual-large/3">vectorizer</a>.</p>
+            <p>2) Each service vector was assigned into 1 of 100 cluster IDs using <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.Birch.html">Birch clustering</a>.</p>
+            <p>3) Each taxonomy code was assigned a cluster ID based on a majority of service cluster IDs.</p>
+            <p>4) The cluster centres are calcu26lated by an average of the constituant vectors.</p>
+            <p>5) The cluster centres are reduced to 2-dimensions using PCA to plot them simply.</p>
+        </div>
+        <div>
+            <h2>Plotted dimension-reduced centres of clusters:</h2>
+            <div>
+                <canvas id="canvas" height="1000px" width="1000px"></canvas>
+            </div>
+        </div>
+        <div id="search">
+            <h2>Cluster selection</h2>
+            <input id="clusterId"><button onclick="selectClusterClick()">search</button><br> status:
+            <span id="status">empty</span>
+        </div>
+        <div id="clusterItems"></div>
+    </div>
+    <script>
+        // State
+        const state = {
+            clusters: [],
+            currentCluster: null
+        };
+
+        // helpers
+        const scaleCoordinate = (coordinate, scale = 1000) => coordinate * scale;
+
+        // State updates
+        const setCurrentCluster = (clusterId) => {
+            return getClusterData(clusterId)
+                .then(data => {
+                    state.currentCluster = data;
+                });
+        };
+
+        const setClusters = clusters => {
+            state.clusters = clusters;
+        }
+
+        // Data fetches
+        const getClustersData = () => {
+            return fetch("/clusters")
+                .then(data => data.json())
+                .then(json => json.clusters);
+        };
+
+        const getClusterData = (clusterId) => {
+            return fetch("/cluster?clusterId=" + clusterId)
+                .then(data => data.json());
+        };
+
+        // UI updates
+        const updateCurrentClusterUi = () => {
+            const itemsList = document.getElementById('clusterItems');
+            const itemsText = state.currentCluster.items.map(createListItem).join('<br>')
+            itemsList.innerHTML = itemsText;
+            console.log(state.currentCluster);
+        };
+
+        const createListItem = item => `${item[1]}`;
+
+        const paintClusters = () => {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext("2d");
+            state.clusters.forEach(cluster => paintCluster(cluster, context))
+        };
+
+        const paintCluster = (cluster, context) => {
+            const coords = [0, 0]
+            coords[0] = scaleCoordinate(cluster[cluster.length - 2]);
+            coords[1] = scaleCoordinate(cluster[cluster.length - 1]);
+            context.moveTo(coords[0], coords[1]);
+            context.fillText(cluster[0].toString(), coords[0], coords[1]);
+        };
+
+        const toggleExplanation = () => {
+            var x = document.getElementById("explanation");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        };
+
+        // UI actions
+        const selectClusterClick = () => {
+            clusterId = document.getElementById("clusterId").value;
+            return setCurrentCluster(clusterId)
+                .then(updateCurrentClusterUi);
+        };
+
+        const start = () => {
+            const elem = document.getElementById('status');
+            elem.innerText = 'loading cluster map!';
+            return Promise.resolve(true).then(() => {
+                return getClustersData()
+                    .then(setClusters);
+            }).then(() => {
+                elem.innerText = 'cluster map loaded, select a cluster to explore.';
+                paintClusters();
+            });
+        };
+
+        // Execute a function when the user releases a key on the keyboard
+        document.getElementById("clusterId").addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                selectClusterClick();
+            }
+        });
+    </script>
+
+    <script>
+        start();
+    </script>
+</body>
+
+</html>
