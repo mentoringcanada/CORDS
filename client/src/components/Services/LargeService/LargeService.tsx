@@ -10,9 +10,9 @@ import {
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../styles/StyledContainer";
 import { FaLink } from "react-icons/fa";
-import SmallService from "../SmallService/SmallService";
 import { Location } from "../../../types";
 import { StyledDescription } from "../SmallService/SmallService.styles";
+import ServicesList from "../ServicesList/ServicesList";
 
 interface Props {
     id: number;
@@ -23,10 +23,8 @@ interface Props {
 
 // Component
 const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
-    const { similar, service, useSetState } = LargeServiceLogic(
-        location,
-        setSearchState
-    );
+    const { similar, service, useSetState, getName, getDescription } =
+        LargeServiceLogic(location, setSearchState);
     useSetState(id);
 
     return (
@@ -43,7 +41,7 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                                 <FaAngleLeft />
                             </StyledBackButton>
                             <h2 className="info" data-testid="large-title">
-                                {service.name}
+                                {getName(service)}
                             </h2>
                             <StyledInfo>
                                 {service.address !== "" && (
@@ -68,7 +66,7 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                             <StyledDescription
                                 className="info-desc"
                                 dangerouslySetInnerHTML={{
-                                    __html: service.description,
+                                    __html: getDescription(service),
                                 }}
                             ></StyledDescription>
                             <StyledLinks>
@@ -94,21 +92,7 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                             <h3>Similar</h3>
                         </div>
                     </StyledLargeService>
-                    <>
-                        {similar &&
-                            similar.map((service) => (
-                                <SmallService
-                                    key={service.item_id}
-                                    id={service.item_id}
-                                    name={service.name}
-                                    link={service.link}
-                                    description={service.description}
-                                    setFocus={setFocus}
-                                    distance={service.distance}
-                                    data-testid="small-service"
-                                />
-                            ))}
-                    </>
+                    <ServicesList setFocus={setFocus} services={similar} />
                 </>
             )}
         </>

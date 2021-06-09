@@ -2,7 +2,7 @@ import LocationBar from "./LocationBar/LocationBar";
 import SearchBar from "./SearchBar/SearchBar";
 import SearchInputLogic from "./SearchInput.logic";
 import SearchInputContext from "./SearchInputContext";
-import { GeoSearchBody } from "../../types";
+import { GeoSearchBody } from "../../../types";
 
 interface Props {
     handleGeoSearch: (geoSearchBody: GeoSearchBody) => void;

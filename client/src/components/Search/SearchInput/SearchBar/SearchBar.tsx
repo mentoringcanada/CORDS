@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 import { StyledSearchBar } from "./SearchBar.styles";
-import { GeoSearchBody } from "../../../types";
+import { GeoSearchBody } from "../../../../types";
 import SearchBarLogic from "./SearchBar.logic";
 
 interface Props {

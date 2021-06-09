@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
 import { useContext, useState } from "react";
-import { GET_SEARCH_INPUT_CONTENT } from "../../helper/CMS";
-import LanguageContext from "../../helper/LanguageContext";
-import { GeoSearchBody } from "../../types";
+import { GET_SEARCH_INPUT_CONTENT } from "../../../helper/CMS";
+import LanguageContext from "../../../helper/LanguageContext";
+import { GeoSearchBody } from "../../../types";
 
 const SearchInputLogic = () => {
     const [geoSearchBody, setGeoSearchBody] = useState<GeoSearchBody>({

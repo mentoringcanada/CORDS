@@ -28,19 +28,21 @@ const GET_DEMO_PAGES_MOCK = {
     },
 };
 
-it("Renders", () => {
-    render(
-        <MockedProvider mocks={[GET_DEMO_PAGES_MOCK]} addTypename={false}>
-            <App />
-        </MockedProvider>
-    );
-});
-it("Renders with error", async () => {
-    render(
-        <MockedProvider mocks={[]} addTypename={false}>
-            <App />
-        </MockedProvider>
-    );
+describe("App", () => {
+    it("Renders", () => {
+        render(
+            <MockedProvider mocks={[GET_DEMO_PAGES_MOCK]} addTypename={false}>
+                <App />
+            </MockedProvider>
+        );
+    });
+    it("Renders with error", async () => {
+        render(
+            <MockedProvider mocks={[]} addTypename={false}>
+                <App />
+            </MockedProvider>
+        );
 
-    await waitFor(() => screen.getByText("Content collection error..."));
+        await waitFor(() => screen.getByText("Content collection error..."));
+    });
 });

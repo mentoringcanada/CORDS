@@ -1,12 +1,13 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import axios from "axios";
-import WidgetSearch from "./pages/Search/Search";
+import WidgetSearch from "./pages/Search/SearchPage";
 import Widget from "./Widget";
 import { servicesRes, emptyRes } from "../../helper/testData";
 import { MockedProvider } from "@apollo/client/testing";
 import LanguageContext from "../../helper/LanguageContext";
 import { GET_WIDGET_CONTENT } from "../../helper/CMS";
-import Search from "./pages/Search/Search";
+import Search from "./pages/Search/SearchPage";
+import HelmetData from "../../helper/Helmet";
 
 jest.mock("axios");
 
@@ -32,6 +33,7 @@ describe("Widget", () => {
     it("Renders & opens/closes without error", async () => {
         render(
             <MockedProvider mocks={[GET_WIDGET_MOCK]} addTypename={false}>
+                <HelmetData />
                 <LanguageContext.Provider value={{ language: "en" }}>
                     <Widget />
                 </LanguageContext.Provider>
@@ -62,6 +64,7 @@ describe("Widget", () => {
         test("No location/distance", async () => {
             render(
                 <MockedProvider mocks={[]} addTypename={false}>
+                    <HelmetData />
                     <LanguageContext.Provider value={{ language: "en" }}>
                         <Search />
                     </LanguageContext.Provider>
@@ -85,6 +88,7 @@ describe("Widget", () => {
         test("No results found", async () => {
             render(
                 <MockedProvider mocks={[]} addTypename={false}>
+                    <HelmetData />
                     <LanguageContext.Provider value={{ language: "en" }}>
                         <WidgetSearch />
                     </LanguageContext.Provider>

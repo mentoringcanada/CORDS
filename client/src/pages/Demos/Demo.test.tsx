@@ -6,8 +6,8 @@ import CustomDemo from "./CustomDemo/CustomDemo";
 import Demo from "./Demo";
 import { GET_CUSTOM_DEMO_CONTENT, GET_DEMO_CONTENT } from "../../helper/CMS";
 import LanguageContext from "../../helper/LanguageContext";
-import { debug } from "node:console";
-import { isConstructorDeclaration } from "typescript";
+
+window.scrollTo = jest.fn();
 
 // Mocks
 const GET_DEMO_MOCK = {

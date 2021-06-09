@@ -1,10 +1,10 @@
-import { GeoSearchBody } from "../../../types";
+import { GeoSearchBody } from "../../../../types";
 import {
     geocodeByPlaceId,
     geocodeByLatLng,
 } from "react-google-places-autocomplete";
 import { useEffect, useState } from "react";
-import { getLocalLocation } from "../../../helper/API";
+import { getLocalLocation } from "../../../../helper/API";
 
 const distanceSelectOptions = [
     { value: 1, label: "1km" },

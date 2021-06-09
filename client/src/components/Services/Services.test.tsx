@@ -3,10 +3,13 @@ import axios from "axios";
 import ServicesOutput from "./ServicesOutput/ServicesOutput";
 import "@testing-library/jest-dom/extend-expect";
 import { servicesRes } from "../../helper/testData";
-import Search from "../../pages/Search/Search";
+import Search from "../../pages/Search/SearchPage";
 import LanguageContext from "../../helper/LanguageContext";
 import { MockedProvider } from "@apollo/client/testing";
 import { GET_SEARCH_FILTERS } from "../../helper/CMS";
+import HelmetData from "../../helper/Helmet";
+
+window.scrollTo = jest.fn();
 
 const GET_SEARCH_FILTERS_MOCK = {
     request: {
@@ -191,6 +194,7 @@ describe("Services", () => {
                 mocks={[GET_SEARCH_FILTERS_MOCK]}
                 addTypename={false}
             >
+                <HelmetData />
                 <LanguageContext.Provider value={{ language: "en" }}>
                     <Search />
                 </LanguageContext.Provider>

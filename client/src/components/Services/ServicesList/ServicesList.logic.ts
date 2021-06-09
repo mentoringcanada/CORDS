@@ -12,9 +12,13 @@ const ServicesListLogic = () => {
     };
 
     const getDescription = (service: Service) => {
-        return language === "fr-CA" && service.description_fr !== ""
-            ? service.description_fr
-            : service.description;
+        let desc =
+            language === "fr-CA" && service.description_fr !== ""
+                ? service.description_fr
+                : service.description;
+
+        desc = desc.replace(/[\u{0080}-\u{FFFF}]/gu, "");
+        return desc;
     };
 
     return {

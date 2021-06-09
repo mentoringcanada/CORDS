@@ -48,7 +48,7 @@ export const StyledDescription = styled.div`
     font-size: 0.8rem;
     line-height: 1.1rem;
     ul {
-        margin-left: 1rem;
+        margin: 0 0 0.5rem 1rem;
     }
     a {
         display: block;
