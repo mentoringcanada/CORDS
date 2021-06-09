@@ -78,3 +78,16 @@ export const GET_SEARCH_FILTERS = gql`
         }
     }
 `;
+
+export const GET_LARGE_SERVICE = gql`
+    query ($language: String!) {
+        largeServices(locale: $language) {
+            address
+            distance
+            phone
+            viewMore
+            directions
+            similar
+        }
+    }
+`;

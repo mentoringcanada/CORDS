@@ -23,9 +23,20 @@ interface Props {
 
 // Component
 const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
-    const { similar, service, useSetState, getName, getDescription } =
-        LargeServiceLogic(location, setSearchState);
+    const {
+        similar,
+        service,
+        useSetState,
+        getName,
+        getDescription,
+        largeServiceContent,
+        error,
+    } = LargeServiceLogic(location, setSearchState);
     useSetState(id);
+
+    if (error) {
+        return <p>Content collection error...</p>;
+    }
 
     return (
         <>
@@ -46,19 +57,25 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                             <StyledInfo>
                                 {service.address !== "" && (
                                     <p>
-                                        <strong>Address: </strong>
+                                        <strong>
+                                            {largeServiceContent.address}{" "}
+                                        </strong>
                                         {service.address}
                                     </p>
                                 )}
                                 {service.distance && (
                                     <p>
-                                        <strong>Distance: </strong>
+                                        <strong>
+                                            {largeServiceContent.distance}{" "}
+                                        </strong>
                                         {`${service.distance.toFixed(1)} km`}
                                     </p>
                                 )}
                                 {service.phone !== "" && (
                                     <p>
-                                        <strong>Phone Number: </strong>
+                                        <strong>
+                                            {largeServiceContent.phone}{" "}
+                                        </strong>
                                         {service.phone}
                                     </p>
                                 )}
@@ -76,7 +93,7 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                                     rel="noreferrer"
                                 >
                                     <FaLink />
-                                    View More
+                                    {largeServiceContent.viewMore}
                                 </a>
                                 <a
                                     href={`https://www.google.com/maps/place/${service.lat},${service.lng}`}
@@ -84,12 +101,12 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                                     rel="noreferrer"
                                 >
                                     <FaMapMarkerAlt />
-                                    Directions
+                                    {largeServiceContent.directions}
                                 </a>
                             </StyledLinks>
                         </StyledContainer>
                         <div className="similar">
-                            <h3>Similar</h3>
+                            <h3>{largeServiceContent.similar}</h3>
                         </div>
                     </StyledLargeService>
                     <ServicesList setFocus={setFocus} services={similar} />

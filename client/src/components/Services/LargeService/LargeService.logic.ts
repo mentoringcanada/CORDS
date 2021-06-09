@@ -1,5 +1,7 @@
+import { useQuery } from "@apollo/client";
 import { useEffect, useState, useContext } from "react";
 import { getSimilar } from "../../../helper/API";
+import { GET_LARGE_SERVICE } from "../../../helper/CMS";
 import LanguageContext from "../../../helper/LanguageContext";
 import { Location, Service, SimilarBody } from "../../../types";
 
@@ -44,7 +46,22 @@ const LargeServiceLogic = (
         return desc;
     };
 
-    return { similar, service, useSetState, getName, getDescription };
+    // Text content
+    const { error, data } = useQuery(GET_LARGE_SERVICE, {
+        variables: { language },
+    });
+
+    const largeServiceContent = data ? data.largeServices[0] : [];
+
+    return {
+        similar,
+        service,
+        useSetState,
+        getName,
+        getDescription,
+        largeServiceContent,
+        error,
+    };
 };
 
 export default LargeServiceLogic;

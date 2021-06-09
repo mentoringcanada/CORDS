@@ -66,7 +66,7 @@ describe("Header", () => {
     });
     describe("Dropdown", () => {
         test("Demos dropdown menu opens and closes", async () => {
-            const { debug } = render(
+            render(
                 <MockedProvider mocks={[GET_NAV_MOCK]} addTypename={false}>
                     <LanguageContext.Provider value={{ language: "en" }}>
                         <Router>
@@ -86,7 +86,6 @@ describe("Header", () => {
 
             const foodLink = await screen.queryByText("Food");
             await waitFor(() => expect(foodLink).toBeNull());
-            debug();
         });
         test("Click link", async () => {
             render(

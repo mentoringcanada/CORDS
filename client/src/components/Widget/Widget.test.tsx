@@ -30,10 +30,9 @@ const GET_WIDGET_MOCK = {
 };
 
 describe("Widget", () => {
-    it("Renders & opens/closes without error", async () => {
+    it("Renders & opens/closes", async () => {
         render(
             <MockedProvider mocks={[GET_WIDGET_MOCK]} addTypename={false}>
-                <HelmetData />
                 <LanguageContext.Provider value={{ language: "en" }}>
                     <Widget />
                 </LanguageContext.Provider>
@@ -59,49 +58,5 @@ describe("Widget", () => {
         );
 
         await waitFor(() => screen.getByText("Content collection error..."));
-    });
-    describe("Search", () => {
-        test("No location/distance", async () => {
-            render(
-                <MockedProvider mocks={[]} addTypename={false}>
-                    <HelmetData />
-                    <LanguageContext.Provider value={{ language: "en" }}>
-                        <Search />
-                    </LanguageContext.Provider>
-                </MockedProvider>
-            );
-            await Object(axios.post).mockResolvedValueOnce(servicesRes);
-
-            const searchBar = await screen.getByTestId("search-input");
-            await fireEvent.change(searchBar, {
-                target: { value: "I need food" },
-            });
-
-            const submitButton = await screen.getByTestId("search-button");
-            await fireEvent.click(submitButton);
-
-            await waitFor(() => expect(axios.post).toHaveBeenCalled());
-
-            await screen.getByText("Test Service One");
-            await screen.getByText("Test Service Two");
-        });
-        test("No results found", async () => {
-            render(
-                <MockedProvider mocks={[]} addTypename={false}>
-                    <HelmetData />
-                    <LanguageContext.Provider value={{ language: "en" }}>
-                        <WidgetSearch />
-                    </LanguageContext.Provider>
-                </MockedProvider>
-            );
-            Object(axios.post).mockResolvedValueOnce(emptyRes);
-
-            const searchButton = await screen.getByTestId("search-button");
-            await fireEvent.click(searchButton);
-
-            await waitFor(() => expect(axios.post).toHaveBeenCalled());
-
-            await screen.getByText("No results found in your area...");
-        });
     });
 });
