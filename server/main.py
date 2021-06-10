@@ -14,7 +14,6 @@ from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 import startup
 from fastapi.responses import HTMLResponse
-import recommendation_testing
 from services import cluster_explorer
 from services import cluster_recommendations
 
