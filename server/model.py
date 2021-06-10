@@ -2,6 +2,7 @@ import os
 import pandas
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from psycopg2.extras import execute_values
 import queries
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.other_classes.item import Item
@@ -16,6 +17,18 @@ def execute(sql, params=()):
         PSQL_CONNECT_STR, cursor_factory=RealDictCursor)
     cursor = connection.cursor()
     cursor.execute(sql, params)
+    connection.commit()
+    try:
+        return cursor.fetchall()
+    except:
+        return []
+
+
+def execute_many(sql, data):
+    connection = psycopg2.connect(
+        PSQL_CONNECT_STR)
+    cursor = connection.cursor()
+    execute_values(cursor, sql, data, page_size=500)
     connection.commit()
     try:
         return cursor.fetchall()
@@ -64,6 +77,15 @@ def clean_text(text):
         if char in ok_chars:
             cleaned_text += char
     return cleaned_text
+
+
+def get_codes_from_items(taxonomies):
+    ok_chars = ' *-.,0123456789ABCDEFGHIJKLMNOPQRSTVWXYZ'
+    new_text = ''
+    for char in taxonomies:
+        if char in ok_chars:
+            new_text += char
+    return taxonomies.split(',')
 
 
 def get_results(result_IDs: list):

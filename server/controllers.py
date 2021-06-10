@@ -5,7 +5,8 @@ from helper_classes.request_classes.searchRequest import SearchRequest
 import model
 import numpy as np
 from services import converters
-
+import queries
+from services import cluster_recommendations
 
 def search(
     session_token: str,
@@ -79,7 +80,8 @@ def geo_similar_search(
     """
     # Get description from item ID, create a SearchRequest, then call search()
     geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
-    description = converters.convert2text(model.get_description_from_ID(geo_similar_request.item_id))
+    description = converters.convert2text(
+        model.get_description_from_ID(geo_similar_request.item_id))
     vector = np.asarray(vector_model(description))
     number_of_results = 1000
     _, indexes = app_state.cache.search(vector, number_of_results)
@@ -90,3 +92,18 @@ def geo_similar_search(
             result_IDs.append("'" + item_id + "'")
     results = model.get_constrained_results(geo_similar_request, result_IDs)
     return results[:10]
+
+
+def get_recommended_clusters_from_taxonomies(taxonomies):
+    # sanitize inputs
+    taxonomy_codes = model.get_codes_from_items(taxonomies)
+    cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_taxonomies(taxonomy_codes)
+    output = {}
+    for ID in cluster_IDs:
+        output[str(ID)] = {}
+        cluster_data = model.execute(queries.get_cluster_data, (ID,))
+        output[str(ID)]['cluster_data'] = cluster_data
+        included_taxonomies = model.execute(
+            queries.get_number_of_offered_services_in_cluster, (ID,))
+        output[str(ID)]["taxonomies_included"] = included_taxonomies
+    return output

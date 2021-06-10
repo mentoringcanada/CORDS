@@ -95,10 +95,9 @@
             const itemsList = document.getElementById('clusterItems');
             const itemsText = state.currentCluster.items.map(createListItem).join('<br>')
             itemsList.innerHTML = itemsText;
-            console.log(state.currentCluster);
         };
 
-        const createListItem = item => `${item[1]}`;
+        const createListItem = item => `${item['public_name']}`;
 
         const paintClusters = () => {
             const canvas = document.getElementById('canvas');
@@ -108,10 +107,10 @@
 
         const paintCluster = (cluster, context) => {
             const coords = [0, 0]
-            coords[0] = scaleCoordinate(cluster[cluster.length - 2]);
-            coords[1] = scaleCoordinate(cluster[cluster.length - 1]);
+            coords[0] = scaleCoordinate(cluster["scaled_x"]);
+            coords[1] = scaleCoordinate(cluster["scaled_y"]);
             context.moveTo(coords[0], coords[1]);
-            context.fillText(cluster[0].toString(), coords[0], coords[1]);
+            context.fillText(cluster["cluster_id"].toString(), coords[0], coords[1]);
         };
 
         const toggleExplanation = () => {

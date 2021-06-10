@@ -38,7 +38,7 @@
 
         const removeSelection = (taxonomyCode) => {
             for (let i = state.selectedTaxonomies.length - 1; i >= 0; i--) {
-                if (state.selectedTaxonomies[i][0] === taxonomyCode) {
+                if (state.selectedTaxonomies[i]["taxonomy_code"] === taxonomyCode) {
                     state.selectedTaxonomies.splice(i, 1);
                     break;
                 }
@@ -48,10 +48,10 @@
         };
 
         const addSelection = (data) => {
-            const taxonomyCode = data[0]
+            const taxonomyCode = data["taxonomy_code"]
             let contained = false;
             for (let i = 0; i < state.selectedTaxonomies.length; i++) {
-                if (state.selectedTaxonomies[i][0] === taxonomyCode) {
+                if (state.selectedTaxonomies[i]["taxonomy_code"] === taxonomyCode) {
                     contained = true;
                     break
                 }
@@ -66,7 +66,7 @@
         const search = () => {
             const text = document.getElementById('searchText').value;
             console.log('search for', text);
-            state.displayableTaxonomies = state.taxonomies.filter(elem => elem[1].indexOf(text) > -1);
+            state.displayableTaxonomies = state.taxonomies.filter(elem => elem["taxonomy_name"].indexOf(text) > -1);
             updateTaxonomiesUi();
         };
 
@@ -89,14 +89,14 @@
         const getTaxnomies = () => {
             return fetch("/taxonomies")
                 .then(data => data.json())
-                .then(json => json.items)
+                .then(json => json.taxonomies)
         };
 
         const updateRecommendations = () => {
             const elem = document.getElementById('status');
             elem.innerText = "fetching recommendations";
             Promise.resolve(true).then(() => {
-                const items = state.selectedTaxonomies.map(elem => elem[0]).join(',');
+                const items = state.selectedTaxonomies.map(elem => elem["taxonomy_code"]).join(',');
                 return fetch("/recommendations?items=" + items)
             }).then(data => data.json()).then(json => {
                 state.recommendations = json.clusters;
@@ -121,7 +121,7 @@
 
         const updateSelectionsUi = () => {
             const elem = document.getElementById('selections');
-            const text = state.selectedTaxonomies.map(tax => tax[1] + `<button onclick="removeSelection('${tax[0]}')">remove</button>`).join('<br>');
+            const text = state.selectedTaxonomies.map(tax => tax["taxonomy_name"] + `<button onclick="removeSelection('${tax["taxonomy_code"]}')">remove</button>`).join('<br>');
             elem.innerHTML = text;
         };
 
@@ -146,9 +146,9 @@
         };
 
         const taxonomyView = (taxonomy) => {
-            return `<span id="${taxonomy[0]}">
+            return `<span id="${taxonomy["taxonomy_code"]}">
         <button onclick='addSelection(${JSON.stringify(taxonomy)})'>add to selections</button>
-        ${taxonomy[0]} - ${taxonomy[1]}
+        ${taxonomy["taxonomy_code"]} - ${taxonomy["taxonomy_name"]}
         </span><br>`;
         };
     </script>

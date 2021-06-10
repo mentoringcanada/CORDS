@@ -13,6 +13,10 @@ from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 import startup
+from fastapi.responses import HTMLResponse
+import recommendation_testing
+from services import cluster_explorer
+from services import cluster_recommendations
 
 
 app = FastAPI()
@@ -25,6 +29,8 @@ if os.environ['production'] == True:
         traces_sample_rate=1.0
     )
 
+
+# CORDS portal
 
 @app.post("/search", response_model=ItemList)
 def search(search_request: SearchRequest, session_token: Optional[str] = Header(None)):
@@ -65,3 +71,49 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Option
     results = controllers.geo_similar_search(
         session_token, geo_similar_request, app_state, vector_model)
     return {"items": results}
+
+
+# DEMO ENDPOINTS
+
+
+@app.get("/", response_class=HTMLResponse)
+def main_demos():
+    return open("./views/navigation.html", "r").read()
+
+
+@app.get("/recommendation_demo", response_class=HTMLResponse)
+def recommendation_demo():
+    return open("./views/rec_demo.html", "r").read()
+
+
+@app.get("/cluster_explorer", response_class=HTMLResponse)
+def cluscluster_explorerters():
+    return open("./views/cluster_explorer.html", "r").read()
+
+
+# DEMO API
+
+@app.get("/taxonomies")
+def get_all_taxonomies():
+    results = cluster_recommendations.get_all_taxonomies()
+    return {"taxonomies": results}
+
+
+@app.get("/recommendations")
+def get_clusters_from_taxonomies(items: str = ''):
+    results = controllers.get_recommended_clusters_from_taxonomies(
+        items)
+    return {"clusters": results}
+
+
+@app.get("/clusters")
+def get_all_clusters():
+    clusters = cluster_explorer.get_all_clusters()
+    return {"clusters": clusters}
+
+
+@app.get("/cluster")
+def get_cluster(clusterId: int):
+    cluster_id = int(clusterId)
+    cluster = cluster_explorer.get_cluster(cluster_id)
+    return cluster
