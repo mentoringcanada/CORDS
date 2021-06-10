@@ -92,19 +92,25 @@
                 .then(json => json.taxonomies)
         };
 
+        const getSelectedTaxonomyFromState = () => state.selectedTaxonomies.map(elem => elem["taxonomy_code"]).join(',');
+
+        const fetchRecommendationsUsingSelections = (items) => fetch("/recommendations?items=" + items).then(data => data.json());
+
+        const commitRecommendationsToState = (json) => {
+            state.recommendations = json.clusters;
+        };
+
         const updateRecommendations = () => {
             const elem = document.getElementById('status');
             elem.innerText = "fetching recommendations";
-            Promise.resolve(true).then(() => {
-                const items = state.selectedTaxonomies.map(elem => elem["taxonomy_code"]).join(',');
-                return fetch("/recommendations?items=" + items)
-            }).then(data => data.json()).then(json => {
-                state.recommendations = json.clusters;
-            }).then(() => {
-                updateRecommendationsUi();
-            }).then(() => {
-                elem.innerText = "recommendations listed";
-            })
+            Promise.resolve(true)
+                .then(getSelectedTaxonomyFromState)
+                .then(fetchRecommendationsUsingSelections)
+                .then(commitRecommendationsToState)
+                .then(updateRecommendationsUi)
+                .then(() => {
+                    elem.innerText = "recommendations listed";
+                })
         };
 
         // UI updates
