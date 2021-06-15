@@ -22,8 +22,9 @@ export interface SearchBody {
     search: string;
 }
 export interface GeoSearchBody {
-    search: string;
-    location: Location;
+    query: string;
+    lat: Location["lat"];
+    lng: Location["lng"];
     distance: number;
 }
 export interface SimilarBody {
@@ -32,7 +33,11 @@ export interface SimilarBody {
     lng: number | undefined;
 }
 
-export interface SearchResults {
+export interface Search {
+    query: string;
+    distance: number;
+    filter: string;
+    state: string;
     services: Service[];
     location: Location;
 }
@@ -46,4 +51,12 @@ export interface Demos {
 export interface NavLink {
     linkName: string;
     route: string;
+}
+
+export interface FeedbackBody {
+    item_id: number;
+    query: string;
+    sortOrder: string;
+    msg: string;
+    type: string;
 }

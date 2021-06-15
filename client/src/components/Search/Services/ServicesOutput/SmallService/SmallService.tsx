@@ -1,5 +1,6 @@
 import React from "react";
 import { FaLink } from "react-icons/fa";
+import Feedback from "./Feedback/Feedback";
 import { StyledInfo } from "../LargeService/LargeService.styles";
 import {
     StyledSmallService,
@@ -14,6 +15,7 @@ interface Props {
     description: string;
     distance: number;
     setFocus: React.Dispatch<React.SetStateAction<number | null>>;
+    type: string;
 }
 
 // Component
@@ -24,6 +26,7 @@ const SmallService = ({
     link,
     distance,
     setFocus,
+    type,
 }: Props) => {
     return (
         <StyledSmallService onClick={() => setFocus(Number(id))}>
@@ -47,7 +50,8 @@ const SmallService = ({
             </StyledInfo>
             <StyledDescription
                 dangerouslySetInnerHTML={{ __html: description }}
-            ></StyledDescription>
+            />
+            <Feedback id={id} type={type} />
         </StyledSmallService>
     );
 };

@@ -3,44 +3,43 @@ import {
     StyledDistanceSelect,
     StyledLocationBar,
     StyledLocationSelect,
-} from "./LocationBar.styles";
-import LocationBarLogic from "./LocationBar.logic";
+    StyledServicesFilter,
+} from "./FilterBar.styles";
+import LocationBarLogic from "./FilterBar.logic";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import Select from "react-select";
-import SearchInputContext from "../SearchInputContext";
-import { useContext } from "react";
 
-interface Props {
-    locationPlaceholder: string;
-    locationMenuText: string;
-}
-
-const LocationBar = ({ locationPlaceholder, locationMenuText }: Props) => {
-    const { geoSearchBody, setGeoSearchBody } = useContext(SearchInputContext);
+const FilterBar = () => {
     const {
-        geoInputLocation,
-        setGeoInputLocation,
-        useLocationInputChange,
+        useLocationChange,
         distanceSelectOptions,
         useHandleLocalLocation,
         handleDistanceChange,
-    } = LocationBarLogic(geoSearchBody, setGeoSearchBody);
-    useLocationInputChange(geoInputLocation);
+        handleFilterChange,
+        searchFilters,
+        searchBar,
+        locationValue,
+        setLocationValue,
+        error,
+    } = LocationBarLogic();
+    useLocationChange(locationValue);
     useHandleLocalLocation();
     const Styles = SelectStyles(true);
+
+    if (error) return <p>Content collection error...</p>;
 
     return (
         <StyledLocationBar data-testid="location-bar">
             <StyledLocationSelect data-testid="location-select">
                 <GooglePlacesAutocomplete
                     selectProps={{
-                        value: geoInputLocation,
-                        onChange: setGeoInputLocation,
+                        value: locationValue,
+                        onChange: setLocationValue,
                         styles: Styles,
-                        placeholder: `${locationPlaceholder}`,
+                        placeholder: `${searchBar.locationPlaceholder}`,
                         noOptionsMessage: () =>
-                            locationMenuText
-                                ? locationMenuText
+                            searchBar.locationMenuText
+                                ? searchBar.locationMenuText
                                 : "Search locations",
                     }}
                     autocompletionRequest={{
@@ -52,15 +51,27 @@ const LocationBar = ({ locationPlaceholder, locationMenuText }: Props) => {
                 <Select
                     defaultValue={{ label: "50km", value: 50 }}
                     options={distanceSelectOptions}
-                    styles={SelectStyles(false)}
+                    styles={SelectStyles(true)}
                     onChange={handleDistanceChange}
                     inputId="select-distance"
                     data-testid="distance-select"
                     isSearchable
                 />
             </StyledDistanceSelect>
+            <StyledServicesFilter>
+                <Select
+                    defaultValue={{
+                        label: "Best Match",
+                        value: "best",
+                    }}
+                    options={searchFilters}
+                    styles={SelectStyles(false)}
+                    onChange={handleFilterChange}
+                    isSearchable={false}
+                />
+            </StyledServicesFilter>
         </StyledLocationBar>
     );
 };
 
-export default LocationBar;
+export default FilterBar;

@@ -8,21 +8,20 @@ import {
     StyledLinks,
 } from "./LargeService.styles";
 import LargeServiceLogic from "./LargeService.logic";
-import { StyledContainer } from "../../../styles/StyledContainer";
+import { StyledContainer } from "../../../../../styles/StyledContainer";
 import { FaLink } from "react-icons/fa";
-import { Location } from "../../../types";
+import { Location } from "../../../../../types";
 import { StyledDescription } from "../SmallService/SmallService.styles";
 import ServicesList from "../ServicesList/ServicesList";
 
 interface Props {
     id: number;
     setFocus: React.Dispatch<React.SetStateAction<number | null>>;
-    setSearchState?: React.Dispatch<React.SetStateAction<string>>;
     location: Location;
 }
 
 // Component
-const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
+const LargeService = ({ id, setFocus, location }: Props) => {
     const {
         similar,
         service,
@@ -31,12 +30,10 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
         getDescription,
         largeServiceContent,
         error,
-    } = LargeServiceLogic(location, setSearchState);
+    } = LargeServiceLogic(location);
     useSetState(id);
 
-    if (error) {
-        return <p>Content collection error...</p>;
-    }
+    if (error) return <p>Content collection error...</p>;
 
     return (
         <>
@@ -51,10 +48,10 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                             >
                                 <FaAngleLeft />
                             </StyledBackButton>
-                            <h2 className="info" data-testid="large-title">
-                                {getName(service)}
-                            </h2>
                             <StyledInfo>
+                                <h2 className="info" data-testid="large-title">
+                                    {getName(service)}
+                                </h2>
                                 {service.address !== "" && (
                                     <p>
                                         <strong>
@@ -109,7 +106,11 @@ const LargeService = ({ id, setFocus, location, setSearchState }: Props) => {
                             <h3>{largeServiceContent.similar}</h3>
                         </div>
                     </StyledLargeService>
-                    <ServicesList setFocus={setFocus} services={similar} />
+                    <ServicesList
+                        setFocus={setFocus}
+                        services={similar}
+                        type={"similar"}
+                    />
                 </>
             )}
         </>

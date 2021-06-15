@@ -1,10 +1,13 @@
-import { GeoSearchBody } from "../../../../types";
 import {
     geocodeByPlaceId,
     geocodeByLatLng,
 } from "react-google-places-autocomplete";
-import { useEffect, useState } from "react";
-import { getLocalLocation } from "../../../../helper/API";
+import { useContext, useEffect, useState } from "react";
+import { getLocalLocation } from "../../../helper/API";
+import { useQuery } from "@apollo/client";
+import SearchContext from "../SearchContext";
+import LanguageContext from "../../../helper/LanguageContext";
+import { GET_SEARCH_FILTERS } from "../../../helper/CMS";
 
 const distanceSelectOptions = [
     { value: 1, label: "1km" },
@@ -15,24 +18,21 @@ const distanceSelectOptions = [
     { value: 50, label: "50km" },
 ];
 
-const LocationBarLogic = (
-    geoSearchBody: GeoSearchBody,
-    setGeoSearchBody: React.Dispatch<React.SetStateAction<GeoSearchBody>>
-) => {
-    // Location
-    const [geoInputLocation, setGeoInputLocation] = useState<any>();
+const LocationBarLogic = () => {
+    const { search, setSearch } = useContext(SearchContext);
+    const [locationValue, setLocationValue] = useState<any>();
 
     // Gets local location when location bar renders
     const useHandleLocalLocation = () => {
         useEffect(() => {
             const setLocalLocation = async () => {
                 const localLocation: any = await getLocalLocation();
-                setGeoSearchBody({
-                    ...geoSearchBody,
+                setSearch({
+                    ...search,
                     location: localLocation,
                 });
                 const res = await geocodeByLatLng(localLocation);
-                setGeoInputLocation({
+                setLocationValue({
                     value: {
                         place_id: res[0].place_id,
                     },
@@ -43,14 +43,14 @@ const LocationBarLogic = (
         }, []);
     };
 
-    const useLocationInputChange = (geoInputLocation: any) => {
+    const useLocationChange = (geoInputLocation: any) => {
         useEffect(() => {
             const setLocationContext = async () => {
                 const res = await geocodeByPlaceId(
                     geoInputLocation.value.place_id
                 );
-                await setGeoSearchBody({
-                    ...geoSearchBody,
+                setSearch({
+                    ...search,
                     location: {
                         lat: res[0].geometry.location.lat(),
                         lng: res[0].geometry.location.lng(),
@@ -63,19 +63,40 @@ const LocationBarLogic = (
 
     // Distance
     const handleDistanceChange = (distanceValue: any) => {
-        setGeoSearchBody({
-            ...geoSearchBody,
+        setSearch({
+            ...search,
             distance: distanceValue.value,
         });
     };
 
+    // Filter
+    const handleFilterChange = (filter: any) => {
+        setSearch({
+            ...search,
+            filter: filter.value,
+        });
+    };
+
+    // Text content
+    const { language } = useContext(LanguageContext);
+    const { error, data } = useQuery(GET_SEARCH_FILTERS, {
+        variables: { language },
+    });
+
+    const searchFilters = data ? data.searchFilters : [];
+    const searchBar = data ? data.searches[0] : [];
+
     return {
-        geoInputLocation,
-        setGeoInputLocation,
-        useLocationInputChange,
+        locationValue,
+        setLocationValue,
+        useLocationChange,
         useHandleLocalLocation,
         handleDistanceChange,
+        handleFilterChange,
         distanceSelectOptions,
+        searchFilters,
+        searchBar,
+        error,
     };
 };
 

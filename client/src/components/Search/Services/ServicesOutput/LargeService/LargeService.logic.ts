@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useState, useContext } from "react";
-import { getSimilar } from "../../../helper/API";
-import { GET_LARGE_SERVICE } from "../../../helper/CMS";
-import LanguageContext from "../../../helper/LanguageContext";
-import { Location, Service, SimilarBody } from "../../../types";
+import { getSimilar } from "../../../../../helper/API";
+import { GET_LARGE_SERVICE } from "../../../../../helper/CMS";
+import LanguageContext from "../../../../../helper/LanguageContext";
+import { Location, Service, SimilarBody } from "../../../../../types";
 
 const LargeServiceLogic = (
     location: Location,
@@ -21,9 +21,7 @@ const LargeServiceLogic = (
                 lng: location.lng,
             };
             // Gets service data on component startup
-            if (setSearchState !== undefined) setSearchState("searching");
             getSimilar(similarBody).then((res) => {
-                if (setSearchState !== undefined) setSearchState("");
                 setService(res[0]);
                 setSimilar(res.slice(1));
             });
@@ -31,9 +29,13 @@ const LargeServiceLogic = (
     };
 
     const getName = (service: Service) => {
-        return language === "fr-CA" && service.nom !== ""
-            ? service.nom
-            : service.name;
+        let name =
+            language === "fr-CA" && service.nom !== ""
+                ? service.nom
+                : service.name;
+
+        name = name.replace(/[\u{0080}-\u{FFFF}]/gu, "");
+        return name;
     };
 
     const getDescription = (service: Service) => {

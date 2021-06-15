@@ -1,7 +1,7 @@
 // Imports
 import axios from "axios";
 // Types
-import { SearchBody, GeoSearchBody, SimilarBody } from "../types";
+import { SearchBody, SimilarBody, FeedbackBody, GeoSearchBody } from "../types";
 
 // SEARCH //
 // Takes id and returns similar results array
@@ -21,11 +21,6 @@ export const getSimilar = async (similarBody: SimilarBody) => {
             },
         }
     );
-    // const res = await axios.get(`/similar/${similarBody.resourceId}`, {
-    //     headers: {
-    //         session_token: `${localStorage.getItem("session_token")}`,
-    //     },
-    // });
     const data = await res.data;
     return data.items;
 };
@@ -45,18 +40,15 @@ export const getSearchResults = async (searchBody: SearchBody) => {
     const data = await res.data;
     return data.items;
 };
-export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
+export const getGeoSearchResults = async (geoSearch: GeoSearchBody) => {
+    console.log(geoSearch.lat, geoSearch.lng);
     const res = await axios.post(
         "/geosearch",
         {
-            query: geoSearchBody.search || "",
-            lat: geoSearchBody.location.lat
-                ? Number(geoSearchBody.location.lat.toFixed(4))
-                : 43.6532,
-            lng: geoSearchBody.location.lng
-                ? Number(geoSearchBody.location.lng.toFixed(4))
-                : -79.3832,
-            distance: geoSearchBody.distance,
+            query: geoSearch.query || "",
+            lat: geoSearch.lat ? Number(geoSearch.lat.toFixed(6)) : 43.6532,
+            lng: geoSearch.lng ? Number(geoSearch.lng.toFixed(6)) : -79.3832,
+            distance: geoSearch.distance,
         },
         {
             headers: {
@@ -64,24 +56,39 @@ export const getGeoSearchResults = async (geoSearchBody: GeoSearchBody) => {
             },
         }
     );
-    const data = await res.data;
+    const data = res.data;
     return data.items;
+};
+
+export const sendFeedback = async (feedbackBody: FeedbackBody) => {
+    const res = await axios.post("/feedback", {
+        query: feedbackBody.query,
+        item_id: feedbackBody.item_id,
+        sortOrder: feedbackBody.sortOrder,
+        msg: feedbackBody.msg,
+        type: feedbackBody.type,
+    });
+    const data = await res.data;
+    return data;
 };
 
 export const getLocalLocation = async () => {
     return await new Promise((res) => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
+        if (window.navigator.geolocation) {
+            window.navigator.geolocation.getCurrentPosition(
                 (position) => {
+                    console.log(position);
                     const localLocation = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude,
                     };
+                    console.log(localLocation);
                     res(localLocation);
                 },
                 (error) => {
                     console.log(`Location error: ${error.message}`);
-                }
+                },
+                { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true }
             );
         }
     });

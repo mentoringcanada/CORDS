@@ -1,20 +1,20 @@
 import styled from "styled-components";
 
-export const FilterStyles = () => {
+export const SelectStyles = (left: boolean) => {
     return {
         container: (provided: any) => ({
             ...provided,
             fontFamily: "var(--secondary-font), Arial",
             fontSize: "0.8rem",
             color: "#222222",
-            width: "6.5rem",
-            marginRight: "0.5rem",
         }),
         control: (provided: any) => ({
             ...provided,
+            borderRadius: "1.2rem",
             transition: "0.3s border",
             border: "1px solid transparent",
             boxShadow: "1px 1px 3px grey",
+            marginRight: left ? "0.6rem" : "",
             "&:hover": { borderColor: "#aaa" },
         }),
         option: (styles: any, state: any) => ({
@@ -26,9 +26,21 @@ export const FilterStyles = () => {
     };
 };
 
-export const StyledServicesFilter = styled.div`
+export const StyledLocationBar = styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: left;
+    margin-bottom: 0.8rem;
     width: 100%;
-    margin-bottom: 0.6rem;
+`;
+
+export const StyledLocationSelect = styled.div`
+    width: 16rem;
+`;
+
+export const StyledDistanceSelect = styled.div`
+    width: 5.5rem;
+`;
+
+export const StyledServicesFilter = styled.div`
+    width: 7rem;
 `;

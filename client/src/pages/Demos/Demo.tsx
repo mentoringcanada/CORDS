@@ -1,5 +1,4 @@
 import DemoLogic from "./Demo.logic";
-import ServicesOutput from "../../components/Services/ServicesOutput/ServicesOutput";
 import {
     StyledDefaultInfo,
     StyledDemo,
@@ -8,6 +7,9 @@ import {
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
 import DemoInfo from "./DemoInfo/DemoInfo";
+import ServicesList from "../../components/Search/Services/ServicesOutput/ServicesList/ServicesList";
+import { useState } from "react";
+import LargeService from "../../components/Search/Services/ServicesOutput/LargeService/LargeService";
 
 interface Props {
     description: string;
@@ -23,6 +25,7 @@ const Demo = ({ description, title }: Props) => {
         demoContent,
     } = DemoLogic();
     useHandleDemoChange(description);
+    const [focus, setFocus] = useState<number | null>(null);
 
     if (error) {
         return <p>Content collection error...</p>;
@@ -44,10 +47,22 @@ const Demo = ({ description, title }: Props) => {
                     </StyledDefaultInfo>
                     <DemoInfo explanation={demoContent.explanation} />
                 </StyledContainer>
-                {similarResults.services &&
+                {focus ? (
+                    <LargeService
+                        id={focus}
+                        setFocus={setFocus}
+                        location={{ lat: 0, lng: 0 }}
+                    />
+                ) : (
+                    similarResults.services &&
                     similarResults.services.length !== 0 && (
-                        <ServicesOutput serviceResults={similarResults} />
-                    )}
+                        <ServicesList
+                            type="similar"
+                            services={similarResults.services}
+                            setFocus={setFocus}
+                        />
+                    )
+                )}
             </StyledDemo>
         </StyledPageContainer>
     );

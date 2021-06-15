@@ -16,9 +16,7 @@ import Helmet from "./helper/Helmet";
 function App() {
     const { language, setLanguage, error, demoPages } = AppLogic();
 
-    if (error) {
-        return <p>Content collection error...</p>;
-    }
+    if (error) return <p>Content collection error...</p>;
 
     return (
         <HelmetProvider>

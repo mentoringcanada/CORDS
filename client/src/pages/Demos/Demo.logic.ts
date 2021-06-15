@@ -3,10 +3,9 @@ import { useContext, useEffect, useState } from "react";
 import { getSearchResults } from "../../helper/API";
 import { GET_DEMO_CONTENT } from "../../helper/CMS";
 import LanguageContext from "../../helper/LanguageContext";
-import { SearchResults } from "../../types";
 
 const DemoLogic = () => {
-    const [similarResults, setSimilarResults] = useState<SearchResults>({
+    const [similarResults, setSimilarResults] = useState<any>({
         services: [],
         location: {
             lat: undefined,

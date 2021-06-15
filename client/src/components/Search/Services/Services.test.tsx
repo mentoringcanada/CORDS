@@ -2,12 +2,12 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import axios from "axios";
 import ServicesOutput from "./ServicesOutput/ServicesOutput";
 import "@testing-library/jest-dom/extend-expect";
-import { servicesRes } from "../../helper/testData";
-import Search from "../../pages/Search/SearchPage";
-import LanguageContext from "../../helper/LanguageContext";
+import { servicesRes } from "../../../helper/testData";
+import Search from "../../../pages/Search/SearchPage";
+import LanguageContext from "../../../helper/LanguageContext";
 import { MockedProvider } from "@apollo/client/testing";
-import { GET_LARGE_SERVICE, GET_SEARCH_FILTERS } from "../../helper/CMS";
-import HelmetData from "../../helper/Helmet";
+import { GET_LARGE_SERVICE, GET_SEARCH_FILTERS } from "../../../helper/CMS";
+import HelmetData from "../../../helper/Helmet";
 
 window.scrollTo = jest.fn();
 

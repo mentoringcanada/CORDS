@@ -25,8 +25,8 @@ export const StyledInfo = styled.div`
         margin-top: 0.4rem;
     }
     h2 {
-        margin: 0rem 1.2rem 0.3rem 0rem;
-        font-size: 1.2rem;
+        margin: 0rem 2rem 0.3rem 0rem;
+        font-size: 1.4rem;
     }
     p {
         font-size: 0.8rem;

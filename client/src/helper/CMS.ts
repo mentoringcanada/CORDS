@@ -21,12 +21,32 @@ export const GET_CUSTOM_DEMO_CONTENT = gql`
     }
 `;
 
+// Search Input
 export const GET_SEARCH_INPUT_CONTENT = gql`
     query ($language: String!) {
         searches(locale: $language) {
             searchBarPlaceholder
             locationPlaceholder
             locationMenuText
+        }
+    }
+`;
+export const GET_SEARCH_BAR = gql`
+    query ($language: String!) {
+        searches(locale: $language) {
+            searchBarPlaceholder
+        }
+    }
+`;
+export const GET_SEARCH_FILTERS = gql`
+    query ($language: String!) {
+        searches(locale: $language) {
+            locationPlaceholder
+            locationMenuText
+        }
+        searchFilters(locale: $language) {
+            label
+            value
         }
     }
 `;
@@ -66,15 +86,6 @@ export const GET_DEMO_PAGES = gql`
             route
             description
             name
-        }
-    }
-`;
-
-export const GET_SEARCH_FILTERS = gql`
-    query ($language: String!) {
-        searchFilters(locale: $language) {
-            label
-            value
         }
     }
 `;

@@ -1,4 +1,3 @@
-import ServicesOutput from "../../../components/Services/ServicesOutput/ServicesOutput";
 import { MdEdit } from "react-icons/md";
 import DemoLogic from "../Demo.logic";
 import CustomDemoLogic from "./CustomDemo.logic";
@@ -10,6 +9,9 @@ import {
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
 import DemoInfo from "../DemoInfo/DemoInfo";
+import LargeService from "../../../components/Search/Services/ServicesOutput/LargeService/LargeService";
+import ServicesList from "../../../components/Search/Services/ServicesOutput/ServicesList/ServicesList";
+import { useState } from "react";
 
 const CustomDemo = () => {
     const { similarResults, handleSimilar, useHandleDemoChange } = DemoLogic();
@@ -22,6 +24,7 @@ const CustomDemo = () => {
         customDemoContent,
     } = CustomDemoLogic();
     useHandleDemoChange("");
+    const [focus, setFocus] = useState<number | null>(null);
 
     if (error) {
         return <p>Content collection error...</p>;
@@ -70,12 +73,22 @@ const CustomDemo = () => {
                         explanation={customDemoContent.customExplanation}
                     />
                 </StyledContainer>
-                {similarResults.services &&
+                {focus ? (
+                    <LargeService
+                        id={focus}
+                        setFocus={setFocus}
+                        location={{ lat: 0, lng: 0 }}
+                    />
+                ) : (
+                    similarResults.services &&
                     similarResults.services.length !== 0 && (
-                        <ServicesOutput
-                            serviceResults={similarResults}
-                        ></ServicesOutput>
-                    )}
+                        <ServicesList
+                            services={similarResults.services}
+                            setFocus={setFocus}
+                            type="similar"
+                        />
+                    )
+                )}
             </StyledDemo>
         </StyledPageContainer>
     );

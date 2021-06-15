@@ -1,14 +1,15 @@
 import React from "react";
-import { Service } from "../../../types";
+import { Service } from "../../../../../types";
 import SmallService from "../SmallService/SmallService";
 import ServicesListLogic from "./ServicesList.logic";
 
 interface Props {
     services: Service[];
     setFocus: React.Dispatch<React.SetStateAction<number | null>>;
+    type: string;
 }
 
-const ServicesList = ({ services, setFocus }: Props) => {
+const ServicesList = ({ services, setFocus, type }: Props) => {
     const { getName, getDescription } = ServicesListLogic();
 
     return (
@@ -23,6 +24,7 @@ const ServicesList = ({ services, setFocus }: Props) => {
                     setFocus={setFocus}
                     distance={service.distance}
                     data-testid="small-service"
+                    type={type}
                 />
             ))}
         </>

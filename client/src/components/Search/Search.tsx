@@ -1,26 +1,23 @@
-import ServiceOutput from "../Services/ServicesOutput/ServicesOutput";
+import ServiceOutput from "./Services/ServicesOutput/ServicesOutput";
 import SearchLogic from "./Search.logic";
-import SearchInput from "./SearchInput/SearchInput";
+import SearchContext from "./SearchContext";
+import FilterBar from "./FilterBar/FilterBar";
+import SearchBar from "./SearchBar/SearchBar";
 
 interface Props {
     outputRef?: React.MutableRefObject<any>;
 }
 
 const Search = ({ outputRef }: Props) => {
-    const { searchResults, searchState, setSearchState, handleGeoSearch } =
-        SearchLogic();
+    const { search, setSearch, handleGeoSearch } = SearchLogic();
 
     return (
-        <>
-            <SearchInput handleGeoSearch={handleGeoSearch} />
+        <SearchContext.Provider value={{ search, setSearch }}>
+            <SearchBar handleGeoSearch={handleGeoSearch} />
+            <FilterBar />
             <div className="break" />
-            <ServiceOutput
-                serviceResults={searchResults}
-                searchState={searchState}
-                outputRef={outputRef ? outputRef : undefined}
-                setSearchState={setSearchState}
-            />
-        </>
+            <ServiceOutput outputRef={outputRef ? outputRef : undefined} />
+        </SearchContext.Provider>
     );
 };
 

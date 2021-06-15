@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { getGeoSearchResults } from "../../helper/API";
-import { GeoSearchBody, SearchResults } from "../../types";
+import { GeoSearchBody, Search } from "../../types";
 
 const SearchLogic = () => {
-    const [searchState, setSearchState] = useState("");
-    const [searchResults, setSearchResults] = useState<SearchResults>({
+    const [search, setSearch] = useState<Search>({
+        query: "",
+        distance: 50,
+        filter: "best",
+        state: "",
         services: [],
         location: {
             lat: undefined,
@@ -12,34 +15,24 @@ const SearchLogic = () => {
         },
     });
 
-    const handleGeoSearch = (geoSearchBody: GeoSearchBody) => {
-        // Reset search results
-        setSearchResults({
-            services: [],
-            location: {
-                lat: undefined,
-                lng: undefined,
-            },
-        });
-        setSearchState("searching");
-        getGeoSearchResults(geoSearchBody).then((res) => {
+    const handleGeoSearch = (geoSearch: GeoSearchBody) => {
+        setSearch({ ...search, state: "searching" });
+        getGeoSearchResults(geoSearch).then((res) => {
             if (Array.isArray(res) && !res.length) {
-                setSearchState("no-results");
+                setSearch({ ...search, state: "no-results" });
             } else {
-                setSearchState("");
-                setSearchResults({
+                setSearch({
+                    ...search,
+                    state: "",
                     services: res,
-                    location: geoSearchBody.location,
                 });
             }
         });
     };
 
     return {
-        searchResults,
-        setSearchResults,
-        searchState,
-        setSearchState,
+        search,
+        setSearch,
         handleGeoSearch,
     };
 };
