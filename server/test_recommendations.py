@@ -1,5 +1,4 @@
 import csv
-import numpy as np
 import queries
 import model
 from services import cluster_recommendations
@@ -10,7 +9,8 @@ def setup_db():
         cluster_id INT,
         centre DOUBLE PRECISION[],
         two_dim POINT,
-        num_services INT
+        num_services INT,
+        summary varchar
     );""")
     model.execute(
         """ALTER TABLE resources ADD COLUMN cluster_id integer;""")
@@ -40,7 +40,6 @@ def load_pairs_to_database():
     # insert (ID, taxonomy) into database
     c = 0
     for row in data:
-        print(c)
         model.execute(queries.load_recommendation_data, row)
         c += 1
 
@@ -53,7 +52,7 @@ def load_taxonomy_codes_per_service_to_database():
     data = []
     with open('GTA_211_Services.csv', newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-        print(next(reader))
+        next(reader)
         for row in reader:
             all_taxes = row[-3].split('; ')
             for taxo in all_taxes:
@@ -64,23 +63,18 @@ def load_taxonomy_codes_per_service_to_database():
     # insert (ID, taxonomy) into database
     c = 0
     for row in data:
-        print(c)
         model.execute(queries.insert_service_taxonomy, row)
         c += 1
 
 
 def is_item_in_clusters(item, cluster_labels):
     # get_cluster_labels for item
-    data = model.execute(queries.is_item_in_cluster, (item,))
-    # return true/false
-    working = False
-    c = -1
-    for row in data:
-        if row['cluster_id'] in cluster_labels:
-            working = True
-            c = cluster_labels.index(row['cluster_id'])
-            break
-    return working, c
+    data = model.execute(queries.get_applicable_clusters_to_taxonomy, ([item],))[0]['cluster_id']
+    try:
+        index = cluster_labels.index(data)
+    except:
+        index = -1
+    return (index > -1), index
 
 
 def check_if_random_reference_is_recommendable():
@@ -91,7 +85,7 @@ def check_if_random_reference_is_recommendable():
     tally_item.append(str(to_assess_to_algo))
     tally_item.append(str(to_feed_to_algo))
     recommended_cluster_labels = cluster_recommendations.get_cluster_recommendations_from_taxonomies(
-        to_feed_to_algo)
+        to_feed_to_algo, 10)
     tally_item.append(str(recommended_cluster_labels))
     result, order = is_item_in_clusters(
         to_assess_to_algo, recommended_cluster_labels)
@@ -113,8 +107,6 @@ def iterate(how_many_tests=200):
         tally.append(check_if_random_reference_is_recommendable())
         if tally[-1][4] == 'True':
             correct += 1
-        print('correct:', correct, 'out of:', _ + 1,
-              '. Scheduled to do', how_many_tests)
 
     f = open('test_results.csv', 'a')
     for line in tally:
@@ -122,6 +114,20 @@ def iterate(how_many_tests=200):
 
     f.close()
 
+
+# data = model.execute("""select cluster_id, taxonomy_code, count(*) 
+# from resources r
+# inner join service_taxonomies st
+#     ON r.resource_agency_number = st.resource_agency_number
+# group by cluster_id, taxonomy_code
+# order by 1, 3 desc;""")
+# f = open('figure_out.csv', 'a')
+# for d in data:
+#     f.write(
+#         str(d['cluster_id']) + ',' +
+#         str(d['taxonomy_code']) + ',' +
+#         str(d['count']) + '\n'
+#     )
 
 if __name__ == '__main__':
     iterate()

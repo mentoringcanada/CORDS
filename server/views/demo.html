@@ -1,0 +1,350 @@
+<html>
+
+<head>
+    <script src="/scripts/winbox.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 100%;
+            padding: 2rem;
+            background: #fbfbfb;
+            font-size: 2em;
+        }
+        
+        #taxonomies {
+            overflow: scroll;
+            height: 600px;
+        }
+        
+        #explanation {
+            display: none;
+        }
+        
+        #selectionContainer,
+        #clusterMap,
+        #taxSearch,
+        #clusterSearch {
+            display: block;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+    <title>Cluster-based recommendation demo</title>
+</head>
+
+<body>
+    <h1>Cluster-based recommendation demo</h1>
+    <script>
+        // UI components
+        const UIcomponents = {
+            clusterMap: `<div id="clusterMap">
+            <h2><u>Clusters Map</u></h2>
+            <p>This component is the 2D representation of the centres of the clusters. Each number is a cluster ID. Distance on this map shows how related clusters are to each other.</p>
+            <div>
+                <canvas id="canvas" height="500px" width="800px"></canvas>
+            </div>
+        </div>`,
+            explanation: `<div id="explanation">
+            This demo allows you to see our innovative and helpful cluster-based recommendations. <br/> Every service has a taxonomy but what about recommendations across taxonomies?<br/>
+            <p><u>Demo:</u></p>
+            <p>1) Add a taxonomy to your selection.</p>
+            <p>2) Receive cluster ID recommendations.</p>
+            <p>3) Explore the taxonomies inside that cluster.</p><br>
+            <hr>
+            <p><u>Data:</u></p>
+            <p>The 2 data sets to create these recomemndations are provided by 211.</p>
+            <p> The first data set contains: call reference ID and taxonomy code. The second dataset contains: a service with its description, title, and taxonomy code.</p><br>
+            <hr>
+            <p><u>Methodology:</u></p>
+            <p>1) Each service description was vectorized using an open source, multilingual <a href="https://tfhub.dev/google/universal-sentence-encoder-multilingual-large/3">vectorizer</a>.</p>
+            <p>2) Each service vector was assigned into 1 of 100 cluster IDs using <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.Birch.html">Birch clustering</a>.</p>
+            <p>3) Each taxonomy code was assigned a cluster ID based on a majority of service cluster IDs.</p>
+            <p>4) <a href="https://en.wikipedia.org/wiki/Collaborative_filtering">Collaborative filtering</a> is applied from input taxonomies to predict which cluster IDs will most likely be helpful.</p>
+        </div>`,
+            selectionsContainer: `<div id="selectionContainer">
+            <h2><u>Current selections</u></h2>
+            <p>This component shows taxonomies you have selected.</p>
+            <div id="selections"></div>
+        </div>`,
+            taxSearch: `<div id="taxSearch">
+            <h2><u>Taxonomy Search</u></h2>
+            <p>This component allows you to select taxonomies.</p>
+            <input id="searchText"><button onclick="search()">search</button>
+            <div id="taxonomies"></div>
+        </div>`,
+            clusterSearch: `<div id="clusterSearch">
+            <h2><u>Cluster Search</u></h2>
+            <p>This component displays the titles of the contents of one cluster.</p>
+            <input id="clusterIdInput"><button onclick="selectClusterClick()">search</button>
+            <p id="currentClusterDisplay"></p>
+            <div id="clusterItems"></div>
+        </div>`,
+            recommendedClusters: `<div>
+                <h2><u>Recommended Clusters Keywords</u></h2>
+                <p>These keywords are extracted from the descriptions of the services inside each cluster</p>
+                <div id='recommendedList'></div>
+        </div>`
+        }
+    </script>
+
+    <div id="app">
+
+        <div id="viewsToggle">
+            <button onclick="showElement('explanation')">toggle explanation view</button>
+            <button onclick="showElement('taxSearch')">Taxonomy Search</button>
+            <button onclick="showElement('selectionsContainer')">Selections</button>
+            <button onclick="showElement('clusterSearch')">Cluster Search</button>
+            <button onclick="showElement('clusterMap')">Map of clusters</button>
+            <button onclick="showElement('recommendedClusters')">Recommended Clusters' Descriptions</button>
+        </div>
+    </div>
+
+    <script>
+        //state
+        const rec_state = {
+            selectedTaxonomies: [],
+            recommendations: {},
+            taxonomies: [],
+            displayTaxonomies: []
+        };
+
+
+        const state = {
+            clusters: [],
+            currentCluster: {}
+        };
+
+        // State updates
+        const setCurrentCluster = (clusterId) => {
+            return getClusterData(clusterId)
+                .then(data => {
+                    state.currentCluster = data;
+                });
+        };
+
+        const setClusters = clusters => {
+            state.clusters = clusters;
+        };
+
+        const removeSelection = (taxonomyCode) => {
+            for (let i = rec_state.selectedTaxonomies.length - 1; i >= 0; i--) {
+                if (rec_state.selectedTaxonomies[i]["taxonomyCode"] === taxonomyCode) {
+                    rec_state.selectedTaxonomies.splice(i, 1);
+                    break;
+                }
+            }
+            updateSelectionsUi();
+            updateRecommendations();
+        };
+
+        const addSelection = (data) => {
+            const taxonomyCode = data["taxonomyCode"]
+            let contained = false;
+            for (let i = 0; i < rec_state.selectedTaxonomies.length; i++) {
+                if (rec_state.selectedTaxonomies[i]["taxonomyCode"] === taxonomyCode) {
+                    contained = true;
+                    break
+                }
+            }
+            if (!contained) {
+                rec_state.selectedTaxonomies.push(data);
+            }
+            updateSelectionsUi();
+            updateRecommendations();
+        };
+
+        const search = () => {
+            const text = document.getElementById('searchText').value;
+            rec_state.displayableTaxonomies = rec_state.taxonomies.filter(elem => elem["taxonomyName"].indexOf(text) > -1);
+            updateTaxonomiesUi();
+        };
+
+        // Data fetches
+        const getClustersData = () => {
+            return fetch("/clusters")
+                .then(data => data.json())
+                .then(json => json.clusters);
+        };
+
+        const getClusterData = (clusterId) => {
+            return fetch("/cluster?clusterId=" + clusterId)
+                .then(data => data.json());
+        };
+
+        const loadTaxonomies = () => {
+            return getTaxnomies()
+                .then(items => {
+                    rec_state.taxonomies = items
+                }).then(() => {
+                    rec_state.displayableTaxonomies = rec_state.taxonomies;
+                });
+        };
+
+        const getTaxnomies = () => {
+            return fetch("/taxonomies")
+                .then(data => data.json())
+                .then(json => json.taxonomies)
+        };
+
+        const getSelectedTaxonomyFromState = () => rec_state.selectedTaxonomies.map(elem => elem["taxonomyCode"]).join(',');
+
+        const fetchRecommendationsUsingSelections = (items) => fetch("/recommendations?items=" + items).then(data => data.json());
+
+        const commitRecommendationsToState = (json) => {
+            rec_state.recommendations = json.clusters;
+        };
+
+        const updateRecommendations = () => {
+            Promise.resolve(true)
+                .then(getSelectedTaxonomyFromState)
+                .then(fetchRecommendationsUsingSelections)
+                .then(commitRecommendationsToState)
+                .then(updateRecommendationsUi);
+        };
+
+        // UI Updates
+        const selectClusterClick = (clusterId = null) => {
+            if (clusterId == false) {
+                const clusterId = document.getElementById("clusterIdInput").value;
+                document.getElementById("currentClusterDisplay").innerText = `displaying cluster ID: ${clusterId}`;
+                return setCurrentCluster(clusterId)
+                    .then(updateCurrentClusterUi);
+            } else {
+                document.getElementById("currentClusterDisplay").innerText = `displaying cluster ID: ${clusterId}`;
+                return setCurrentCluster(clusterId)
+                    .then(updateCurrentClusterUi);
+            }
+        };
+
+        const loadClusters = () => {
+            return getClustersData()
+                .then(setClusters);
+        };
+
+        const updateCurrentClusterUi = () => {
+            const itemsList = document.getElementById('clusterItems');
+            const itemsText = state.currentCluster.itemList.items.map(createListItem).join('<br>')
+            itemsList.innerHTML = itemsText;
+        };
+
+        const createListItem = item => `${item['name']}`;
+
+        const paintClusters = (selectedClusters = []) => {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext("2d");
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            state.clusters.forEach(cluster => paintCluster(cluster, context, selectedClusters))
+        };
+
+        const paintCluster = (cluster, context, selectedClusters) => {
+            const canvas = document.getElementById('canvas');
+            const centre = [
+                scaleCoordinate(cluster.centre[0], 800),
+                scaleCoordinate(cluster.centre[1], 500)
+            ]
+            context.moveTo(centre[0], centre[1]);
+            context.fillText(cluster.clusterId.toString(), centre[0], centre[1]);
+            if (selectedClusters.indexOf(cluster.clusterId.toString()) > -1) {
+                context.strokeStyle = '#FF0000';
+                context.beginPath();
+                context.arc(centre[0] + 5, centre[1] - 3, 10, 0, 2 * Math.PI, false);
+                context.stroke();
+                context.strokeStyle = '#FFFFFF';
+            }
+        };
+
+        const showElement = (elementUi) => {
+            const fromThis = elementUi;
+            new WinBox({
+                title: elementUi,
+                html: UIcomponents[elementUi],
+                height: Math.random() * 200 + 100,
+                width: Math.random() * 200 + 100,
+                x: Math.random() * 800 + 50,
+                y: Math.random() * 800 + 50,
+            });
+            if (elementUi === 'clusterMap') paintClusters();
+            if (elementUi === 'taxSearch') updateTaxonomiesUi();
+            if (elementUi === 'clusterSearch') attachSelectClusterOnEnterEvent();
+        };
+
+        const displayTaxonmies = (taxonomies) => {
+            const container = document.getElementById('taxonomies');
+            container.innerHTML = '';
+            text = '';
+            rec_state.displayableTaxonomies.forEach(taxonomy => {
+                text += taxonomyView(taxonomy);
+            });
+            container.innerHTML = text;
+        };
+
+        const updateSelectionsUi = () => {
+            const elem = document.getElementById('selections');
+            const text = rec_state.selectedTaxonomies.map(tax => `<button onclick="removeSelection('${tax["taxonomyCode"]}')">-</button>` + tax["taxonomyName"]).join('<br>');
+            elem.innerHTML = text;
+        };
+
+        const updateTaxonomiesUi = () => {
+            displayTaxonmies(rec_state.displayableTaxonomies);
+        };
+
+        const updateRecommendationsUi = () => {
+            const recommendedClusters = [];
+            rec_state.recommendations.forEach(cluster => recommendedClusters.push(cluster.clusterId.toString()))
+            paintClusters(recommendedClusters);
+            describeResults();
+        };
+
+        const describeResults = () => {
+            try {
+                const elem = document.getElementById('recommendedList');
+                const descriptions = rec_state.recommendations.map(clusterDescriptionUi).join('')
+                elem.innerHTML = descriptions;
+            } catch (err) {}
+        }
+
+        const clusterDescriptionUi = cluster => `<div><button onclick="selectClusterClick(${cluster.clusterId})">${cluster.clusterId}</button>: ${cluster.summary}</div>`;
+
+        const taxonomyView = (taxonomy) => {
+            return `<span id="${taxonomy["taxonomyCode"]}">
+        <button onclick='addSelection(${JSON.stringify(taxonomy)})'>+</button>
+        ${taxonomy["taxonomyCode"]} - ${taxonomy["taxonomyName"]}
+        </span><br>`;
+        };
+
+        // helpers
+        const scaleCoordinate = (coordinate, scale = 800) => coordinate * scale * 0.9 + scale * 0.05;
+
+        // Event listener
+        const attachSelectClusterOnEnterEvent = () => {
+            document.getElementById("clusterIdInput")
+                .addEventListener("keyup", function(event) {
+                    // Number 13 is the "Enter" key on the keyboard
+                    if (event.keyCode === 13) {
+                        selectClusterClick();
+                    }
+                });
+        }
+
+        // Event listener
+        const attachTaxonomySearchOnEnterEvent = () => {
+            document.getElementById("searchText")
+                .addEventListener("keyup", function(event) {
+                    // Number 13 is the "Enter" key on the keyboard
+                    if (event.keyCode === 13) {
+                        search();
+                    }
+                });
+        }
+
+        loadClusters();
+        loadTaxonomies();
+    </script>
+
+
+</body>
+
+</html>

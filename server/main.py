@@ -1,4 +1,7 @@
 # import 3rd party modules
+from helper_classes.other_classes.cluster import Cluster
+from helper_classes.other_classes.clusterList import ClusterList
+from helper_classes.other_classes.taxonomyList import TaxonomyList
 from fastapi import FastAPI
 from fastapi import Header
 import os
@@ -76,43 +79,43 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Option
 
 
 @app.get("/", response_class=HTMLResponse)
-def main_demos():
-    return open("./views/navigation.html", "r").read()
+def main_demos_page():
+    return open("./views/demo.html", "r").read()
 
 
-@app.get("/recommendation_demo", response_class=HTMLResponse)
-def recommendation_demo():
-    return open("./views/rec_demo.html", "r").read()
-
-
-@app.get("/cluster_explorer", response_class=HTMLResponse)
-def cluscluster_explorerters():
-    return open("./views/cluster_explorer.html", "r").read()
+@app.get("/scripts/winbox.js", response_class=HTMLResponse)
+def main_demos_page():
+    return open("./static/winbox.js", "r").read()
 
 
 # DEMO API
 
-@app.get("/taxonomies")
+@app.get("/taxonomies", response_model=TaxonomyList)
 def get_all_taxonomies():
     results = cluster_recommendations.get_all_taxonomies()
-    return {"taxonomies": results}
+    return results
 
 
-@app.get("/recommendations")
+@app.get("/recommendations", response_model=ClusterList)
 def get_clusters_from_taxonomies(items: str = ''):
     results = controllers.get_recommended_clusters_from_taxonomies(
         items)
-    return {"clusters": results}
+    return results
 
 
-@app.get("/clusters")
+@app.get("/clusters", response_model=ClusterList)
 def get_all_clusters():
     clusters = cluster_explorer.get_all_clusters()
-    return {"clusters": clusters}
+    return clusters
 
 
-@app.get("/cluster")
+@app.get("/cluster", response_model=Cluster)
 def get_cluster(clusterId: int):
     cluster_id = int(clusterId)
     cluster = cluster_explorer.get_cluster(cluster_id)
     return cluster
+
+
+@app.post("/selections")
+def get_recommended_from_selections():
+    return None

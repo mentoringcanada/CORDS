@@ -46,12 +46,12 @@
         <div>
             <h2>Plotted dimension-reduced centres of clusters:</h2>
             <div>
-                <canvas id="canvas" height="1000px" width="1000px"></canvas>
+                <canvas id="canvas" height="900px" width="900px"></canvas>
             </div>
         </div>
         <div id="search">
             <h2>Cluster selection</h2>
-            <input id="clusterId"><button onclick="selectClusterClick()">search</button><br> status:
+            <input id="clusterIdInput"><button onclick="selectClusterClick()">search</button><br> status:
             <span id="status">empty</span>
         </div>
         <div id="clusterItems"></div>
@@ -60,11 +60,11 @@
         // State
         const state = {
             clusters: [],
-            currentCluster: null
+            currentCluster: {}
         };
 
         // helpers
-        const scaleCoordinate = (coordinate, scale = 1000) => coordinate * scale;
+        const scaleCoordinate = (coordinate, scale = 800) => coordinate * scale + 50;
 
         // State updates
         const setCurrentCluster = (clusterId) => {
@@ -93,28 +93,40 @@
         // UI updates
         const updateCurrentClusterUi = () => {
             const itemsList = document.getElementById('clusterItems');
-            const itemsText = state.currentCluster.items.map(createListItem).join('<br>')
+            const itemsText = state.currentCluster.itemList.items.map(createListItem).join('<br>')
             itemsList.innerHTML = itemsText;
+            const elem = document.getElementById('status');
+            elem.innerHTML = "Cluster ID: " + state.currentCluster.clusterId;
+            elem.innerHTML += '.<br> Descrpition: ' + state.currentCluster.summary + '<hr>';
         };
 
-        const createListItem = item => `${item['public_name']}`;
+        const createListItem = item => `${item['name']}`;
 
-        const paintClusters = () => {
+        const paintClusters = (selectedClusters = []) => {
             const canvas = document.getElementById('canvas');
             const context = canvas.getContext("2d");
-            state.clusters.forEach(cluster => paintCluster(cluster, context))
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            state.clusters.forEach(cluster => paintCluster(cluster, context, selectedClusters))
         };
 
-        const paintCluster = (cluster, context) => {
-            const coords = [0, 0]
-            coords[0] = scaleCoordinate(cluster["scaled_x"]);
-            coords[1] = scaleCoordinate(cluster["scaled_y"]);
-            context.moveTo(coords[0], coords[1]);
-            context.fillText(cluster["cluster_id"].toString(), coords[0], coords[1]);
+        const paintCluster = (cluster, context, selectedClusters) => {
+            const centre = [
+                scaleCoordinate(cluster.centre[0]),
+                scaleCoordinate(cluster.centre[1])
+            ]
+            context.moveTo(centre[0], centre[1]);
+            context.fillText(cluster.clusterId.toString(), centre[0], centre[1]);
+            if (selectedClusters.indexOf(cluster.clusterId.toString()) > -1) {
+                context.strokeStyle = '#FF0000';
+                context.beginPath();
+                context.arc(centre[0] + 5, centre[1] - 3, 10, 0, 2 * Math.PI, false);
+                context.stroke();
+                context.strokeStyle = '#FFFFFF';
+            }
         };
 
         const toggleExplanation = () => {
-            var x = document.getElementById("explanation");
+            const x = document.getElementById("explanation");
             if (x.style.display === "block") {
                 x.style.display = "none";
             } else {
@@ -124,7 +136,8 @@
 
         // UI actions
         const selectClusterClick = () => {
-            clusterId = document.getElementById("clusterId").value;
+            const clusterId = document.getElementById("clusterIdInput").value;
+            paintClusters([clusterId]);
             return setCurrentCluster(clusterId)
                 .then(updateCurrentClusterUi);
         };
@@ -142,7 +155,7 @@
         };
 
         // Execute a function when the user releases a key on the keyboard
-        document.getElementById("clusterId").addEventListener("keyup", function(event) {
+        document.getElementById("clusterIdInput").addEventListener("keyup", function(event) {
             // Number 13 is the "Enter" key on the keyboard
             if (event.keyCode === 13) {
                 selectClusterClick();

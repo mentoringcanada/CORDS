@@ -27,7 +27,7 @@
 <body>
     <script>
         //state
-        const state = {
+        const rec_state = {
             selectedTaxonomies: [],
             recommendations: {},
             taxonomies: [],
@@ -37,9 +37,9 @@
         //state updates
 
         const removeSelection = (taxonomyCode) => {
-            for (let i = state.selectedTaxonomies.length - 1; i >= 0; i--) {
-                if (state.selectedTaxonomies[i]["taxonomy_code"] === taxonomyCode) {
-                    state.selectedTaxonomies.splice(i, 1);
+            for (let i = rec_state.selectedTaxonomies.length - 1; i >= 0; i--) {
+                if (rec_state.selectedTaxonomies[i]["taxonomyCode"] === taxonomyCode) {
+                    rec_state.selectedTaxonomies.splice(i, 1);
                     break;
                 }
             }
@@ -48,16 +48,16 @@
         };
 
         const addSelection = (data) => {
-            const taxonomyCode = data["taxonomy_code"]
+            const taxonomyCode = data["taxonomyCode"]
             let contained = false;
-            for (let i = 0; i < state.selectedTaxonomies.length; i++) {
-                if (state.selectedTaxonomies[i]["taxonomy_code"] === taxonomyCode) {
+            for (let i = 0; i < rec_state.selectedTaxonomies.length; i++) {
+                if (rec_state.selectedTaxonomies[i]["taxonomyCode"] === taxonomyCode) {
                     contained = true;
                     break
                 }
             }
             if (!contained) {
-                state.selectedTaxonomies.push(data);
+                rec_state.selectedTaxonomies.push(data);
             }
             updateSelectionsUi();
             updateRecommendations();
@@ -66,7 +66,7 @@
         const search = () => {
             const text = document.getElementById('searchText').value;
             console.log('search for', text);
-            state.displayableTaxonomies = state.taxonomies.filter(elem => elem["taxonomy_name"].indexOf(text) > -1);
+            rec_state.displayableTaxonomies = rec_state.taxonomies.filter(elem => elem["taxonomyName"].indexOf(text) > -1);
             updateTaxonomiesUi();
         };
 
@@ -77,11 +77,11 @@
             elem.innerText = 'loading data!'
             Promise.resolve(1).then(() => {
                 return getTaxnomies().then(items => {
-                    state.taxonomies = items
+                    rec_state.taxonomies = items
                 })
             }).then(() => {
                 elem.innerText = 'data loaded, ready for seach.'
-                state.displayableTaxonomies = state.taxonomies;
+                rec_state.displayableTaxonomies = rec_state.taxonomies;
                 updateTaxonomiesUi();
             })
         };
@@ -92,12 +92,12 @@
                 .then(json => json.taxonomies)
         };
 
-        const getSelectedTaxonomyFromState = () => state.selectedTaxonomies.map(elem => elem["taxonomy_code"]).join(',');
+        const getSelectedTaxonomyFromState = () => rec_state.selectedTaxonomies.map(elem => elem["taxonomyCode"]).join(',');
 
         const fetchRecommendationsUsingSelections = (items) => fetch("/recommendations?items=" + items).then(data => data.json());
 
         const commitRecommendationsToState = (json) => {
-            state.recommendations = json.clusters;
+            rec_state.recommendations = json.clusters;
         };
 
         const updateRecommendations = () => {
@@ -119,7 +119,7 @@
             const container = document.getElementById('taxonomies');
             container.innerHTML = '';
             text = '';
-            state.displayableTaxonomies.forEach(taxonomy => {
+            rec_state.displayableTaxonomies.forEach(taxonomy => {
                 text += taxonomyView(taxonomy);
             });
             container.innerHTML = text;
@@ -127,18 +127,18 @@
 
         const updateSelectionsUi = () => {
             const elem = document.getElementById('selections');
-            const text = state.selectedTaxonomies.map(tax => tax["taxonomy_name"] + `<button onclick="removeSelection('${tax["taxonomy_code"]}')">remove</button>`).join('<br>');
+            const text = rec_state.selectedTaxonomies.map(tax => tax["taxonomyName"] + `<button onclick="removeSelection('${tax["taxonomyCode"]}')">remove</button>`).join('<br>');
             elem.innerHTML = text;
         };
 
         const updateTaxonomiesUi = () => {
-            displayTaxonmies(state.displayableTaxonomies);
+            displayTaxonmies(rec_state.displayableTaxonomies);
         };
 
         const updateRecommendationsUi = () => {
-            console.log(state.recommendations);
+            console.log(rec_state.recommendations);
             const elem = document.getElementById('recommendations');
-            // const text = state.recommendations.map(tax => tax[1] + ' - ' + tax[0]).join('<br>');
+            // const text = rec_state.recommendations.map(tax => tax[1] + ' - ' + tax[0]).join('<br>');
             elem.innerHTML = 'pretend they are here but check the terminal';
         };
 
@@ -152,9 +152,9 @@
         };
 
         const taxonomyView = (taxonomy) => {
-            return `<span id="${taxonomy["taxonomy_code"]}">
+            return `<span id="${taxonomy["taxonomyCode"]}">
         <button onclick='addSelection(${JSON.stringify(taxonomy)})'>add to selections</button>
-        ${taxonomy["taxonomy_code"]} - ${taxonomy["taxonomy_name"]}
+        ${taxonomy["taxonomyCode"]} - ${taxonomy["taxonomyName"]}
         </span><br>`;
         };
     </script>

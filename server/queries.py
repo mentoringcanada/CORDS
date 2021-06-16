@@ -1,9 +1,11 @@
-get_constrained_results_1 = """SELECT (geocoordinates <@> POINT({0}, {1}))*1.6 as distance, *
+get_constrained_results_1 = """SELECT 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
++cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 as distance, *
 FROM resources
 WHERE resource_agency_number in (
 """
 get_constrained_results_2 = """)
-AND geocoordinates <@> POINT({0}, {1}) < ({2}/1.6)
+AND 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
++cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 < {2}
 ORDER BY array_position(ARRAY[{3}]::varchar[], resource_agency_number)
 LIMIT 10;
 """
@@ -24,9 +26,13 @@ FROM resources WHERE resource_agency_number = %s"""
 
 get_popular_taxonomies = "SELECT distinct taxonomy_code, taxonomy_name, count(*) FROM rec_data GROUP BY taxonomy_code, taxonomy_name ORDER BY 3 DESC;"
 
-get_cluster_data = "SELECT * FROM clusters WHERE cluster_id = %s"
+get_cluster_data = """SELECT *,
+(two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
+(two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
+FROM clusters 
+WHERE cluster_id = %s"""
 
-get_all_items_from_cluster = "SELECT resource_agency_number, public_name, resource_description FROM resources WHERE cluster_id = %s;"
+get_all_items_from_cluster = "SELECT * FROM resources WHERE cluster_id = %s;"
 
 get_taxonomies_clusters = """SELECT 
 MODE() WITHIN GROUP (ORDER BY cluster_id) AS cluster_id,
@@ -36,22 +42,29 @@ INNER JOIN service_taxonomies st
     ON r.resource_agency_number = st.resource_agency_number
 GROUP BY st.taxonomy_code;"""
 
+get_cluster_taxonomies = """SELECT 
+r.cluster_id,
+MODE() WITHIN GROUP (ORDER BY st.taxonomy_code) AS taxonomy_code
+FROM resources r
+INNER JOIN service_taxonomies st
+    ON r.resource_agency_number = st.resource_agency_number
+WHERE r.cluster_id <> any(%s)
+GROUP BY r.cluster_id;"""
+
+get_likelihood_of_vector_to_cluster = """SELECT cluster_id, tax_counts.taxonomy_code, pair_counts.count/tax_counts.count ratio
+FROM (SELECT taxonomy_code, count(*) FROM service_taxonomies GROUP BY taxonomy_code) tax_counts
+INNER JOIN (SELECT cluster_id, taxonomy_code, count(*)
+FROM resources r
+INNER JOIN service_taxonomies st
+    ON r.resource_agency_number = st.resource_agency_number
+GROUP BY cluster_id, taxonomy_code) pair_counts
+ON tax_counts.taxonomy_code = pair_counts.taxonomy_code
+ORDER BY 3 ASC;"""
+
 get_clusters_data = """SELECT *,
 (two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
 (two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
 FROM clusters c"""
-
-get_number_of_offered_services_in_cluster = """SELECT
-    count(*),
-    taxonomy_name
-FROM
-    resources r
-    INNER JOIN service_taxonomies st ON r.resource_agency_number = st.resource_agency_number
-WHERE
-    r.cluster_id = %s
-GROUP BY
-    taxonomy_name
-ORDER BY 1 DESC;"""
 
 get_all_vectors_and_IDs = """SELECT resource_agency_number, description_vector
     FROM resources
@@ -97,35 +110,16 @@ SET cluster_id = e.cluster_id
 FROM (VALUES %s) as e(cluster_id, resource_agency_number)
 WHERE e.resource_agency_number = r.resource_agency_number;"""
 
-get_applicable_clusters_to_taxonomy = """SELECT cluster_id 
-    FROM (
-        SELECT
-            cluster_id,
-            count(*)
-        FROM
-            service_taxonomies st
-        INNER JOIN
-            resources r
-        ON
-            st.resource_agency_number = r.resource_agency_number
-        WHERE
-            taxonomy_code = any(%s)
-        GROUP BY
-            cluster_id
-        ORDER BY
-            2 DESC
-        LIMIT
-            5
-    ) clusters ;
+get_applicable_clusters_to_taxonomy = """ ;
     """
 
-get_cluster_recommendations = """SELECT
+get_cluster_recommendations_from_clusters = """SELECT
         cluster_id
     FROM
         (
             SELECT
                 cluster_id,
-                SUM(call_points_table.call_points) as cluster_points
+                SUM(LOG(call_points_table.call_points)) as cluster_points
             FROM
                 rec_data rc
                 INNER JOIN (
@@ -135,7 +129,11 @@ get_cluster_recommendations = """SELECT
                     FROM
                         rec_data
                     WHERE
-                        cluster_id = any(%s::int[])
+                        cluster_id in (
+                            SELECT distinct cluster_id 
+                            FROM rec_data
+                            WHERE taxonomy_code = any(%s)
+                        )
                     GROUP BY
                         call_report_number
                 ) call_points_table ON rc.call_report_number = call_points_table.call_report_number
@@ -143,35 +141,7 @@ get_cluster_recommendations = """SELECT
             ORDER BY
                 2 DESC
             LIMIT
-                5
-        ) clusters"""
-
-get_restricted_cluster_recommendations = """SELECT
-        cluster_id
-    FROM
-        (
-            SELECT
-                cluster_id,
-                SUM(call_points_table.call_points) as cluster_points
-            FROM
-                rec_data rc
-                INNER JOIN (
-                    SELECT
-                        call_report_number,
-                        COUNT(*) as call_points
-                    FROM
-                        rec_data
-                    WHERE
-                        cluster_id = any(%s::int[])
-                    GROUP BY
-                        call_report_number
-                ) call_points_table ON rc.call_report_number = call_points_table.call_report_number
-            WHERE cluster_id <> ANY(%s)
-            GROUP BY cluster_id
-            ORDER BY
-                2 DESC
-            LIMIT
-                5
+                %s
         ) clusters"""
 
 get_random_multiple_referral_call = """SELECT

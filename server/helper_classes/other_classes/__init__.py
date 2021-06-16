@@ -1,1 +1,1 @@
-all = ["request_classes", "item"]
+all = ["item", "taxonomy"]
