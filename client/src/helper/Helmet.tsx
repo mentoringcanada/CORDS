@@ -16,10 +16,6 @@ const HelmetData = () => (
             href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro&display=swap"
             rel="stylesheet"
         />
-        <script
-            type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfKsvjQLoBQpRrWCEJraXSvMFnUunnOeI&libraries=places"
-        ></script>
     </Helmet>
 );
 

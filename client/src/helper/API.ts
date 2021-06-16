@@ -41,7 +41,6 @@ export const getSearchResults = async (searchBody: SearchBody) => {
     return data.items;
 };
 export const getGeoSearchResults = async (geoSearch: GeoSearchBody) => {
-    console.log(geoSearch.lat, geoSearch.lng);
     const res = await axios.post(
         "/geosearch",
         {
@@ -49,6 +48,7 @@ export const getGeoSearchResults = async (geoSearch: GeoSearchBody) => {
             lat: geoSearch.lat ? Number(geoSearch.lat.toFixed(6)) : 43.6532,
             lng: geoSearch.lng ? Number(geoSearch.lng.toFixed(6)) : -79.3832,
             distance: geoSearch.distance,
+            page: geoSearch.page,
         },
         {
             headers: {
@@ -77,12 +77,10 @@ export const getLocalLocation = async () => {
         if (window.navigator.geolocation) {
             window.navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    console.log(position);
                     const localLocation = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude,
                     };
-                    console.log(localLocation);
                     res(localLocation);
                 },
                 (error) => {

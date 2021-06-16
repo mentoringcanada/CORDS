@@ -52,6 +52,15 @@ const GET_CUSTOM_DEMO_MOCK = {
 };
 
 jest.mock("axios");
+jest.mock("react-google-places-autocomplete", () => {
+    return {
+        __esModule: true,
+        A: true,
+        default: () => {
+            return <div>This is the autocomplete</div>;
+        },
+    };
+});
 
 describe("Demos", () => {
     it("Renders without error", async () => {
@@ -78,7 +87,6 @@ describe("Demos", () => {
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
 
         // Output
-        await screen.getByTestId("output-container");
         await screen.getByText("Test Service One");
         await screen.getByText("Test Service Two");
     });
@@ -128,7 +136,6 @@ describe("Demos", () => {
             const viewButton = await screen.getByText("View similar services");
             await fireEvent.click(viewButton);
             await waitFor(() => expect(axios.post).toHaveBeenCalled());
-            await screen.getByTestId("output-container");
             await screen.getByText("Test Service One");
             await screen.getByText("Test Service Two");
         });

@@ -9,15 +9,19 @@ interface Props {
 }
 
 const Search = ({ outputRef }: Props) => {
-    const { search, setSearch, handleGeoSearch } = SearchLogic();
+    const { search, setSearch, handleGeoSearch, useOnPageChange } =
+        SearchLogic();
+    useOnPageChange(search.page);
 
     return (
-        <SearchContext.Provider value={{ search, setSearch }}>
-            <SearchBar handleGeoSearch={handleGeoSearch} />
-            <FilterBar />
-            <div className="break" />
-            <ServiceOutput outputRef={outputRef ? outputRef : undefined} />
-        </SearchContext.Provider>
+        <>
+            <SearchContext.Provider value={{ search, setSearch }}>
+                <SearchBar handleGeoSearch={handleGeoSearch} />
+                <FilterBar />
+                <div className="break" />
+                <ServiceOutput outputRef={outputRef ? outputRef : undefined} />
+            </SearchContext.Provider>
+        </>
     );
 };
 

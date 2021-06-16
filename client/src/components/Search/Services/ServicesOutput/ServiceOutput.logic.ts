@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Service } from "../../../../types";
+import SearchContext from "../../SearchContext";
 
 const ServiceOutputLogic = () => {
+    const { search } = useContext(SearchContext);
     const [focus, setFocus] = useState<number | null>(null);
 
     const resetScrollEffect = (
@@ -10,13 +12,14 @@ const ServiceOutputLogic = () => {
         if (ref.current) ref.current.scrollTop = 0;
     };
 
-    const useOnFocusChange = (
+    const useOnFocusOrPageChange = (
         focus: number | null,
+        page: number,
         outputRef: React.MutableRefObject<any> | undefined
     ) => {
         useEffect(() => {
             outputRef ? resetScrollEffect(outputRef) : window.scrollTo(0, 0);
-        }, [focus, outputRef]);
+        }, [focus, page, outputRef]);
     };
 
     const useOnServicesChange = (
@@ -29,11 +32,23 @@ const ServiceOutputLogic = () => {
         }, [services, outputRef]);
     };
 
+    const getServices = (filter: string) => {
+        if (filter === "proximity") {
+            return search.services
+                .concat()
+                .sort((a: any, b: any) => a.distance - b.distance);
+        } else {
+            return search.services;
+        }
+    };
+
     return {
+        search,
         focus,
         setFocus,
         useOnServicesChange,
-        useOnFocusChange,
+        useOnFocusOrPageChange,
+        getServices,
     };
 };
 

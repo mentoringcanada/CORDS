@@ -26,6 +26,7 @@ export interface GeoSearchBody {
     lat: Location["lat"];
     lng: Location["lng"];
     distance: number;
+    page: number;
 }
 export interface SimilarBody {
     resourceId: number;
@@ -40,6 +41,7 @@ export interface Search {
     state: string;
     services: Service[];
     location: Location;
+    page: number;
 }
 
 export interface Demos {

@@ -1,15 +1,8 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import axios from "axios";
-import WidgetSearch from "./pages/Search/SearchPage";
 import Widget from "./Widget";
-import { servicesRes, emptyRes } from "../../helper/testData";
 import { MockedProvider } from "@apollo/client/testing";
 import LanguageContext from "../../helper/LanguageContext";
 import { GET_WIDGET_CONTENT } from "../../helper/CMS";
-import Search from "./pages/Search/SearchPage";
-import HelmetData from "../../helper/Helmet";
-
-jest.mock("axios");
 
 const GET_WIDGET_MOCK = {
     request: {
@@ -28,6 +21,17 @@ const GET_WIDGET_MOCK = {
         },
     },
 };
+
+jest.mock("axios");
+jest.mock("react-google-places-autocomplete", () => {
+    return {
+        __esModule: true,
+        A: true,
+        default: () => {
+            return <div>This is the autocomplete</div>;
+        },
+    };
+});
 
 describe("Widget", () => {
     it("Renders & opens/closes", async () => {

@@ -1,24 +1,24 @@
 import { FaSearch } from "react-icons/fa";
 import { StyledSearchBar } from "./SearchBar.styles";
-import { GeoSearchBody } from "../../../types";
 import SearchBarLogic from "./SearchBar.logic";
 
 interface Props {
-    handleGeoSearch: (geoSearch: GeoSearchBody) => void;
+    handleGeoSearch: () => void;
 }
 
 const SearchBar = ({ handleGeoSearch }: Props) => {
-    const {
-        handleSearchForm,
-        handleSearchChange,
-        searchBarPlaceholder,
-        error,
-    } = SearchBarLogic(handleGeoSearch);
+    const { handleSearchChange, searchBarPlaceholder, error } =
+        SearchBarLogic();
 
     if (error) return <p>Content collection error...</p>;
 
     return (
-        <StyledSearchBar onSubmit={handleSearchForm}>
+        <StyledSearchBar
+            onSubmit={(e) => {
+                e.preventDefault();
+                handleGeoSearch();
+            }}
+        >
             <input
                 type="text"
                 placeholder={searchBarPlaceholder}
