@@ -12,20 +12,8 @@
             font-size: 2em;
         }
         
-        #taxonomies {
-            overflow: scroll;
-            height: 600px;
-        }
-        
         #explanation {
             display: none;
-        }
-        
-        #selectionContainer,
-        #clusterMap,
-        #taxSearch,
-        #clusterSearch {
-            display: block;
         }
         
         .hidden {
@@ -43,20 +31,22 @@
             clusterMap: `<div id="clusterMap">
             <h2><u>Clusters Map</u></h2>
             <p>This component is the 2D representation of the centres of the clusters. Each number is a cluster ID. Distance on this map shows how related clusters are to each other.</p>
+            <button onclick="updateSearchedUi()">see searched service clusters</button>
+            <button onclick="updateRecommendationsUi()">see recommended service clusters</button>
             <div>
                 <canvas id="canvas" height="500px" width="800px"></canvas>
             </div>
         </div>`,
             explanation: `<div id="explanation">
-            This demo allows you to see our innovative and helpful cluster-based recommendations. <br/> Every service has a taxonomy but what about recommendations across taxonomies?<br/>
+            This demo allows you to see our innovative and helpful cluster-based recommendations.<br/>
             <p><u>Demo:</u></p>
-            <p>1) Add a taxonomy to your selection.</p>
+            <p>1) Add a service to your selection.</p>
             <p>2) Receive cluster ID recommendations.</p>
-            <p>3) Explore the taxonomies inside that cluster.</p><br>
+            <p>3) Explore the services inside that cluster.</p><br>
             <hr>
             <p><u>Data:</u></p>
             <p>The 2 data sets to create these recomemndations are provided by 211.</p>
-            <p> The first data set contains: call reference ID and taxonomy code. The second dataset contains: a service with its description, title, and taxonomy code.</p><br>
+            <p> The first data set contains: call reference ID. The second dataset contains: a service with its description, title, and taxonomy codes.</p><br>
             <hr>
             <p><u>Methodology:</u></p>
             <p>1) Each service description was vectorized using an open source, multilingual <a href="https://tfhub.dev/google/universal-sentence-encoder-multilingual-large/3">vectorizer</a>.</p>
@@ -66,19 +56,19 @@
         </div>`,
             selectionsContainer: `<div id="selectionContainer">
             <h2><u>Current selections</u></h2>
-            <p>This component shows taxonomies you have selected.</p>
+            <p>This component shows services you have selected.</p>
             <div id="selections"></div>
         </div>`,
-            taxSearch: `<div id="taxSearch">
-            <h2><u>Taxonomy Search</u></h2>
-            <p>This component allows you to select taxonomies.</p>
-            <input id="searchText"><button onclick="search()">search</button>
-            <div id="taxonomies"></div>
+            serviceSearch: `<div id="serviceSearch">
+            <h2><u>Service Search</u></h2>
+            <p>This component allows you to search and select services.</p>
+            <input id="searchText"><button onclick="searchServices()">search service</button>
+            <div id="services"></div>
         </div>`,
             clusterSearch: `<div id="clusterSearch">
             <h2><u>Cluster Search</u></h2>
             <p>This component displays the titles of the contents of one cluster.</p>
-            <input id="clusterIdInput"><button onclick="selectClusterClick()">search</button>
+            <input id="clusterIdInput"><button onclick="selectClusterClick()">search cluster</button>
             <p id="currentClusterDisplay"></p>
             <div id="clusterItems"></div>
         </div>`,
@@ -94,7 +84,7 @@
 
         <div id="viewsToggle">
             <button onclick="showElement('explanation')">toggle explanation view</button>
-            <button onclick="showElement('taxSearch')">Taxonomy Search</button>
+            <button onclick="showElement('serviceSearch')">Service Search</button>
             <button onclick="showElement('selectionsContainer')">Selections</button>
             <button onclick="showElement('clusterSearch')">Cluster Search</button>
             <button onclick="showElement('clusterMap')">Map of clusters</button>
@@ -104,17 +94,12 @@
 
     <script>
         //state
-        const rec_state = {
-            selectedTaxonomies: [],
-            recommendations: {},
-            taxonomies: [],
-            displayTaxonomies: []
-        };
-
-
         const state = {
             clusters: [],
-            currentCluster: {}
+            currentCluster: {},
+            selectedClusters: [],
+            recommendations: [],
+            services: [],
         };
 
         // State updates
@@ -129,10 +114,10 @@
             state.clusters = clusters;
         };
 
-        const removeSelection = (taxonomyCode) => {
-            for (let i = rec_state.selectedTaxonomies.length - 1; i >= 0; i--) {
-                if (rec_state.selectedTaxonomies[i]["taxonomyCode"] === taxonomyCode) {
-                    rec_state.selectedTaxonomies.splice(i, 1);
+        const removeSelection = (clusterId) => {
+            for (let i = state.selectedClusters.length - 1; i >= 0; i--) {
+                if (state.selectedClusters[i].clusterId === clusterId) {
+                    state.selectedClusters.splice(i, 1);
                     break;
                 }
             }
@@ -141,28 +126,38 @@
         };
 
         const addSelection = (data) => {
-            const taxonomyCode = data["taxonomyCode"]
+            const clusterId = data["clusterId"]
             let contained = false;
-            for (let i = 0; i < rec_state.selectedTaxonomies.length; i++) {
-                if (rec_state.selectedTaxonomies[i]["taxonomyCode"] === taxonomyCode) {
+            for (let i = 0; i < state.selectedClusters.length; i++) {
+                if (state.selectedClusters[i]["clusterId"] === clusterId) {
                     contained = true;
                     break
                 }
             }
             if (!contained) {
-                rec_state.selectedTaxonomies.push(data);
+                state.selectedClusters.push(data);
             }
             updateSelectionsUi();
             updateRecommendations();
         };
 
-        const search = () => {
-            const text = document.getElementById('searchText').value;
-            rec_state.displayableTaxonomies = rec_state.taxonomies.filter(elem => elem["taxonomyName"].indexOf(text) > -1);
-            updateTaxonomiesUi();
-        };
 
         // Data fetches
+
+        const searchServices = () => {
+            const text = document.getElementById('searchText').value;
+            fetch("/search", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        query: text
+                    })
+                }).then(data => data.json())
+                .then(json => {
+                    state.services = json.items
+                }).then(updateServicesUi)
+                .then(updateSearchedUi);
+        };
+
         const getClustersData = () => {
             return fetch("/clusters")
                 .then(data => data.json())
@@ -174,33 +169,16 @@
                 .then(data => data.json());
         };
 
-        const loadTaxonomies = () => {
-            return getTaxnomies()
-                .then(items => {
-                    rec_state.taxonomies = items
-                }).then(() => {
-                    rec_state.displayableTaxonomies = rec_state.taxonomies;
-                });
-        };
+        const getSelectedClustersFromState = () => state.selectedClusters.map(elem => elem.clusterId.toString()).join(',');
 
-        const getTaxnomies = () => {
-            return fetch("/taxonomies")
-                .then(data => data.json())
-                .then(json => json.taxonomies)
-        };
-
-        const getSelectedTaxonomyFromState = () => rec_state.selectedTaxonomies.map(elem => elem["taxonomyCode"]).join(',');
-
-        const fetchRecommendationsUsingSelections = (items) => fetch("/recommendations?items=" + items).then(data => data.json());
+        const fetchRecommendationsUsingSelections = (items) => fetch("/recommended?clusters=" + getSelectedClustersFromState()).then(data => data.json());
 
         const commitRecommendationsToState = (json) => {
-            rec_state.recommendations = json.clusters;
+            state.recommendations = json.clusters;
         };
 
         const updateRecommendations = () => {
-            Promise.resolve(true)
-                .then(getSelectedTaxonomyFromState)
-                .then(fetchRecommendationsUsingSelections)
+            fetchRecommendationsUsingSelections()
                 .then(commitRecommendationsToState)
                 .then(updateRecommendationsUi);
         };
@@ -267,51 +245,56 @@
                 y: Math.random() * 800 + 50,
             });
             if (elementUi === 'clusterMap') paintClusters();
-            if (elementUi === 'taxSearch') updateTaxonomiesUi();
             if (elementUi === 'clusterSearch') attachSelectClusterOnEnterEvent();
         };
 
-        const displayTaxonmies = (taxonomies) => {
-            const container = document.getElementById('taxonomies');
+        const displayServices = (service) => {
+            const container = document.getElementById('services');
             container.innerHTML = '';
             text = '';
-            rec_state.displayableTaxonomies.forEach(taxonomy => {
-                text += taxonomyView(taxonomy);
+            state.services.forEach(service => {
+                text += serviceView(service);
             });
             container.innerHTML = text;
-        };
+        }
 
         const updateSelectionsUi = () => {
             const elem = document.getElementById('selections');
-            const text = rec_state.selectedTaxonomies.map(tax => `<button onclick="removeSelection('${tax["taxonomyCode"]}')">-</button>` + tax["taxonomyName"]).join('<br>');
+            const text = state.selectedClusters.map(service => `<button onclick="removeSelection('${service.clusterId}')">-</button>` + service.name).join('<br>');
             elem.innerHTML = text;
         };
 
-        const updateTaxonomiesUi = () => {
-            displayTaxonmies(rec_state.displayableTaxonomies);
+        const updateServicesUi = () => {
+            displayServices(state.services);
         };
 
         const updateRecommendationsUi = () => {
             const recommendedClusters = [];
-            rec_state.recommendations.forEach(cluster => recommendedClusters.push(cluster.clusterId.toString()))
+            state.recommendations.forEach(cluster => recommendedClusters.push(cluster.clusterId.toString()))
             paintClusters(recommendedClusters);
             describeResults();
         };
 
+        const updateSearchedUi = () => {
+            const searchedClusters = [];
+            state.services.forEach(service => searchedClusters.push(service.clusterId.toString()))
+            paintClusters(searchedClusters);
+        }
+
         const describeResults = () => {
             try {
                 const elem = document.getElementById('recommendedList');
-                const descriptions = rec_state.recommendations.map(clusterDescriptionUi).join('')
+                const descriptions = state.recommendations.map(clusterDescriptionUi).join('')
                 elem.innerHTML = descriptions;
             } catch (err) {}
         }
 
         const clusterDescriptionUi = cluster => `<div><button onclick="selectClusterClick(${cluster.clusterId})">${cluster.clusterId}</button>: ${cluster.summary}</div>`;
 
-        const taxonomyView = (taxonomy) => {
-            return `<span id="${taxonomy["taxonomyCode"]}">
-        <button onclick='addSelection(${JSON.stringify(taxonomy)})'>+</button>
-        ${taxonomy["taxonomyCode"]} - ${taxonomy["taxonomyName"]}
+        const serviceView = (service) => {
+            return `<span id="${service.clusterId}">
+        <button onclick='addSelection(${JSON.stringify(service)})'>+</button>
+        ${service.clusterId} - ${service.name}
         </span><br>`;
         };
 
@@ -330,18 +313,17 @@
         }
 
         // Event listener
-        const attachTaxonomySearchOnEnterEvent = () => {
+        const attachServiceSearchOnEnterEvent = () => {
             document.getElementById("searchText")
                 .addEventListener("keyup", function(event) {
                     // Number 13 is the "Enter" key on the keyboard
                     if (event.keyCode === 13) {
-                        search();
+                        searchServices();
                     }
                 });
         }
 
         loadClusters();
-        loadTaxonomies();
     </script>
 
 

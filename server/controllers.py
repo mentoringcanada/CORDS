@@ -107,3 +107,16 @@ def get_recommended_clusters_from_taxonomies(taxonomies):
     WHERE cluster_id = any(%s)""", (cluster_IDs,))
     output = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
     return output
+
+
+def get_recommended_clusters_from_clusters(taxonomies):
+    # sanitize inputs
+    cluster_IDs = model.get_clusters_from_CSV(taxonomies)
+    cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_clusters(cluster_IDs, 5)
+    data = model.execute("""SELECT *,
+    (two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
+    (two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
+    FROM clusters 
+    WHERE cluster_id = any(%s)""", (cluster_IDs,))
+    output = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
+    return output

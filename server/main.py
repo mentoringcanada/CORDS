@@ -103,6 +103,13 @@ def get_clusters_from_taxonomies(items: str = ''):
     return results
 
 
+@app.get("/recommended", response_model=ClusterList)
+def get_clusters_from_clusters(clusters: str = ''):
+    results = controllers.get_recommended_clusters_from_clusters(
+        clusters)
+    return results
+
+
 @app.get("/clusters", response_model=ClusterList)
 def get_all_clusters():
     clusters = cluster_explorer.get_all_clusters()

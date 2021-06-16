@@ -1,3 +1,4 @@
+from helper_classes.other_classes import cluster
 import os
 import pandas
 import psycopg2
@@ -86,6 +87,16 @@ def get_codes_from_items(taxonomies):
         if char in ok_chars:
             new_text += char
     return taxonomies.split(',')
+
+
+def get_clusters_from_CSV(clusters_text_IDs):
+    ok_chars = '1234567890,'
+    new_text = ''
+    for char in clusters_text_IDs:
+        if char in ok_chars:
+            new_text += char
+    clusters = clusters_text_IDs.split(',')
+    return [int(c) for c in clusters]
 
 
 def get_results(result_IDs: list):

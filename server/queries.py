@@ -113,7 +113,7 @@ WHERE e.resource_agency_number = r.resource_agency_number;"""
 get_applicable_clusters_to_taxonomy = """ ;
     """
 
-get_cluster_recommendations_from_clusters = """SELECT
+get_cluster_recommendations_from_taxonomies = """SELECT
         cluster_id
     FROM
         (
@@ -134,6 +134,33 @@ get_cluster_recommendations_from_clusters = """SELECT
                             FROM rec_data
                             WHERE taxonomy_code = any(%s)
                         )
+                    GROUP BY
+                        call_report_number
+                ) call_points_table ON rc.call_report_number = call_points_table.call_report_number
+            GROUP BY cluster_id
+            ORDER BY
+                2 DESC
+            LIMIT
+                %s
+        ) clusters"""
+
+get_cluster_recommendations_from_clusters = """SELECT
+        cluster_id
+    FROM
+        (
+            SELECT
+                cluster_id,
+                SUM(LOG(call_points_table.call_points)) as cluster_points
+            FROM
+                rec_data rc
+                INNER JOIN (
+                    SELECT
+                        call_report_number,
+                        COUNT(*) as call_points
+                    FROM
+                        rec_data
+                    WHERE
+                        cluster_id = any(%s)
                     GROUP BY
                         call_report_number
                 ) call_points_table ON rc.call_report_number = call_points_table.call_report_number

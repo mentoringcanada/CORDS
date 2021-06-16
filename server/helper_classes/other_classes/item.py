@@ -15,6 +15,7 @@ class Item(BaseModel):
     nom: Optional[str]
     description_fr: Optional[str]
     sortOrder: Optional[int]
+    clusterId: Optional[int]
 
     @classmethod
     def from_db_row(cls, db_row):
@@ -30,7 +31,8 @@ class Item(BaseModel):
                         distance=db_row['distance'],
                         address=db_row['physical_address'],
                         link=db_row['link'],
-                        phone=db_row['phone'])
+                        phone=db_row['phone'],
+                        clusterId=db_row['cluster_id'])
         else:
             return Item(name=db_row['public_name'] or '',
                         nom=db_row['nom_publique'] or '',
@@ -41,4 +43,5 @@ class Item(BaseModel):
                         lng=float(geocoordinates[1]),
                         address=db_row['physical_address'],
                         link=db_row['link'],
-                        phone=db_row['phone'])
+                        phone=db_row['phone'],
+                        clusterId=db_row['cluster_id'])
