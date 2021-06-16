@@ -1,3 +1,5 @@
+from helper_classes.other_classes.cluster import Cluster
+from helper_classes.other_classes.clusterList import ClusterList
 from helper_classes.other_classes.appState import AppState
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
@@ -5,7 +7,8 @@ from helper_classes.request_classes.searchRequest import SearchRequest
 import model
 import numpy as np
 from services import converters
-
+import queries
+from services import cluster_recommendations
 
 def search(
     session_token: str,
@@ -79,7 +82,8 @@ def geo_similar_search(
     """
     # Get description from item ID, create a SearchRequest, then call search()
     geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
-    description = converters.convert2text(model.get_description_from_ID(geo_similar_request.item_id))
+    description = converters.convert2text(
+        model.get_description_from_ID(geo_similar_request.item_id))
     vector = np.asarray(vector_model(description))
     number_of_results = 1000
     _, indexes = app_state.cache.search(vector, number_of_results)
@@ -90,3 +94,16 @@ def geo_similar_search(
             result_IDs.append("'" + item_id + "'")
     results = model.get_constrained_results(geo_similar_request, result_IDs)
     return results[:10]
+
+
+def get_recommended_clusters_from_taxonomies(taxonomies):
+    # sanitize inputs
+    taxonomy_codes = model.get_codes_from_items(taxonomies)
+    cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_taxonomies(taxonomy_codes, 5)
+    data = model.execute("""SELECT *,
+    (two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
+    (two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
+    FROM clusters 
+    WHERE cluster_id = any(%s)""", (cluster_IDs,))
+    output = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
+    return output

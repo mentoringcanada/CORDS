@@ -23,8 +23,8 @@ def test_similar():
 def test_geo_similar():
     response = requests.post(SERVER + '/similar', json={
         'item_id': '69795365',
-        'lat': 43.5,
-        'lng': -79.5
+        'lat': 44.2312,
+        'lng': -76.486
     })
     data = response.json()
     assert len(data['items']) <= 10
@@ -33,16 +33,16 @@ def test_geo_similar():
 
 def test_geo_search():
     response = requests.post(SERVER + '/geosearch', json={
-        'query': 'i need clothes for an interview',
-        'lat': 43.5,
-        'lng': -79.5,
-        'distance': 50
+        'query': 'bread',
+        'lat': 45.5017,
+        'lng': -73.5673,
+        # 'distance': 50
     })
     data = response.json()
     assert len(data['items']) == 10
 
 
-test_search()
-test_similar()
-test_geo_similar()
+# test_search()
+# test_similar()
+# test_geo_similar()
 test_geo_search()

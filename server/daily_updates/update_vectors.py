@@ -9,7 +9,6 @@ def dbify_vector(vector):
     smaller_vector = []
     for element in vector:
         smaller_vector.append(float(element))
-
     return smaller_vector
 
 

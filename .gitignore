@@ -4,3 +4,6 @@
 server/scripts/.env.sh
 *.pytest_cache
 *.env.sh
+*/data/2019.csv
+*/data/2020.csv
+*/test_results.csv
