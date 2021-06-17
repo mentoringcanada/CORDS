@@ -1,5 +1,5 @@
 update_resource_descriptions_en = """UPDATE
-    resources
+    resources r
 SET
     public_name = e.public_name,
     physical_address = e.physical_address,
@@ -20,7 +20,7 @@ FROM
         phone
     )
 WHERE
-    resource_agency_number = e.resource_agency_number;
+    r.resource_agency_number = e.resource_agency_number;
 """
 
 insert_resource_descriptions_en = """INSERT INTO
@@ -58,7 +58,7 @@ insert_resource_descriptions_en = """INSERT INTO
 """
 
 update_resource_descriptions_fr = """UPDATE
-    resources
+    resources r
 SET
     nom_publique = e.nom_publique,
     physical_address = e.physical_address,
@@ -79,7 +79,7 @@ FROM
         phone
     )
 WHERE 
-    resource_agency_number = e.resource_agency_number;
+    r.resource_agency_number = e.resource_agency_number;
 """
 
 insert_resource_descriptions_fr = """INSERT INTO
