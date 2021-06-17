@@ -25,7 +25,7 @@ app = FastAPI()
 app_state, vector_model = startup.load()
 
 
-if os.environ['production'] == True:
+if os.environ['production'] == 'TRUE':
     sentry_sdk.init(
         os.environ['SENTRY_URL'],
         traces_sample_rate=1.0
@@ -71,7 +71,7 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Option
     (FR) Retourne des resources and opportunies selon le texte, proche des coordonees partages.
     """
     results = controllers.geo_similar_search(
-        session_token, geo_similar_request, app_state, vector_model)
+        session_token, geo_similar_request, app_state)
     return {"items": results}
 
 

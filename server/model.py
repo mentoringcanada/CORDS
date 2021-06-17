@@ -1,4 +1,5 @@
 import os
+from services import converters
 import pandas
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -69,6 +70,12 @@ def get_description_from_ID(item_id):
         return text
 
 
+def get_vector_from_ID(item_id):
+    item = execute(queries.get_item_by_id, (clean_text(item_id),))
+    vector = converters.textvec2vec(item['description_vector'])
+    return vector
+
+
 def clean_text(text):
     cleaned_text = ''
     ok_chars = set(
@@ -88,10 +95,11 @@ def get_codes_from_items(taxonomies):
     return taxonomies.split(',')
 
 
-def get_results(result_IDs: list):
+def get_results(result_IDs: list, page: int):
+    page = min(page, 1)
     result_IDs_string = ', '.join(result_IDs)
     query_results = execute(queries.get_results.format(result_IDs_string, result_IDs),
-                            ())
+                            (page*10-10))
     items = []
     sort_order = 1
     for query_result in query_results:

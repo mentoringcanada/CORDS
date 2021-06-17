@@ -69,7 +69,6 @@ def test_get_geo_similar():
     output = controllers.geo_similar_search(
         session_token,
         search_request,
-        app_state,
-        vectorizer
+        app_state
     )
     assert output == ['get_constrained_results'] * 10

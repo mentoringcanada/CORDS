@@ -14,7 +14,7 @@ get_results = """SELECT *
 FROM resources
 WHERE resource_agency_number in ({0})
 ORDER BY array_position(ARRAY[{0}]::varchar[], resource_agency_number)
-LIMIT 10;
+LIMIT 10 OFFSET %s;
 """
 
 get_all_vectors = """SELECT resource_agency_number, description_vector
