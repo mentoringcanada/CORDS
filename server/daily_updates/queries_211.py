@@ -1,7 +1,6 @@
 update_resource_descriptions_en = """UPDATE
     resources
 SET
-    resource_agency_number = e.resource_agency_number,
     public_name = e.public_name,
     physical_address = e.physical_address,
     geocoordinates = POINT(e.geo_x, e.geo_y),
@@ -20,6 +19,8 @@ FROM
         link,
         phone
     )
+WHERE
+    resource_agency_number = e.resource_agency_number;
 """
 
 insert_resource_descriptions_en = """INSERT INTO
@@ -59,7 +60,6 @@ insert_resource_descriptions_en = """INSERT INTO
 update_resource_descriptions_fr = """UPDATE
     resources
 SET
-    resource_agency_number = e.resource_agency_number,
     nom_publique = e.nom_publique,
     physical_address = e.physical_address,
     geocoordinates = POINT(e.geo_x, e.geo_y),
@@ -78,6 +78,8 @@ FROM
         link,
         phone
     )
+WHERE 
+    resource_agency_number = e.resource_agency_number;
 """
 
 insert_resource_descriptions_fr = """INSERT INTO

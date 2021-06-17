@@ -17,8 +17,8 @@ def get_page(lang, page, API_KEY):
         "SearchType": "coverage",
         "Search": "term",
         "Term": "*",
-        # "Latitude": 44,
-        # "Longitude": -80,
+        "Latitude": 44,
+        "Longitude": -80,
         "PageIndex": page,
         "PageSize": PAGE_SIZE
     }

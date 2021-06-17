@@ -45,7 +45,7 @@ def fill_outdated_vector_descriptions(psql_connection_string):
             (item[4] or '') + ' ' + \
             (item[5] or '')
         text = convert2text(text)
-        vector = model(text)[0]
+        vector = model([text])[0]
         cursor.execute("""UPDATE resources
         SET description_vector = array{0},
         vectors_updated = NOW()
