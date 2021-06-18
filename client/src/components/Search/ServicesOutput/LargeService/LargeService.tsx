@@ -8,10 +8,11 @@ import {
     StyledLinks,
 } from "./LargeService.styles";
 import LargeServiceLogic from "./LargeService.logic";
-import { StyledContainer } from "../../../../../styles/StyledContainer";
+import { StyledContainer } from "../../../../styles/StyledContainer";
 import { FaLink } from "react-icons/fa";
 import { StyledDescription } from "../SmallService/SmallService.styles";
 import ServicesList from "../ServicesList/ServicesList";
+import { getDescription, getName } from "../../../../helper/Services";
 
 interface Props {
     id: number;
@@ -21,11 +22,10 @@ interface Props {
 // Component
 const LargeService = ({ id, setFocus }: Props) => {
     const {
+        language,
         similar,
         service,
         useSetState,
-        getName,
-        getDescription,
         largeServiceContent,
         error,
         handleSimilar,
@@ -51,7 +51,7 @@ const LargeService = ({ id, setFocus }: Props) => {
                             </StyledBackButton>
                             <StyledInfo>
                                 <h2 className="info" data-testid="large-title">
-                                    {getName(service)}
+                                    {getName(service, language)}
                                 </h2>
                                 {service.address !== "" && (
                                     <p>
@@ -81,7 +81,7 @@ const LargeService = ({ id, setFocus }: Props) => {
                             <StyledDescription
                                 className="info-desc"
                                 dangerouslySetInnerHTML={{
-                                    __html: getDescription(service),
+                                    __html: getDescription(service, language),
                                 }}
                             ></StyledDescription>
                             <StyledLinks>

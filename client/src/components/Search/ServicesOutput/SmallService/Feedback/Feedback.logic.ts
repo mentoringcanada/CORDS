@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
-import { sendFeedback } from "../../../../../../helper/API";
-import SearchContext from "../../../../SearchContext";
+import { sendFeedback } from "../../../../../helper/API";
+import SearchContext from "../../../SearchContext";
 
 const FeedbackLogic = () => {
     const search = useContext(SearchContext);
@@ -9,6 +9,7 @@ const FeedbackLogic = () => {
 
     const handleFeedback = (e: any, id: string, type: string) => {
         e.preventDefault();
+
         const feedbackBody = {
             item_id: Number(id),
             query: type === "search" ? search.search.query : "",
@@ -16,6 +17,7 @@ const FeedbackLogic = () => {
             msg: message,
             type,
         };
+
         sendFeedback(feedbackBody);
         setOpen(false);
     };

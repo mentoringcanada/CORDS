@@ -1,4 +1,4 @@
-import { StyledCloseButton } from "../../../../../Widget/Header/Header.styles";
+import { StyledCloseButton } from "../../../../Widget/Header/Header.styles";
 import FeedbackLogic from "./Feedback.logic";
 import { StyledFeedbackButton, StyledFeedbackModal } from "./Feedback.styles";
 

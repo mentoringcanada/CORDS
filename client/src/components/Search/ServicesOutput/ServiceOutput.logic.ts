@@ -1,24 +1,19 @@
 import { useContext, useEffect, useState } from "react";
-import { Service } from "../../../../types";
-import SearchContext from "../../SearchContext";
+import { Service } from "../../../types";
+import SearchContext from "../SearchContext";
+import { resetScroll } from "../../../helper/Services";
 
 const ServiceOutputLogic = () => {
     const { search } = useContext(SearchContext);
     const [focus, setFocus] = useState<number | null>(null);
     const [page, setPage] = useState(1);
 
-    const resetScrollEffect = (
-        ref: React.MutableRefObject<HTMLDivElement | null>
-    ) => {
-        if (ref.current) ref.current.scrollTop = 0;
-    };
-
     const useOnFocusChange = (
         focus: number | null,
         outputRef: React.MutableRefObject<any> | undefined
     ) => {
         useEffect(() => {
-            outputRef ? resetScrollEffect(outputRef) : window.scrollTo(0, 0);
+            outputRef ? resetScroll(outputRef) : window.scrollTo(0, 0);
         }, [focus, outputRef]);
     };
 
@@ -28,7 +23,7 @@ const ServiceOutputLogic = () => {
     ) => {
         useEffect(() => {
             setFocus(null);
-            outputRef ? resetScrollEffect(outputRef) : window.scrollTo(0, 0);
+            outputRef ? resetScroll(outputRef) : window.scrollTo(0, 0);
         }, [services, outputRef]);
     };
 

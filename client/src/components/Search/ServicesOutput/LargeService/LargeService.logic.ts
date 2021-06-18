@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useState, useContext } from "react";
-import { getSimilar } from "../../../../../helper/API";
-import { GET_LARGE_SERVICE } from "../../../../../helper/CMS";
-import LanguageContext from "../../../../../helper/LanguageContext";
-import { Service, SimilarBody } from "../../../../../types";
-import SearchContext from "../../../SearchContext";
+import { getSimilar } from "../../../../helper/API";
+import { GET_LARGE_SERVICE } from "../../../../helper/CMS";
+import LanguageContext from "../../../../helper/LanguageContext";
+import { Service, SimilarBody } from "../../../../types";
+import SearchContext from "../../SearchContext";
 
 const LargeServiceLogic = (id: number) => {
     const [similar, setSimilar] = useState<Service[]>([]);
@@ -44,26 +44,6 @@ const LargeServiceLogic = (id: number) => {
         });
     };
 
-    const getName = (service: Service) => {
-        let name =
-            language === "fr-CA" && service.nom !== ""
-                ? service.nom
-                : service.name;
-
-        name = name.replace(/[\u{0080}-\u{FFFF}]/gu, "");
-        return name;
-    };
-
-    const getDescription = (service: Service) => {
-        let desc =
-            language === "fr-CA" && service.description_fr !== ""
-                ? service.description_fr
-                : service.description;
-
-        desc = desc.replace(/[\u{0080}-\u{FFFF}]/gu, "");
-        return desc;
-    };
-
     // Text content
     const { error, data } = useQuery(GET_LARGE_SERVICE, {
         variables: { language },
@@ -72,11 +52,10 @@ const LargeServiceLogic = (id: number) => {
     const largeServiceContent = data ? data.largeServices[0] : [];
 
     return {
+        language,
         similar,
         service,
         useSetState,
-        getName,
-        getDescription,
         largeServiceContent,
         error,
         handleSimilar,

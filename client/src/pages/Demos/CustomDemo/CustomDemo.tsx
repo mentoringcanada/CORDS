@@ -9,20 +9,20 @@ import {
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
 import DemoInfo from "../DemoInfo/DemoInfo";
-import SmallService from "../../../components/Search/Services/ServicesOutput/SmallService/SmallService";
+import SmallService from "../../../components/Search/ServicesOutput/SmallService/SmallService";
 import { Service } from "../../../types";
+import { getDescription, getName } from "../../../helper/Services";
 
 const CustomDemo = () => {
     const { similarResults, handleSimilar, useHandleDemoChange } = DemoLogic();
     const {
+        language,
         description,
         title,
         handleDescriptionChange,
         handleTitleChange,
         error,
         customDemoContent,
-        getName,
-        getDescription,
     } = CustomDemoLogic();
     useHandleDemoChange("");
 
@@ -77,9 +77,9 @@ const CustomDemo = () => {
                     <SmallService
                         key={service.item_id}
                         id={service.item_id}
-                        name={getName(service)}
+                        name={getName(service, language)}
                         link={service.link}
-                        description={getDescription(service)}
+                        description={getDescription(service, language)}
                         setFocus={() => ""}
                         distance={service.distance}
                         data-testid="small-service"

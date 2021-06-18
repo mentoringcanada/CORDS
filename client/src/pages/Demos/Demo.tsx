@@ -7,8 +7,9 @@ import {
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
 import DemoInfo from "./DemoInfo/DemoInfo";
-import SmallService from "../../components/Search/Services/ServicesOutput/SmallService/SmallService";
+import SmallService from "../../components/Search/ServicesOutput/SmallService/SmallService";
 import { Service } from "../../types";
+import { getDescription, getName } from "../../helper/Services";
 
 interface Props {
     description: string;
@@ -22,8 +23,7 @@ const Demo = ({ description, title }: Props) => {
         useHandleDemoChange,
         error,
         demoContent,
-        getName,
-        getDescription,
+        language,
     } = DemoLogic();
     useHandleDemoChange(description);
 
@@ -51,9 +51,9 @@ const Demo = ({ description, title }: Props) => {
                     <SmallService
                         key={service.item_id}
                         id={service.item_id}
-                        name={getName(service)}
+                        name={getName(service, language)}
                         link={service.link}
-                        description={getDescription(service)}
+                        description={getDescription(service, language)}
                         setFocus={() => ""}
                         distance={service.distance}
                         data-testid="small-service"

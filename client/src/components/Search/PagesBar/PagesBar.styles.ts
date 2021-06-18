@@ -3,7 +3,8 @@ import styled from "styled-components";
 export const StyledPagesBar = styled.div`
     display: flex;
     justify-content: space-between;
-    max-width: 20rem;
+    width: 100%;
+    max-width: 22rem;
 `;
 
 export const StyledPageBox = styled.div`
@@ -22,4 +23,10 @@ export const StyledPageBox = styled.div`
         background-color: var(--primary-color);
         color: white;
     }
+`;
+
+export const StyledPagesBarContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
 `;

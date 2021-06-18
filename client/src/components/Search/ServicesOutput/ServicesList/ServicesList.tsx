@@ -1,6 +1,7 @@
 import React from "react";
-import { Service } from "../../../../../types";
-import PagesBar from "../../../PagesBar/PagesBar";
+import { getDescription, getName } from "../../../../helper/Services";
+import { Service } from "../../../../types";
+import PagesBar from "../../PagesBar/PagesBar";
 import SmallService from "../SmallService/SmallService";
 import ServicesListLogic from "./ServicesList.logic";
 
@@ -23,8 +24,7 @@ const ServicesList = ({
     setPage,
     outputRef,
 }: Props) => {
-    const { getName, getDescription, useOnPageChange } =
-        ServicesListLogic(handleServices);
+    const { language, useOnPageChange } = ServicesListLogic(handleServices);
     useOnPageChange(page, outputRef);
 
     return (
@@ -33,9 +33,9 @@ const ServicesList = ({
                 <SmallService
                     key={service.item_id}
                     id={service.item_id}
-                    name={getName(service)}
+                    name={getName(service, language)}
                     link={service.link}
-                    description={getDescription(service)}
+                    description={getDescription(service, language)}
                     setFocus={setFocus}
                     distance={service.distance}
                     data-testid="small-service"

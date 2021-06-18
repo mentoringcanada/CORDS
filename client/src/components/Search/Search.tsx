@@ -1,4 +1,4 @@
-import ServiceOutput from "./Services/ServicesOutput/ServicesOutput";
+import ServiceOutput from "./ServicesOutput/ServicesOutput";
 import SearchLogic from "./Search.logic";
 import SearchContext from "./SearchContext";
 import FilterBar from "./FilterBar/FilterBar";
