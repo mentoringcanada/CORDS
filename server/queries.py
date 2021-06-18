@@ -7,7 +7,7 @@ get_constrained_results_2 = """)
 AND 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
 +cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 < {2}
 ORDER BY array_position(ARRAY[{3}]::varchar[], resource_agency_number)
-LIMIT 10;
+LIMIT 10 OFFSET %s;
 """
 
 get_results = """SELECT *
@@ -21,7 +21,7 @@ get_all_vectors = """SELECT resource_agency_number, description_vector
 FROM resources
 WHERE description_vector IS NOT NULL;"""
 
-get_item_by_id = """SELECT resource_description, description_francais, nom_publique, public_name
+get_item_by_id = """SELECT resource_description, description_francais, nom_publique, public_name, description_vector
 FROM resources WHERE resource_agency_number = %s"""
 
 get_popular_taxonomies = "SELECT distinct taxonomy_code, taxonomy_name, count(*) FROM rec_data GROUP BY taxonomy_code, taxonomy_name ORDER BY 3 DESC;"
@@ -171,3 +171,7 @@ get_random_multiple_referral_call = """SELECT
 
 is_item_in_cluster = """SELECT cluster_id FROM resources WHERE resource_agency_number in
     (SELECT resource_agency_number FROM service_taxonomies WHERE taxonomy_code = %s);"""
+
+save_feedback = """INSERT INTO feedback (
+    query, item_id, sort_order, msg, type_of_feedback
+) VALUES (%s, %s, %s, %s, %s);"""

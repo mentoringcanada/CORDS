@@ -23,7 +23,7 @@ def search(
     vector = np.asarray(vector_model(search_request.query))
     number_of_results = 100
     _, indexes = app_state.cache.search(vector, number_of_results)
-    result_IDs = converters.textvec2vec(indexes, app_state.index_to_ID)
+    result_IDs = converters.items2str(indexes, app_state.index_to_ID)
     results = model.get_results(result_IDs, search_request.page)
     return results
 
@@ -41,9 +41,9 @@ def get_similar(
     # model.store_pair(session_token, item_id)
 
     # Get description from item ID, create a SearchRequest, then call search()
-    description = converters.convert2text(
+    text_vec = converters.convert2text(
         model.get_description_from_ID(item_id))
-    text = converters.convert2text(description)
+    text = converters.convert2text(text_vec)
     search_request = SearchRequest(
         query=text,
     )
@@ -58,9 +58,9 @@ def geo_search(
         vector_model):
     """Return distance-constrained query."""
     vector = np.asarray(vector_model(geo_search_request.query))
-    number_of_results = 5000
+    number_of_results = 1000
     _, indexes = app_state.cache.search(vector, number_of_results)
-    result_IDs = converters.textvec2vec(
+    result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_search_request.item_id)
     results = model.get_constrained_results(geo_search_request, result_IDs)
     return results[:10]
@@ -76,10 +76,10 @@ def geo_similar_search(
     """
     # Get description from item ID, create a SearchRequest, then call search()
     geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
-    vector = converters.convert2text(
-        model.get_vector_from_ID(geo_similar_request.item_id))
-    number_of_results = 5000
-    _, indexes = app_state.cache.search(vector, number_of_results)
+    vector =  model.get_vector_from_ID(geo_similar_request.item_id)
+    number_of_results = 1000
+    packed = np.asarray([vector])
+    _, indexes = app_state.cache.search(packed, number_of_results)
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_similar_request.item_id)
     results = model.get_constrained_results(geo_similar_request, result_IDs)
@@ -98,3 +98,14 @@ def get_recommended_clusters_from_taxonomies(taxonomies):
     WHERE cluster_id = any(%s)""", (cluster_IDs,))
     output = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
     return output
+
+
+def save_feedback(data):
+    item = [
+        data.query,
+        data.item_id,
+        data.sortOrder,
+        data.msg,
+        data.type,
+    ]
+    model.save_feedback(item)

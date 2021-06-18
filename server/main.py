@@ -12,6 +12,8 @@ from typing import Optional
 # import local modules
 import controllers
 from helper_classes.other_classes.itemList import ItemList
+from helper_classes.other_classes.received import Received
+from helper_classes.request_classes.feedbackRequest import FeedbackRequest
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
@@ -73,6 +75,12 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Option
     results = controllers.geo_similar_search(
         session_token, geo_similar_request, app_state)
     return {"items": results}
+
+
+@app.post("/feedback", response_model=Received)
+def feedback(feedback_data: FeedbackRequest):
+    controllers.save_feedback(feedback_data)
+    return Received()
 
 
 # DEMO ENDPOINTS

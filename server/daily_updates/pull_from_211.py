@@ -13,7 +13,7 @@ def get_page(lang, page, API_KEY):
     data = {
         "Dataset": "on",
         "Lang": lang,
-        "updatedOn": (datetime.today() - timedelta(days=2)).strftime('%Y-%m-%d'),
+        "updatedOn": (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d'),
         "SearchType": "coverage",
         "Search": "term",
         "Term": "*",
