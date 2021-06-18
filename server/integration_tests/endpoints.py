@@ -68,8 +68,38 @@ def test_geo_search_pages():
     assert item_1 != data['items'][0]['item_id']
 
 
+def test_geo_similar_search_pages():
+    response = requests.post(SERVER + '/geosearch', json={
+        'query': 'bread',
+        'lat': 43.5017,
+        'lng': -79.5673,
+        'page': 1
+    })
+    data = response.json()
+    item_id = data['items'][0]['item_id']
+    response = requests.post(SERVER + '/similar', json={
+        'item_id': item_id,
+        'lat': 43.5017,
+        'lng': -79.5673,
+        'distance': 250,
+        'page': 1
+    })
+    data = response.json()
+    assert len(data['items']) == 10
+    item_1 = data['items'][0]['item_id']
+    response = requests.post(SERVER + '/similar', json={
+        'item_id': item_id,
+        'lat': 43.5017,
+        'lng': -79.5673,
+        'page': 2
+    })
+    data = response.json()
+    assert item_1 != data['items'][0]['item_id']
+
+
 test_search()
 test_similar()
 test_geo_similar()
 test_geo_search()
 test_geo_search_pages()
+test_geo_similar_search_pages()

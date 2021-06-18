@@ -20,7 +20,8 @@ def get_page(lang, page, API_KEY):
         "Latitude": 44,
         "Longitude": -80,
         "PageIndex": page,
-        "PageSize": PAGE_SIZE
+        "PageSize": PAGE_SIZE,
+        "Distance": 5000
     }
     response = requests.post(url+API_KEY, json=data)
     return response.json()
