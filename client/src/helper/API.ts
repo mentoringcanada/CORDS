@@ -14,6 +14,8 @@ export const getSimilar = async (similarBody: SimilarBody) => {
             lng: similarBody.lng
                 ? Number(similarBody.lng.toFixed(4))
                 : -79.3832,
+            distance: similarBody.distance,
+            page: similarBody.page,
         },
         {
             headers: {

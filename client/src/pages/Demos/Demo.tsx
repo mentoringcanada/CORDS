@@ -7,9 +7,8 @@ import {
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
 import DemoInfo from "./DemoInfo/DemoInfo";
-import ServicesList from "../../components/Search/Services/ServicesOutput/ServicesList/ServicesList";
-import { useState } from "react";
-import LargeService from "../../components/Search/Services/ServicesOutput/LargeService/LargeService";
+import SmallService from "../../components/Search/Services/ServicesOutput/SmallService/SmallService";
+import { Service } from "../../types";
 
 interface Props {
     description: string;
@@ -23,9 +22,10 @@ const Demo = ({ description, title }: Props) => {
         useHandleDemoChange,
         error,
         demoContent,
+        getName,
+        getDescription,
     } = DemoLogic();
     useHandleDemoChange(description);
-    const [focus, setFocus] = useState<number | null>(null);
 
     if (error) {
         return <p>Content collection error...</p>;
@@ -47,22 +47,19 @@ const Demo = ({ description, title }: Props) => {
                     </StyledDefaultInfo>
                     <DemoInfo explanation={demoContent.explanation} />
                 </StyledContainer>
-                {focus ? (
-                    <LargeService
-                        id={focus}
-                        setFocus={setFocus}
-                        location={{ lat: 0, lng: 0 }}
+                {similarResults.services.map((service: Service) => (
+                    <SmallService
+                        key={service.item_id}
+                        id={service.item_id}
+                        name={getName(service)}
+                        link={service.link}
+                        description={getDescription(service)}
+                        setFocus={() => ""}
+                        distance={service.distance}
+                        data-testid="small-service"
+                        type={"demo"}
                     />
-                ) : (
-                    similarResults.services &&
-                    similarResults.services.length !== 0 && (
-                        <ServicesList
-                            type="similar"
-                            services={similarResults.services}
-                            setFocus={setFocus}
-                        />
-                    )
-                )}
+                ))}
             </StyledDemo>
         </StyledPageContainer>
     );

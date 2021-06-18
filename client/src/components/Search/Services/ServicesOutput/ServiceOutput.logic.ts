@@ -5,6 +5,7 @@ import SearchContext from "../../SearchContext";
 const ServiceOutputLogic = () => {
     const { search } = useContext(SearchContext);
     const [focus, setFocus] = useState<number | null>(null);
+    const [page, setPage] = useState(1);
 
     const resetScrollEffect = (
         ref: React.MutableRefObject<HTMLDivElement | null>
@@ -12,14 +13,13 @@ const ServiceOutputLogic = () => {
         if (ref.current) ref.current.scrollTop = 0;
     };
 
-    const useOnFocusOrPageChange = (
+    const useOnFocusChange = (
         focus: number | null,
-        page: number,
         outputRef: React.MutableRefObject<any> | undefined
     ) => {
         useEffect(() => {
             outputRef ? resetScrollEffect(outputRef) : window.scrollTo(0, 0);
-        }, [focus, page, outputRef]);
+        }, [focus, outputRef]);
     };
 
     const useOnServicesChange = (
@@ -43,11 +43,13 @@ const ServiceOutputLogic = () => {
     };
 
     return {
+        page,
+        setPage,
         search,
         focus,
         setFocus,
         useOnServicesChange,
-        useOnFocusOrPageChange,
+        useOnFocusChange,
         getServices,
     };
 };

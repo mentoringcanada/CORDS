@@ -3,7 +3,7 @@ import { StyledSearchBar } from "./SearchBar.styles";
 import SearchBarLogic from "./SearchBar.logic";
 
 interface Props {
-    handleGeoSearch: () => void;
+    handleGeoSearch: (page: number) => void;
 }
 
 const SearchBar = ({ handleGeoSearch }: Props) => {
@@ -16,7 +16,7 @@ const SearchBar = ({ handleGeoSearch }: Props) => {
         <StyledSearchBar
             onSubmit={(e) => {
                 e.preventDefault();
-                handleGeoSearch();
+                handleGeoSearch(1);
             }}
         >
             <input

@@ -3,22 +3,24 @@ import { useEffect, useState, useContext } from "react";
 import { getSimilar } from "../../../../../helper/API";
 import { GET_LARGE_SERVICE } from "../../../../../helper/CMS";
 import LanguageContext from "../../../../../helper/LanguageContext";
-import { Location, Service, SimilarBody } from "../../../../../types";
+import { Service, SimilarBody } from "../../../../../types";
+import SearchContext from "../../../SearchContext";
 
-const LargeServiceLogic = (
-    location: Location,
-    setSearchState?: React.Dispatch<React.SetStateAction<string>>
-) => {
+const LargeServiceLogic = (id: number) => {
     const [similar, setSimilar] = useState<Service[]>([]);
     const [service, setService] = useState<Service>();
+    const [page, setPage] = useState(1);
+    const { search } = useContext(SearchContext);
     const { language } = useContext(LanguageContext);
 
     const useSetState = (id: number) => {
         useEffect(() => {
             const similarBody: SimilarBody = {
                 resourceId: id,
-                lat: location.lat,
-                lng: location.lng,
+                lat: search.location.lat,
+                lng: search.location.lng,
+                distance: search.distance,
+                page: 1,
             };
             // Gets service data on component startup
             getSimilar(similarBody).then((res) => {
@@ -26,6 +28,20 @@ const LargeServiceLogic = (
                 setSimilar(res.slice(1));
             });
         }, [id]);
+    };
+
+    const handleSimilar = (page: number) => {
+        const similarBody: SimilarBody = {
+            resourceId: id,
+            lat: search.location.lat,
+            lng: search.location.lng,
+            distance: search.distance,
+            page,
+        };
+
+        getSimilar(similarBody).then((res) => {
+            setSimilar(res);
+        });
     };
 
     const getName = (service: Service) => {
@@ -63,6 +79,9 @@ const LargeServiceLogic = (
         getDescription,
         largeServiceContent,
         error,
+        handleSimilar,
+        page,
+        setPage,
     };
 };
 

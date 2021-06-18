@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import React, { useContext, useState } from "react";
 import { GET_CUSTOM_DEMO_CONTENT } from "../../../helper/CMS";
 import LanguageContext from "../../../helper/LanguageContext";
+import { Service } from "../../../types";
 
 const CustomDemoLogic = () => {
     const [description, setDescription] = useState("");
@@ -20,6 +21,26 @@ const CustomDemoLogic = () => {
     });
     const customDemoContent = data ? data.demos[0] : {};
 
+    const getName = (service: Service) => {
+        let name =
+            language === "fr-CA" && service.nom !== ""
+                ? service.nom
+                : service.name;
+
+        name = name.replace(/[\u{0080}-\u{FFFF}]/gu, "");
+        return name;
+    };
+
+    const getDescription = (service: Service) => {
+        let desc =
+            language === "fr-CA" && service.description_fr !== ""
+                ? service.description_fr
+                : service.description;
+
+        desc = desc.replace(/[\u{0080}-\u{FFFF}]/gu, "");
+        return desc;
+    };
+
     return {
         description,
         title,
@@ -27,6 +48,8 @@ const CustomDemoLogic = () => {
         handleTitleChange,
         error,
         customDemoContent,
+        getName,
+        getDescription,
     };
 };
 

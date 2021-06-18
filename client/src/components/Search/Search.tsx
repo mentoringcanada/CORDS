@@ -9,9 +9,7 @@ interface Props {
 }
 
 const Search = ({ outputRef }: Props) => {
-    const { search, setSearch, handleGeoSearch, useOnPageChange } =
-        SearchLogic();
-    useOnPageChange(search.page);
+    const { search, setSearch, handleGeoSearch } = SearchLogic();
 
     return (
         <>
@@ -19,7 +17,10 @@ const Search = ({ outputRef }: Props) => {
                 <SearchBar handleGeoSearch={handleGeoSearch} />
                 <FilterBar />
                 <div className="break" />
-                <ServiceOutput outputRef={outputRef ? outputRef : undefined} />
+                <ServiceOutput
+                    outputRef={outputRef ? outputRef : undefined}
+                    handleServices={handleGeoSearch}
+                />
             </SearchContext.Provider>
         </>
     );

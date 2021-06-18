@@ -21,10 +21,14 @@ const FilterBar = () => {
         locationValue,
         setLocationValue,
         error,
+        language,
+        useOnLanguageChange,
+        sortValue,
     } = LocationBarLogic();
     useLocationChange(locationValue);
     useHandleLocalLocation();
     const Styles = SelectStyles(true);
+    useOnLanguageChange(language);
 
     if (error) return <p>Content collection error...</p>;
 
@@ -60,10 +64,7 @@ const FilterBar = () => {
             </StyledDistanceSelect>
             <StyledServicesFilter>
                 <Select
-                    defaultValue={{
-                        label: "Best Match",
-                        value: "best",
-                    }}
+                    value={sortValue}
                     options={searchFilters}
                     styles={SelectStyles(false)}
                     onChange={handleFilterChange}

@@ -21,6 +21,7 @@ const distanceSelectOptions = [
 const LocationBarLogic = () => {
     const { search, setSearch } = useContext(SearchContext);
     const [locationValue, setLocationValue] = useState<any>();
+    const [sortValue, setSortValue] = useState<any>();
 
     // Gets local location when location bar renders
     const useHandleLocalLocation = () => {
@@ -71,10 +72,26 @@ const LocationBarLogic = () => {
 
     // Filter
     const handleFilterChange = (filter: any) => {
+        setSortValue(filter);
         setSearch({
             ...search,
             filter: filter.value,
         });
+    };
+
+    const useOnLanguageChange = (language: string) => {
+        useEffect(() => {
+            language === "fr-CA"
+                ? setSortValue({
+                      label: "Meilleure correspondance",
+                      value: "best",
+                  })
+                : setSortValue({ label: "Best Match", value: "best" });
+            setSearch({
+                ...search,
+                filter: "best",
+            });
+        }, [language]);
     };
 
     // Text content
@@ -97,6 +114,9 @@ const LocationBarLogic = () => {
         searchFilters,
         searchBar,
         error,
+        language,
+        useOnLanguageChange,
+        sortValue,
     };
 };
 

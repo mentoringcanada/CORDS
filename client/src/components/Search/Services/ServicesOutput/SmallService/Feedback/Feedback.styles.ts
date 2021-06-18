@@ -75,9 +75,9 @@ export const StyledFeedbackModal = styled.div`
             button {
                 align-self: flex-end;
                 background-color: #b33a3a;
-                padding: 0.3rem 0.7rem;
-                width: 5rem;
+                padding: 0.3rem 1rem;
                 border-radius: 0.3rem;
+                font-size: 1rem;
             }
         }
     }

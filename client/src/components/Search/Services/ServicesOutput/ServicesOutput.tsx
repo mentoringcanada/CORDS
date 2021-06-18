@@ -7,23 +7,25 @@ import {
 import React from "react";
 import ServicesList from "./ServicesList/ServicesList";
 import { SyncLoader } from "react-spinners";
-import PagesBar from "../../PagesBar/PagesBar";
 
 interface Props {
     outputRef?: React.MutableRefObject<any> | undefined;
+    handleServices: (page: number) => void;
 }
 
-function ServiceOutput({ outputRef }: Props) {
+function ServiceOutput({ outputRef, handleServices }: Props) {
     const {
         focus,
         setFocus,
         useOnServicesChange,
-        useOnFocusOrPageChange,
+        useOnFocusChange,
         search,
         getServices,
+        page,
+        setPage,
     } = ServicesOutputLogic();
     useOnServicesChange(search.services, outputRef);
-    useOnFocusOrPageChange(focus, search.page, outputRef);
+    useOnFocusChange(focus, outputRef);
 
     return (
         <StyledServiceOutput data-testid="output-container">
@@ -41,7 +43,6 @@ function ServiceOutput({ outputRef }: Props) {
                 <LargeService
                     id={focus}
                     setFocus={setFocus}
-                    location={search.location}
                     data-testid="large-service"
                 />
             ) : (
@@ -50,8 +51,10 @@ function ServiceOutput({ outputRef }: Props) {
                         services={getServices(search.filter)}
                         setFocus={setFocus}
                         type="search"
+                        handleServices={handleServices}
+                        page={page}
+                        setPage={setPage}
                     />
-                    {search.services.length > 0 && <PagesBar />}
                 </>
             )}
         </StyledServiceOutput>

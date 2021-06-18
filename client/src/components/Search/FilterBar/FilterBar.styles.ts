@@ -34,13 +34,15 @@ export const StyledLocationBar = styled.div`
 `;
 
 export const StyledLocationSelect = styled.div`
+    min-width: 7rem;
     width: 16rem;
 `;
 
 export const StyledDistanceSelect = styled.div`
-    width: 5.5rem;
+    min-width: 5.2rem;
 `;
 
 export const StyledServicesFilter = styled.div`
-    width: 7rem;
+    min-width: 5rem;
+    width: 6.3rem;
 `;

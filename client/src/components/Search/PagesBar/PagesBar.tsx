@@ -1,18 +1,26 @@
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import PagesBarLogic from "./PagesBar.logic";
 import { StyledPageBox, StyledPagesBar } from "./PagesBar.styles";
 
-const PagesBar = () => {
-    const { search, mutatePage, setPage } = PagesBarLogic();
+interface Props {
+    page: number;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const PagesBar = ({ page, setPage }: Props) => {
+    const mutatePage = (x: number) => {
+        if (page + x > 0 && page + x < 11) {
+            setPage(page + x);
+        }
+    };
 
     return (
         <StyledPagesBar>
             <StyledPageBox onClick={() => mutatePage(-1)}>
                 <FaChevronLeft />
             </StyledPageBox>
-            {search.page > 1 && (
+            {page > 1 && (
                 <>
-                    {search.page > 2 && (
+                    {page > 2 && (
                         <>
                             <StyledPageBox onClick={() => setPage(1)}>
                                 1
@@ -21,19 +29,17 @@ const PagesBar = () => {
                         </>
                     )}
                     <StyledPageBox onClick={() => mutatePage(-1)}>
-                        {search.page - 1}
+                        {page - 1}
                     </StyledPageBox>
                 </>
             )}
-            <StyledPageBox className="current-page">
-                {search.page}
-            </StyledPageBox>
-            {search.page < 10 && (
+            <StyledPageBox className="current-page">{page}</StyledPageBox>
+            {page < 10 && (
                 <>
                     <StyledPageBox onClick={() => mutatePage(1)}>
-                        {search.page + 1}
+                        {page + 1}
                     </StyledPageBox>
-                    {search.page < 9 && (
+                    {page < 9 && (
                         <>
                             <StyledPageBox>...</StyledPageBox>
                             <StyledPageBox onClick={() => setPage(10)}>

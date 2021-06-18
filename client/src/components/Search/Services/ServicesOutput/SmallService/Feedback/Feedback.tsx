@@ -51,8 +51,8 @@ const Feedback = ({ id, type }: Props) => {
                         </StyledCloseButton>
                         <h3>Does this service not fit with your search?</h3>
                         <p>
-                            This data helps us provide better results in the
-                            future.
+                            This information helps us provide better results in
+                            the future.
                         </p>
                         <form onSubmit={(e) => handleFeedback(e, id, type)}>
                             <label>

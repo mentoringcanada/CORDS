@@ -32,6 +32,8 @@ export interface SimilarBody {
     resourceId: number;
     lat: number | undefined;
     lng: number | undefined;
+    distance: number;
+    page: number;
 }
 
 export interface Search {
@@ -41,7 +43,6 @@ export interface Search {
     state: string;
     services: Service[];
     location: Location;
-    page: number;
 }
 
 export interface Demos {

@@ -10,18 +10,16 @@ import {
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../../../styles/StyledContainer";
 import { FaLink } from "react-icons/fa";
-import { Location } from "../../../../../types";
 import { StyledDescription } from "../SmallService/SmallService.styles";
 import ServicesList from "../ServicesList/ServicesList";
 
 interface Props {
     id: number;
     setFocus: React.Dispatch<React.SetStateAction<number | null>>;
-    location: Location;
 }
 
 // Component
-const LargeService = ({ id, setFocus, location }: Props) => {
+const LargeService = ({ id, setFocus }: Props) => {
     const {
         similar,
         service,
@@ -30,7 +28,10 @@ const LargeService = ({ id, setFocus, location }: Props) => {
         getDescription,
         largeServiceContent,
         error,
-    } = LargeServiceLogic(location);
+        handleSimilar,
+        page,
+        setPage,
+    } = LargeServiceLogic(id);
     useSetState(id);
 
     if (error) return <p>Content collection error...</p>;
@@ -110,6 +111,9 @@ const LargeService = ({ id, setFocus, location }: Props) => {
                         setFocus={setFocus}
                         services={similar}
                         type={"similar"}
+                        handleServices={handleSimilar}
+                        page={page}
+                        setPage={setPage}
                     />
                 </>
             )}
