@@ -7,8 +7,8 @@ from helper_classes.request_classes.searchRequest import SearchRequest
 import model
 import numpy as np
 from services import converters
-import queries
 from services import cluster_recommendations
+
 
 def search(
     session_token: str,
@@ -21,13 +21,10 @@ def search(
     resultats et les retourne. 
     """
     vector = np.asarray(vector_model(search_request.query))
-    number_of_results = 10
+    number_of_results = 100
     _, indexes = app_state.cache.search(vector, number_of_results)
-    result_IDs = []
-    for index in indexes[0]:
-        item_id = app_state.index_to_ID[index]
-        result_IDs.append("'" + item_id + "'")
-    results = model.get_results(result_IDs)
+    result_IDs = converters.items2str(indexes, app_state.index_to_ID)
+    results = model.get_results(result_IDs, search_request.page)
     return results
 
 
@@ -44,9 +41,9 @@ def get_similar(
     # model.store_pair(session_token, item_id)
 
     # Get description from item ID, create a SearchRequest, then call search()
-    description = converters.convert2text(
+    text_vec = converters.convert2text(
         model.get_description_from_ID(item_id))
-    text = converters.convert2text(description)
+    text = converters.convert2text(text_vec)
     search_request = SearchRequest(
         query=text,
     )
@@ -63,10 +60,8 @@ def geo_search(
     vector = np.asarray(vector_model(geo_search_request.query))
     number_of_results = 1000
     _, indexes = app_state.cache.search(vector, number_of_results)
-    result_IDs = []
-    for index in indexes[0]:
-        item_id = app_state.index_to_ID[index]
-        result_IDs.append("'" + item_id + "'")
+    result_IDs = converters.items2str(
+        indexes, app_state.index_to_ID, geo_search_request.item_id)
     results = model.get_constrained_results(geo_search_request, result_IDs)
     return results[:10]
 
@@ -74,24 +69,19 @@ def geo_search(
 def geo_similar_search(
     session_token: str,
     geo_similar_request: GeoSimilarRequest,
-    app_state: AppState,
-    vector_model
+    app_state: AppState
 ):
     """Get similar services based on the item_id description and coordinates.
     Obtenez des services pareilles de la description d'une service et coordonees.
     """
     # Get description from item ID, create a SearchRequest, then call search()
     geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
-    description = converters.convert2text(
-        model.get_description_from_ID(geo_similar_request.item_id))
-    vector = np.asarray(vector_model(description))
+    vector =  model.get_vector_from_ID(geo_similar_request.item_id)
     number_of_results = 1000
-    _, indexes = app_state.cache.search(vector, number_of_results)
-    result_IDs = ["'" + geo_similar_request.item_id + "'"]
-    for index in indexes[0]:
-        item_id = app_state.index_to_ID[index]
-        if geo_similar_request.item_id != item_id:
-            result_IDs.append("'" + item_id + "'")
+    packed = np.asarray([vector])
+    _, indexes = app_state.cache.search(packed, number_of_results)
+    result_IDs = converters.items2str(
+        indexes, app_state.index_to_ID, geo_similar_request.item_id)
     results = model.get_constrained_results(geo_similar_request, result_IDs)
     return results[:10]
 
@@ -99,7 +89,8 @@ def geo_similar_search(
 def get_recommended_clusters_from_taxonomies(taxonomies):
     # sanitize inputs
     taxonomy_codes = model.get_codes_from_items(taxonomies)
-    cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_taxonomies(taxonomy_codes, 5)
+    cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_taxonomies(
+        taxonomy_codes, 5)
     data = model.execute("""SELECT *,
     (two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
     (two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
@@ -107,3 +98,14 @@ def get_recommended_clusters_from_taxonomies(taxonomies):
     WHERE cluster_id = any(%s)""", (cluster_IDs,))
     output = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
     return output
+
+
+def save_feedback(data):
+    item = [
+        data.query,
+        data.item_id,
+        data.sortOrder,
+        data.msg,
+        data.type,
+    ]
+    model.save_feedback(item)

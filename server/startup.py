@@ -3,6 +3,7 @@ import model
 import numpy as np
 from services import cache
 from services import nlp_model
+from services import converters
 
 
 def load():
@@ -13,8 +14,7 @@ def load():
     print('loading app state')
     vectors_and_IDs = model.get_all_vectors()
     cache.load_index()
-    vectors = np.asarray([np.asarray(row['description_vector']).astype(np.float32)
-                         for row in vectors_and_IDs])
+    vectors = np.asarray([converters.textvec2vec(row['description_vector']) for row in vectors_and_IDs])
     index = cache.add_vectors(vectors)
     app_state = AppState(
         index_to_ID=[row['resource_agency_number'] for row in vectors_and_IDs],

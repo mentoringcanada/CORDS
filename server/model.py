@@ -1,4 +1,5 @@
 import os
+from services import converters
 import pandas
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -69,6 +70,16 @@ def get_description_from_ID(item_id):
         return text
 
 
+def get_vector_from_ID(item_id):
+    item = execute(queries.get_item_by_id, (clean_text(item_id),))
+    try:
+        item = item[0]
+    except:
+        return None
+    vector = converters.textvec2vec(item['description_vector'])
+    return vector
+
+
 def clean_text(text):
     cleaned_text = ''
     ok_chars = set(
@@ -88,10 +99,14 @@ def get_codes_from_items(taxonomies):
     return taxonomies.split(',')
 
 
-def get_results(result_IDs: list):
+def get_results(result_IDs: list, page: int):
+    if not page:
+        page = 1
+    else:
+        page = max(page, 1)
     result_IDs_string = ', '.join(result_IDs)
     query_results = execute(queries.get_results.format(result_IDs_string, result_IDs),
-                            ())
+                            (page*10-10,))
     items = []
     sort_order = 1
     for query_result in query_results:
@@ -103,12 +118,16 @@ def get_results(result_IDs: list):
 
 
 def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False):
+    if not request.page:
+        request.page = 1
+    else:
+        request.page = max(request.page, 1)
     if specific_id:
         result_IDs.remove(specific_id)
         result_IDs = [specific_id] + result_IDs
     result_IDs = ', '.join(result_IDs)
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
-                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))
+                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs), (request.page*10-10,))
     items = []
     sort_order = 1
     for query_result in query_results:
@@ -117,3 +136,7 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
         sort_order += 1
 
     return items
+
+
+def save_feedback(item):
+    execute(queries.save_feedback, item)

@@ -31,7 +31,7 @@ def fill_missing_vector_descriptions(psql_connection_string):
 
     for item in items:
         text = item[-2] + ' ' + item[-1]
-        vector = model(text)[0]
+        vector = model([text])[0]
         cursor.execute("""UPDATE resources
         SET description_vector = array{0}
         WHERE resource_agency_number = '{1}';""".format(

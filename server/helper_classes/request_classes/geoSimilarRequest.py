@@ -7,3 +7,4 @@ class GeoSimilarRequest(BaseModel):
     lat: float
     lng: float
     distance: Optional[float] = 25
+    page: Optional[int] = 1

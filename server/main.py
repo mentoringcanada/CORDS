@@ -12,6 +12,8 @@ from typing import Optional
 # import local modules
 import controllers
 from helper_classes.other_classes.itemList import ItemList
+from helper_classes.other_classes.received import Received
+from helper_classes.request_classes.feedbackRequest import FeedbackRequest
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
@@ -25,7 +27,7 @@ app = FastAPI()
 app_state, vector_model = startup.load()
 
 
-if os.environ['production'] == True:
+if os.environ['production'] == 'TRUE':
     sentry_sdk.init(
         os.environ['SENTRY_URL'],
         traces_sample_rate=1.0
@@ -71,8 +73,14 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Option
     (FR) Retourne des resources and opportunies selon le texte, proche des coordonees partages.
     """
     results = controllers.geo_similar_search(
-        session_token, geo_similar_request, app_state, vector_model)
+        session_token, geo_similar_request, app_state)
     return {"items": results}
+
+
+@app.post("/feedback", response_model=Received)
+def feedback(feedback_data: FeedbackRequest):
+    controllers.save_feedback(feedback_data)
+    return Received()
 
 
 # DEMO ENDPOINTS
