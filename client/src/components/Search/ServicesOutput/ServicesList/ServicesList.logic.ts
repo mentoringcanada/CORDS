@@ -1,10 +1,9 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import LanguageContext from "../../../../helper/LanguageContext";
 import { resetScroll } from "../../../../helper/Services";
 
 const ServicesListLogic = (handleServices: (page: number) => void) => {
     const { language } = useContext(LanguageContext);
-    const [page, setPage] = useState(1);
 
     const useOnPageChange = (
         page: number,
@@ -22,8 +21,6 @@ const ServicesListLogic = (handleServices: (page: number) => void) => {
 
     return {
         language,
-        page,
-        setPage,
         useOnPageChange,
     };
 };

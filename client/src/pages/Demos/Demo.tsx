@@ -7,9 +7,9 @@ import {
 import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
 import DemoInfo from "./DemoInfo/DemoInfo";
-import SmallService from "../../components/Search/ServicesOutput/SmallService/SmallService";
-import { Service } from "../../types";
-import { getDescription, getName } from "../../helper/Services";
+import SearchContext from "../../components/Search/SearchContext";
+import ServiceOutput from "../../components/Search/ServicesOutput/ServicesOutput";
+import SearchState from "../../components/Search/SearchState/SearchState";
 
 interface Props {
     description: string;
@@ -18,12 +18,12 @@ interface Props {
 
 const Demo = ({ description, title }: Props) => {
     const {
-        similarResults,
-        handleSimilar,
         useHandleDemoChange,
         error,
         demoContent,
-        language,
+        handleGeoSearch,
+        search,
+        setSearch,
     } = DemoLogic();
     useHandleDemoChange(description);
 
@@ -33,34 +33,25 @@ const Demo = ({ description, title }: Props) => {
 
     return (
         <StyledPageContainer>
-            <StyledDemo>
-                <StyledContainer>
-                    <StyledDefaultInfo>
-                        <h2>{title}</h2>
-                        <p>{description}</p>
-                        <StyledViewSimilarButton
-                            onClick={() => handleSimilar(description)}
-                            className="demo"
-                        >
-                            {demoContent.buttonText}
-                        </StyledViewSimilarButton>
-                    </StyledDefaultInfo>
-                    <DemoInfo explanation={demoContent.explanation} />
-                </StyledContainer>
-                {similarResults.services.map((service: Service) => (
-                    <SmallService
-                        key={service.item_id}
-                        id={service.item_id}
-                        name={getName(service, language)}
-                        link={service.link}
-                        description={getDescription(service, language)}
-                        setFocus={() => ""}
-                        distance={service.distance}
-                        data-testid="small-service"
-                        type={"demo"}
-                    />
-                ))}
-            </StyledDemo>
+            <SearchContext.Provider value={{ search, setSearch }}>
+                <StyledDemo>
+                    <StyledContainer>
+                        <StyledDefaultInfo>
+                            <h2>{title}</h2>
+                            <p>{description}</p>
+                            <StyledViewSimilarButton
+                                onClick={() => handleGeoSearch(1)}
+                                className="demo"
+                            >
+                                {demoContent.buttonText}
+                            </StyledViewSimilarButton>
+                        </StyledDefaultInfo>
+                        <DemoInfo explanation={demoContent.explanation} />
+                    </StyledContainer>
+                    <SearchState />
+                    <ServiceOutput handleServices={handleGeoSearch} />
+                </StyledDemo>
+            </SearchContext.Provider>
         </StyledPageContainer>
     );
 };

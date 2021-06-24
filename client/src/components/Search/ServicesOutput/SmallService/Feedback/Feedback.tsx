@@ -22,7 +22,7 @@ const Feedback = ({ id, type }: Props) => {
     return (
         <>
             <StyledFeedbackButton>
-                Service not fit with search?
+                Does this service not work here?
                 <button
                     onClick={(e) => {
                         e.stopPropagation();
@@ -36,6 +36,7 @@ const Feedback = ({ id, type }: Props) => {
                 <StyledFeedbackModal
                     onClick={(e) => {
                         e.stopPropagation();
+                        handleFeedback(id, type);
                         setOpen(false);
                     }}
                 >
@@ -45,16 +46,24 @@ const Feedback = ({ id, type }: Props) => {
                     >
                         <StyledCloseButton
                             className="close-button"
-                            onClick={() => setOpen(false)}
+                            onClick={() => {
+                                handleFeedback(id, type);
+                                setOpen(false);
+                            }}
                         >
                             <span>&#x1F5D9;</span>
                         </StyledCloseButton>
-                        <h3>Does this service not fit with your search?</h3>
+                        <h3>Please tell us why</h3>
                         <p>
                             This information helps us provide better results in
                             the future.
                         </p>
-                        <form onSubmit={(e) => handleFeedback(e, id, type)}>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleFeedback(id, type);
+                            }}
+                        >
                             <label>
                                 WHY (optional)
                                 <textarea

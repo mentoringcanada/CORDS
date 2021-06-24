@@ -1,12 +1,8 @@
 import LargeService from "./LargeService/LargeService";
 import ServicesOutputLogic from "./ServiceOutput.logic";
-import {
-    StyledServiceOutput,
-    StyledStateContainer,
-} from "./ServiceOutput.styles";
+import { StyledServiceOutput } from "./ServiceOutput.styles";
 import React from "react";
 import ServicesList from "./ServicesList/ServicesList";
-import { SyncLoader } from "react-spinners";
 
 interface Props {
     outputRef?: React.MutableRefObject<any> | undefined;
@@ -29,16 +25,6 @@ function ServiceOutput({ outputRef, handleServices }: Props) {
 
     return (
         <StyledServiceOutput data-testid="output-container">
-            {search.state && search.state !== "" && (
-                <StyledStateContainer>
-                    {search.state === "searching" && (
-                        <SyncLoader color="#bbb" />
-                    )}
-                    {search.state === "no-results" && (
-                        <h4>No results found in your area...</h4>
-                    )}
-                </StyledStateContainer>
-            )}
             {focus ? (
                 <LargeService
                     id={focus}
@@ -46,16 +32,15 @@ function ServiceOutput({ outputRef, handleServices }: Props) {
                     data-testid="large-service"
                 />
             ) : (
-                <>
-                    <ServicesList
-                        services={getServices(search.filter)}
-                        setFocus={setFocus}
-                        type="search"
-                        handleServices={handleServices}
-                        page={page}
-                        setPage={setPage}
-                    />
-                </>
+                <ServicesList
+                    services={getServices(search.filter)}
+                    setFocus={setFocus}
+                    type="search"
+                    handleServices={handleServices}
+                    page={page}
+                    setPage={setPage}
+                    outputRef={outputRef}
+                />
             )}
         </StyledServiceOutput>
     );

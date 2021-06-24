@@ -29,7 +29,10 @@ const SmallService = ({
     type,
 }: Props) => {
     return (
-        <StyledSmallService onClick={() => setFocus(Number(id))}>
+        <StyledSmallService
+            onClick={() => setFocus(Number(id))}
+            className={type}
+        >
             <h3 className="service-title">{name}</h3>
             <StyledLink
                 href={link}

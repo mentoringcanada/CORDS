@@ -41,14 +41,14 @@ export const StyledFeedbackModal = styled.div`
         background-color: white;
         box-shadow: 0px 0px 2px gray;
         z-index: 2;
-        width: 30rem;
+        width: 26rem;
         border-radius: 0.3rem;
         h3 {
             font-size: 1.4rem;
         }
         p {
-            margin-top: 0.3rem;
-            font-size: 0.9rem;
+            margin: 0.3rem 0;
+            font-size: 0.85rem;
         }
         form {
             display: flex;
