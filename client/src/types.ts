@@ -19,7 +19,8 @@ export interface Location {
 }
 
 export interface SearchBody {
-    search: string;
+    query: string;
+    page: number;
 }
 export interface GeoSearchBody {
     query: string;

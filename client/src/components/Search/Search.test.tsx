@@ -10,11 +10,12 @@ import { MockedProvider } from "@apollo/client/testing";
 import LanguageContext from "../../helper/LanguageContext";
 import Search from "./Search";
 import {
+    GET_FEEDBACK,
     GET_LARGE_SERVICE,
     GET_SEARCH_BAR,
     GET_SEARCH_FILTERS,
 } from "../../helper/CMS";
-import { servicesRes, similarRes } from "../../helper/testData";
+import { serviceRes, servicesRes, similarRes } from "../../helper/testData";
 
 window.scrollTo = jest.fn();
 
@@ -87,6 +88,27 @@ const mocks = [
             },
         },
     },
+    {
+        request: {
+            query: GET_FEEDBACK,
+            variables: {
+                language: "en",
+            },
+        },
+        result: {
+            data: {
+                feedbacks: [
+                    {
+                        openMessage: "openMessage",
+                        title: "Title",
+                        explanation: "explanation",
+                        textboxLabel: "textboxLabel",
+                        sendButton: "sendButton",
+                    },
+                ],
+            },
+        },
+    },
 ];
 
 jest.mock("axios");
@@ -112,8 +134,9 @@ describe("Search", () => {
 
         // Requests
         Object(axios.post)
-            .mockReturnValueOnce(servicesRes)
-            .mockReturnValueOnce(similarRes); // search
+            .mockReturnValueOnce(servicesRes) // search
+            .mockReturnValueOnce([]) // Feedback
+            .mockReturnValueOnce(similarRes); // large service
 
         // Content
         await waitFor(() => screen.getByPlaceholderText("How can we help?"));
@@ -136,8 +159,20 @@ describe("Search", () => {
         await screen.getByText("This is the second fake service");
         await screen.getByText("20.0 km");
 
-        await screen.getAllByText("Service not fit with search?");
         await screen.getAllByText("Distance:");
+
+        // Feedback
+        await screen.getAllByText("openMessage");
+        const feedbackButton = await screen.getAllByText("!");
+        await fireEvent.click(feedbackButton[0]);
+
+        await waitFor(() => screen.getByText("Title"));
+        await screen.getByText("explanation");
+        await screen.getByText("textboxLabel");
+        await screen.getByText("sendButton");
+
+        const sendButton = await screen.getByText("sendButton");
+        await fireEvent.click(sendButton);
 
         // Large Service
         const serviceOne = await screen.findByText("Test Service One");

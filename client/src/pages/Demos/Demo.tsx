@@ -21,7 +21,7 @@ const Demo = ({ description, title }: Props) => {
         useHandleDemoChange,
         error,
         demoContent,
-        handleGeoSearch,
+        handleSearch,
         search,
         setSearch,
     } = DemoLogic();
@@ -40,7 +40,7 @@ const Demo = ({ description, title }: Props) => {
                             <h2>{title}</h2>
                             <p>{description}</p>
                             <StyledViewSimilarButton
-                                onClick={() => handleGeoSearch(1)}
+                                onClick={() => handleSearch(1)}
                                 className="demo"
                             >
                                 {demoContent.buttonText}
@@ -49,7 +49,7 @@ const Demo = ({ description, title }: Props) => {
                         <DemoInfo explanation={demoContent.explanation} />
                     </StyledContainer>
                     <SearchState />
-                    <ServiceOutput handleServices={handleGeoSearch} />
+                    <ServiceOutput handleServices={handleSearch} />
                 </StyledDemo>
             </SearchContext.Provider>
         </StyledPageContainer>

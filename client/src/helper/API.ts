@@ -31,7 +31,8 @@ export const getSearchResults = async (searchBody: SearchBody) => {
     const res = await axios.post(
         "/search",
         {
-            query: searchBody.search,
+            query: searchBody.query,
+            page: searchBody.page,
         },
         {
             headers: {

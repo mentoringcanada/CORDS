@@ -15,14 +15,17 @@ const Feedback = ({ id, type }: Props) => {
         setMessage,
         handleFeedback,
         useOnOpenChange,
+        error,
+        feedbackContent,
     } = FeedbackLogic();
-
     useOnOpenChange(open);
+
+    if (error) return <p>Content collection error...</p>;
 
     return (
         <>
             <StyledFeedbackButton>
-                Does this service not work here?
+                {feedbackContent.openMessage}
                 <button
                     onClick={(e) => {
                         e.stopPropagation();
@@ -53,11 +56,8 @@ const Feedback = ({ id, type }: Props) => {
                         >
                             <span>&#x1F5D9;</span>
                         </StyledCloseButton>
-                        <h3>Please tell us why</h3>
-                        <p>
-                            This information helps us provide better results in
-                            the future.
-                        </p>
+                        <h3>{feedbackContent.title}</h3>
+                        <p>{feedbackContent.explanation}</p>
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -65,14 +65,14 @@ const Feedback = ({ id, type }: Props) => {
                             }}
                         >
                             <label>
-                                WHY (optional)
+                                {feedbackContent.textboxLabel}
                                 <textarea
                                     name="why"
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
                                 />
                             </label>
-                            <button>Send</button>
+                            <button>{feedbackContent.sendButton}</button>
                         </form>
                     </div>
                 </StyledFeedbackModal>

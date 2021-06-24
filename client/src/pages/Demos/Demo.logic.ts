@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
-import { getGeoSearchResults } from "../../helper/API";
+import { getSearchResults } from "../../helper/API";
 import { GET_DEMO_CONTENT } from "../../helper/CMS";
 import LanguageContext from "../../helper/LanguageContext";
-import { GeoSearchBody, Search } from "../../types";
+import { Search, SearchBody } from "../../types";
 
 const DemoLogic = () => {
     const [search, setSearch] = useState<Search>({
@@ -13,8 +13,8 @@ const DemoLogic = () => {
         state: "",
         services: [],
         location: {
-            lat: 43.6532,
-            lng: -79.3832,
+            lat: undefined,
+            lng: undefined,
         },
     });
 
@@ -27,11 +27,8 @@ const DemoLogic = () => {
         }, [description]);
     };
 
-    const handleGeoSearch = (page: number) => {
-        const geoSearch: GeoSearchBody = {
-            distance: search.distance,
-            lat: search.location.lat,
-            lng: search.location.lng,
+    const handleSearch = (page: number) => {
+        const searchBody: SearchBody = {
             query: search.query,
             page,
         };
@@ -41,7 +38,7 @@ const DemoLogic = () => {
         } else {
             setSearch({ ...search, state: "searching" });
         }
-        getGeoSearchResults(geoSearch).then((res) => {
+        getSearchResults(searchBody).then((res) => {
             if (Array.isArray(res) && !res.length) {
                 setSearch({ ...search, state: "no-results" });
             } else {
@@ -67,7 +64,7 @@ const DemoLogic = () => {
         demoContent,
         search,
         setSearch,
-        handleGeoSearch,
+        handleSearch,
     };
 };
 

@@ -14,7 +14,7 @@ import SearchContext from "../../../components/Search/SearchContext";
 import SearchState from "../../../components/Search/SearchState/SearchState";
 
 const CustomDemo = () => {
-    const { useHandleDemoChange, handleGeoSearch, search, setSearch } =
+    const { useHandleDemoChange, handleSearch, search, setSearch } =
         DemoLogic();
     const { error, customDemoContent } = CustomDemoLogic();
     useHandleDemoChange("");
@@ -58,7 +58,7 @@ const CustomDemo = () => {
                         </StyledCustomInputs>
                         <StyledViewSimilarButton
                             className="demo"
-                            onClick={() => handleGeoSearch(1)}
+                            onClick={() => handleSearch(1)}
                         >
                             {customDemoContent.buttonText}
                         </StyledViewSimilarButton>
@@ -67,7 +67,7 @@ const CustomDemo = () => {
                         />
                     </StyledContainer>
                     <SearchState />
-                    <ServiceOutput handleServices={handleGeoSearch} />
+                    <ServiceOutput handleServices={handleSearch} />
                 </StyledDemo>
             </SearchContext.Provider>
         </StyledPageContainer>

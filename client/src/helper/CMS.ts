@@ -102,3 +102,15 @@ export const GET_LARGE_SERVICE = gql`
         }
     }
 `;
+
+export const GET_FEEDBACK = gql`
+    query ($language: String!) {
+        feedbacks(locale: $language) {
+            openMessage
+            title
+            explanation
+            textboxLabel
+            sendButton
+        }
+    }
+`;
