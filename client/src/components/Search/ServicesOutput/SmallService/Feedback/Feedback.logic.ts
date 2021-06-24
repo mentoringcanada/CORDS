@@ -7,9 +7,7 @@ const FeedbackLogic = () => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
-    const handleFeedback = (e: any, id: string, type: string) => {
-        e.preventDefault();
-
+    const handleFeedback = (id: string, type: string) => {
         const feedbackBody = {
             item_id: Number(id),
             query: type === "search" ? search.search.query : "",

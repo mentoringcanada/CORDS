@@ -11,6 +11,7 @@ interface Props {
 }
 
 const PagesBar = ({ page, setPage }: Props) => {
+    const maxPages = 2;
     const mutatePage = (x: number) => {
         if (page + x > 0 && page + x < 11) {
             setPage(page + x);
@@ -39,16 +40,16 @@ const PagesBar = ({ page, setPage }: Props) => {
                     </>
                 )}
                 <StyledPageBox className="current-page">{page}</StyledPageBox>
-                {page < 10 && (
+                {page < maxPages && (
                     <>
                         <StyledPageBox onClick={() => mutatePage(1)}>
                             {page + 1}
                         </StyledPageBox>
-                        {page < 9 && (
+                        {page < maxPages - 1 && (
                             <>
                                 <StyledPageBox>...</StyledPageBox>
                                 <StyledPageBox onClick={() => setPage(10)}>
-                                    10
+                                    {maxPages}
                                 </StyledPageBox>
                             </>
                         )}

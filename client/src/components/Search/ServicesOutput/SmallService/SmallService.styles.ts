@@ -16,6 +16,9 @@ export const StyledSmallService = styled.div`
     .service-title {
         width: 75%;
     }
+    &.demo {
+        cursor: default;
+    }
 `;
 
 export const StyledLink = styled.a`
