@@ -29,17 +29,21 @@ const SearchLogic = () => {
         } else {
             setSearch({ ...search, state: "searching" });
         }
-        getGeoSearchResults(geoSearch).then((res) => {
-            if (Array.isArray(res) && !res.length) {
-                setSearch({ ...search, state: "no-results" });
-            } else {
-                setSearch({
-                    ...search,
-                    state: "",
-                    services: res,
-                });
-            }
-        });
+        getGeoSearchResults(geoSearch)
+            .then((res) => {
+                if (Array.isArray(res) && !res.length) {
+                    setSearch({ ...search, state: "no-results", services: [] });
+                } else {
+                    setSearch({
+                        ...search,
+                        state: "",
+                        services: res,
+                    });
+                }
+            })
+            .catch(() => {
+                setSearch({ ...search, state: "error", services: [] });
+            });
     };
 
     return {

@@ -3,10 +3,12 @@ import StartLogic from "./Start.logic";
 import { StyledPopUp } from "./Start.styles";
 
 const StartScreen = () => {
-    const { allowUse, password, handleAuth, handlePassword } = StartLogic();
+    const { allowUse, password, handleAuth, handlePassword, useCheckAuth } =
+        StartLogic();
+    useCheckAuth();
     return (
         <>
-            {!allowUse && (
+            {!allowUse && allowUse !== null && (
                 <StyledPopUp data-testid="pop-up">
                     <StyledContainer>
                         <form onSubmit={handleAuth}>

@@ -20,7 +20,9 @@ const FeedbackLogic = () => {
             type,
         };
 
-        sendFeedback(feedbackBody);
+        sendFeedback(feedbackBody).catch(() => {
+            console.log("Feedback error");
+        });
         setOpen(false);
     };
 

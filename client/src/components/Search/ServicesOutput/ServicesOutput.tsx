@@ -25,7 +25,7 @@ function ServiceOutput({ outputRef, handleServices }: Props) {
 
     return (
         <StyledServiceOutput data-testid="output-container">
-            {focus ? (
+            {focus && search.state !== "error" ? (
                 <LargeService
                     id={focus}
                     setFocus={setFocus}

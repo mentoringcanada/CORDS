@@ -10,7 +10,7 @@ const LargeServiceLogic = (id: number) => {
     const [similar, setSimilar] = useState<Service[]>([]);
     const [service, setService] = useState<Service>();
     const [page, setPage] = useState(1);
-    const { search } = useContext(SearchContext);
+    const { search, setSearch } = useContext(SearchContext);
     const { language } = useContext(LanguageContext);
 
     const useSetState = (id: number) => {
@@ -23,10 +23,14 @@ const LargeServiceLogic = (id: number) => {
                 page: 1,
             };
             // Gets service data on component startup
-            getSimilar(similarBody).then((res) => {
-                setService(res[0]);
-                setSimilar(res.slice(1));
-            });
+            getSimilar(similarBody)
+                .then((res) => {
+                    setService(res[0]);
+                    setSimilar(res.slice(1));
+                })
+                .catch(() => {
+                    setSearch({ ...search, state: "error", services: [] });
+                });
         }, [id]);
     };
 

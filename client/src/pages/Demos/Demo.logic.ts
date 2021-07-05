@@ -38,17 +38,21 @@ const DemoLogic = () => {
         } else {
             setSearch({ ...search, state: "searching" });
         }
-        getSearchResults(searchBody).then((res) => {
-            if (Array.isArray(res) && !res.length) {
-                setSearch({ ...search, state: "no-results" });
-            } else {
-                setSearch({
-                    ...search,
-                    state: "",
-                    services: res,
-                });
-            }
-        });
+        getSearchResults(searchBody)
+            .then((res) => {
+                if (Array.isArray(res) && !res.length) {
+                    setSearch({ ...search, state: "no-results" });
+                } else {
+                    setSearch({
+                        ...search,
+                        state: "",
+                        services: res,
+                    });
+                }
+            })
+            .catch(() => {
+                setSearch({ ...search, state: "error", services: [] });
+            });
     };
 
     // Text content

@@ -51,6 +51,15 @@ export const GET_SEARCH_FILTERS = gql`
     }
 `;
 
+export const GET_SEARCH_STATE = gql`
+    query ($language: String!) {
+        searches(locale: $language) {
+            noResultsState
+            errorState
+        }
+    }
+`;
+
 export const GET_HOME_CONTENT = gql`
     query ($language: String!) {
         homes(locale: $language) {

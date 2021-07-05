@@ -12,6 +12,7 @@ import Search from "./pages/Search/SearchPage";
 import { Demos } from "./types";
 import LanguageContext from "./helper/LanguageContext";
 import Helmet from "./helper/Helmet";
+import Cluster from "./pages/Cluster/Cluster";
 
 function App() {
     const { language, setLanguage, error, demoPages } = AppLogic();
@@ -50,6 +51,9 @@ function App() {
                         )}
                         <Route path="/search">
                             <Search />
+                        </Route>
+                        <Route path="/clusters">
+                            <Cluster />
                         </Route>
                     </Switch>
                     <Widget />
