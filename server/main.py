@@ -43,7 +43,7 @@ def search(search_request: SearchRequest, session_token: Optional[str] = Header(
     """
     results = controllers.search(
         session_token, search_request, app_state, vector_model)
-    return {"items": results}
+    return results
 
 
 @app.get("/similar/{item_id}", response_model=ItemList)
@@ -54,7 +54,7 @@ def get_item_by_id(item_id: str, session_token: Optional[str] = Header(None)):
     """
     results = controllers.get_similar(
         session_token, item_id, app_state, vector_model)
-    return {"items": results}
+    return results
 
 
 @app.post("/geosearch", response_model=ItemList)
@@ -64,7 +64,7 @@ def get_geo_search(geo_search_request: GeoSearchRequest, session_token: Optional
     """
     results = controllers.geo_search(
         session_token, geo_search_request, app_state, vector_model)
-    return {"items": results}
+    return results
 
 
 @app.post("/similar", response_model=ItemList)
@@ -74,7 +74,7 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Option
     """
     results = controllers.geo_similar_search(
         session_token, geo_similar_request, app_state)
-    return {"items": results}
+    return results
 
 
 @app.post("/feedback", response_model=Received)

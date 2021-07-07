@@ -28,8 +28,8 @@ def test_similar():
 def test_geo_similar():
     response = requests.post(SERVER + '/similar', json={
         'item_id': sample_element,
-        'lat': 44.2312,
-        'lng': -79.486,
+        'lat': 43.743388,
+        'lng': -81.71,
         'distance': 150
     })
     data = response.json()

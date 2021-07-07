@@ -5,7 +5,6 @@ from psycopg2.extras import execute_values
 
 
 PSQL_CONNECT_STR = os.environ.get('PSQL_CONNECT_STR')
-GTA_SERVICES_FILENAME = './GTA_211_Services.csv'
 
 
 def execute(sql, params=()):

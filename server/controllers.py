@@ -63,7 +63,8 @@ def geo_search(
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_search_request.item_id)
     results = model.get_constrained_results(geo_search_request, result_IDs)
-    return results[:10]
+    
+    return results
 
 
 def geo_similar_search(
@@ -83,7 +84,7 @@ def geo_similar_search(
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_similar_request.item_id)
     results = model.get_constrained_results(geo_similar_request, result_IDs)
-    return results[:10]
+    return results
 
 
 def get_recommended_clusters_from_taxonomies(taxonomies):
