@@ -21,17 +21,24 @@ const Nav = () => {
             </StyledBurgerButton>
             <StyledNav className={burgerMenu ? "open" : ""}>
                 {data &&
-                    data.navLinks.map((navLink: any, index: number) => (
-                        <NavLink
-                            className="normlink"
-                            to={`/${navLink.route ? navLink.route : ""}`}
-                            exact
-                            onClick={toggleBurgerMenu}
-                            key={index}
-                        >
-                            {navLink.name}
-                        </NavLink>
-                    ))}
+                    data.navLinks.map((navLink: any, index: number) => {
+                        if (index >= 1) {
+                            return (
+                                <NavLink
+                                    className="normlink"
+                                    to={`/${
+                                        navLink.route ? navLink.route : ""
+                                    }`}
+                                    onClick={toggleBurgerMenu}
+                                    key={index}
+                                >
+                                    {navLink.name}
+                                </NavLink>
+                            );
+                        } else {
+                            return null;
+                        }
+                    })}
                 <Dropdown name={demoDropName} links={data && data.demoPages} />
             </StyledNav>
         </>

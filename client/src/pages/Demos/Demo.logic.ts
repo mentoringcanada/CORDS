@@ -3,15 +3,20 @@ import { useContext, useEffect, useState } from "react";
 import { getSearchResults } from "../../helper/API";
 import { GET_DEMO_CONTENT } from "../../helper/CMS";
 import LanguageContext from "../../helper/LanguageContext";
-import { Search, SearchBody } from "../../types";
+import { useQueryParams } from "../../helper/Services";
+import { Search, SearchBody, Service } from "../../types";
 
-const DemoLogic = () => {
+const DemoLogic = (description: string) => {
+    const query = useQueryParams();
+    const page = Number(query.get("page"));
+    const queryValue = String(query.get("query"));
+    const [services, setServices] = useState<Service[]>([]);
+    const [maxPages, setMaxPages] = useState(2);
     const [search, setSearch] = useState<Search>({
-        query: "",
+        query: description,
         distance: 50,
         filter: "best",
         state: "",
-        services: [],
         location: {
             lat: undefined,
             lng: undefined,
@@ -27,17 +32,12 @@ const DemoLogic = () => {
         }, [description]);
     };
 
-    const handleSearch = (page: number) => {
+    const handleDemo = () => {
         const searchBody: SearchBody = {
-            query: search.query,
+            query: queryValue,
             page,
         };
-
-        if (page === 1) {
-            setSearch({ ...search, state: "searching", services: [] });
-        } else {
-            setSearch({ ...search, state: "searching" });
-        }
+        setSearch({ ...search, state: "searching" });
         getSearchResults(searchBody)
             .then((res) => {
                 if (Array.isArray(res) && !res.length) {
@@ -46,13 +46,32 @@ const DemoLogic = () => {
                     setSearch({
                         ...search,
                         state: "",
-                        services: res,
                     });
+                    setServices(res.items);
+                    setMaxPages(Math.ceil(res.totalResults / 10));
                 }
             })
             .catch(() => {
-                setSearch({ ...search, state: "error", services: [] });
+                setSearch({ ...search, state: "error" });
+                setServices([]);
             });
+    };
+
+    const useOnPageChange = (page: number) => {
+        useEffect(() => {
+            if (page !== 0) {
+                handleDemo();
+            }
+        }, [page]);
+    };
+
+    const useSetState = () => {
+        useEffect(() => {
+            setSearch({
+                ...search,
+                query: queryValue !== "null" ? queryValue : "",
+            });
+        }, []);
     };
 
     // Text content
@@ -68,7 +87,12 @@ const DemoLogic = () => {
         demoContent,
         search,
         setSearch,
-        handleSearch,
+        handleDemo,
+        services,
+        maxPages,
+        useOnPageChange,
+        page,
+        useSetState,
     };
 };
 

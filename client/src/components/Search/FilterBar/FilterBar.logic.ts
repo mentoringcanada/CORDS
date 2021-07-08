@@ -18,29 +18,47 @@ const distanceSelectOptions = [
     { value: 50, label: "50km" },
 ];
 
+const sortSelectOptions = [
+    { value: "best", label: "Best Match" },
+    { value: "proximity", label: "Proximity" },
+];
+
+const sortSelectOptionsFr = [
+    { value: "best", label: "Meilleure correspondance" },
+    { value: "proximity", label: "Proximité" },
+];
+
 const LocationBarLogic = () => {
     const { search, setSearch } = useContext(SearchContext);
     const [locationValue, setLocationValue] = useState<any>();
     const [sortValue, setSortValue] = useState<any>();
 
+    const setValueLocation = async (location: Location) => {
+        const res = await geocodeByLatLng(location);
+        setLocationValue({
+            value: {
+                place_id: res[0].place_id,
+            },
+            label: res[0].formatted_address,
+        });
+    };
+
     // Gets local location when location bar renders
-    const useHandleLocalLocation = () => {
+    const useSetState = () => {
         useEffect(() => {
-            const setLocalLocation = async () => {
-                const localLocation: any = await getLocalLocation();
-                setSearch({
-                    ...search,
-                    location: localLocation,
-                });
-                const res = await geocodeByLatLng(localLocation);
-                setLocationValue({
-                    value: {
-                        place_id: res[0].place_id,
-                    },
-                    label: res[0].formatted_address,
-                });
+            const setLocation = async () => {
+                if (search.location.lat && search.location.lng) {
+                    setValueLocation(search.location);
+                } else {
+                    const localLocation: any = await getLocalLocation();
+                    setSearch({
+                        ...search,
+                        location: localLocation,
+                    });
+                    setValueLocation(localLocation);
+                }
             };
-            setLocalLocation();
+            setLocation();
         }, []);
     };
 
@@ -82,16 +100,29 @@ const LocationBarLogic = () => {
     const useOnLanguageChange = (language: string) => {
         useEffect(() => {
             language === "fr-CA"
-                ? setSortValue({
-                      label: "Meilleure correspondance",
-                      value: "best",
-                  })
-                : setSortValue({ label: "Best Match", value: "best" });
+                ? setSortValue(sortSelectOptionsFr[0])
+                : setSortValue(sortSelectOptions[0]);
             setSearch({
                 ...search,
                 filter: "best",
             });
         }, [language]);
+    };
+
+    const changeToSelections = () => {
+        setSearch({ ...search, state: "selections" });
+    };
+
+    const getFilterLabel = () => {
+        if (language === "fr-CA") {
+            return sortSelectOptionsFr.find(
+                (e: any) => e.value === search.filter
+            );
+        } else {
+            return sortSelectOptions.find(
+                (e: any) => e.value === search.filter
+            );
+        }
     };
 
     // Text content
@@ -104,10 +135,11 @@ const LocationBarLogic = () => {
     const searchBar = data ? data.searches[0] : [];
 
     return {
+        search,
         locationValue,
         setLocationValue,
         useLocationChange,
-        useHandleLocalLocation,
+        useSetState,
         handleDistanceChange,
         handleFilterChange,
         distanceSelectOptions,
@@ -117,6 +149,8 @@ const LocationBarLogic = () => {
         language,
         useOnLanguageChange,
         sortValue,
+        changeToSelections,
+        getFilterLabel,
     };
 };
 

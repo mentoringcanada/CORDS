@@ -42,7 +42,6 @@ export interface Search {
     distance: number;
     filter: string;
     state: string;
-    services: Service[];
     location: Location;
 }
 

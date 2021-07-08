@@ -1,30 +1,34 @@
-import ServiceOutput from "./ServicesOutput/ServicesOutput";
 import SearchLogic from "./Search.logic";
 import SearchContext from "./SearchContext";
 import FilterBar from "./FilterBar/FilterBar";
 import SearchBar from "./SearchBar/SearchBar";
 import SearchState from "./SearchState/SearchState";
+import LargeService from "../ServicesOutput/LargeService/LargeService";
+import { Route, Switch } from "react-router-dom";
+import ServiceResults from "../ServicesOutput/ServiceResults/ServiceResults";
+import Home from "./Home/Home";
 
-interface Props {
-    outputRef?: React.MutableRefObject<any>;
-}
-
-const Search = ({ outputRef }: Props) => {
-    const { search, setSearch, handleGeoSearch } = SearchLogic();
+const Search = () => {
+    const { search, setSearch } = SearchLogic();
 
     return (
         <>
             <SearchContext.Provider value={{ search, setSearch }}>
-                <SearchBar handleGeoSearch={handleGeoSearch} />
+                <SearchBar />
                 <FilterBar />
                 <div className="break" />
                 <SearchState />
-                {search.services.length > 0 && (
-                    <ServiceOutput
-                        outputRef={outputRef}
-                        handleServices={handleGeoSearch}
-                    />
-                )}
+                <Switch>
+                    <Route exact path="/search">
+                        <Home />
+                    </Route>
+                    <Route path="/search/service/:id">
+                        <LargeService />
+                    </Route>
+                    <Route path="/search/results">
+                        <ServiceResults />
+                    </Route>
+                </Switch>
             </SearchContext.Provider>
         </>
     );

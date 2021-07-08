@@ -9,15 +9,37 @@ import {
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
 import DemoInfo from "../DemoInfo/DemoInfo";
-import ServiceOutput from "../../../components/Search/ServicesOutput/ServicesOutput";
 import SearchContext from "../../../components/Search/SearchContext";
 import SearchState from "../../../components/Search/SearchState/SearchState";
+import ServicesList from "../../../components/ServicesOutput/ServicesList/ServicesList";
+import { useHistory } from "react-router-dom";
 
 const CustomDemo = () => {
-    const { useHandleDemoChange, handleSearch, search, setSearch } =
-        DemoLogic();
-    const { error, customDemoContent } = CustomDemoLogic();
+    const {
+        useHandleDemoChange,
+        handleDemo,
+        search,
+        setSearch,
+        services,
+        maxPages,
+        useOnPageChange,
+        page,
+        useSetState,
+    } = DemoLogic("");
+    const {
+        error,
+        customDemoContent,
+        titleValue,
+        setTitleValue,
+        useSetCustomState,
+        queryValue,
+        setQueryValue,
+    } = CustomDemoLogic();
+    useSetState();
+    useSetCustomState();
+    useOnPageChange(page);
     useHandleDemoChange("");
+    const history = useHistory();
 
     if (error) {
         return <p>Content collection error...</p>;
@@ -32,6 +54,10 @@ const CustomDemo = () => {
                             <h2>{customDemoContent.customTitle}</h2>
                             <label className="title">
                                 <input
+                                    value={titleValue}
+                                    onChange={(e) =>
+                                        setTitleValue(e.target.value)
+                                    }
                                     type="text"
                                     placeholder={
                                         customDemoContent.customNamePlaceholder
@@ -45,20 +71,27 @@ const CustomDemo = () => {
                                     placeholder={
                                         customDemoContent.customDescriptionPlaceholder
                                     }
-                                    value={search.query}
-                                    onChange={(e) =>
+                                    value={queryValue}
+                                    onChange={(e) => {
+                                        setQueryValue(e.target.value);
                                         setSearch({
                                             ...search,
                                             query: e.target.value,
-                                        })
-                                    }
+                                        });
+                                    }}
                                 />
                                 <MdEdit />
                             </label>
                         </StyledCustomInputs>
                         <StyledViewSimilarButton
                             className="demo"
-                            onClick={() => handleSearch(1)}
+                            onClick={() => {
+                                history.push({
+                                    pathname: history.location.pathname,
+                                    search: `?query=${queryValue}&title=${titleValue}&page=1`,
+                                });
+                                handleDemo();
+                            }}
                         >
                             {customDemoContent.buttonText}
                         </StyledViewSimilarButton>
@@ -67,7 +100,11 @@ const CustomDemo = () => {
                         />
                     </StyledContainer>
                     <SearchState />
-                    <ServiceOutput handleServices={handleSearch} />
+                    <ServicesList
+                        type="demo"
+                        services={services}
+                        maxPages={maxPages}
+                    />
                 </StyledDemo>
             </SearchContext.Provider>
         </StyledPageContainer>

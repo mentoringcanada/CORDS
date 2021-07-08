@@ -8,8 +8,9 @@ import { StyledPageContainer } from "../../styles/StyledPageContainer";
 import { StyledContainer } from "../../styles/StyledContainer";
 import DemoInfo from "./DemoInfo/DemoInfo";
 import SearchContext from "../../components/Search/SearchContext";
-import ServiceOutput from "../../components/Search/ServicesOutput/ServicesOutput";
 import SearchState from "../../components/Search/SearchState/SearchState";
+import ServicesList from "../../components/ServicesOutput/ServicesList/ServicesList";
+import { useHistory } from "react-router-dom";
 
 interface Props {
     description: string;
@@ -21,11 +22,17 @@ const Demo = ({ description, title }: Props) => {
         useHandleDemoChange,
         error,
         demoContent,
-        handleSearch,
+        handleDemo,
         search,
         setSearch,
-    } = DemoLogic();
+        services,
+        maxPages,
+        useOnPageChange,
+        page,
+    } = DemoLogic(description);
     useHandleDemoChange(description);
+    useOnPageChange(page);
+    const history = useHistory();
 
     if (error) {
         return <p>Content collection error...</p>;
@@ -40,7 +47,13 @@ const Demo = ({ description, title }: Props) => {
                             <h2>{title}</h2>
                             <p>{description}</p>
                             <StyledViewSimilarButton
-                                onClick={() => handleSearch(1)}
+                                onClick={() => {
+                                    history.push({
+                                        pathname: history.location.pathname,
+                                        search: "?page=1",
+                                    });
+                                    handleDemo();
+                                }}
                                 className="demo"
                             >
                                 {demoContent.buttonText}
@@ -49,7 +62,11 @@ const Demo = ({ description, title }: Props) => {
                         <DemoInfo explanation={demoContent.explanation} />
                     </StyledContainer>
                     <SearchState />
-                    <ServiceOutput handleServices={handleSearch} />
+                    <ServicesList
+                        type="demo"
+                        services={services}
+                        maxPages={maxPages}
+                    />
                 </StyledDemo>
             </SearchContext.Provider>
         </StyledPageContainer>

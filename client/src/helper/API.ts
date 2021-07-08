@@ -2,6 +2,7 @@
 import axios from "axios";
 // Types
 import { SearchBody, SimilarBody, FeedbackBody, GeoSearchBody } from "../types";
+import { serviceRes } from "./testData";
 
 // SEARCH //
 // Takes id and returns similar results array
@@ -27,7 +28,35 @@ export const getSimilar = async (similarBody: SimilarBody) => {
             }
         );
         const data = await res.data;
-        return data.items;
+        return data;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const getService = async (similarBody: SimilarBody) => {
+    try {
+        const res = await axios.post(
+            `/similar`,
+            {
+                item_id: similarBody.resourceId,
+                lat: similarBody.lat
+                    ? Number(similarBody.lat.toFixed(4))
+                    : 43.6532,
+                lng: similarBody.lng
+                    ? Number(similarBody.lng.toFixed(4))
+                    : -79.3832,
+                distance: similarBody.distance,
+                page: 1,
+            },
+            {
+                headers: {
+                    session_token: `${localStorage.getItem("session_token")}`,
+                },
+            }
+        );
+        const data = await res.data.items[0];
+        return data;
     } catch (err) {
         throw err;
     }
@@ -48,7 +77,7 @@ export const getSearchResults = async (searchBody: SearchBody) => {
             }
         );
         const data = await res.data;
-        return data.items;
+        return data;
     } catch (err) {
         throw err;
     }
@@ -73,7 +102,7 @@ export const getGeoSearchResults = async (geoSearch: GeoSearchBody) => {
             }
         );
         const data = res.data;
-        return data.items;
+        return data;
     } catch (err) {
         throw err;
     }
@@ -174,16 +203,23 @@ export const getCluster = async (id: number) => {
 // export const removeSelection = (id: string) => {
 //     return "temp remove";
 // };
-// export const getSelections = async () => {
-//     let session = localStorage.getItem("session_token");
-//     // Get selections with session id
-//     if (session) {
-//         const res = await axios.get("/selections", {
-//             headers: {
-//                 session_token: session,
-//             },
-//         });
-//         const data = await res.data;
-//         return data;
-//     }
-// };
+export const getSelections = async (page: number) => {
+    return serviceRes.data.items;
+    // Get selections with session id
+    // TODO: send page number
+    // try {
+    //     let session = localStorage.getItem("session_token");
+    //     if (session) {
+    //         const res = await axios.get("/selections",:w
+    //          {
+    //             headers: {
+    //                 session_token: session,
+    //             },
+    //         });
+    //         const data = await res.data;
+    //         return data;
+    //     }
+    // } catch (err) {
+    //     throw err;
+    // }
+};
