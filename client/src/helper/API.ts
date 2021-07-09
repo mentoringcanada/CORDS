@@ -2,77 +2,126 @@
 import axios from "axios";
 // Types
 import { SearchBody, SimilarBody, FeedbackBody, GeoSearchBody } from "../types";
+import { serviceRes } from "./testData";
 
 // SEARCH //
 // Takes id and returns similar results array
 export const getSimilar = async (similarBody: SimilarBody) => {
-    const res = await axios.post(
-        `/similar`,
-        {
-            item_id: similarBody.resourceId,
-            lat: similarBody.lat ? Number(similarBody.lat.toFixed(4)) : 43.6532,
-            lng: similarBody.lng
-                ? Number(similarBody.lng.toFixed(4))
-                : -79.3832,
-            distance: similarBody.distance,
-            page: similarBody.page,
-        },
-        {
-            headers: {
-                session_token: `${localStorage.getItem("session_token")}`,
+    try {
+        const res = await axios.post(
+            `/similar`,
+            {
+                item_id: similarBody.resourceId,
+                lat: similarBody.lat
+                    ? Number(similarBody.lat.toFixed(4))
+                    : 43.6532,
+                lng: similarBody.lng
+                    ? Number(similarBody.lng.toFixed(4))
+                    : -79.3832,
+                distance: similarBody.distance,
+                page: similarBody.page,
             },
-        }
-    );
-    const data = await res.data;
-    return data.items;
+            {
+                headers: {
+                    session_token: `${localStorage.getItem("session_token")}`,
+                },
+            }
+        );
+        const data = await res.data;
+        return data;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const getService = async (similarBody: SimilarBody) => {
+    try {
+        const res = await axios.post(
+            `/similar`,
+            {
+                item_id: similarBody.resourceId,
+                lat: similarBody.lat
+                    ? Number(similarBody.lat.toFixed(4))
+                    : 43.6532,
+                lng: similarBody.lng
+                    ? Number(similarBody.lng.toFixed(4))
+                    : -79.3832,
+                distance: similarBody.distance,
+                page: 1,
+            },
+            {
+                headers: {
+                    session_token: `${localStorage.getItem("session_token")}`,
+                },
+            }
+        );
+        const data = await res.data.items[0];
+        return data;
+    } catch (err) {
+        throw err;
+    }
 };
 // Takes Search and returns results array
 export const getSearchResults = async (searchBody: SearchBody) => {
-    const res = await axios.post(
-        "/search",
-        {
-            query: searchBody.query,
-            page: searchBody.page,
-        },
-        {
-            headers: {
-                session_token: `${localStorage.getItem("session_token")}`,
+    try {
+        const res = await axios.post(
+            "/search",
+            {
+                query: searchBody.query,
+                page: searchBody.page,
             },
-        }
-    );
-    const data = await res.data;
-    return data.items;
+            {
+                headers: {
+                    session_token: `${localStorage.getItem("session_token")}`,
+                },
+            }
+        );
+        const data = await res.data;
+        return data;
+    } catch (err) {
+        throw err;
+    }
 };
 export const getGeoSearchResults = async (geoSearch: GeoSearchBody) => {
-    const res = await axios.post(
-        "/geosearch",
-        {
-            query: geoSearch.query || "",
-            lat: geoSearch.lat ? Number(geoSearch.lat.toFixed(6)) : 43.6532,
-            lng: geoSearch.lng ? Number(geoSearch.lng.toFixed(6)) : -79.3832,
-            distance: geoSearch.distance,
-            page: geoSearch.page,
-        },
-        {
-            headers: {
-                session_token: `${localStorage.getItem("session_token")}`,
+    try {
+        const res = await axios.post(
+            "/geosearch",
+            {
+                query: geoSearch.query || "",
+                lat: geoSearch.lat ? Number(geoSearch.lat.toFixed(6)) : 43.6532,
+                lng: geoSearch.lng
+                    ? Number(geoSearch.lng.toFixed(6))
+                    : -79.3832,
+                distance: geoSearch.distance,
+                page: geoSearch.page,
             },
-        }
-    );
-    const data = res.data;
-    return data.items;
+            {
+                headers: {
+                    session_token: `${localStorage.getItem("session_token")}`,
+                },
+            }
+        );
+        const data = res.data;
+        return data;
+    } catch (err) {
+        throw err;
+    }
 };
 
 export const sendFeedback = async (feedbackBody: FeedbackBody) => {
-    const res = await axios.post("/feedback", {
-        query: feedbackBody.query,
-        item_id: feedbackBody.item_id,
-        sortOrder: feedbackBody.sortOrder,
-        msg: feedbackBody.msg,
-        type: feedbackBody.type,
-    });
-    const data = await res.data;
-    return data;
+    try {
+        const res = await axios.post("/feeback", {
+            query: feedbackBody.query,
+            item_id: feedbackBody.item_id,
+            sortOrder: feedbackBody.sortOrder,
+            msg: feedbackBody.msg,
+            type: feedbackBody.type,
+        });
+        const data = await res.data;
+        return data;
+    } catch (err) {
+        throw err;
+    }
 };
 
 export const getLocalLocation = async () => {
@@ -93,6 +142,25 @@ export const getLocalLocation = async () => {
             );
         }
     });
+};
+
+// CLUSTERS
+export const getTaxonomies = async () => {
+    const res = await axios.get("/taxonomies");
+    const data = await res.data;
+    return data;
+};
+
+export const getClusters = async () => {
+    const res = await axios.get("/clusters");
+    const data = await res.data;
+    return data;
+};
+
+export const getCluster = async (id: number) => {
+    const res = await axios.get(`/cluster?clusterId=${id}`);
+    const data = await res.data;
+    return data;
 };
 
 // SESSION //
@@ -135,16 +203,23 @@ export const getLocalLocation = async () => {
 // export const removeSelection = (id: string) => {
 //     return "temp remove";
 // };
-// export const getSelections = async () => {
-//     let session = localStorage.getItem("session_token");
-//     // Get selections with session id
-//     if (session) {
-//         const res = await axios.get("/selections", {
-//             headers: {
-//                 session_token: session,
-//             },
-//         });
-//         const data = await res.data;
-//         return data;
-//     }
-// };
+export const getSelections = async (page: number) => {
+    return serviceRes.data.items;
+    // Get selections with session id
+    // TODO: send page number
+    // try {
+    //     let session = localStorage.getItem("session_token");
+    //     if (session) {
+    //         const res = await axios.get("/selections",:w
+    //          {
+    //             headers: {
+    //                 session_token: session,
+    //             },
+    //         });
+    //         const data = await res.data;
+    //         return data;
+    //     }
+    // } catch (err) {
+    //     throw err;
+    // }
+};

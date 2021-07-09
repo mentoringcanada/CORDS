@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { Service } from "../types";
 
 export const getName = (service: Service, language: string = "en") => {
@@ -23,3 +24,7 @@ export const resetScroll = (
 ) => {
     if (ref.current) ref.current.scrollTop = 0;
 };
+
+export function useQueryParams() {
+    return new URLSearchParams(useLocation().search);
+}

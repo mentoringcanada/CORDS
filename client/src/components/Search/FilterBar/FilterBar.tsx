@@ -11,9 +11,10 @@ import Select from "react-select";
 
 const FilterBar = () => {
     const {
+        search,
         useLocationChange,
         distanceSelectOptions,
-        useHandleLocalLocation,
+        useSetState,
         handleDistanceChange,
         handleFilterChange,
         searchFilters,
@@ -23,10 +24,10 @@ const FilterBar = () => {
         error,
         language,
         useOnLanguageChange,
-        sortValue,
+        getFilterLabel,
     } = LocationBarLogic();
     useLocationChange(locationValue);
-    useHandleLocalLocation();
+    useSetState();
     const Styles = SelectStyles(true);
     useOnLanguageChange(language);
 
@@ -53,7 +54,10 @@ const FilterBar = () => {
             </StyledLocationSelect>
             <StyledDistanceSelect data-testid="distance-select">
                 <Select
-                    defaultValue={{ label: "50km", value: 50 }}
+                    value={{
+                        label: `${search.distance}km`,
+                        value: search.distance,
+                    }}
                     options={distanceSelectOptions}
                     styles={SelectStyles(true)}
                     onChange={handleDistanceChange}
@@ -64,13 +68,21 @@ const FilterBar = () => {
             </StyledDistanceSelect>
             <StyledServicesFilter>
                 <Select
-                    value={sortValue}
+                    value={{
+                        label: getFilterLabel()?.label,
+                        value: search.filter,
+                    }}
                     options={searchFilters}
                     styles={SelectStyles(false)}
                     onChange={handleFilterChange}
                     isSearchable={false}
                 />
             </StyledServicesFilter>
+            {/* <button
+                onClick={() => changeToSelections()}
+            >
+                Selections
+            </button> */}
         </StyledLocationBar>
     );
 };

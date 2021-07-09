@@ -1,14 +1,17 @@
 import { FaSearch } from "react-icons/fa";
 import { StyledSearchBar } from "./SearchBar.styles";
 import SearchBarLogic from "./SearchBar.logic";
+import { useHistory } from "react-router-dom";
 
-interface Props {
-    handleGeoSearch: (page: number) => void;
-}
-
-const SearchBar = ({ handleGeoSearch }: Props) => {
-    const { handleSearchChange, searchBarPlaceholder, error } =
-        SearchBarLogic();
+const SearchBar = () => {
+    const {
+        handleSearchChange,
+        searchBarPlaceholder,
+        error,
+        search,
+        language,
+    } = SearchBarLogic();
+    const history = useHistory();
 
     if (error) return <p>Content collection error...</p>;
 
@@ -16,11 +19,14 @@ const SearchBar = ({ handleGeoSearch }: Props) => {
         <StyledSearchBar
             onSubmit={(e) => {
                 e.preventDefault();
-                handleGeoSearch(1);
+                history.push(
+                    `/search/results?query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&ln=${language}&page=1`
+                );
             }}
         >
             <input
                 type="text"
+                value={search.query}
                 placeholder={searchBarPlaceholder}
                 onChange={(e) => handleSearchChange(e)}
                 data-testid="search-input"

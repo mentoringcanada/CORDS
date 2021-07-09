@@ -14,6 +14,8 @@ const SearchBarLogic = () => {
         });
     };
 
+    const useSetState = () => {};
+
     // Text content
     const { language } = useContext(LanguageContext);
     const { error, data } = useQuery(GET_SEARCH_BAR, {
@@ -26,7 +28,10 @@ const SearchBarLogic = () => {
     return {
         handleSearchChange,
         error,
+        search,
         searchBarPlaceholder,
+        useSetState,
+        language,
     };
 };
 

@@ -1,16 +1,21 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Redirect,
+    Route,
+    Switch,
+} from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import GlobalStyle from "./App.styles";
 import Header from "./components/Header/Header";
 import Start from "./pages/Start/Start";
 import Demo from "./pages/Demos/Demo";
 import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
-import Home from "./pages/Home/Home";
 import AppLogic from "./App.logic";
 import Search from "./pages/Search/SearchPage";
 import { Demos } from "./types";
 import LanguageContext from "./helper/LanguageContext";
 import Helmet from "./helper/Helmet";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
     const { language, setLanguage, error, demoPages } = AppLogic();
@@ -23,11 +28,12 @@ function App() {
             <GlobalStyle />
             <Start />
             <Router>
+                <ScrollToTop />
                 <LanguageContext.Provider value={{ language, setLanguage }}>
                     <Header />
                     <Switch>
                         <Route exact path="/">
-                            <Home />
+                            <Redirect to="/search" />
                         </Route>
                         {demoPages.map(
                             (
