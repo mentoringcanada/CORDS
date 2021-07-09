@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import GlobalStyle from "./App.styles";
 import Header from "./components/Header/Header";
-import Widget from "./components/Widget/Widget";
 import Start from "./pages/Start/Start";
 import Demo from "./pages/Demos/Demo";
 import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
@@ -52,7 +51,6 @@ function App() {
                             <Search />
                         </Route>
                     </Switch>
-                    <Widget />
                 </LanguageContext.Provider>
             </Router>
         </HelmetProvider>

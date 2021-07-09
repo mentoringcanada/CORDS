@@ -13,7 +13,7 @@ interface Props {
 const PagesBar = ({ page, setPage }: Props) => {
     const maxPages = 2;
     const mutatePage = (x: number) => {
-        if (page + x > 0 && page + x < 11) {
+        if (page + x >= 1 && page + x <= maxPages) {
             setPage(page + x);
         }
     };
