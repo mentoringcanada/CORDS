@@ -1,4 +1,3 @@
-import ServicesOutput from "../../../components/Services/ServicesOutput/ServicesOutput";
 import { MdEdit } from "react-icons/md";
 import DemoLogic from "../Demo.logic";
 import CustomDemoLogic from "./CustomDemo.logic";
@@ -10,63 +9,67 @@ import {
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
 import DemoInfo from "../DemoInfo/DemoInfo";
+import ServiceOutput from "../../../components/Search/ServicesOutput/ServicesOutput";
+import SearchContext from "../../../components/Search/SearchContext";
+import SearchState from "../../../components/Search/SearchState/SearchState";
 
 const CustomDemo = () => {
-    const { similarResults, handleSimilar, useHandleDemoChange } = DemoLogic();
-    const { description, title, handleDescriptionChange, handleTitleChange } =
-        CustomDemoLogic();
+    const { useHandleDemoChange, handleSearch, search, setSearch } =
+        DemoLogic();
+    const { error, customDemoContent } = CustomDemoLogic();
     useHandleDemoChange("");
+
+    if (error) {
+        return <p>Content collection error...</p>;
+    }
 
     return (
         <StyledPageContainer>
-            <StyledDemo>
-                <StyledContainer>
-                    <StyledCustomInputs>
-                        <h2>Custom Organization</h2>
-                        <label className="title">
-                            <input
-                                type="text"
-                                placeholder="Name"
-                                value={title}
-                                onChange={handleTitleChange}
-                                style={{ width: !title ? "6rem" : "100%" }}
-                            />
-                            <MdEdit />
-                        </label>
-                        <label className="desc">
-                            <input
-                                type="text"
-                                placeholder="Description"
-                                value={description}
-                                onChange={handleDescriptionChange}
-                                style={{
-                                    width: !description ? "6rem" : "100%",
-                                }}
-                            />
-                            <MdEdit />
-                        </label>
-                    </StyledCustomInputs>
-                    <StyledViewSimilarButton
-                        className="demo"
-                        onClick={() => handleSimilar(description)}
-                    >
-                        View similar services
-                    </StyledViewSimilarButton>
-                </StyledContainer>
-                <DemoInfo
-                    explanation="In the custom demo you can create a fictitious organization with a personalized name and description. By clicking the 'view similar' button you search our services database for ones similar to your own. This is intended to be used on service websites to
-                    connect organizations over the web by showing users
-                    other services they might be interested in."
-                />
-                {similarResults.services &&
-                    similarResults.services.length !== 0 && (
-                        <StyledContainer className="demo-output">
-                            <ServicesOutput
-                                serviceResults={similarResults}
-                            ></ServicesOutput>
-                        </StyledContainer>
-                    )}
-            </StyledDemo>
+            <SearchContext.Provider value={{ search, setSearch }}>
+                <StyledDemo>
+                    <StyledContainer>
+                        <StyledCustomInputs>
+                            <h2>{customDemoContent.customTitle}</h2>
+                            <label className="title">
+                                <input
+                                    type="text"
+                                    placeholder={
+                                        customDemoContent.customNamePlaceholder
+                                    }
+                                />
+                                <MdEdit />
+                            </label>
+                            <label className="desc">
+                                <input
+                                    type="text"
+                                    placeholder={
+                                        customDemoContent.customDescriptionPlaceholder
+                                    }
+                                    value={search.query}
+                                    onChange={(e) =>
+                                        setSearch({
+                                            ...search,
+                                            query: e.target.value,
+                                        })
+                                    }
+                                />
+                                <MdEdit />
+                            </label>
+                        </StyledCustomInputs>
+                        <StyledViewSimilarButton
+                            className="demo"
+                            onClick={() => handleSearch(1)}
+                        >
+                            {customDemoContent.buttonText}
+                        </StyledViewSimilarButton>
+                        <DemoInfo
+                            explanation={customDemoContent.customExplanation}
+                        />
+                    </StyledContainer>
+                    <SearchState />
+                    <ServiceOutput handleServices={handleSearch} />
+                </StyledDemo>
+            </SearchContext.Provider>
         </StyledPageContainer>
     );
 };

@@ -1,40 +1,71 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
 import { getSearchResults } from "../../helper/API";
-import { SearchResults } from "../../types";
+import { GET_DEMO_CONTENT } from "../../helper/CMS";
+import LanguageContext from "../../helper/LanguageContext";
+import { Search, SearchBody } from "../../types";
 
 const DemoLogic = () => {
-    const [similarResults, setSimilarResults] = useState<SearchResults>({
+    const [search, setSearch] = useState<Search>({
+        query: "",
+        distance: 50,
+        filter: "best",
+        state: "",
         services: [],
         location: {
             lat: undefined,
             lng: undefined,
         },
     });
-    const handleSimilar = (description: string) => {
-        const searchBody = {
-            search: description,
-        };
-        getSearchResults(searchBody).then((res) =>
-            setSimilarResults({
-                ...similarResults,
-                services: res,
-            })
-        );
-    };
 
     const useHandleDemoChange = (description: string) => {
         useEffect(() => {
-            setSimilarResults({
-                services: [],
-                location: {
-                    lat: undefined,
-                    lng: undefined,
-                },
+            setSearch({
+                ...search,
+                query: description,
             });
         }, [description]);
     };
 
-    return { similarResults, handleSimilar, useHandleDemoChange };
+    const handleSearch = (page: number) => {
+        const searchBody: SearchBody = {
+            query: search.query,
+            page,
+        };
+
+        if (page === 1) {
+            setSearch({ ...search, state: "searching", services: [] });
+        } else {
+            setSearch({ ...search, state: "searching" });
+        }
+        getSearchResults(searchBody).then((res) => {
+            if (Array.isArray(res) && !res.length) {
+                setSearch({ ...search, state: "no-results" });
+            } else {
+                setSearch({
+                    ...search,
+                    state: "",
+                    services: res,
+                });
+            }
+        });
+    };
+
+    // Text content
+    const { language } = useContext(LanguageContext);
+    const { error, data } = useQuery(GET_DEMO_CONTENT, {
+        variables: { language },
+    });
+    const demoContent = data ? data.demos[0] : {};
+
+    return {
+        useHandleDemoChange,
+        error,
+        demoContent,
+        search,
+        setSearch,
+        handleSearch,
+    };
 };
 
 export default DemoLogic;

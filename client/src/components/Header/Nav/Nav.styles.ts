@@ -22,15 +22,19 @@ export const StyledNav = styled.nav`
     }
     @media only screen and (max-width: 768px) {
         display: none;
+        justify-content: space-between;
         position: absolute;
+        margin-right: 0;
         top: 100%;
+        right: 0%;
         height: 70px;
-        width: 100%;
+        width: 100vw;
         background-color: #22262add;
+        z-index: 1;
         a {
-            width: 50%;
             justify-content: center;
             &.normlink {
+                flex: 1;
                 margin: 0;
                 :hover {
                     box-shadow: none;
@@ -46,9 +50,10 @@ export const StyledNav = styled.nav`
 export const StyledBurgerButton = styled.div`
     cursor: pointer;
     display: none;
-    align-items: center;
     font-size: 2rem;
-    margin-right: 1rem;
+    height: 80px;
+    padding: 0.5rem;
+    align-items: center;
     @media only screen and (max-width: 768px) {
         display: flex;
     }

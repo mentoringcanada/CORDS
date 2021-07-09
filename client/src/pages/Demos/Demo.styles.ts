@@ -72,12 +72,13 @@ export const StyledCustomInputs = styled.div`
 
 export const StyledViewSimilarButton = styled.button`
     background-color: var(--primary-color);
-    width: 13rem;
+    width: 17rem;
+    max-width: 80%;
+    height: 2.4rem;
     margin-top: 1.5rem;
     font-size: 1.1rem;
-    padding: 0.5rem;
     border-radius: 0.3rem;
     @media only screen and (max-width: 768px) {
-        font-size: 0.9rem;
+        font-size: 1rem;
     } ;
 `;

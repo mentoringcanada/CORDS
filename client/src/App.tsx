@@ -1,79 +1,58 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { HelmetProvider } from "react-helmet-async";
 import GlobalStyle from "./App.styles";
 import Header from "./components/Header/Header";
-import Widget from "./components/Widget/Widget";
 import Start from "./pages/Start/Start";
 import Demo from "./pages/Demos/Demo";
 import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
 import Home from "./pages/Home/Home";
 import AppLogic from "./App.logic";
-import Search from "./pages/Search/Search";
+import Search from "./pages/Search/SearchPage";
+import { Demos } from "./types";
+import LanguageContext from "./helper/LanguageContext";
+import Helmet from "./helper/Helmet";
 
 function App() {
-    const { useStartupEffect } = AppLogic();
-    useStartupEffect();
+    const { language, setLanguage, error, demoPages } = AppLogic();
+
+    if (error) return <p>Content collection error...</p>;
 
     return (
         <HelmetProvider>
-            <>
-                <Helmet>
-                    <title>CORDS</title>
-                    <meta
-                        http-equiv="Content-Type"
-                        content="text/html; charset=UTF-8"
-                    />
-                    <meta name="description" content="CORDS project website" />
-                    <meta
-                        name="keywords"
-                        content="help, cords, youth, search"
-                    />
-                    <meta
-                        name="viewport"
-                        content="width=device-width, initial-scale=1, minimum-scale=1"
-                    />
-                    <link rel="preconnect" href="https://fonts.gstatic.com" />
-                    <link
-                        href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro&display=swap"
-                        rel="stylesheet"
-                    />
-                </Helmet>
-                <GlobalStyle />
-                <Start />
-                <Router>
+            <Helmet />
+            <GlobalStyle />
+            <Start />
+            <Router>
+                <LanguageContext.Provider value={{ language, setLanguage }}>
                     <Header />
                     <Switch>
                         <Route exact path="/">
                             <Home />
                         </Route>
-                        <Route path="/demo/food">
-                            <Demo
-                                title="Sherri's Snack Shack - Food Bank"
-                                description="Dedicated to helping Canadians living with food insecurity on an on-going, seasonal, and emergency basis."
-                            />
-                        </Route>
-                        <Route path="/demo/shelter">
-                            <Demo
-                                title="Kevin's Couch - Homeless Shelter"
-                                description="We provide temporary residence for homeless individuals and families."
-                            />
-                        </Route>
-                        <Route path="/demo/clothing">
-                            <Demo
-                                title="Dave's Drop-off - Clothing Bank"
-                                description="Drop-off site for donations of used/unwanted clothing."
-                            />
-                        </Route>
-                        <Route path="/demo/custom">
-                            <CustomDemo />
-                        </Route>
+                        {demoPages.map(
+                            (
+                                { route, name, description }: Demos,
+                                index: number
+                            ) =>
+                                route === "custom" ? (
+                                    <Route path="/demo/custom" key={index}>
+                                        <CustomDemo />
+                                    </Route>
+                                ) : (
+                                    <Route path={`/demo/${route}`} key={index}>
+                                        <Demo
+                                            title={name}
+                                            description={description}
+                                        />
+                                    </Route>
+                                )
+                        )}
                         <Route path="/search">
                             <Search />
                         </Route>
                     </Switch>
-                    <Widget />
-                </Router>
-            </>
+                </LanguageContext.Provider>
+            </Router>
         </HelmetProvider>
     );
 }

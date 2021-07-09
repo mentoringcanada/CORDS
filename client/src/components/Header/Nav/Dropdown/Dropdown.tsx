@@ -9,7 +9,12 @@ import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import NavLogic from "../Nav.logic";
 
-const Dropdown = () => {
+interface Props {
+    name: string;
+    links: any[];
+}
+
+const Dropdown = ({ name, links }: Props) => {
     const dropdownRef = useRef(null);
     const { toggleBurgerMenu } = NavLogic();
     const { showDropdownMenu, toggleDropdownMenu, useClickAlert } =
@@ -19,43 +24,25 @@ const Dropdown = () => {
     return (
         <StyledDropdown ref={dropdownRef}>
             <StyledDropdownButton onClick={toggleDropdownMenu}>
-                Demos
+                {name}
                 <FaAngleDown />
             </StyledDropdownButton>
             {showDropdownMenu && (
                 <StyledDropdownMenu>
-                    <NavLink
-                        to="/demo/food"
-                        exact
-                        activeClassName="active"
-                        onClick={toggleBurgerMenu}
-                    >
-                        Food
-                    </NavLink>
-                    <NavLink
-                        to="/demo/shelter"
-                        exact
-                        activeClassName="active"
-                        onClick={toggleBurgerMenu}
-                    >
-                        Shelter
-                    </NavLink>
-                    <NavLink
-                        to="/demo/clothing"
-                        exact
-                        activeClassName="active"
-                        onClick={toggleBurgerMenu}
-                    >
-                        Clothing
-                    </NavLink>
-                    <NavLink
-                        to="/demo/custom"
-                        exact
-                        activeClassName="active"
-                        onClick={toggleBurgerMenu}
-                    >
-                        Custom
-                    </NavLink>
+                    {links &&
+                        links.map((link, index) => {
+                            return (
+                                <NavLink
+                                    to={`/demo/${link.route}`}
+                                    exact
+                                    activeClassName="active"
+                                    onClick={toggleBurgerMenu}
+                                    key={index}
+                                >
+                                    {link.shortName}
+                                </NavLink>
+                            );
+                        })}
                 </StyledDropdownMenu>
             )}
         </StyledDropdown>

@@ -1,6 +1,7 @@
 import React from "react";
-import { StyledCloseButton, StyledFrame } from "./Frame.styles";
-import WidgetSearch from "../pages/WidgetSearch/WidgetSearch";
+import { StyledFrame } from "./Frame.styles";
+import Header from "../Header/Header";
+import SearchPage from "../pages/Search/SearchPage";
 
 interface Props {
     setWidget: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,13 +11,8 @@ interface Props {
 const Frame = ({ setWidget }: Props) => {
     return (
         <StyledFrame>
-            <StyledCloseButton
-                onClick={() => setWidget(false)}
-                data-testid="close-button"
-            >
-                &minus;
-            </StyledCloseButton>
-            <WidgetSearch />
+            <Header setWidget={setWidget} />
+            <SearchPage />
         </StyledFrame>
     );
 };

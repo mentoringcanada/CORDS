@@ -1,58 +1,66 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import axios from "axios";
-import WidgetSearch from "./pages/WidgetSearch/WidgetSearch";
 import Widget from "./Widget";
-import { servicesRes, emptyRes } from "../../helper/testData";
+import { MockedProvider } from "@apollo/client/testing";
+import LanguageContext from "../../helper/LanguageContext";
+import { GET_WIDGET_CONTENT } from "../../helper/CMS";
+
+const GET_WIDGET_MOCK = {
+    request: {
+        query: GET_WIDGET_CONTENT,
+        variables: {
+            language: "en",
+        },
+    },
+    result: {
+        data: {
+            widgets: [
+                {
+                    triggerButtonText: "Trigger",
+                },
+            ],
+        },
+    },
+};
 
 jest.mock("axios");
+jest.mock("react-google-places-autocomplete", () => {
+    return {
+        __esModule: true,
+        A: true,
+        default: () => {
+            return <div>This is the autocomplete</div>;
+        },
+    };
+});
 
 describe("Widget", () => {
-    test("Open and close widget", async () => {
-        render(<Widget />);
+    it("Renders & opens/closes", async () => {
+        render(
+            <MockedProvider mocks={[GET_WIDGET_MOCK]} addTypename={false}>
+                <LanguageContext.Provider value={{ language: "en" }}>
+                    <Widget />
+                </LanguageContext.Provider>
+            </MockedProvider>
+        );
 
-        await screen.getByText("Find Resources");
+        await waitFor(() => screen.getByText("Trigger"));
         const triggerButton = await screen.getByRole("button");
         await fireEvent.click(triggerButton);
-
-        await waitFor(() => screen.getByPlaceholderText("How can we help?"));
-
-        await screen.getByText("Where");
-        await screen.getByText("Within");
-        await screen.getAllByTestId("output-container");
 
         const closeButton = await screen.getByTestId("close-button");
         await fireEvent.click(closeButton);
 
-        await screen.getByText("Find Resources");
+        await screen.getByText("Trigger");
     });
-    describe("Search", () => {
-        test("No location/distance", async () => {
-            render(<WidgetSearch />);
-            await Object(axios.post).mockResolvedValueOnce(servicesRes);
+    it("Renders with error", async () => {
+        render(
+            <MockedProvider mocks={[]} addTypename={false}>
+                <LanguageContext.Provider value={{ language: "en" }}>
+                    <Widget />
+                </LanguageContext.Provider>
+            </MockedProvider>
+        );
 
-            const searchBar = await screen.getByTestId("search-input");
-            await fireEvent.change(searchBar, {
-                target: { value: "I need food" },
-            });
-
-            const submitButton = await screen.getByTestId("search-button");
-            await fireEvent.click(submitButton);
-
-            await waitFor(() => expect(axios.post).toHaveBeenCalled());
-
-            await screen.getByText("Test Service One");
-            await screen.getByText("Test Service Two");
-        });
-        test("No results found", async () => {
-            render(<WidgetSearch />);
-            Object(axios.post).mockResolvedValueOnce(emptyRes);
-
-            const searchButton = await screen.getByTestId("search-button");
-            await fireEvent.click(searchButton);
-
-            await waitFor(() => expect(axios.post).toHaveBeenCalled());
-
-            await screen.getByText("No results found in your area...");
-        });
+        await waitFor(() => screen.getByText("Content collection error..."));
     });
 });

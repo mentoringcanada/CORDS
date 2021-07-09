@@ -19,10 +19,10 @@ describe("Start", () => {
         fireEvent.click(submit);
 
         // Check if pop up is gone
-        expect(screen.queryByTestId("pop-up")).toBeNull;
-        expect(screen.queryByText("Welcome to the CORDS Demo")).toBeNull;
-        expect(screen.queryByLabelText("PASSWORD")).toBeNull;
-        expect(screen.queryByRole("button")).toBeNull;
+        expect(screen.queryByTestId("pop-up")).toBeNull();
+        expect(screen.queryByText("Welcome to the CORDS Demo")).toBeNull();
+        expect(screen.queryByLabelText("PASSWORD")).toBeNull();
+        expect(screen.queryByRole("button")).toBeNull();
     });
     test("Submit with incorrect password", () => {
         render(<Start />);

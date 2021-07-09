@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { useContext } from "react";
+import { GET_CUSTOM_DEMO_CONTENT } from "../../../helper/CMS";
+import LanguageContext from "../../../helper/LanguageContext";
 
 const CustomDemoLogic = () => {
-    const [description, setDescription] = useState("");
-    const [title, setTitle] = useState("");
+    // Text content
+    const { language } = useContext(LanguageContext);
+    const { error, data } = useQuery(GET_CUSTOM_DEMO_CONTENT, {
+        variables: { language },
+    });
+    const customDemoContent = data ? data.demos[0] : {};
 
-    const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-        setDescription(e.target.value);
-
-    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-        setTitle(e.target.value);
-
-    return { description, title, handleDescriptionChange, handleTitleChange };
+    return {
+        language,
+        error,
+        customDemoContent,
+    };
 };
 
 export default CustomDemoLogic;
