@@ -46,6 +46,7 @@ export const StyledCustomInputs = styled.div`
     }
     label.title {
         * {
+            max-width: 90%;
             font-size: 1.5rem;
             margin-bottom: 1rem;
             font-weight: bold;
@@ -53,6 +54,7 @@ export const StyledCustomInputs = styled.div`
     }
     label.desc {
         * {
+            max-width: 90%;
             font-size: 1rem;
         }
     }

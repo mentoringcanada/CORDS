@@ -32,7 +32,11 @@ const Nav = () => {
                             {navLink.name}
                         </NavLink>
                     ))}
-                <Dropdown name={demoDropName} links={data && data.demoPages} />
+                <Dropdown
+                    name={demoDropName}
+                    links={data && data.demoPages}
+                    toggleBurgerMenu={toggleBurgerMenu}
+                />
             </StyledNav>
         </>
     );

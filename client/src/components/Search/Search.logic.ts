@@ -31,7 +31,7 @@ const SearchLogic = () => {
         }
         getGeoSearchResults(geoSearch).then((res) => {
             if (Array.isArray(res) && !res.length) {
-                setSearch({ ...search, state: "no-results" });
+                setSearch({ ...search, state: "no-results", services: [] });
             } else {
                 setSearch({
                     ...search,
