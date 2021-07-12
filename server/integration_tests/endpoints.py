@@ -5,9 +5,9 @@ import requests
 
 
 
-SERVER = 'http://localhost:8000'
+# SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
-# SERVER = 'https://server.cordsconnect.ca'
+SERVER = 'https://server.cordsconnect.ca'
 
 
 sample_element = None

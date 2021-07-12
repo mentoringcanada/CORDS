@@ -39,7 +39,7 @@ if os.environ['production'] == 'TRUE':
 # CORDS portal
 
 @app.post("/session", response_model=Session)
-def session(search_request: SearchRequest):
+def session():
     """Create a new session.
     Creer une nouvelle session.
     """

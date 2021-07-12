@@ -151,6 +151,8 @@ def save_feedback(item):
 
 
 def sanitze_basket(text):
+    if text is None:
+        return None
     cleaned_text = ''
     ok_chars = set(
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-')
