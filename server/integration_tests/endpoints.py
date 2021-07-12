@@ -1,6 +1,9 @@
 "These tests are not tests yet but they print the outputs and that's nice."
 
+import re
 import requests
+
+
 
 SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
@@ -97,9 +100,28 @@ def test_geo_similar_search_pages():
     assert item_1 != data['items'][0]['item_id']
 
 
+def test_add_remove_basket():
+    item_id = '12345'
+    session_token = '54321'
+    response = requests.post(SERVER + '/add_item', json={
+        'item_id': item_id
+    }, headers={
+        'session_token': session_token
+    })
+    assert response.json()['status']
+    response = requests.post(SERVER + '/remove_item', json={
+        'item_id': item_id
+    }, headers={
+        'session_token': session_token
+    })
+    print('status_code of remove', response.status_code)
+    assert response.json()['status']
+
+
 test_search()
 test_similar()
 test_geo_similar()
 test_geo_search()
 test_geo_search_pages()
 test_geo_similar_search_pages()
+test_add_remove_basket()

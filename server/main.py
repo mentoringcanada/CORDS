@@ -13,6 +13,8 @@ from typing import Optional
 import controllers
 from helper_classes.other_classes.itemList import ItemList
 from helper_classes.other_classes.received import Received
+from helper_classes.other_classes.session import Session
+from helper_classes.other_classes.basketItem import BasketItem
 from helper_classes.request_classes.feedbackRequest import FeedbackRequest
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
@@ -36,8 +38,33 @@ if os.environ['production'] == 'TRUE':
 
 # CORDS portal
 
+@app.post("/session", response_model=Session)
+def session(search_request: SearchRequest):
+    """Create a new session.
+    Creer une nouvelle session.
+    """
+    session = Session()
+    return session
+
+
+@app.post("/add_item", response_model=Received)
+def add_item(basket_item: BasketItem, session_token: Optional[str] = Header(None, convert_underscores=False)):
+    """Adds item to session's basket.
+    Ajoute objet au panier du session."""
+    controllers.add_item(basket_item, session_token)
+    return Received()
+
+
+@app.post("/remove_item", response_model=Received)
+def remove_item(basket_item: BasketItem, session_token: Optional[str] = Header(None, convert_underscores=False)):
+    """Removes item from session's basket.
+    Supprime un objet du panier du session."""
+    controllers.remove_item(basket_item, session_token)
+    return Received()
+
+
 @app.post("/search", response_model=ItemList)
-def search(search_request: SearchRequest, session_token: Optional[str] = Header(None)):
+def search(search_request: SearchRequest, session_token: Optional[str] = Header(None, convert_underscores=False)):
     """Text search through resources and opportunities.
     Chercher a travers les resources et opportunites par texte.
     """
@@ -47,7 +74,7 @@ def search(search_request: SearchRequest, session_token: Optional[str] = Header(
 
 
 @app.get("/similar/{item_id}", response_model=ItemList)
-def get_item_by_id(item_id: str, session_token: Optional[str] = Header(None)):
+def get_item_by_id(item_id: str, session_token: Optional[str] = Header(None, convert_underscores=False)):
     """(EN) Returns similar resources and opportunities based on description text.
     Also stores the session-item pair in order to make future recommendations.
     (FR) Retourne des resources et opportunites selon le texte similier a l'object.
@@ -58,7 +85,7 @@ def get_item_by_id(item_id: str, session_token: Optional[str] = Header(None)):
 
 
 @app.post("/geosearch", response_model=ItemList)
-def get_geo_search(geo_search_request: GeoSearchRequest, session_token: Optional[str] = Header(None)):
+def get_geo_search(geo_search_request: GeoSearchRequest, session_token: Optional[str] = Header(None, convert_underscores=False)):
     """(EN) Returns resources and opportunities based on search, geographically constrained.
     (FR) Retourne des resources and opportunies selon le texte, proche des coordonees partages.
     """
@@ -68,7 +95,7 @@ def get_geo_search(geo_search_request: GeoSearchRequest, session_token: Optional
 
 
 @app.post("/similar", response_model=ItemList)
-def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Optional[str] = Header(None)):
+def get_geo_search(geo_similar_request: GeoSimilarRequest, session_token: Optional[str] = Header(None, convert_underscores=False)):
     """(EN) Returns resources and opportunities based on search, geographically constrained.
     (FR) Retourne des resources and opportunies selon le texte, proche des coordonees partages.
     """

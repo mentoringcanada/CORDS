@@ -1,0 +1,1 @@
+CREATE TABLE baskets (item_id varchar, session varchar, created_time timestamp default now());

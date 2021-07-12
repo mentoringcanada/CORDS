@@ -148,3 +148,25 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
 
 def save_feedback(item):
     execute(queries.save_feedback, item)
+
+
+def sanitze_basket(text):
+    cleaned_text = ''
+    ok_chars = set(
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-')
+    for char in text:
+        if char in ok_chars:
+            cleaned_text += char
+    return cleaned_text
+
+
+def save_item(item_id, session):
+    item_id = sanitze_basket(item_id)
+    session = sanitze_basket(session)
+    execute(queries.save_item, (item_id, session,))
+
+
+def remove_item(item_id, session):
+    item_id = sanitze_basket(item_id)
+    session = sanitze_basket(session)
+    execute(queries.remove_item, (item_id, session,))

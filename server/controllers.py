@@ -110,3 +110,13 @@ def save_feedback(data):
         data.type,
     ]
     model.save_feedback(item)
+
+
+def add_item(basketItem, session):
+    item_id = basketItem.item_id
+    model.save_item(item_id, session)
+
+
+def remove_item(basketItem, session):
+    item_id = basketItem.item_id
+    model.remove_item(item_id, session)

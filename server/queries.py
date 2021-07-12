@@ -175,3 +175,7 @@ is_item_in_cluster = """SELECT cluster_id FROM resources WHERE resource_agency_n
 save_feedback = """INSERT INTO feedback (
     query, item_id, sort_order, msg, type_of_feedback
 ) VALUES (%s, %s, %s, %s, %s);"""
+
+save_item = """INSERT INTO baskets (item_id, session) VALUES (%s, %s);"""
+
+remove_item = """DELETE FROM baskets WHERE item_id = %s AND session = %s;"""
