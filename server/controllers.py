@@ -6,6 +6,7 @@ from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 import model
 import numpy as np
+from uuid import uuid4
 from services import converters
 from services import cluster_recommendations
 
@@ -63,7 +64,7 @@ def geo_search(
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_search_request.item_id)
     results = model.get_constrained_results(geo_search_request, result_IDs)
-    
+
     return results
 
 
@@ -77,7 +78,7 @@ def geo_similar_search(
     """
     # Get description from item ID, create a SearchRequest, then call search()
     geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
-    vector =  model.get_vector_from_ID(geo_similar_request.item_id)
+    vector = model.get_vector_from_ID(geo_similar_request.item_id)
     number_of_results = 1000
     packed = np.asarray([vector])
     _, indexes = app_state.cache.search(packed, number_of_results)

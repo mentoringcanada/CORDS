@@ -43,8 +43,7 @@ def session():
     """Create a new session.
     Creer une nouvelle session.
     """
-    session = Session()
-    return session
+    return Session()
 
 
 @app.post("/add_item", response_model=Received)
