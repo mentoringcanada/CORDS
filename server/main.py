@@ -47,7 +47,7 @@ def session():
 
 
 @app.post("/add_item", response_model=Received)
-def add_item(basket_item: BasketItem, session_token: Optional[str] = Header(None, convert_underscores=False)):
+def add_item(basket_item: BasketItem, session_token: str):
     """Adds item to session's basket.
     Ajoute objet au panier du session."""
     controllers.add_item(basket_item, session_token)
