@@ -4,13 +4,13 @@ import re
 import requests
 
 
-
-# SERVER = 'http://localhost:8000'
+SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
-SERVER = 'https://server.cordsconnect.ca'
+# SERVER = 'https://server.cordsconnect.ca'
 
 
 sample_element = None
+
 
 def test_search():
     response = requests.post(SERVER + '/search', json={
@@ -101,7 +101,7 @@ def test_geo_similar_search_pages():
 
 
 def test_add_remove_basket():
-    item_id = '12345'
+    item_id = '70210584'
     session_token = '54321'
     response = requests.post(SERVER + '/add_item', json={
         'item_id': item_id
@@ -109,12 +109,14 @@ def test_add_remove_basket():
         'session_token': session_token
     })
     assert response.json()['status']
+    response = requests.get(
+        SERVER + '/items', headers={'session_token': session_token})
+    print(response.json())
     response = requests.post(SERVER + '/remove_item', json={
         'item_id': item_id
     }, headers={
         'session_token': session_token
     })
-    print('status_code of remove', response.status_code)
     assert response.json()['status']
 
 

@@ -179,3 +179,6 @@ save_feedback = """INSERT INTO feedback (
 save_item = """INSERT INTO baskets (item_id, session) VALUES (%s, %s);"""
 
 remove_item = """DELETE FROM baskets WHERE item_id = %s AND session = %s;"""
+
+get_items_by_session = """SELECT * FROM resources WHERE resource_agency_number
+IN (SELECT item_id FROM baskets WHERE session = %s);"""

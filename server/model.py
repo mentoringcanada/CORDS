@@ -150,7 +150,7 @@ def save_feedback(item):
     execute(queries.save_feedback, item)
 
 
-def sanitze_basket(text):
+def sanitize_basket(text):
     if text is None:
         return None
     cleaned_text = ''
@@ -163,12 +163,19 @@ def sanitze_basket(text):
 
 
 def save_item(item_id, session):
-    item_id = sanitze_basket(item_id)
-    session = sanitze_basket(session)
+    item_id = sanitize_basket(item_id)
+    session = sanitize_basket(session)
+    print(item_id, session)
     execute(queries.save_item, (item_id, session,))
 
 
 def remove_item(item_id, session):
-    item_id = sanitze_basket(item_id)
-    session = sanitze_basket(session)
+    item_id = sanitize_basket(item_id)
+    session = sanitize_basket(session)
     execute(queries.remove_item, (item_id, session,))
+
+
+def get_items(session):
+    session = sanitize_basket(session)
+    results = execute(queries.get_items_by_session, (session,))
+    return [Item.from_db_row(r) for r in results]

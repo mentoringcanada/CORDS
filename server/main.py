@@ -62,6 +62,14 @@ def remove_item(basket_item: BasketItem, session_token: Optional[str] = Header(N
     return Received()
 
 
+@app.get("/items", response_model=ItemList)
+def get_items(session_token: Optional[str] = Header(None, convert_underscores=False)):
+    """See what items you have.
+    Voir quels object vous avez."""
+    results = controllers.get_items(session_token)
+    return results
+
+
 @app.post("/search", response_model=ItemList)
 def search(search_request: SearchRequest, session_token: Optional[str] = Header(None, convert_underscores=False)):
     """Text search through resources and opportunities.

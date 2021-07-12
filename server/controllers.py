@@ -1,3 +1,4 @@
+from helper_classes.other_classes.itemList import ItemList
 from helper_classes.other_classes.cluster import Cluster
 from helper_classes.other_classes.clusterList import ClusterList
 from helper_classes.other_classes.appState import AppState
@@ -121,3 +122,8 @@ def add_item(basketItem, session):
 def remove_item(basketItem, session):
     item_id = basketItem.item_id
     model.remove_item(item_id, session)
+
+
+def get_items(session):
+    items = model.get_items(session)
+    return ItemList(items=items, totalResults=len(items))
