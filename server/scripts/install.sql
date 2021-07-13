@@ -1,6 +1,6 @@
 CREATE DATABASE yourdbname;
 CREATE USER youruser WITH ENCRYPTED PASSWORD 'yourpass';
-GRANT ALL PRIVILEGES ON DATABASE yourdbname TO youruser;
+ALTER USER youruser WITH SUPERUSER;
 
 \c yourdbname;
 CREATE EXTENSION cube;

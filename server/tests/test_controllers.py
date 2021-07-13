@@ -25,7 +25,7 @@ def test_search():
         app_state,
         vectorizer
     )
-    assert output == ['get_results'] * 10
+    assert output['items'] == ['get_results'] * 10
 
 
 def test_geo_search():
@@ -42,7 +42,7 @@ def test_geo_search():
         app_state,
         vectorizer
     )
-    assert output == ['get_constrained_results'] * 10
+    assert output['items'] == ['get_constrained_results'] * 10
 
 
 def test_get_similar():
@@ -55,7 +55,7 @@ def test_get_similar():
         app_state,
         vectorizer
     )
-    assert output == ['get_results'] * 10
+    assert output['items'] == ['get_results'] * 10
 
 
 def test_get_geo_similar():
@@ -71,4 +71,4 @@ def test_get_geo_similar():
         search_request,
         app_state
     )
-    assert output == ['get_constrained_results'] * 10
+    assert output['items'] == ['get_constrained_results'] * 10

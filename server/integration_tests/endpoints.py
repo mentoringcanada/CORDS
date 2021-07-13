@@ -1,13 +1,16 @@
 "These tests are not tests yet but they print the outputs and that's nice."
 
+import re
 import requests
 
-SERVER = 'http://localhost:8000'
+
+# SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
-# SERVER = 'https://server.cordsconnect.ca'
+SERVER = 'https://server.cordsconnect.ca'
 
 
 sample_element = None
+
 
 def test_search():
     response = requests.post(SERVER + '/search', json={
@@ -28,8 +31,8 @@ def test_similar():
 def test_geo_similar():
     response = requests.post(SERVER + '/similar', json={
         'item_id': sample_element,
-        'lat': 44.2312,
-        'lng': -79.486,
+        'lat': 43.743388,
+        'lng': -81.71,
         'distance': 150
     })
     data = response.json()
@@ -97,9 +100,30 @@ def test_geo_similar_search_pages():
     assert item_1 != data['items'][0]['item_id']
 
 
+def test_add_remove_basket():
+    item_id = '70210584'
+    session_token = '54321'
+    response = requests.post(SERVER + '/add_item', json={
+        'item_id': item_id
+    }, headers={
+        'session_token': session_token
+    })
+    assert response.json()['status']
+    response = requests.get(
+        SERVER + '/items', headers={'session_token': session_token})
+    print(response.json())
+    response = requests.post(SERVER + '/remove_item', json={
+        'item_id': item_id
+    }, headers={
+        'session_token': session_token
+    })
+    assert response.json()['status']
+
+
 test_search()
 test_similar()
 test_geo_similar()
 test_geo_search()
 test_geo_search_pages()
 test_geo_similar_search_pages()
+test_add_remove_basket()

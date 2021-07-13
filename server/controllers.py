@@ -1,3 +1,4 @@
+from helper_classes.other_classes.itemList import ItemList
 from helper_classes.other_classes.cluster import Cluster
 from helper_classes.other_classes.clusterList import ClusterList
 from helper_classes.other_classes.appState import AppState
@@ -6,6 +7,7 @@ from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 import model
 import numpy as np
+from uuid import uuid4
 from services import converters
 from services import cluster_recommendations
 
@@ -63,7 +65,8 @@ def geo_search(
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_search_request.item_id)
     results = model.get_constrained_results(geo_search_request, result_IDs)
-    return results[:10]
+
+    return results
 
 
 def geo_similar_search(
@@ -76,14 +79,14 @@ def geo_similar_search(
     """
     # Get description from item ID, create a SearchRequest, then call search()
     geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
-    vector =  model.get_vector_from_ID(geo_similar_request.item_id)
+    vector = model.get_vector_from_ID(geo_similar_request.item_id)
     number_of_results = 1000
     packed = np.asarray([vector])
     _, indexes = app_state.cache.search(packed, number_of_results)
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_similar_request.item_id)
     results = model.get_constrained_results(geo_similar_request, result_IDs)
-    return results[:10]
+    return results
 
 
 def get_recommended_clusters_from_taxonomies(taxonomies):
@@ -109,3 +112,18 @@ def save_feedback(data):
         data.type,
     ]
     model.save_feedback(item)
+
+
+def add_item(basketItem, session):
+    item_id = basketItem.item_id
+    model.save_item(item_id, session)
+
+
+def remove_item(basketItem, session):
+    item_id = basketItem.item_id
+    model.remove_item(item_id, session)
+
+
+def get_items(session):
+    items = model.get_items(session)
+    return ItemList(items=items, totalResults=len(items))

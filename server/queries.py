@@ -7,14 +7,14 @@ get_constrained_results_2 = """)
 AND 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
 +cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 < {2}
 ORDER BY array_position(ARRAY[{3}]::varchar[], resource_agency_number)
-LIMIT 10 OFFSET %s;
+LIMIT 50;
 """
 
 get_results = """SELECT *
 FROM resources
 WHERE resource_agency_number in ({0})
 ORDER BY array_position(ARRAY[{0}]::varchar[], resource_agency_number)
-LIMIT 10 OFFSET %s;
+LIMIT 50;
 """
 
 get_all_vectors = """SELECT resource_agency_number, description_vector
@@ -175,3 +175,10 @@ is_item_in_cluster = """SELECT cluster_id FROM resources WHERE resource_agency_n
 save_feedback = """INSERT INTO feedback (
     query, item_id, sort_order, msg, type_of_feedback
 ) VALUES (%s, %s, %s, %s, %s);"""
+
+save_item = """INSERT INTO baskets (item_id, session) VALUES (%s, %s);"""
+
+remove_item = """DELETE FROM baskets WHERE item_id = %s AND session = %s;"""
+
+get_items_by_session = """SELECT * FROM resources WHERE resource_agency_number
+IN (SELECT item_id FROM baskets WHERE session = %s);"""

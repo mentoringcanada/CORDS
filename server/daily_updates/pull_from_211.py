@@ -13,12 +13,12 @@ def get_page(lang, page, API_KEY):
     data = {
         "Dataset": "on",
         "Lang": lang,
-        "updatedOn": (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d'),
-        "SearchType": "coverage",
+        # "UpdateOn": (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d'),
+        "SearchType": "proximity",
         "Search": "term",
         "Term": "*",
-        "Latitude": 44,
-        "Longitude": -80,
+        "Latitude": 43.7,
+        "Longitude": -79.4,
         "PageIndex": page,
         "PageSize": PAGE_SIZE,
         "Distance": 5000

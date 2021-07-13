@@ -105,8 +105,10 @@ def get_results(result_IDs: list, page: int):
     else:
         page = max(page, 1)
     result_IDs_string = ', '.join(result_IDs)
-    query_results = execute(queries.get_results.format(result_IDs_string, result_IDs),
-                            (page*10-10,))
+    query_results = execute(queries.get_results.format(
+        result_IDs_string, result_IDs))
+    total_results = len(query_results)
+    query_results = query_results[page*10-10:page*10]
     items = []
     sort_order = 1
     for query_result in query_results:
@@ -114,20 +116,26 @@ def get_results(result_IDs: list, page: int):
         items[-1].sortOrder = sort_order
         sort_order += 1
 
-    return items
+    return {'items': items, 'totalResults': total_results}
 
 
 def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False):
-    if not request.page:
-        request.page = 1
-    else:
-        request.page = max(request.page, 1)
     if specific_id:
         result_IDs.remove(specific_id)
         result_IDs = [specific_id] + result_IDs
     result_IDs = ', '.join(result_IDs)
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
-                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs), (request.page*10-10,))
+                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))
+
+    total_results = len(query_results)
+
+    if not request.page:
+        request.page = 1
+    else:
+        request.page = max(request.page, 1)
+
+    query_results = query_results[request.page*10-10:request.page*10]
+
     items = []
     sort_order = 1
     for query_result in query_results:
@@ -135,8 +143,38 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
         items[-1].sortOrder = sort_order
         sort_order += 1
 
-    return items
+    return {'items': items, 'totalResults': total_results}
 
 
 def save_feedback(item):
     execute(queries.save_feedback, item)
+
+
+def sanitize_basket(text):
+    if text is None:
+        return None
+    cleaned_text = ''
+    ok_chars = set(
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-')
+    for char in text:
+        if char in ok_chars:
+            cleaned_text += char
+    return cleaned_text
+
+
+def save_item(item_id, session):
+    item_id = sanitize_basket(item_id)
+    session = sanitize_basket(session)
+    execute(queries.save_item, (item_id, session,))
+
+
+def remove_item(item_id, session):
+    item_id = sanitize_basket(item_id)
+    session = sanitize_basket(session)
+    execute(queries.remove_item, (item_id, session,))
+
+
+def get_items(session):
+    session = sanitize_basket(session)
+    results = execute(queries.get_items_by_session, (session,))
+    return [Item.from_db_row(r) for r in results]

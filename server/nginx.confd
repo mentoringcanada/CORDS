@@ -1,4 +1,6 @@
+underscores_in_headers on;
 server {
+
     listen 443 ssl; # managed by Certbot
 
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
@@ -9,6 +11,8 @@ server {
 
     location / {
         proxy_pass              http://127.0.0.1:8000/;
+        proxy_pass_header       http://127.0.0.1:8000;
+        proxy_pass_request_headers      on;
     if ($request_method ~* "(GET|POST)") {
       add_header "Access-Control-Allow-Origin" '*' always;
     }
@@ -20,6 +24,7 @@ server {
       add_header "Access-Control-Allow-Headers" '*';
       return 200;
     }
+        add_header X-session_token $http_session_token;
 
-    }
+}
 }
