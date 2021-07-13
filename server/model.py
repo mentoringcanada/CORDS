@@ -165,7 +165,6 @@ def sanitize_basket(text):
 def save_item(item_id, session):
     item_id = sanitize_basket(item_id)
     session = sanitize_basket(session)
-    print(item_id, session)
     execute(queries.save_item, (item_id, session,))
 
 
