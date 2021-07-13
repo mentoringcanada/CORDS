@@ -47,8 +47,7 @@ describe("Header", () => {
         );
 
         await screen.getByAltText("CORDS Title Logo");
-        await waitFor(() => screen.getByText("Home"));
-        await screen.getByText("Search");
+        await waitFor(() => screen.getByText("Search"));
         await screen.getByText("Demos");
     });
     it("Render with error", async () => {

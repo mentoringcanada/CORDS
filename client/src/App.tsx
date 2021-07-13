@@ -11,14 +11,16 @@ import Start from "./pages/Start/Start";
 import Demo from "./pages/Demos/Demo";
 import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
 import AppLogic from "./App.logic";
-import Search from "./pages/Search/SearchPage";
+import Search from "./pages/Search/Search";
 import { Demos } from "./types";
 import LanguageContext from "./helper/LanguageContext";
 import Helmet from "./helper/Helmet";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
-    const { language, setLanguage, error, demoPages } = AppLogic();
+    const { language, setLanguage, error, demoPages, useOnStartup } =
+        AppLogic();
+    useOnStartup();
 
     if (error) return <p>Content collection error...</p>;
 

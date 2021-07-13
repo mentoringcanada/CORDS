@@ -1,4 +1,5 @@
-import ServicesList from "../ServicesList/ServicesList";
+import ServicesList from "../../../components/ServicesOutput/ServicesList/ServicesList";
+import { addSelection } from "../../../helper/API";
 import ServiceResultsLogic from "./ServiceResults.logic";
 
 const ServiceResults = () => {
@@ -17,6 +18,11 @@ const ServiceResults = () => {
             type="search"
             services={getServices()}
             maxPages={maxPages}
+            handleSelect={(id: string) =>
+                addSelection(id).catch(() =>
+                    console.log("Error adding selection")
+                )
+            }
         />
     );
 };

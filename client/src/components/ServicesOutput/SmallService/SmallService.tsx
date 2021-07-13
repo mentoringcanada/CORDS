@@ -1,17 +1,18 @@
-import React from "react";
-import { FaLink } from "react-icons/fa";
+import { FaLink, FaMinus, FaSave } from "react-icons/fa";
 import Feedback from "./Feedback/Feedback";
 import { StyledInfo } from "../LargeService/LargeService.styles";
 import {
     StyledSmallService,
     StyledLink,
     StyledDescription,
+    StyledSelectButton,
 } from "./SmallService.styles";
 import { useHistory } from "react-router-dom";
 import { useContext } from "react";
-import SearchContext from "../../Search/SearchContext";
+import SearchContext from "../../../pages/Search/SearchContext";
 
 interface Props {
+    handleSelect: (id: string) => void;
     id: string;
     name: string;
     link: string;
@@ -22,6 +23,7 @@ interface Props {
 
 // Component
 const SmallService = ({
+    handleSelect,
     id,
     name,
     description,
@@ -51,6 +53,15 @@ const SmallService = ({
             >
                 <FaLink />
             </StyledLink>
+            <StyledSelectButton
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelect(id);
+                }}
+                data-testid="save-link"
+            >
+                {type === "selections" ? <FaMinus /> : <FaSave />}
+            </StyledSelectButton>
             <StyledInfo>
                 {distance && (
                     <p className="info">

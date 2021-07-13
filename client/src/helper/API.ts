@@ -2,7 +2,6 @@
 import axios from "axios";
 // Types
 import { SearchBody, SimilarBody, FeedbackBody, GeoSearchBody } from "../types";
-import { serviceRes } from "./testData";
 
 // SEARCH //
 // Takes id and returns similar results array
@@ -165,15 +164,19 @@ export const getCluster = async (id: number) => {
 
 // SESSION //
 // Sets Session token if there isn't one
-// export const setSession = async () => {
-//     let session = localStorage.getItem("session_token");
-//     // Check for first time on site
-//     if (!session) {
-//         const res = await axios.get("/session");
-//         const data = await res.data;
-//         localStorage.setItem("session_token", `${data.session_token}`);
-//     }
-// };
+export const setSession = async () => {
+    let session = localStorage.getItem("session_token");
+    // Check for first time on site
+    try {
+        if (!session) {
+            const res = await axios.post("/session");
+            const data = await res.data;
+            localStorage.setItem("session_token", `${data.session_token}`);
+        }
+    } catch (err) {
+        throw err;
+    }
+};
 
 // LINK OUT //
 // Runs ('/link_out') if session exists
@@ -196,30 +199,61 @@ export const getCluster = async (id: number) => {
 
 // SELECTIONS - TODO //
 
-// Adds a selection
-// export const addSelection = (id: string) => {
-//     return "temp add";
-// };
-// export const removeSelection = (id: string) => {
-//     return "temp remove";
-// };
-export const getSelections = async (page: number) => {
-    return serviceRes.data.items;
-    // Get selections with session id
-    // TODO: send page number
-    // try {
-    //     let session = localStorage.getItem("session_token");
-    //     if (session) {
-    //         const res = await axios.get("/selections",:w
-    //          {
-    //             headers: {
-    //                 session_token: session,
-    //             },
-    //         });
-    //         const data = await res.data;
-    //         return data;
-    //     }
-    // } catch (err) {
-    //     throw err;
-    // }
+//Adds a selection
+export const addSelection = async (id: string) => {
+    try {
+        let session = localStorage.getItem("session_token");
+        if (session) {
+            const res = await axios.post(
+                "/add_item",
+                { item_id: id },
+                {
+                    headers: {
+                        session_token: session,
+                    },
+                }
+            );
+            const data = await res.data;
+            return data.items;
+        }
+    } catch (err) {
+        throw err;
+    }
+};
+export const removeSelection = async (id: string) => {
+    try {
+        let session = localStorage.getItem("session_token");
+        if (session) {
+            const res = await axios.post(
+                "/remove_item",
+                { item_id: id },
+                {
+                    headers: {
+                        session_token: session,
+                    },
+                }
+            );
+            const data = await res.data;
+            return data.items;
+        }
+    } catch (err) {
+        throw err;
+    }
+};
+export const getSelections = async () => {
+    //Get selections with session id
+    try {
+        let session = localStorage.getItem("session_token");
+        if (session) {
+            const res = await axios.get("/items", {
+                headers: {
+                    session_token: session,
+                },
+            });
+            const data = await res.data;
+            return data;
+        }
+    } catch (err) {
+        throw err;
+    }
 };

@@ -9,10 +9,11 @@ import {
 import { StyledPageContainer } from "../../../styles/StyledPageContainer";
 import { StyledContainer } from "../../../styles/StyledContainer";
 import DemoInfo from "../DemoInfo/DemoInfo";
-import SearchContext from "../../../components/Search/SearchContext";
-import SearchState from "../../../components/Search/SearchState/SearchState";
 import ServicesList from "../../../components/ServicesOutput/ServicesList/ServicesList";
 import { useHistory } from "react-router-dom";
+import SearchContext from "../../Search/SearchContext";
+import SearchState from "../../Search/SearchState/SearchState";
+import { addSelection } from "../../../helper/API";
 
 const CustomDemo = () => {
     const {
@@ -104,6 +105,11 @@ const CustomDemo = () => {
                         type="demo"
                         services={services}
                         maxPages={maxPages}
+                        handleSelect={(id: string) =>
+                            addSelection(id).catch(() =>
+                                console.log("Error adding selection")
+                            )
+                        }
                     />
                 </StyledDemo>
             </SearchContext.Provider>

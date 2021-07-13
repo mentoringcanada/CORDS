@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { getGeoSearchResults } from "../../../helper/API";
 import { useQueryParams } from "../../../helper/Services";
 import { Service } from "../../../types";
-import SearchContext from "../../Search/SearchContext";
+import SearchContext from "../SearchContext";
 
 const ServiceResultsLogic = () => {
     const { search, setSearch } = useContext(SearchContext);

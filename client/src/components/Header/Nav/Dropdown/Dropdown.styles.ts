@@ -4,7 +4,7 @@ export const StyledDropdown = styled.div`
     position: relative;
     display: flex;
     justify-content: center;
-    width: 33%;
+    flex: 1;
 
     @media only screen and (max-width: 768px) {
         margin: 0;

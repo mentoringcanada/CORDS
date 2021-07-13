@@ -1,5 +1,5 @@
 // Imports
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaMapMarkerAlt, FaSave } from "react-icons/fa";
 import {
     StyledInfo,
     StyledLargeService,
@@ -8,9 +8,13 @@ import {
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../styles/StyledContainer";
 import { FaLink } from "react-icons/fa";
-import { StyledDescription } from "../SmallService/SmallService.styles";
+import {
+    StyledDescription,
+    StyledSelectButton,
+} from "../SmallService/SmallService.styles";
 import ServicesList from "../ServicesList/ServicesList";
 import { getDescription, getName } from "../../../helper/Services";
+import { addSelection } from "../../../helper/API";
 
 // Component
 const LargeService = () => {
@@ -35,13 +39,6 @@ const LargeService = () => {
                 <>
                     <StyledLargeService>
                         <StyledContainer className="widget">
-                            {/* <StyledBackButton
-                                className="info"
-                                onClick={() => setFocus(null)}
-                                data-testid="back-button"
-                            >
-                                <FaAngleLeft />
-                            </StyledBackButton> */}
                             <StyledInfo>
                                 <h2 className="info" data-testid="large-title">
                                     {getName(service, language)}
@@ -70,6 +67,20 @@ const LargeService = () => {
                                         {service.phone}
                                     </p>
                                 )}
+                                <StyledSelectButton
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        addSelection(id).catch(() =>
+                                            console.log(
+                                                "Error adding selection"
+                                            )
+                                        );
+                                    }}
+                                    data-testid="save-link"
+                                    className="large"
+                                >
+                                    <FaSave />
+                                </StyledSelectButton>
                             </StyledInfo>
                             <StyledDescription
                                 className="info-desc"
@@ -104,6 +115,11 @@ const LargeService = () => {
                         type={"similar"}
                         services={similar}
                         maxPages={maxPages}
+                        handleSelect={(id: string) =>
+                            addSelection(id).catch(() =>
+                                console.log("Error adding selection")
+                            )
+                        }
                     />
                 </>
             )}

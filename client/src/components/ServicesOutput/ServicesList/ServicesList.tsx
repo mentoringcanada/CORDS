@@ -8,9 +8,10 @@ interface Props {
     maxPages: number;
     services: Service[];
     type: string;
+    handleSelect: (id: string) => void;
 }
 
-const ServicesList = ({ type, maxPages, services }: Props) => {
+const ServicesList = ({ type, maxPages, services, handleSelect }: Props) => {
     const { language } = ServicesListLogic();
 
     return (
@@ -25,9 +26,12 @@ const ServicesList = ({ type, maxPages, services }: Props) => {
                     distance={service.distance}
                     data-testid="small-service"
                     type={type}
+                    handleSelect={handleSelect}
                 />
             ))}
-            {services.length > 0 && <PagesBar maxPages={maxPages} />}
+            {services.length > 0 && maxPages !== 1 && (
+                <PagesBar maxPages={maxPages} />
+            )}
         </>
     );
 };

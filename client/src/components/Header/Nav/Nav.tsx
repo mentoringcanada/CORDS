@@ -17,7 +17,7 @@ const Nav = () => {
                 data-testid="burger-button"
                 onClick={toggleBurgerMenu}
             >
-                &#9776;
+                <span className={burgerMenu ? "open" : ""}>&#9776;</span>
             </StyledBurgerButton>
             <StyledNav className={burgerMenu ? "open" : ""}>
                 {data &&
@@ -29,7 +29,7 @@ const Nav = () => {
                                     to={`/${
                                         navLink.route ? navLink.route : ""
                                     }`}
-                                    onClick={toggleBurgerMenu}
+                                    onClick={() => toggleBurgerMenu()}
                                     key={index}
                                 >
                                     {navLink.name}
@@ -39,7 +39,11 @@ const Nav = () => {
                             return null;
                         }
                     })}
-                <Dropdown name={demoDropName} links={data && data.demoPages} />
+                <Dropdown
+                    name={demoDropName}
+                    links={data && data.demoPages}
+                    toggleBurgerMenu={toggleBurgerMenu}
+                />
             </StyledNav>
         </>
     );

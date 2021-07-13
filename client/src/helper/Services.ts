@@ -15,7 +15,7 @@ export const getDescription = (service: Service, language: string = "en") => {
             ? service.description_fr
             : service.description;
 
-    desc = desc.replace(/[\u{0080}-\u{FFFF}]/gu, "");
+    desc = desc.replace(/[\u{0080}-\u{FFFF}]/gu, "").replace(/\*/g, "<br />");
     return desc;
 };
 

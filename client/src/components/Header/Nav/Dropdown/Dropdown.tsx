@@ -7,16 +7,15 @@ import DropdownLogic from "./Dropdown.logic";
 import { FaAngleDown } from "react-icons/fa";
 import { useRef } from "react";
 import { NavLink } from "react-router-dom";
-import NavLogic from "../Nav.logic";
 
 interface Props {
     name: string;
     links: any[];
+    toggleBurgerMenu: () => void;
 }
 
-const Dropdown = ({ name, links }: Props) => {
+const Dropdown = ({ name, links, toggleBurgerMenu }: Props) => {
     const dropdownRef = useRef(null);
-    const { toggleBurgerMenu } = NavLogic();
     const { showDropdownMenu, toggleDropdownMenu, useClickAlert } =
         DropdownLogic();
     useClickAlert(dropdownRef);
@@ -36,7 +35,10 @@ const Dropdown = ({ name, links }: Props) => {
                                     to={`/demo/${link.route}`}
                                     exact
                                     activeClassName="active"
-                                    onClick={toggleBurgerMenu}
+                                    onClick={() => {
+                                        toggleDropdownMenu();
+                                        toggleBurgerMenu();
+                                    }}
                                     key={index}
                                 >
                                     {link.shortName}

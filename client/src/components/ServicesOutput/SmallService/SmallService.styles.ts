@@ -45,14 +45,46 @@ export const StyledDescription = styled.div`
     font-size: 0.8rem;
     margin-top: 1rem;
     color: #4d5156;
-    font-size: 0.8rem;
-    line-height: 1.1rem;
+    font-size: 0.8rem !important;
+    line-height: 1.1rem !important;
     ul {
-        margin: 0 0 0.5rem 1rem;
+        margin: 0 0 0.5rem 1rem !important;
     }
     a {
-        display: block;
         word-wrap: break-word;
         max-width: 100%;
+    }
+`;
+
+export const StyledSelectButton = styled.button`
+    margin-right: 2.5rem;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    background-color: transparent;
+    transition: background-color 0.4s linear;
+    :hover {
+        background-color: #eee;
+    }
+    svg {
+        color: var(--primary-color);
+    }
+    &.large {
+        margin-right: 0;
+    }
+    @media only screen and (max-width: 768px) {
+        margin-right: 0;
+        margin-top: 2.3rem;
+        &.large {
+            margin-top: 0;
+        }
     }
 `;

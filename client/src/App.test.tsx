@@ -2,6 +2,8 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import App from "./App";
 import { GET_DEMO_PAGES } from "./helper/CMS";
+import axios from "axios";
+import { sessionRes } from "./helper/testData";
 
 const GET_DEMO_PAGES_MOCK = {
     request: {
@@ -28,6 +30,17 @@ const GET_DEMO_PAGES_MOCK = {
     },
 };
 
+jest.mock("axios");
+jest.mock("react-google-places-autocomplete", () => {
+    return {
+        __esModule: true,
+        A: true,
+        default: () => {
+            return <div>This is the autocomplete</div>;
+        },
+    };
+});
+
 describe("App", () => {
     it("Renders", () => {
         render(
@@ -35,6 +48,7 @@ describe("App", () => {
                 <App />
             </MockedProvider>
         );
+        Object(axios.post).mockReturnValueOnce(sessionRes);
     });
     it("Renders with error", async () => {
         render(
@@ -42,6 +56,7 @@ describe("App", () => {
                 <App />
             </MockedProvider>
         );
+        Object(axios.post).mockReturnValueOnce(sessionRes);
 
         await waitFor(() => screen.getByText("Content collection error..."));
     });

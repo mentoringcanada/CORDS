@@ -6,7 +6,7 @@ import { GET_LARGE_SERVICE } from "../../../helper/CMS";
 import LanguageContext from "../../../helper/LanguageContext";
 import { useQueryParams } from "../../../helper/Services";
 import { Service, SimilarBody } from "../../../types";
-import SearchContext from "../../Search/SearchContext";
+import SearchContext from "../../../pages/Search/SearchContext";
 
 interface Params {
     id: string;

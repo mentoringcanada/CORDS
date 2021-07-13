@@ -47,13 +47,25 @@ export const StyledNav = styled.nav`
     }
 `;
 
-export const StyledBurgerButton = styled.div`
+export const StyledBurgerButton = styled.button`
+    background-color: transparent;
     cursor: pointer;
     display: none;
     font-size: 2rem;
     height: 80px;
     padding: 0.5rem;
     align-items: center;
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+        &.open {
+            transform: rotate(-90deg);
+        }
+    }
     @media only screen and (max-width: 768px) {
         display: flex;
     }

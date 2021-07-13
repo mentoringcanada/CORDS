@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const StyledHome = styled.div`
     margin: auto;
-
     padding: 0.5rem;
     margin: 1rem 0 2rem 0;
     max-width: 1200px;
@@ -17,6 +16,7 @@ export const StyledHome = styled.div`
         }
     }
     @media only screen and (max-width: 768px) {
-        padding: 1rem;
+        padding: 0;
+        font-size: 0.9rem;
     }
 `;

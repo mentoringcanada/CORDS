@@ -57,6 +57,12 @@ export const emptyRes = {
     },
 };
 
+export const sessionRes = {
+    data: {
+        session_token: "faketoken",
+    },
+};
+
 export const similarRes = {
     data: {
         items: [

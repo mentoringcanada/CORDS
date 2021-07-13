@@ -8,9 +8,12 @@ export const StyledFeedbackButton = styled.div`
     align-items: center;
     font-size: 0.75rem;
     color: #b33a3abb;
+    :hover {
+        text-decoration: underline;
+    }
     button {
         background-color: #b33a3a;
-        width: 1.5rem;
+        min-width: 1.5rem;
         height: 1.5rem;
         border-radius: 50%;
         margin-left: 0.3rem;

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_DEMO_PAGES } from "./helper/CMS";
+import { setSession } from "./helper/API";
 
 const AppLogic = () => {
     const [language, setLanguage] = useState("en");
@@ -10,12 +11,21 @@ const AppLogic = () => {
     });
     const demoPages = data ? data.demoPages : [];
 
+    const useOnStartup = () => {
+        useEffect(() => {
+            setSession().catch(() =>
+                console.log("Error setting session token")
+            );
+        }, []);
+    };
+
     return {
         data,
         language,
         setLanguage,
         error,
         demoPages,
+        useOnStartup,
     };
 };
 

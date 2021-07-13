@@ -4,6 +4,7 @@ export const StyledSearchBar = styled.form`
     display: flex;
     align-items: center;
     width: 100%;
+    margin-bottom: 1rem;
     input {
         transition: 0.3s all;
         border: 1px solid transparent;
@@ -28,5 +29,8 @@ export const StyledSearchBar = styled.form`
         border-radius: 50%;
         background-color: var(--primary-color);
         box-shadow: 2px 2px 5px grey;
+    }
+    @media only screen and (max-width: 768px) {
+        margin-bottom: 0rem;
     }
 `;

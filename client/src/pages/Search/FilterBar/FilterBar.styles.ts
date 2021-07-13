@@ -26,23 +26,30 @@ export const SelectStyles = (left: boolean) => {
     };
 };
 
-export const StyledLocationBar = styled.div`
+export const StyledFilterBar = styled.div`
     display: flex;
     justify-content: left;
     margin-bottom: 0.8rem;
-    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    @media only screen and (max-width: 768px) {
+        margin-bottom: 0.7rem;
+    }
 `;
 
 export const StyledLocationSelect = styled.div`
-    min-width: 7rem;
+    min-width: 5rem;
     width: 16rem;
+    margin-top: 0.4rem;
 `;
 
 export const StyledDistanceSelect = styled.div`
-    min-width: 5.2rem;
+    min-width: 5rem;
+    margin-top: 0.4rem;
 `;
 
 export const StyledServicesFilter = styled.div`
+    margin-top: 0.4rem;
     min-width: 5rem;
     width: 6.3rem;
 `;

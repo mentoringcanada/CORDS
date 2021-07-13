@@ -16,6 +16,8 @@ import {
     GET_SEARCH_FILTERS,
 } from "../../helper/CMS";
 import { serviceRes, servicesRes, similarRes } from "../../helper/testData";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 window.scrollTo = jest.fn();
 
@@ -124,10 +126,13 @@ jest.mock("react-google-places-autocomplete", () => {
 
 describe("Search", () => {
     it("Renders", async () => {
+        const history = createMemoryHistory();
         render(
             <MockedProvider mocks={mocks} addTypename={false}>
                 <LanguageContext.Provider value={{ language: "en" }}>
-                    <Search />
+                    <Router history={history}>
+                        <Search />
+                    </Router>
                 </LanguageContext.Provider>
             </MockedProvider>
         );
@@ -136,7 +141,8 @@ describe("Search", () => {
         Object(axios.post)
             .mockReturnValueOnce(servicesRes) // search
             .mockReturnValueOnce([]) // Feedback
-            .mockReturnValueOnce(similarRes); // large service
+            .mockReturnValueOnce(similarRes) // large service, service
+            .mockReturnValueOnce(similarRes); // large service, similar
 
         // Content
         await waitFor(() => screen.getByPlaceholderText("How can we help?"));
@@ -193,10 +199,13 @@ describe("Search", () => {
         await screen.getByText("Similar Service One");
     });
     it("Renders with error", async () => {
+        const history = createMemoryHistory();
         render(
             <MockedProvider mocks={[]} addTypename={false}>
                 <LanguageContext.Provider value={{ language: "en" }}>
-                    <Search />
+                    <Router history={history}>
+                        <Search />
+                    </Router>
                 </LanguageContext.Provider>
             </MockedProvider>
         );

@@ -6,6 +6,8 @@ import CustomDemo from "./CustomDemo/CustomDemo";
 import Demo from "./Demo";
 import { GET_CUSTOM_DEMO_CONTENT, GET_DEMO_CONTENT } from "../../helper/CMS";
 import LanguageContext from "../../helper/LanguageContext";
+import { createMemoryHistory } from "history";
+import { Router } from "react-router-dom";
 
 window.scrollTo = jest.fn();
 
@@ -64,13 +66,16 @@ jest.mock("react-google-places-autocomplete", () => {
 
 describe("Demos", () => {
     it("Renders without error", async () => {
+        const history = createMemoryHistory();
         render(
             <MockedProvider mocks={[GET_DEMO_MOCK]} addTypename={false}>
                 <LanguageContext.Provider value={{ language: "en" }}>
-                    <Demo
-                        title="Service Title"
-                        description="Service Description"
-                    />
+                    <Router history={history}>
+                        <Demo
+                            title="Service Title"
+                            description="Service Description"
+                        />
+                    </Router>
                 </LanguageContext.Provider>
             </MockedProvider>
         );
@@ -91,13 +96,16 @@ describe("Demos", () => {
         await screen.getByText("Test Service Two");
     });
     it("Renders with error", async () => {
+        const history = createMemoryHistory();
         render(
             <MockedProvider mocks={[]} addTypename={false}>
                 <LanguageContext.Provider value={{ language: "en" }}>
-                    <Demo
-                        title="Service Title"
-                        description="Service Description"
-                    />
+                    <Router history={history}>
+                        <Demo
+                            title="Service Title"
+                            description="Service Description"
+                        />
+                    </Router>
                 </LanguageContext.Provider>
             </MockedProvider>
         );
@@ -106,13 +114,16 @@ describe("Demos", () => {
     });
     describe("Custom Demo", () => {
         it("Renders without error", async () => {
+            const history = createMemoryHistory();
             render(
                 <MockedProvider
                     mocks={[GET_CUSTOM_DEMO_MOCK]}
                     addTypename={false}
                 >
                     <LanguageContext.Provider value={{ language: "en" }}>
-                        <CustomDemo />
+                        <Router history={history}>
+                            <CustomDemo />
+                        </Router>
                     </LanguageContext.Provider>
                 </MockedProvider>
             );
@@ -140,10 +151,13 @@ describe("Demos", () => {
             await screen.getByText("Test Service Two");
         });
         it("Renders with error", async () => {
+            const history = createMemoryHistory();
             render(
                 <MockedProvider mocks={[]} addTypename={false}>
                     <LanguageContext.Provider value={{ language: "en" }}>
-                        <CustomDemo />
+                        <Router history={history}>
+                            <CustomDemo />
+                        </Router>
                     </LanguageContext.Provider>
                 </MockedProvider>
             );
@@ -156,13 +170,16 @@ describe("Demos", () => {
     });
     describe("Demo Info", () => {
         it("Opens and closes", async () => {
+            const history = createMemoryHistory();
             render(
                 <MockedProvider mocks={[GET_DEMO_MOCK]} addTypename={false}>
                     <LanguageContext.Provider value={{ language: "en" }}>
-                        <Demo
-                            title="Service Title"
-                            description="Service Description"
-                        />
+                        <Router history={history}>
+                            <Demo
+                                title="Service Title"
+                                description="Service Description"
+                            />
+                        </Router>
                     </LanguageContext.Provider>
                 </MockedProvider>
             );

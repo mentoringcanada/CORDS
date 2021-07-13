@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { sendFeedback } from "../../../../helper/API";
 import { GET_FEEDBACK } from "../../../../helper/CMS";
 import LanguageContext from "../../../../helper/LanguageContext";
-import SearchContext from "../../../Search/SearchContext";
+import SearchContext from "../../../../pages/Search/SearchContext";
 
 const FeedbackLogic = () => {
     const search = useContext(SearchContext);

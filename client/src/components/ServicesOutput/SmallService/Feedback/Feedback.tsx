@@ -27,16 +27,14 @@ const Feedback = ({ id, type }: Props) => {
 
     return (
         <>
-            <StyledFeedbackButton>
+            <StyledFeedbackButton
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setOpen(true);
+                }}
+            >
                 {feedbackContent.openMessage}
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setOpen(true);
-                    }}
-                >
-                    !
-                </button>
+                <button>!</button>
             </StyledFeedbackButton>
             {open && (
                 <StyledFeedbackModal
