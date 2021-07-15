@@ -6,14 +6,17 @@ import LanguageContext from "../../helper/LanguageContext";
 import { useQueryParams } from "../../helper/Services";
 import { Search, SearchBody, Service } from "../../types";
 
-const DemoLogic = (description: string) => {
-    const query = useQueryParams();
-    const page = Number(query.get("page"));
-    const queryValue = String(query.get("query"));
+const DemoLogic = () => {
+    const params = useQueryParams();
+    const page = Number(params.get("page"));
+    const name = String(params.get("title"));
+    const query = String(params.get("query"));
+    const [titleValue, setTitleValue] = useState("");
+    const [queryValue, setQueryValue] = useState("");
     const [services, setServices] = useState<Service[]>([]);
     const [maxPages, setMaxPages] = useState(2);
     const [search, setSearch] = useState<Search>({
-        query: description,
+        query: query,
         distance: 50,
         filter: "best",
         state: "",
@@ -23,7 +26,7 @@ const DemoLogic = (description: string) => {
         },
     });
 
-    const useHandleDemoChange = (description: string) => {
+    const useHandleDemoChange = (description: string = "") => {
         useEffect(() => {
             setSearch({
                 ...search,
@@ -32,46 +35,39 @@ const DemoLogic = (description: string) => {
         }, [description]);
     };
 
-    const handleDemo = () => {
-        const searchBody: SearchBody = {
-            query: search.query,
-            page,
-        };
-        setSearch({ ...search, state: "searching" });
-        getSearchResults(searchBody)
-            .then((res) => {
-                if (Array.isArray(res) && !res.length) {
-                    setSearch({ ...search, state: "no-results" });
-                } else {
-                    setSearch({
-                        ...search,
-                        state: "",
-                    });
-                    setServices(res.items);
-                    setMaxPages(Math.ceil(res.totalResults / 10));
-                }
-            })
-            .catch(() => {
-                setSearch({ ...search, state: "error" });
-                setServices([]);
-            });
-    };
-
-    const useOnPageChange = (page: number) => {
+    const useSetState = (page: number, query: string, title: string) => {
         useEffect(() => {
-            if (page !== 0) {
-                handleDemo();
+            if (title !== "null") {
+                setTitleValue(title);
             }
-        }, [page]);
-    };
-
-    const useSetState = () => {
-        useEffect(() => {
-            setSearch({
-                ...search,
-                query: queryValue !== "null" ? queryValue : "",
-            });
-        }, []);
+            if (query !== "null") {
+                setQueryValue(query);
+            }
+            if (page !== 0) {
+                const searchBody: SearchBody = {
+                    query: search.query,
+                    page,
+                };
+                setSearch({ ...search, state: "searching" });
+                getSearchResults(searchBody)
+                    .then((res) => {
+                        if (Array.isArray(res) && !res.length) {
+                            setSearch({ ...search, state: "no-results" });
+                        } else {
+                            setSearch({
+                                ...search,
+                                state: "",
+                            });
+                            setServices(res.items);
+                            setMaxPages(Math.ceil(res.totalResults / 10));
+                        }
+                    })
+                    .catch(() => {
+                        setSearch({ ...search, state: "error" });
+                        setServices([]);
+                    });
+            }
+        }, [page, title, query]);
     };
 
     // Text content
@@ -87,13 +83,17 @@ const DemoLogic = (description: string) => {
         demoContent,
         search,
         setSearch,
-        handleDemo,
         services,
         maxPages,
-        useOnPageChange,
-        page,
         useSetState,
+        page,
         language,
+        titleValue,
+        setTitleValue,
+        queryValue,
+        setQueryValue,
+        name,
+        query,
     };
 };
 

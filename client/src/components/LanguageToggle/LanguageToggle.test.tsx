@@ -1,10 +1,13 @@
 import { MockedProvider } from "@apollo/client/testing";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import axios from "axios";
 import { createMemoryHistory } from "history";
 import React from "react";
 import { Router } from "react-router-dom";
 import App from "../../App";
 
+window.scrollTo = jest.fn();
+jest.mock("axios");
 jest.mock("react-google-places-autocomplete", () => {
     return {
         __esModule: true,
@@ -17,7 +20,7 @@ jest.mock("react-google-places-autocomplete", () => {
 
 describe("Language Toggle", () => {
     const history = createMemoryHistory();
-    test("Renders and toggles", async () => {
+    it("Renders and toggles", async () => {
         render(
             <MockedProvider addTypename={false} mocks={[]}>
                 <Router history={history}>
@@ -25,6 +28,7 @@ describe("Language Toggle", () => {
                 </Router>
             </MockedProvider>
         );
+        Object(axios.post).mockResolvedValueOnce("Fake");
 
         const frenchButton = await screen.getByText("FR");
         fireEvent.click(frenchButton);

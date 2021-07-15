@@ -5,6 +5,11 @@ export const GET_DEMO_CONTENT = gql`
         demos(locale: $language) {
             explanation
             buttonText
+            customTitle
+            customExplanation
+            buttonText
+            customNamePlaceholder
+            customDescriptionPlaceholder
         }
     }
 `;

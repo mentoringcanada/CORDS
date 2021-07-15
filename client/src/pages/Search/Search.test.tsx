@@ -123,7 +123,6 @@ jest.mock("react-google-places-autocomplete", () => {
         },
     };
 });
-
 describe("Search", () => {
     it("Renders", async () => {
         const history = createMemoryHistory();
@@ -153,16 +152,17 @@ describe("Search", () => {
         // Search
         const searchBarButton = await screen.findByTestId("search-button");
         await fireEvent.click(searchBarButton);
+        history.push(
+            "/search/results?ln=en&query=food&distance=50&lat=43.6603986&lng=-79.4551295&filter=best&page=1"
+        );
 
         // Output
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
 
         await screen.getByText("Test Service One");
-        await screen.getByText("This is the first fake service");
         await screen.getByText("15.0 km");
 
         await screen.getByText("Test Service Two");
-        await screen.getByText("This is the second fake service");
         await screen.getByText("20.0 km");
 
         await screen.getAllByText("Distance:");
@@ -184,6 +184,9 @@ describe("Search", () => {
         const serviceOne = await screen.findByText("Test Service One");
         await act(async () => {
             await fireEvent.click(serviceOne);
+            history.replace(
+                "/search/service/69797743?query=food&distance=50&lat=43.6603986&lng=-79.4551295&filter=best&page=1"
+            );
         });
         // Output
         await screen.getByText("Large Service");
@@ -193,8 +196,6 @@ describe("Search", () => {
         await screen.getByText("15.0 km");
         await screen.getByText("Phone Number:");
         await screen.getByText("416-555-5555");
-        await screen.getByText("View More");
-        await screen.getByText("Directions");
         await screen.getByText("Similar");
         await screen.getByText("Similar Service One");
     });

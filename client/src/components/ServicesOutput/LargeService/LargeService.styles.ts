@@ -18,9 +18,19 @@ export const StyledLargeService = styled.div`
     }
     .lower {
         display: flex;
-        margin-top: 1rem;
         justify-content: space-between;
-        align-items: flex-end;
+        align-items: stretch;
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .lower {
+            flex-wrap: wrap;
+        }
     }
 `;
 
@@ -78,11 +88,10 @@ export const StyledLinks = styled.div`
 `;
 
 export const StyledDescription = styled.div`
+    align-self: flex-start;
     font-size: 0.8rem;
-    margin-top: 1rem;
     color: #4d5156;
-    font-size: 0.8rem !important;
-    line-height: 1.1rem !important;
+    margin-top: 0.8rem;
     ul {
         margin: 0 0 0.5rem 1rem !important;
     }
@@ -90,10 +99,21 @@ export const StyledDescription = styled.div`
         word-wrap: break-word;
         max-width: 100%;
     }
+    margin-bottom: 0.5rem;
 `;
 
 export const StyledMapsContainer = styled.div`
-    height: 15rem;
+    display: flex;
+    align-items: flex-end;
+    min-height: 15rem;
     min-width: 15rem;
     margin-left: 0.5rem;
+    margin-top: 2.3rem;
+    @media only screen and (max-width: 768px) {
+        margin-top: 0.5rem;
+        min-width: 5rem;
+        width: 100%;
+        margin-left: 0rem;
+        justify-content: center;
+    }
 `;

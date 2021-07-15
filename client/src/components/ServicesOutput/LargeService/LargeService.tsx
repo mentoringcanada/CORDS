@@ -4,6 +4,7 @@ import {
     StyledDescription,
     StyledInfo,
     StyledLargeService,
+    StyledMapsContainer,
 } from "./LargeService.styles";
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../styles/StyledContainer";
@@ -40,78 +41,84 @@ const LargeService = () => {
                 <>
                     <StyledLargeService>
                         <StyledContainer className="widget">
-                            <StyledInfo>
-                                <h2 className="info" data-testid="large-title">
-                                    {getName(service, language)}
-                                </h2>
-                                {service.address !== "" && (
-                                    <p>
-                                        <strong>
-                                            {largeServiceContent.address}{" "}
-                                        </strong>
-                                        {service.address}
-                                    </p>
-                                )}
-                                {service.distance && (
-                                    <p>
-                                        <strong>
-                                            {largeServiceContent.distance}{" "}
-                                        </strong>
-                                        {`${service.distance.toFixed(1)} km`}
-                                    </p>
-                                )}
-                                {service.phone !== "" && (
-                                    <p>
-                                        <strong>
-                                            {largeServiceContent.phone}{" "}
-                                        </strong>
-                                        {service.phone}
-                                    </p>
-                                )}
-                                <StyledSelectButton
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        addSelection(id).catch(() =>
-                                            console.log(
-                                                "Error adding selection"
-                                            )
-                                        );
-                                    }}
-                                    data-testid="save-link"
-                                    className="large"
-                                >
-                                    <FaSave />
-                                </StyledSelectButton>
-                            </StyledInfo>
                             <div className="lower">
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                    }}
-                                >
-                                    <StyledDescription
-                                        className="info-desc"
-                                        dangerouslySetInnerHTML={{
-                                            __html: getDescription(
-                                                service,
-                                                language
-                                            ),
-                                        }}
-                                    ></StyledDescription>
+                                <div>
+                                    <StyledInfo>
+                                        <h2
+                                            className="info"
+                                            data-testid="large-title"
+                                        >
+                                            {getName(service, language)}
+                                        </h2>
+                                        {service.address !== "" && (
+                                            <p>
+                                                <strong>
+                                                    {
+                                                        largeServiceContent.address
+                                                    }{" "}
+                                                </strong>
+                                                {service.address}
+                                            </p>
+                                        )}
+                                        {service.distance && (
+                                            <p>
+                                                <strong>
+                                                    {
+                                                        largeServiceContent.distance
+                                                    }{" "}
+                                                </strong>
+                                                {`${service.distance.toFixed(
+                                                    1
+                                                )} km`}
+                                            </p>
+                                        )}
+                                        {service.phone !== "" && (
+                                            <p>
+                                                <strong>
+                                                    {largeServiceContent.phone}{" "}
+                                                </strong>
+                                                {service.phone}
+                                            </p>
+                                        )}
+                                        <StyledSelectButton
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addSelection(id).catch(() =>
+                                                    console.log(
+                                                        "Error adding selection"
+                                                    )
+                                                );
+                                            }}
+                                            data-testid="save-link"
+                                            className="large"
+                                        >
+                                            <FaSave />
+                                        </StyledSelectButton>
+                                        <StyledDescription
+                                            className="info-desc"
+                                            dangerouslySetInnerHTML={{
+                                                __html: getDescription(
+                                                    service,
+                                                    language
+                                                ),
+                                            }}
+                                        ></StyledDescription>
+                                    </StyledInfo>
+
                                     <StyledLogo
                                         href={service.link}
                                         target="_blank"
                                         rel="noreferrer"
                                     >
-                                        <img
-                                            src={Logo211}
-                                            alt="Company logo"
-                                            style={{ marginTop: "1rem" }}
-                                        />
+                                        <img src={Logo211} alt="Company logo" />
                                     </StyledLogo>
                                 </div>
-                                <Map lat={service.lat} lng={service.lng}></Map>
+                                <StyledMapsContainer>
+                                    <Map
+                                        lat={service.lat}
+                                        lng={service.lng}
+                                    ></Map>
+                                </StyledMapsContainer>
                             </div>
                         </StyledContainer>
                         <div className="similar">

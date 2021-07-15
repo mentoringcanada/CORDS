@@ -33,7 +33,7 @@ export const StyledDefaultInfo = styled.div`
     } ;
 `;
 
-export const StyledCustomInputs = styled.div`
+export const StyledCustomInputs = styled.form`
     display: flex;
     flex-direction: column;
     h2 {

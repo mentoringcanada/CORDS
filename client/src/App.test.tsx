@@ -4,6 +4,8 @@ import App from "./App";
 import { GET_DEMO_PAGES } from "./helper/CMS";
 import axios from "axios";
 import { sessionRes } from "./helper/testData";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 const GET_DEMO_PAGES_MOCK = {
     request: {
@@ -43,17 +45,23 @@ jest.mock("react-google-places-autocomplete", () => {
 
 describe("App", () => {
     it("Renders", () => {
+        const history = createMemoryHistory();
         render(
             <MockedProvider mocks={[GET_DEMO_PAGES_MOCK]} addTypename={false}>
-                <App />
+                <Router history={history}>
+                    <App />
+                </Router>
             </MockedProvider>
         );
         Object(axios.post).mockReturnValueOnce(sessionRes);
     });
     it("Renders with error", async () => {
+        const history = createMemoryHistory();
         render(
             <MockedProvider mocks={[]} addTypename={false}>
-                <App />
+                <Router history={history}>
+                    <App />
+                </Router>
             </MockedProvider>
         );
         Object(axios.post).mockReturnValueOnce(sessionRes);

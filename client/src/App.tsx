@@ -4,7 +4,6 @@ import GlobalStyle from "./App.styles";
 import Header from "./components/Header/Header";
 import Start from "./pages/Start/Start";
 import Demo from "./pages/Demos/Demo";
-import CustomDemo from "./pages/Demos/CustomDemo/CustomDemo";
 import AppLogic from "./App.logic";
 import Search from "./pages/Search/Search";
 import { Demos } from "./types";
@@ -35,7 +34,7 @@ function App() {
                         ({ route, name, description }: Demos, index: number) =>
                             route === "custom" ? (
                                 <Route path="/demo/custom" key={index}>
-                                    <CustomDemo />
+                                    <Demo />
                                 </Route>
                             ) : (
                                 <Route path={`/demo/${route}`} key={index}>
@@ -48,9 +47,6 @@ function App() {
                     )}
                     <Route path="/search">
                         <Search />
-                    </Route>
-                    <Route path="/demo/custom">
-                        <CustomDemo />
                     </Route>
                 </Switch>
             </LanguageContext.Provider>
