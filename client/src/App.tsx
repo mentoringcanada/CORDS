@@ -29,7 +29,7 @@ function App() {
                         <Route exact path="/">
                             <Home />
                         </Route>
-                        {demoPages.map(
+                        {/* {demoPages.map(
                             (
                                 { route, name, description }: Demos,
                                 index: number
@@ -46,7 +46,7 @@ function App() {
                                         />
                                     </Route>
                                 )
-                        )}
+                        )} */}
                         <Route path="/search">
                             <Search />
                         </Route>
