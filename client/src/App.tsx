@@ -1,9 +1,4 @@
-import {
-    BrowserRouter as Router,
-    Redirect,
-    Route,
-    Switch,
-} from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import GlobalStyle from "./App.styles";
 import Header from "./components/Header/Header";
@@ -29,38 +24,36 @@ function App() {
             <Helmet />
             <GlobalStyle />
             <Start />
-            <Router>
-                <ScrollToTop />
-                <LanguageContext.Provider value={{ language, setLanguage }}>
-                    <Header />
-                    <Switch>
-                        <Route exact path="/">
-                            <Redirect to="/search" />
-                        </Route>
-                        {demoPages.map(
-                            (
-                                { route, name, description }: Demos,
-                                index: number
-                            ) =>
-                                route === "custom" ? (
-                                    <Route path="/demo/custom" key={index}>
-                                        <CustomDemo />
-                                    </Route>
-                                ) : (
-                                    <Route path={`/demo/${route}`} key={index}>
-                                        <Demo
-                                            title={name}
-                                            description={description}
-                                        />
-                                    </Route>
-                                )
-                        )}
-                        <Route path="/search">
-                            <Search />
-                        </Route>
-                    </Switch>
-                </LanguageContext.Provider>
-            </Router>
+            <ScrollToTop />
+            <LanguageContext.Provider value={{ language, setLanguage }}>
+                <Header />
+                <Switch>
+                    <Route exact path="/">
+                        <Redirect to={`/search?ln=${language}`} />
+                    </Route>
+                    {demoPages.map(
+                        ({ route, name, description }: Demos, index: number) =>
+                            route === "custom" ? (
+                                <Route path="/demo/custom" key={index}>
+                                    <CustomDemo />
+                                </Route>
+                            ) : (
+                                <Route path={`/demo/${route}`} key={index}>
+                                    <Demo
+                                        title={name}
+                                        description={description}
+                                    />
+                                </Route>
+                            )
+                    )}
+                    <Route path="/search">
+                        <Search />
+                    </Route>
+                    <Route path="/demo/custom">
+                        <CustomDemo />
+                    </Route>
+                </Switch>
+            </LanguageContext.Provider>
         </HelmetProvider>
     );
 }

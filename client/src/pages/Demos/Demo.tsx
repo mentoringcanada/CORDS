@@ -30,6 +30,7 @@ const Demo = ({ description, title }: Props) => {
         maxPages,
         useOnPageChange,
         page,
+        language,
     } = DemoLogic(description);
     useHandleDemoChange(description);
     useOnPageChange(page);
@@ -51,7 +52,7 @@ const Demo = ({ description, title }: Props) => {
                                 onClick={() => {
                                     history.push({
                                         pathname: history.location.pathname,
-                                        search: "?page=1",
+                                        search: `?ln=${language}&page=1`,
                                     });
                                     handleDemo();
                                 }}

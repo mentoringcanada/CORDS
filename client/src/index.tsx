@@ -5,6 +5,7 @@ import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
+import { BrowserRouter as Router } from "react-router-dom";
 
 axios.defaults.baseURL = `${process.env.REACT_APP_SERVER_IP}`;
 
@@ -21,7 +22,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <App />
+        <Router>
+            <App />
+        </Router>
     </ApolloProvider>,
     document.getElementById("root")
 );

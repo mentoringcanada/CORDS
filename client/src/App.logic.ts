@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_DEMO_PAGES } from "./helper/CMS";
 import { setSession } from "./helper/API";
+import { useQueryParams } from "./helper/Services";
 
 const AppLogic = () => {
-    const [language, setLanguage] = useState("en");
+    const query = useQueryParams();
+    const ln = query.get("ln");
+    const [language, setLanguage] = useState(ln !== null ? ln : "en");
 
     const { error, data } = useQuery(GET_DEMO_PAGES, {
         variables: { language },

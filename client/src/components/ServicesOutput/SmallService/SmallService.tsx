@@ -1,14 +1,14 @@
-import { FaLink, FaMinus, FaSave } from "react-icons/fa";
+import { FaMinus, FaSave } from "react-icons/fa";
 import Feedback from "./Feedback/Feedback";
 import { StyledInfo } from "../LargeService/LargeService.styles";
 import {
     StyledSmallService,
-    StyledLink,
-    StyledDescription,
     StyledSelectButton,
+    StyledLogo,
 } from "./SmallService.styles";
 import { useHistory } from "react-router-dom";
 import { useContext } from "react";
+import Logo211 from "../../../media/logo-211.png";
 import SearchContext from "../../../pages/Search/SearchContext";
 
 interface Props {
@@ -44,15 +44,6 @@ const SmallService = ({
             className={type}
         >
             <h3 className="service-title">{name}</h3>
-            <StyledLink
-                href={link}
-                target="_blank"
-                rel="noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                data-testid="small-link"
-            >
-                <FaLink />
-            </StyledLink>
             <StyledSelectButton
                 onClick={(e) => {
                     e.stopPropagation();
@@ -70,10 +61,15 @@ const SmallService = ({
                     </p>
                 )}
             </StyledInfo>
-            <StyledDescription
+            <div className="lower">
+                <StyledLogo href={link} target="_blank" rel="noreferrer">
+                    <img src={Logo211} alt="Company logo" />
+                </StyledLogo>
+                {/* <StyledDescription
                 dangerouslySetInnerHTML={{ __html: description }}
-            />
-            <Feedback id={id} type={type} />
+            /> */}
+                <Feedback id={id} type={type} />
+            </div>
         </StyledSmallService>
     );
 };

@@ -24,6 +24,7 @@ const NavLogic = () => {
         error,
         data,
         demoDropName,
+        language,
     };
 };
 

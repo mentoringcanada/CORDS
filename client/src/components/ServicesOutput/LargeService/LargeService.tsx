@@ -1,20 +1,21 @@
 // Imports
-import { FaMapMarkerAlt, FaSave } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import {
+    StyledDescription,
     StyledInfo,
     StyledLargeService,
-    StyledLinks,
 } from "./LargeService.styles";
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../styles/StyledContainer";
-import { FaLink } from "react-icons/fa";
 import {
-    StyledDescription,
+    StyledLogo,
     StyledSelectButton,
 } from "../SmallService/SmallService.styles";
 import ServicesList from "../ServicesList/ServicesList";
 import { getDescription, getName } from "../../../helper/Services";
 import { addSelection } from "../../../helper/API";
+import Logo211 from "../../../media/logo-211.png";
+import Map from "./Map/Map";
 
 // Component
 const LargeService = () => {
@@ -82,30 +83,36 @@ const LargeService = () => {
                                     <FaSave />
                                 </StyledSelectButton>
                             </StyledInfo>
-                            <StyledDescription
-                                className="info-desc"
-                                dangerouslySetInnerHTML={{
-                                    __html: getDescription(service, language),
-                                }}
-                            ></StyledDescription>
-                            <StyledLinks>
-                                <a
-                                    href={service.link}
-                                    target="_blank"
-                                    rel="noreferrer"
+                            <div className="lower">
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                    }}
                                 >
-                                    <FaLink />
-                                    {largeServiceContent.viewMore}
-                                </a>
-                                <a
-                                    href={`https://www.google.com/maps/place/${service.lat},${service.lng}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <FaMapMarkerAlt />
-                                    {largeServiceContent.directions}
-                                </a>
-                            </StyledLinks>
+                                    <StyledDescription
+                                        className="info-desc"
+                                        dangerouslySetInnerHTML={{
+                                            __html: getDescription(
+                                                service,
+                                                language
+                                            ),
+                                        }}
+                                    ></StyledDescription>
+                                    <StyledLogo
+                                        href={service.link}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        <img
+                                            src={Logo211}
+                                            alt="Company logo"
+                                            style={{ marginTop: "1rem" }}
+                                        />
+                                    </StyledLogo>
+                                </div>
+                                <Map lat={service.lat} lng={service.lng}></Map>
+                            </div>
                         </StyledContainer>
                         <div className="similar">
                             <h3>{largeServiceContent.similar}</h3>

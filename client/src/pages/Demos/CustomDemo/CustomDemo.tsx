@@ -28,6 +28,7 @@ const CustomDemo = () => {
         useSetState,
     } = DemoLogic("");
     const {
+        language,
         error,
         customDemoContent,
         titleValue,
@@ -89,7 +90,7 @@ const CustomDemo = () => {
                             onClick={() => {
                                 history.push({
                                     pathname: history.location.pathname,
-                                    search: `?query=${queryValue}&title=${titleValue}&page=1`,
+                                    search: `?ln=${language}&query=${queryValue}&title=${titleValue}&page=1`,
                                 });
                                 handleDemo();
                             }}

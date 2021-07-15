@@ -4,8 +4,14 @@ import NavLogic from "./Nav.logic";
 import Dropdown from "./Dropdown/Dropdown";
 
 const Nav = () => {
-    const { burgerMenu, toggleBurgerMenu, error, data, demoDropName } =
-        NavLogic();
+    const {
+        burgerMenu,
+        toggleBurgerMenu,
+        error,
+        data,
+        demoDropName,
+        language,
+    } = NavLogic();
 
     if (error) {
         return <p>Content collection error...</p>;
@@ -28,7 +34,7 @@ const Nav = () => {
                                     className="normlink"
                                     to={`/${
                                         navLink.route ? navLink.route : ""
-                                    }`}
+                                    }?ln=${language}`}
                                     onClick={() => toggleBurgerMenu()}
                                     key={index}
                                 >

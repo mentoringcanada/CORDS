@@ -16,6 +16,12 @@ export const StyledLargeService = styled.div`
             color: white;
         }
     }
+    .lower {
+        display: flex;
+        margin-top: 1rem;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
 `;
 
 export const StyledInfo = styled.div`
@@ -69,4 +75,25 @@ export const StyledLinks = styled.div`
             margin-right: 0.5rem;
         }
     }
+`;
+
+export const StyledDescription = styled.div`
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    color: #4d5156;
+    font-size: 0.8rem !important;
+    line-height: 1.1rem !important;
+    ul {
+        margin: 0 0 0.5rem 1rem !important;
+    }
+    a {
+        word-wrap: break-word;
+        max-width: 100%;
+    }
+`;
+
+export const StyledMapsContainer = styled.div`
+    height: 15rem;
+    min-width: 15rem;
+    margin-left: 0.5rem;
 `;

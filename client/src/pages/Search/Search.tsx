@@ -25,8 +25,8 @@ const Search = () => {
                         <NavLink
                             to={
                                 search.query !== ""
-                                    ? `/search/results?query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&ln=${language}&page=1`
-                                    : "/search/results"
+                                    ? `/search/results?ln=${language}&query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&page=1`
+                                    : `/search/results?ln=${language}`
                             }
                             activeClassName="active"
                             className="left"
@@ -34,7 +34,7 @@ const Search = () => {
                             Results
                         </NavLink>
                         <NavLink
-                            to="/search/selections"
+                            to={`/search/selections?ln=${language}`}
                             activeClassName="active"
                             className="right"
                             exact

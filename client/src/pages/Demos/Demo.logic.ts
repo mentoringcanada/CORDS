@@ -34,7 +34,7 @@ const DemoLogic = (description: string) => {
 
     const handleDemo = () => {
         const searchBody: SearchBody = {
-            query: queryValue,
+            query: search.query,
             page,
         };
         setSearch({ ...search, state: "searching" });
@@ -93,6 +93,7 @@ const DemoLogic = (description: string) => {
         useOnPageChange,
         page,
         useSetState,
+        language,
     };
 };
 

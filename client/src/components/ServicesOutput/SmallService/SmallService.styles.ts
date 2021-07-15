@@ -16,6 +16,12 @@ export const StyledSmallService = styled.div`
     .service-title {
         width: 75%;
     }
+    .lower {
+        display: flex;
+        margin-top: 1.2rem;
+        justify-content: space-between;
+        height: 2rem;
+    }
 `;
 
 export const StyledLink = styled.a`
@@ -40,24 +46,7 @@ export const StyledLink = styled.a`
     }
 `;
 
-export const StyledDescription = styled.div`
-    width: 100%;
-    font-size: 0.8rem;
-    margin-top: 1rem;
-    color: #4d5156;
-    font-size: 0.8rem !important;
-    line-height: 1.1rem !important;
-    ul {
-        margin: 0 0 0.5rem 1rem !important;
-    }
-    a {
-        word-wrap: break-word;
-        max-width: 100%;
-    }
-`;
-
 export const StyledSelectButton = styled.button`
-    margin-right: 2.5rem;
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
@@ -80,11 +69,11 @@ export const StyledSelectButton = styled.button`
     &.large {
         margin-right: 0;
     }
-    @media only screen and (max-width: 768px) {
-        margin-right: 0;
-        margin-top: 2.3rem;
-        &.large {
-            margin-top: 0;
-        }
+`;
+
+export const StyledLogo = styled.a`
+    margin-right: 1rem;
+    img {
+        height: 2rem;
     }
 `;
