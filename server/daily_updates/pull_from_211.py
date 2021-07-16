@@ -91,7 +91,7 @@ def clean_record(record):
             record['PhysicalAddressPostalCode']
         cleaned['Latitude'] = float(record['Latitude'])
         cleaned['Longitude'] = float(record['Longitude'])
-        cleaned['link'] = 'https://211central.ca/record/' + str(record['id'])
+        cleaned['link'] = 'https://211central.ca/record/' + str(record['CurrentId'])
         cleaned['phone'] = ''
         try:
             cleaned['phone'] = record['PhoneNumbers'][0]['Phone'].replace(
