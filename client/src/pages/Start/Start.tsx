@@ -22,7 +22,7 @@ const StartScreen = () => {
                                     data-testid="password-input"
                                 />
                             </label>
-                            <input type="submit" />
+                            <input type="submit" value="Submit" />
                         </form>
                     </StyledContainer>
                 </StyledPopUp>

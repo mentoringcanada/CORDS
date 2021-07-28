@@ -28,6 +28,7 @@ export const servicesRes = {
                 nom: "french nom",
             },
         ],
+        totalResults: 50,
     },
 };
 
@@ -48,6 +49,7 @@ export const serviceRes = {
                 nom: "french nom",
             },
         ],
+        totalResults: 1,
     },
 };
 
@@ -93,5 +95,6 @@ export const similarRes = {
                 nom: "french nom",
             },
         ],
+        totalResults: 50,
     },
 };

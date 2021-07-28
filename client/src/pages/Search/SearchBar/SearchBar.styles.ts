@@ -8,7 +8,7 @@ export const StyledSearchBar = styled.form`
     input {
         transition: 0.3s all;
         border: 1px solid transparent;
-        font-size: 0.75rem;
+        font-size: 14px;
         padding: 0.7rem 2.5rem 0.7rem 0.7rem;
         border-radius: 2rem;
         width: 100%;

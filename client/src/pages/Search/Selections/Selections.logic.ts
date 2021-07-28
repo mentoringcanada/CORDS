@@ -23,7 +23,10 @@ const SelectionsLogic = () => {
                 const newServices = services.filter((a) => a.item_id !== id);
                 setServices(newServices);
             })
-            .catch(() => setSearch({ ...search, state: "error" }));
+            .catch(() => {
+                console.log("remove error");
+                setSearch({ ...search, state: "error" });
+            });
     };
 
     const useOnStartup = () => {

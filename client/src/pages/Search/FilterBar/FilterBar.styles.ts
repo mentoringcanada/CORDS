@@ -5,7 +5,7 @@ export const SelectStyles = (left: boolean) => {
         container: (provided: any) => ({
             ...provided,
             fontFamily: "var(--secondary-font), Arial",
-            fontSize: "0.8rem",
+            fontSize: "16px",
             color: "#222222",
         }),
         control: (provided: any) => ({
@@ -44,12 +44,12 @@ export const StyledLocationSelect = styled.div`
 `;
 
 export const StyledDistanceSelect = styled.div`
-    min-width: 5rem;
+    min-width: 110px;
     margin-top: 0.4rem;
 `;
 
 export const StyledServicesFilter = styled.div`
     margin-top: 0.4rem;
     min-width: 5rem;
-    width: 6.3rem;
+    width: 130px;
 `;

@@ -16,7 +16,7 @@ const SearchLogic = () => {
     };
     const [search, setSearch] = useState<Search>({
         query: params.query !== "null" ? params.query : "",
-        distance: params.distance !== 0 ? params.distance : 50,
+        distance: params.distance !== 0 ? params.distance : 100,
         filter: params.filter !== "null" ? params.filter : "best",
         state: "",
         location: {

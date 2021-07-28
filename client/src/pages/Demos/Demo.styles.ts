@@ -36,6 +36,9 @@ export const StyledDefaultInfo = styled.div`
 export const StyledCustomInputs = styled.form`
     display: flex;
     flex-direction: column;
+    input {
+        max-width: 90%;
+    }
     h2 {
         margin-bottom: 1.5rem;
         font-size: 1.8rem;

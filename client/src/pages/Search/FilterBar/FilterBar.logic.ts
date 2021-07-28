@@ -14,8 +14,9 @@ const distanceSelectOptions = [
     { value: 3, label: "3km" },
     { value: 5, label: "5km" },
     { value: 10, label: "10km" },
-    { value: 20, label: "20km" },
+    { value: 25, label: "25km" },
     { value: 50, label: "50km" },
+    { value: 100, label: "100km" },
 ];
 
 const sortSelectOptions = [

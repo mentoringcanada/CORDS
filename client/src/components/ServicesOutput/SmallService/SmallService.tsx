@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import { useContext } from "react";
 import Logo211 from "../../../media/logo-211.png";
 import SearchContext from "../../../pages/Search/SearchContext";
+import LanguageContext from "../../../helper/LanguageContext";
 
 interface Props {
     handleSelect: (id: string) => void;
@@ -32,13 +33,14 @@ const SmallService = ({
     type,
 }: Props) => {
     const { search } = useContext(SearchContext);
+    const { language } = useContext(LanguageContext);
     const history = useHistory();
 
     return (
         <StyledSmallService
             onClick={() => {
                 history.push(
-                    `/search/service/${id}?query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&page=1`
+                    `/search/service/${id}?ln=${language}&query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&page=1`
                 );
             }}
             className={type}

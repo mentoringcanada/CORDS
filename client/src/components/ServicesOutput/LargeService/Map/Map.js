@@ -14,7 +14,7 @@ const Map = ({ lat, lng }) => {
                 key: `${process.env.REACT_APP_GOOGLE_API_KEY}`,
             }}
             center={{ lat, lng }}
-            zoom={17}
+            zoom={15}
         >
             <Marker lat={lat} lng={lng} />
         </GoogleMapReact>

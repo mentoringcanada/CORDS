@@ -35,27 +35,9 @@ export const getSimilar = async (similarBody: SimilarBody) => {
 
 export const getService = async (similarBody: SimilarBody) => {
     try {
-        const res = await axios.post(
-            `/similar`,
-            {
-                item_id: similarBody.resourceId,
-                lat: similarBody.lat
-                    ? Number(similarBody.lat.toFixed(4))
-                    : 43.6532,
-                lng: similarBody.lng
-                    ? Number(similarBody.lng.toFixed(4))
-                    : -79.3832,
-                distance: similarBody.distance,
-                page: 1,
-            },
-            {
-                headers: {
-                    session_token: `${localStorage.getItem("session_token")}`,
-                },
-            }
-        );
-        const data = await res.data.items[0];
-        return data;
+        const res = await axios.get(`/similar/${similarBody.resourceId}`);
+        const data = await res.data;
+        return data.items[0];
     } catch (err) {
         throw err;
     }
