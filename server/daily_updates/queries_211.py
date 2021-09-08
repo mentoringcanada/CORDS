@@ -33,11 +33,11 @@ insert_resource_descriptions_en = """INSERT INTO
         link,
         phone,
         description_updated,
-        website varchar,
-        email varchar,
-        service_hours varchar,
-        languages varchar,
-        eligibility varchar
+        website,
+        email,
+        service_hours,
+        languages,
+        eligibility
     ) (
         SELECT
             e.resource_agency_number,
