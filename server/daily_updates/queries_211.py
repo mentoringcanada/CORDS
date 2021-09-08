@@ -32,7 +32,12 @@ insert_resource_descriptions_en = """INSERT INTO
         resource_description,
         link,
         phone,
-        description_updated
+        description_updated,
+        website,
+        email,
+        service_hours,
+        languages,
+        eligibility
     ) (
         SELECT
             e.resource_agency_number,
@@ -42,7 +47,12 @@ insert_resource_descriptions_en = """INSERT INTO
             e.resource_description,
             e.link,
             e.phone,
-            NOW()
+            NOW(),
+            website,
+            email,
+            service_hours,
+            languages,
+            eligibility
         FROM
             (VALUES %s) as e(
                 resource_agency_number,
@@ -52,7 +62,12 @@ insert_resource_descriptions_en = """INSERT INTO
                 geo_y,
                 resource_description,
                 link,
-                phone
+                phone,
+                website,
+                email,
+                service_hours,
+                languages,
+                eligibility
             )
     ) ON CONFLICT DO NOTHING RETURNING resource_agency_number;
 """
@@ -66,7 +81,12 @@ SET
     description_francais = e.description_francais,
     link = e.link,
     phone = e.phone,
-    description_updated = NOW()
+    description_updated = NOW(),
+    website = e.website,
+    email = e.email,
+    service_hours = e.service_hours,
+    languages = e.languages,
+    eligibility = e.eligibility
 FROM
     (VALUES %s) as e(
         resource_agency_number,
@@ -76,7 +96,12 @@ FROM
         geo_y,
         description_francais,
         link,
-        phone
+        phone,
+        website,
+        email,
+        service_hours,
+        languages,
+        eligibility
     )
 WHERE 
     r.resource_agency_number = e.resource_agency_number;

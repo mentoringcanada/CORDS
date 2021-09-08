@@ -54,6 +54,11 @@ def save_records(records, lang):
                 data_item.append(record['description'])
                 data_item.append(record['link'])
                 data_item.append(record['phone'])
+                data_item.append(record['website'])
+                data_item.append(record['email'])
+                data_item.append(record['service_hours'])
+                data_item.append(record['languages'])
+                data_item.append(record['eligibility'])
                 to_pass_to_db.append(data_item)
             except Exception as e:
                 print(e, record)
@@ -93,6 +98,20 @@ def clean_record(record):
         cleaned['Longitude'] = float(record['Longitude'])
         cleaned['link'] = 'https://211central.ca/record/' + str(record['id'])
         cleaned['phone'] = ''
+        cleaned['website'] = record['Website']
+        cleaned['email'] = record['Email']
+        try:
+            cleaned['service_hours'] = record['Hours']
+        except:
+            cleaned['service_hours'] = ''
+        try:
+            cleaned['languages'] = str(', '.join(record['LanguagesOfferedList']))
+        except:
+            cleaned['languages'] = record.get('Languages', '')
+        try:
+            cleaned['eligibility'] = str(record['Eligibility'])
+        except:
+            cleaned['eligibility'] = ''
         try:
             cleaned['phone'] = record['PhoneNumbers'][0]['Phone'].replace(
                 "'", '"')
