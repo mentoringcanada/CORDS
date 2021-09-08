@@ -1,4 +1,5 @@
 This part of the codebase was forked from hiyijian's stable doc2vec implementation on github.
+Original work is included to accept command line arguments as a text and output a vector.
 The one_off.cpp file can be compiled then executed, targeting at a model.sg file so that it can output a vector from text.
 The train.cpp file can be compiled and then executed, targeting a training dataset so that it can output a model.sg file.
 
