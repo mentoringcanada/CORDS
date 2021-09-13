@@ -9,3 +9,4 @@ class GeoSearchRequest(BaseModel):
     distance: Optional[float] = 25
     item_id: Optional[str] = 'None'
     page: Optional[int] = 1
+    size: Optional[int] = 10

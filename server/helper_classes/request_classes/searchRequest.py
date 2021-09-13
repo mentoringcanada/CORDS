@@ -7,3 +7,4 @@ class SearchRequest(BaseModel):
     lat: Optional[float] = 0
     lng: Optional[float] = 0
     page: Optional[int]
+    size: Optional[int] = 10

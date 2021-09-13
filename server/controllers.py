@@ -26,7 +26,7 @@ def search(
     number_of_results = 100
     _, indexes = app_state.cache.search(vector, number_of_results)
     result_IDs = converters.items2str(indexes, app_state.index_to_ID)
-    results = model.get_results(result_IDs, search_request.page)
+    results = model.get_results(result_IDs, search_request.page, search_request.size)
     return results
 
 

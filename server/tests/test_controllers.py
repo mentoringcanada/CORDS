@@ -25,7 +25,39 @@ def test_search():
         app_state,
         vectorizer
     )
-    assert output['items'] == ['get_results'] * 10
+    assert output['items'] == ['get_results'] * search_request.size
+
+
+def test_search_size():
+    "We will test the seach function. It calls the right data"
+    session_token = '12345'
+    search_request = SearchRequest(
+        query="I need food.",
+        size=11
+    )
+    output = controllers.search(
+        session_token,
+        search_request,
+        app_state,
+        vectorizer
+    )
+    assert output['items'] == ['get_results'] * 11
+
+
+def test_geo_search_size():
+    "We will test the seach function. It calls the right data"
+    session_token = '12345'
+    search_request = SearchRequest(
+        query="I need food.",
+        size=12
+    )
+    output = controllers.search(
+        session_token,
+        search_request,
+        app_state,
+        vectorizer
+    )
+    assert output['items'] == ['get_results'] * 12
 
 
 def test_geo_search():
