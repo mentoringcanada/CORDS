@@ -111,7 +111,6 @@ def test_add_remove_basket():
     assert response.json()['status']
     response = requests.get(
         SERVER + '/items', headers={'session_token': session_token})
-    print(response.json())
     response = requests.post(SERVER + '/remove_item', json={
         'item_id': item_id
     }, headers={

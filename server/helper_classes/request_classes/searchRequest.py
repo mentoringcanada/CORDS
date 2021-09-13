@@ -8,3 +8,4 @@ class SearchRequest(BaseModel):
     lng: Optional[float] = 0
     page: Optional[int]
     size: Optional[int] = 10
+    cutoff: Optional[float]

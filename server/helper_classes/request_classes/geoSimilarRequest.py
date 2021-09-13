@@ -9,3 +9,4 @@ class GeoSimilarRequest(BaseModel):
     distance: Optional[float] = 25
     page: Optional[int] = 1
     size: Optional[int] = 10
+    cutoff: Optional[float]

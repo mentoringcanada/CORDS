@@ -9,6 +9,7 @@ import model
 import numpy as np
 from uuid import uuid4
 from services import converters
+from services.cutoff_filter import filter_indexes_by_cutoff
 from services import cluster_recommendations
 
 
@@ -23,8 +24,12 @@ def search(
     resultats et les retourne. 
     """
     vector = np.asarray(vector_model(search_request.query))
-    number_of_results = 100
-    _, indexes = app_state.cache.search(vector, number_of_results)
+    number_of_results = 1000
+    distances, indexes = app_state.cache.search(vector, number_of_results)
+    
+    if search_request.cutoff is not None:
+        indexes = filter_indexes_by_cutoff(indexes, distances, search_request.cutoff, number_of_results)
+    
     result_IDs = converters.items2str(indexes, app_state.index_to_ID)
     results = model.get_results(result_IDs, search_request.page, search_request.size)
     return results
@@ -61,7 +66,11 @@ def geo_search(
     """Return distance-constrained query."""
     vector = np.asarray(vector_model(geo_search_request.query))
     number_of_results = 1000
-    _, indexes = app_state.cache.search(vector, number_of_results)
+    distances, indexes = app_state.cache.search(vector, number_of_results)
+
+    if geo_search_request.cutoff is not None:
+        indexes = filter_indexes_by_cutoff(indexes, distances, geo_search_request.cutoff, number_of_results)
+
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_search_request.item_id)
     results = model.get_constrained_results(geo_search_request, result_IDs)
@@ -82,7 +91,11 @@ def geo_similar_search(
     vector = model.get_vector_from_ID(geo_similar_request.item_id)
     number_of_results = 1000
     packed = np.asarray([vector])
-    _, indexes = app_state.cache.search(packed, number_of_results)
+    distances, indexes = app_state.cache.search(packed, number_of_results)
+
+    if geo_similar_request.cutoff is not None:
+        indexes = filter_indexes_by_cutoff(indexes, distances, geo_similar_request.cutoff, number_of_results)
+
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_similar_request.item_id)
     results = model.get_constrained_results(geo_similar_request, result_IDs)
