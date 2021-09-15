@@ -7,7 +7,6 @@ from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 import model
 import numpy as np
-from uuid import uuid4
 from services import converters
 from services.cutoff_filter import filter_indexes_by_cutoff
 from services import cluster_recommendations
@@ -26,12 +25,20 @@ def search(
     vector = np.asarray(vector_model(search_request.query))
     number_of_results = 1000
     distances, indexes = app_state.cache.search(vector, number_of_results)
-    
+
     if search_request.cutoff is not None:
-        indexes = filter_indexes_by_cutoff(indexes, distances, search_request.cutoff, number_of_results)
-    
+        indexes = filter_indexes_by_cutoff(
+            indexes, distances, search_request.cutoff, number_of_results)
+
     result_IDs = converters.items2str(indexes, app_state.index_to_ID)
-    results = model.get_results(result_IDs, search_request.page, search_request.size)
+
+    if search_request.cutoff is not None:
+        results = model.get_proximity_results(
+            result_IDs, search_request.page, search_request.size, search_request.lat, search_request.lng)
+    else:
+        results = model.get_results(
+            result_IDs, search_request.page, search_request.size)
+
     return results
 
 
@@ -69,11 +76,17 @@ def geo_search(
     distances, indexes = app_state.cache.search(vector, number_of_results)
 
     if geo_search_request.cutoff is not None:
-        indexes = filter_indexes_by_cutoff(indexes, distances, geo_search_request.cutoff, number_of_results)
+        indexes = filter_indexes_by_cutoff(
+            indexes, distances, geo_search_request.cutoff, number_of_results)
 
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_search_request.item_id)
-    results = model.get_constrained_results(geo_search_request, result_IDs)
+
+    if geo_search_request.cutoff is not None:
+        results = model.get_cutoff_constrained_results(
+            result_IDs, geo_search_request)
+    else:
+        results = model.get_constrained_results(geo_search_request, result_IDs)
 
     return results
 
@@ -94,11 +107,16 @@ def geo_similar_search(
     distances, indexes = app_state.cache.search(packed, number_of_results)
 
     if geo_similar_request.cutoff is not None:
-        indexes = filter_indexes_by_cutoff(indexes, distances, geo_similar_request.cutoff, number_of_results)
+        indexes = filter_indexes_by_cutoff(
+            indexes, distances, geo_similar_request.cutoff, number_of_results)
 
     result_IDs = converters.items2str(
         indexes, app_state.index_to_ID, geo_similar_request.item_id)
-    results = model.get_constrained_results(geo_similar_request, result_IDs)
+    if geo_similar_request.cutoff is not None:
+        results = model.get_cutoff_constrained_results(
+            result_IDs, geo_similar_request)
+    else:
+        results = model.get_constrained_results(geo_similar_request, result_IDs)
     return results
 
 
