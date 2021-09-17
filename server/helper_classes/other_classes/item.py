@@ -35,8 +35,8 @@ class Item(BaseModel):
         else:
             return Item(name=parse.unquote(db_row['public_name'] or ''),
                         nom=db_row['nom_publique'] or '',
-                        description=db_row['resource_description'] or '',
-                        description_fr=db_row['description_francais'] or '',
+                        description=parse.unquote(db_row['resource_description'] or ''),
+                        description_fr=parse.unquote(db_row['description_francais'] or ''),
                         item_id=db_row['resource_agency_number'],
                         lat=float(geocoordinates[0]),
                         lng=float(geocoordinates[1]),
