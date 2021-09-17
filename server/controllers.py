@@ -25,6 +25,8 @@ def search(
     vector = np.asarray(vector_model(search_request.query))
     number_of_results = 1000
     distances, indexes = app_state.cache.search(vector, number_of_results)
+    indexes = indexes[0]
+    distances = distances[0]
 
     if search_request.cutoff is not None:
         indexes = filter_indexes_by_cutoff(
@@ -74,6 +76,8 @@ def geo_search(
     vector = np.asarray(vector_model(geo_search_request.query))
     number_of_results = 1000
     distances, indexes = app_state.cache.search(vector, number_of_results)
+    indexes = indexes[0]
+    distances = distances[0]
 
     if geo_search_request.cutoff is not None:
         indexes = filter_indexes_by_cutoff(
@@ -105,6 +109,8 @@ def geo_similar_search(
     number_of_results = 1000
     packed = np.asarray([vector])
     distances, indexes = app_state.cache.search(packed, number_of_results)
+    indexes = indexes[0]
+    distances = distances[0]
 
     if geo_similar_request.cutoff is not None:
         indexes = filter_indexes_by_cutoff(

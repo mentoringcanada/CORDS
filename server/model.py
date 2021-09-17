@@ -105,10 +105,11 @@ def get_proximity_results(result_IDs: list, page: int, size: int, lat: float, ln
     else:
         page = max(page, 1)
     result_IDs_string = ', '.join(result_IDs)
+    limit = page*size
     query_results = execute(queries.get_proximity_results.format(
-        result_IDs_string, result_IDs))
+        result_IDs_string, lat, lng, limit))
     total_results = len(query_results)
-    query_results = query_results[page*size-size:page*size]
+    query_results = query_results[limit-size:limit]
     items = []
     sort_order = 1
     for query_result in query_results:
@@ -128,7 +129,8 @@ def get_results(result_IDs: list, page: int, size: int):
     query_results = execute(queries.get_results.format(
         result_IDs_string, result_IDs))
     total_results = len(query_results)
-    query_results = query_results[page*size-size:page*size]
+    limit = page*size
+    query_results = query_results[limit-size:limit]
     items = []
     sort_order = 1
     for query_result in query_results:
@@ -139,7 +141,7 @@ def get_results(result_IDs: list, page: int, size: int):
     return {'items': items, 'totalResults': total_results}
 
 
-def get_cutoff_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False):
+def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, specific_id: str = False):
     if specific_id:
         result_IDs.remove(specific_id)
         result_IDs = [specific_id] + result_IDs

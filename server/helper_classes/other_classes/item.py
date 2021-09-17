@@ -21,25 +21,25 @@ class Item(BaseModel):
     def from_db_row(cls, db_row):
         geocoordinates = db_row['geocoordinates'][1:-1].split(',')
         if 'distance' in db_row:
-            return Item(name=parse.unquote(db_row['public_name']) or '',
+            return Item(name=parse.unquote(db_row['public_name'] or ''),
                         nom=db_row['nom_publique'] or '',
-                        description=parse.unquote(db_row['resource_description']) or '',
-                        description_fr=parse.unquote(db_row['description_francais']) or '',
+                        description=parse.unquote(db_row['resource_description'] or ''),
+                        description_fr=parse.unquote(db_row['description_francais'] or ''),
                         item_id=db_row['resource_agency_number'],
                         lat=float(geocoordinates[0]),
                         lng=float(geocoordinates[1]),
                         distance=db_row['distance'],
-                        address=parse.unquote(db_row['physical_address']),
+                        address=parse.unquote(db_row['physical_address'] or ''),
                         link=db_row['link'],
                         phone=parse.unquote(db_row['phone']))
         else:
-            return Item(name=parse.unquote(db_row['public_name']) or '',
+            return Item(name=parse.unquote(db_row['public_name'] or ''),
                         nom=db_row['nom_publique'] or '',
                         description=db_row['resource_description'] or '',
                         description_fr=db_row['description_francais'] or '',
                         item_id=db_row['resource_agency_number'],
                         lat=float(geocoordinates[0]),
                         lng=float(geocoordinates[1]),
-                        address=parse.unquote(db_row['physical_address']),
+                        address=parse.unquote(db_row['physical_address'] or ''),
                         link=db_row['link'],
-                        phone=parse.unquote(db_row['phone']))
+                        phone=parse.unquote(db_row['phone'] or ''))
