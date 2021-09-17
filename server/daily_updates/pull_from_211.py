@@ -3,6 +3,7 @@ import model_211 as model
 import os
 import requests
 import queries_211 as queries
+from urllib import parse
 
 
 PAGE_SIZE = 1000
@@ -48,7 +49,7 @@ def save_records(records, lang):
                 data_item = []
                 data_item.append(record['resource_agency_number'])
                 data_item.append(record['public_name'])
-                data_item.append(record['physical_address'].replace("'", '"'))
+                data_item.append(parse.quote(record['physical_address']))
                 data_item.append(record['Latitude'])
                 data_item.append(record['Longitude'])
                 data_item.append(record['description'])
@@ -87,8 +88,8 @@ def clean_record(record):
     cleaned = {}
     try:
         cleaned['resource_agency_number'] = str(record['id'])
-        cleaned['description'] = record['Description'].replace("'", '"')
-        cleaned['public_name'] = record['PublicName'].replace("'", '"')
+        cleaned['description'] = parse.quote(record['Description'])
+        cleaned['public_name'] = parse.quote(record['PublicName'])
         cleaned['physical_address'] = record['PhysicalAddressStreet1'] + ' ' +  \
             record['PhysicalAddressStreet2'] + ' ' + \
             record['PhysicalAddressCity'] + ' ' + \
@@ -113,8 +114,7 @@ def clean_record(record):
         except:
             cleaned['eligibility'] = ''
         try:
-            cleaned['phone'] = record['PhoneNumbers'][0]['Phone'].replace(
-                "'", '"')
+            cleaned['phone'] = parse.quote(record['PhoneNumbers'][0]['Phone'])
         except:
             pass
     except Exception as e:
