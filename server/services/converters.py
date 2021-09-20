@@ -18,7 +18,7 @@ def items2str(indexes, index_to_ID, item_id = None):
     result_IDs = []
     if item_id:
         result_IDs.append("'" + item_id + "'")
-    for index in indexes[0]:
+    for index in indexes:
         item_id = index_to_ID[index]
         result_IDs.append("'" + item_id + "'")
     return result_IDs

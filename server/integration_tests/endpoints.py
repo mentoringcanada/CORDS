@@ -32,7 +32,7 @@ def test_geo_similar():
     response = requests.post(SERVER + '/similar', json={
         'item_id': sample_element,
         'lat': 43.743388,
-        'lng': -81.71,
+        'lng': -80.71,
         'distance': 150
     })
     data = response.json()
@@ -111,7 +111,6 @@ def test_add_remove_basket():
     assert response.json()['status']
     response = requests.get(
         SERVER + '/items', headers={'session_token': session_token})
-    print(response.json())
     response = requests.post(SERVER + '/remove_item', json={
         'item_id': item_id
     }, headers={
@@ -127,3 +126,4 @@ test_geo_search()
 test_geo_search_pages()
 test_geo_similar_search_pages()
 test_add_remove_basket()
+print('no errors!')

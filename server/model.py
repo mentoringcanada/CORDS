@@ -99,7 +99,28 @@ def get_codes_from_items(taxonomies):
     return taxonomies.split(',')
 
 
-def get_results(result_IDs: list, page: int):
+def get_proximity_results(result_IDs: list, page: int, size: int, lat: float, lng: float):
+    if not page:
+        page = 1
+    else:
+        page = max(page, 1)
+    result_IDs_string = ', '.join(result_IDs)
+    limit = page*size
+    query_results = execute(queries.get_proximity_results.format(
+        result_IDs_string, lat, lng, limit))
+    total_results = len(query_results)
+    query_results = query_results[limit-size:limit]
+    items = []
+    sort_order = 1
+    for query_result in query_results:
+        items.append(Item.from_db_row(query_result))
+        items[-1].sortOrder = sort_order
+        sort_order += 1
+
+    return {'items': items, 'totalResults': total_results}
+
+
+def get_results(result_IDs: list, page: int, size: int):
     if not page:
         page = 1
     else:
@@ -108,7 +129,36 @@ def get_results(result_IDs: list, page: int):
     query_results = execute(queries.get_results.format(
         result_IDs_string, result_IDs))
     total_results = len(query_results)
-    query_results = query_results[page*10-10:page*10]
+    limit = page*size
+    query_results = query_results[limit-size:limit]
+    items = []
+    sort_order = 1
+    for query_result in query_results:
+        items.append(Item.from_db_row(query_result))
+        items[-1].sortOrder = sort_order
+        sort_order += 1
+
+    return {'items': items, 'totalResults': total_results}
+
+
+def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, specific_id: str = False):
+    if specific_id:
+        result_IDs.remove(specific_id)
+        result_IDs = [specific_id] + result_IDs
+    result_IDs = ', '.join(result_IDs)
+    query_results = execute(queries.get_cutoff_constrained_results_1.format(request.lat, request.lng) +
+                            result_IDs + queries.get_cutoff_constrained_results_2.format(request.lat, request.lng, request.distance))
+
+    total_results = len(query_results)
+
+    if not request.page:
+        request.page = 1
+    else:
+        request.page = max(request.page, 1)
+
+    size = request.size
+    query_results = query_results[request.page*size-size:request.page*size]
+
     items = []
     sort_order = 1
     for query_result in query_results:
@@ -134,7 +184,8 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
     else:
         request.page = max(request.page, 1)
 
-    query_results = query_results[request.page*10-10:request.page*10]
+    size = request.size
+    query_results = query_results[request.page*size-size:request.page*size]
 
     items = []
     sort_order = 1
