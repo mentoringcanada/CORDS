@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from services.summary import summaries
 from services.converters import convert2text
-
+from urllib import parse
 
 def dbify_vector(vector):
     smaller_vector = []
@@ -103,9 +103,9 @@ def assign_summaries():
     descriptions = {}
     for d in data:
         try:
-            descriptions[d['cluster_id']] += '. ' + d['resource_description']
+            descriptions[d['cluster_id']] += '. ' + parse.unquote(d['resource_description'])
         except:
-            descriptions[d['cluster_id']] = d['resource_description']
+            descriptions[d['cluster_id']] = parse.unquote(d['resource_description'])
     for key in descriptions:
         descriptions[key] = convert2text(descriptions[key])
     summary_output = summaries(descriptions, 3)
