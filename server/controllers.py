@@ -8,6 +8,7 @@ from helper_classes.request_classes.searchRequest import SearchRequest
 import model
 import numpy as np
 from services import converters
+import services
 from services.cutoff_filter import filter_indexes_by_cutoff
 from services import cluster_recommendations
 
@@ -124,6 +125,21 @@ def geo_similar_search(
     else:
         results = model.get_constrained_results(geo_similar_request, result_IDs)
     return results
+
+
+def get_recommended_clusters_from_services(serviceList):
+    services = serviceList.services
+    cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_referrals(
+        services, 5
+    )
+    data = model.execute("""SELECT *,
+    (two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
+    (two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
+    FROM clusters 
+    WHERE cluster_id = any(%s)""", (cluster_IDs,))
+    output = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
+    return output
+
 
 
 def get_recommended_clusters_from_taxonomies(taxonomies):

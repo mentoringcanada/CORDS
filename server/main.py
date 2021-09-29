@@ -16,6 +16,7 @@ from helper_classes.other_classes.itemList import ItemList
 from helper_classes.other_classes.received import Received
 from helper_classes.other_classes.session import Session
 from helper_classes.other_classes.basketItem import BasketItem
+from helper_classes.request_classes.clusterRequest import ClusterRequest
 from helper_classes.request_classes.feedbackRequest import FeedbackRequest
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
@@ -129,14 +130,19 @@ def feedback(feedback_data: FeedbackRequest):
 # DEMO ENDPOINTS
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/cluster_demo", response_class=HTMLResponse)
 def main_demos_page():
     return open("./views/demo.html", "r").read()
 
 
-@app.get("/scripts/winbox.js", response_class=HTMLResponse)
+@app.get("/scripts/cluster_demo.js", response_class=HTMLResponse)
 def main_demos_page():
-    return open("./static/winbox.js", "r").read()
+    return open("./static/cluster_demo.js", "r").read()
+
+
+@app.get("/static/cluster_demo.css", response_class=HTMLResponse)
+def main_demos_page():
+    return open("./static/cluster_demo.css", "r").read()
 
 
 # DEMO API
@@ -168,5 +174,6 @@ def get_cluster(clusterId: int):
 
 
 @app.post("/selections")
-def get_recommended_from_selections():
-    return None
+def get_recommended_from_selections(services: ClusterRequest):
+    clusters = controllers.get_recommended_clusters_from_services(services)
+    return clusters

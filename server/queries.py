@@ -165,6 +165,37 @@ get_cluster_recommendations_from_clusters = """SELECT
                 %s
         ) clusters"""
 
+get_cluster_recommendations_from_clusters = """SELECT
+        cluster_id
+    FROM
+        (
+            SELECT
+                cluster_id,
+                SUM(call_points_table.call_points) as cluster_points
+            FROM
+                referrals rc
+                INNER JOIN (
+                    SELECT
+                        referral_id,
+                        COUNT(*) as call_points
+                    FROM
+                        referrals
+                    WHERE
+                        cluster_id in (
+                            SELECT distinct cluster_id 
+                            FROM referrals
+                            WHERE service_id = any(%s)
+                        )
+                    GROUP BY
+                        referral_id
+                ) call_points_table ON rc.referral_id = call_points_table.referral_id
+            GROUP BY cluster_id
+            ORDER BY
+                2 DESC
+            LIMIT
+                %s
+        ) clusters"""
+
 get_random_multiple_referral_call = """SELECT
         one_id.call_report_number,
         taxonomy_code

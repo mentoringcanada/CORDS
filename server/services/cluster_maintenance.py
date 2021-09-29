@@ -39,6 +39,15 @@ def assign_clusters_to_taxonomies():
     model.execute_many(queries.assign_cluster_id_to_taxonomy, data)
 
 
+def assign_clusters_to_referrals():
+    referrals = model.execute("SELECT distinct service_id FROM referrals;")
+    for referral in referrals:
+        model.execute("""UPDATE referrals 
+        SET cluster_id = (SELECT cluster_id FROM resources WHERE resource_agency_number = '{0}') 
+        WHERE service_id = '{0}';""".format(referral['service_id']))
+
+
+
 def assign_clusters_to_vectors(n_clusters=100):
     # pull all vectors and IDs
     # cluster so that everything has a non-zero label
@@ -113,5 +122,6 @@ def assign_summaries():
 
 def recluster(n_clusters=250):
     assign_clusters_to_vectors(n_clusters)
-    assign_clusters_to_taxonomies()
+    # assign_clusters_to_taxonomies()
+    assign_clusters_to_referrals()
     assign_summaries()
