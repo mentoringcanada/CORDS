@@ -8,7 +8,6 @@ from helper_classes.request_classes.searchRequest import SearchRequest
 import model
 import numpy as np
 from services import converters
-import services
 from services.cutoff_filter import filter_indexes_by_cutoff
 from services import cluster_recommendations
 
