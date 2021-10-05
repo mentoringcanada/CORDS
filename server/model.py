@@ -169,6 +169,12 @@ def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, 
     return {'items': items, 'totalResults': total_results}
 
 
+def get_cluster_constrained_results(request, cluster_data):
+    clusters = [x['cluster_id'] for x in cluster_data]
+    results =  execute(queries.get_cluster_constrained_results.format(request.lat, request.lng, request.distance, '%s'), (clusters,))
+    return [dict(row) for row in results]
+
+
 def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False):
     if specific_id:
         result_IDs.remove(specific_id)

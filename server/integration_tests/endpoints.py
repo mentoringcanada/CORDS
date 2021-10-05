@@ -4,9 +4,9 @@ import re
 import requests
 
 
-# SERVER = 'http://localhost:8000'
+SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
-SERVER = 'https://server.cordsconnect.ca'
+# SERVER = 'https://server.cordsconnect.ca'
 
 
 sample_element = None
@@ -33,7 +33,7 @@ def test_geo_similar():
         'item_id': sample_element,
         'lat': 43.743388,
         'lng': -80.71,
-        'distance': 150
+        'distance': 5000
     })
     data = response.json()
     assert len(data['items']) <= 10
@@ -65,6 +65,7 @@ def test_geo_search_pages():
         'query': 'bread',
         'lat': 44.5017,
         'lng': -79.5673,
+        'distance': 5000,
         'page': 2
     })
     data = response.json()
@@ -119,11 +120,26 @@ def test_add_remove_basket():
     assert response.json()['status']
 
 
+
+def test_geo_recommendations():
+    response = requests.post(SERVER + '/recommended_searches', json={
+        'services': [sample_element],
+        'lat': 43.8,
+        'lng': -79.5,
+        'distance': 5000
+    })
+    print(response.text)
+    assert response.json()
+    print(response.json())
+    print(response.status_code)
+
+
 test_search()
-test_similar()
-test_geo_similar()
-test_geo_search()
-test_geo_search_pages()
-test_geo_similar_search_pages()
-test_add_remove_basket()
+# test_similar()
+# test_geo_similar()
+# test_geo_search()
+# test_geo_search_pages()
+# test_geo_similar_search_pages()
+# test_add_remove_basket()
+test_geo_recommendations()
 print('no errors!')

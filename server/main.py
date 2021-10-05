@@ -19,6 +19,7 @@ from helper_classes.other_classes.basketItem import BasketItem
 from helper_classes.request_classes.clusterRequest import ClusterRequest
 from helper_classes.request_classes.feedbackRequest import FeedbackRequest
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
+from helper_classes.request_classes.geoClusterRequest import GeoClusterRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 import startup
@@ -125,6 +126,12 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, request: Request):
 def feedback(feedback_data: FeedbackRequest):
     controllers.save_feedback(feedback_data)
     return Received()
+
+
+@app.post("/recommended_searches")
+def get_recommended_from_selections(services: GeoClusterRequest):
+    clusters = controllers.get_geo_clusters_from_services(services)
+    return clusters
 
 
 # DEMO ENDPOINTS

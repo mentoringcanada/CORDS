@@ -177,9 +177,9 @@ const describeResults = () => {
 const clusterDescriptionUi = cluster => `<div><button onclick="selectClusterClick(${cluster.clusterId})">${cluster.clusterId}</button>: ${cluster.summary}</div>`;
 
 const agencyView = (agency) => {
-    return `<span id="${agency["item_id"]}">
+    return `<span id="${agency['item_id']}">
         <button onclick='addSelection(${JSON.stringify(agency)})'>+</button>
-        ${agency["item_id"]} - ${agency["name"]}
+        ${agency['item_id']} - ${agency["name"]}
         </span><br>`;
 };
 

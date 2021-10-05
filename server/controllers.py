@@ -1,3 +1,5 @@
+from helper_classes.other_classes import basketItem
+from helper_classes.other_classes.item import Item
 from helper_classes.other_classes.itemList import ItemList
 from helper_classes.other_classes.cluster import Cluster
 from helper_classes.other_classes.clusterList import ClusterList
@@ -126,6 +128,23 @@ def geo_similar_search(
     return results
 
 
+def get_geo_clusters_from_services(serviceList):
+    services = serviceList.services
+    cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_referrals(
+        services, 5
+    )
+    data = model.execute("""SELECT summary, cluster_id
+    FROM clusters 
+    WHERE cluster_id = any(%s)""", (cluster_IDs,))
+    cluster_members = model.get_cluster_constrained_results(serviceList, data)
+    members = [Item.from_db_row(row) for row in cluster_members]
+    cluster_list = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
+    return {
+        "clusterList": cluster_list,
+        "clusterMembers": members
+    }
+
+
 def get_recommended_clusters_from_services(serviceList):
     services = serviceList.services
     cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_referrals(
@@ -138,7 +157,6 @@ def get_recommended_clusters_from_services(serviceList):
     WHERE cluster_id = any(%s)""", (cluster_IDs,))
     output = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
     return output
-
 
 
 def get_recommended_clusters_from_taxonomies(taxonomies):

@@ -23,6 +23,15 @@ ORDER BY array_position(ARRAY[{3}]::varchar[], resource_agency_number)
 LIMIT 50;
 """
 
+get_cluster_constrained_results = """SELECT 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
++cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 as distance, *
+FROM resources
+WHERE 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
++cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 < {2}
+AND cluster_id = any({3})
+LIMIT 50;
+"""
+
 get_proximity_results = """SELECT *
 FROM resources
 WHERE resource_agency_number in ({0})

@@ -11,8 +11,12 @@ class Cluster(BaseModel):
 
     @classmethod
     def from_db_row(cls, db_row):
-        x = db_row['scaled_x']
-        y = db_row['scaled_y']
+        try:
+            x = db_row['scaled_x']
+            y = db_row['scaled_y']
+        except:
+            x = 0
+            y = 0
         return Cluster(clusterId=db_row["cluster_id"],
                        centre=[x, y],
                        summary=db_row["summary"] or '')
