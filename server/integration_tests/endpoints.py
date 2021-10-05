@@ -128,10 +128,8 @@ def test_geo_recommendations():
         'lng': -79.5,
         'distance': 5000
     })
-    print(response.text)
     assert response.json()
     print(response.json())
-    print(response.status_code)
 
 
 test_search()

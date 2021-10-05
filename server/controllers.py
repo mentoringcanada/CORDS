@@ -14,6 +14,9 @@ from services.cutoff_filter import filter_indexes_by_cutoff
 from services import cluster_recommendations
 
 
+number_of_results = 5000
+
+
 def search(
     session_token: str,
     search_request: SearchRequest,
@@ -25,7 +28,6 @@ def search(
     resultats et les retourne. 
     """
     vector = np.asarray(vector_model(search_request.query))
-    number_of_results = 1000
     distances, indexes = app_state.cache.search(vector, number_of_results)
     indexes = indexes[0]
     distances = distances[0]
@@ -76,7 +78,6 @@ def geo_search(
         vector_model):
     """Return distance-constrained query."""
     vector = np.asarray(vector_model(geo_search_request.query))
-    number_of_results = 1000
     distances, indexes = app_state.cache.search(vector, number_of_results)
     indexes = indexes[0]
     distances = distances[0]
@@ -108,7 +109,6 @@ def geo_similar_search(
     # Get description from item ID, create a SearchRequest, then call search()
     geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
     vector = model.get_vector_from_ID(geo_similar_request.item_id)
-    number_of_results = 1000
     packed = np.asarray([vector])
     distances, indexes = app_state.cache.search(packed, number_of_results)
     indexes = indexes[0]
