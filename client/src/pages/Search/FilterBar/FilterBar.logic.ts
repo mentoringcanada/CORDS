@@ -46,7 +46,6 @@ const LocationBarLogic = () => {
 
     // Gets local location when location bar renders
     const useSetState = () => {
-        useEffect(() => {
             const setLocation = async () => {
                 if (search.location.lat && search.location.lng) {
                     setValueLocation(search.location);
@@ -60,7 +59,6 @@ const LocationBarLogic = () => {
                 }
             };
             setLocation();
-        }, []);
     };
 
     const useLocationChange = (geoInputLocation: any) => {
