@@ -10,11 +10,11 @@ import csv
 # "posting_id","individual_id"
 
 
-data_dicts = []
+data = []
 with open('MatchesData.csv') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
-        data_dicts.append([
+        data.append([
             row['posting_id'],
             row['individual_id']
         ])
@@ -37,5 +37,4 @@ insert_grouped_data = """INSERT INTO
 """
 
 
-# print(data_dicts[0])
-model.execute_many(insert_grouped_data, data_dicts)
+model.execute_many(insert_grouped_data, data)
