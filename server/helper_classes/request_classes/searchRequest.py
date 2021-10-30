@@ -4,6 +4,9 @@ from typing import Optional
 
 class SearchRequest(BaseModel):
     query: str
+    community_services: Optional[bool] = True
+    employment: Optional[bool] = False
+    volunteer: Optional[bool] = False
     lat: Optional[float] = 0
     lng: Optional[float] = 0
     page: Optional[int]

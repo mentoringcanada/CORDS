@@ -26,7 +26,8 @@ LIMIT 50;
 get_proximity_results = """SELECT *
 FROM resources
 WHERE resource_agency_number in ({0})
-ORDER BY 2*asin(sqrt(pow(sin(radians({1}-geocoordinates[0])/2),2)
+"""
+get_proximity_results_2 = """ORDER BY 2*asin(sqrt(pow(sin(radians({1}-geocoordinates[0])/2),2)
 +cos(radians({1}))*cos(radians(geocoordinates[0]))*pow(sin(radians({2}-geocoordinates[1])/2), 2)))*6372.8 DESC
 LIMIT {3};
 """
@@ -73,11 +74,12 @@ WHERE r.cluster_id <> any(%s)
 GROUP BY r.cluster_id;"""
 
 get_likelihood_of_vector_to_cluster = """SELECT cluster_id, tax_counts.taxonomy_code, pair_counts.count/tax_counts.count ratio
-FROM (SELECT taxonomy_code, count(*) FROM service_taxonomies GROUP BY taxonomy_code) tax_counts
+FROM (SELECT taxonomy_code, count(*) FROM service_taxonomies WHERE r.resource_type = 'employment' GROUP BY taxonomy_code) tax_counts
 INNER JOIN (SELECT cluster_id, taxonomy_code, count(*)
 FROM resources r
 INNER JOIN service_taxonomies st
     ON r.resource_agency_number = st.resource_agency_number
+WHERE r.resource_type = 'employment'
 GROUP BY cluster_id, taxonomy_code) pair_counts
 ON tax_counts.taxonomy_code = pair_counts.taxonomy_code
 ORDER BY 3 ASC;"""
@@ -86,6 +88,11 @@ get_clusters_data = """SELECT *,
 (two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
 (two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
 FROM clusters c"""
+
+get_all_vectors_and_IDs_of_resource_type = """SELECT resource_agency_number, description_vector
+    FROM resources
+    WHERE description_vector IS NOT NULL
+    AND resource_type = %s;"""
 
 get_all_vectors_and_IDs = """SELECT resource_agency_number, description_vector
     FROM resources

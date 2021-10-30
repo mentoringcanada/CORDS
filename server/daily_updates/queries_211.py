@@ -37,7 +37,8 @@ insert_resource_descriptions_en = """INSERT INTO
         email,
         service_hours,
         languages,
-        eligibility
+        eligibility,
+        resource_type
     ) (
         SELECT
             e.resource_agency_number,
@@ -52,7 +53,8 @@ insert_resource_descriptions_en = """INSERT INTO
             email,
             service_hours,
             languages,
-            eligibility
+            eligibility,
+            'community_services'
         FROM
             (VALUES %s) as e(
                 resource_agency_number,
@@ -116,7 +118,8 @@ insert_resource_descriptions_fr = """INSERT INTO
         description_francais,
         link,
         phone,
-        description_updated
+        description_updated,
+        resource_type
     ) (
         SELECT
             e.resource_agency_number,
@@ -126,7 +129,8 @@ insert_resource_descriptions_fr = """INSERT INTO
             e.description_francais,
             e.link,
             e.phone,
-            NOW()
+            NOW(),
+            'community_services'
         FROM
             (VALUES %s) as e(
                 resource_agency_number,

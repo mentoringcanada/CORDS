@@ -23,10 +23,14 @@ def search(
     resultats et les retourne. 
     """
     vector = np.asarray(vector_model(search_request.query))
-    number_of_results = 1000
+    number_of_results = 5000
     distances, indexes = app_state.cache.search(vector, number_of_results)
     indexes = indexes[0]
     distances = distances[0]
+
+    search_employment = search_request.employment
+    search_volunteer = search_request.volunteer
+    search_community_services = search_request.community_services
 
     if search_request.cutoff is not None:
         indexes = filter_indexes_by_cutoff(
@@ -36,10 +40,12 @@ def search(
 
     if search_request.cutoff is not None:
         results = model.get_proximity_results(
-            result_IDs, search_request.page, search_request.size, search_request.lat, search_request.lng)
+            result_IDs, search_request.page, search_request.size, search_request.lat, 
+            search_request.lng, search_employment, search_volunteer, search_community_services)
     else:
         results = model.get_results(
-            result_IDs, search_request.page, search_request.size)
+            result_IDs, search_request.page, search_request.size, search_employment, 
+            search_volunteer, search_community_services)
 
     return results
 
@@ -74,10 +80,14 @@ def geo_search(
         vector_model):
     """Return distance-constrained query."""
     vector = np.asarray(vector_model(geo_search_request.query))
-    number_of_results = 1000
+    number_of_results = 5000
     distances, indexes = app_state.cache.search(vector, number_of_results)
     indexes = indexes[0]
     distances = distances[0]
+
+    search_employment = geo_search_request.employment
+    search_volunteer = geo_search_request.volunteer
+    search_community_services = geo_search_request.community_services
 
     if geo_search_request.cutoff is not None:
         indexes = filter_indexes_by_cutoff(
@@ -88,7 +98,7 @@ def geo_search(
 
     if geo_search_request.cutoff is not None:
         results = model.get_cutoff_constrained_results(
-            result_IDs, geo_search_request)
+            result_IDs, geo_search_request, search_employment, search_volunteer, search_community_services)
     else:
         results = model.get_constrained_results(geo_search_request, result_IDs)
 
@@ -106,7 +116,7 @@ def geo_similar_search(
     # Get description from item ID, create a SearchRequest, then call search()
     geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
     vector = model.get_vector_from_ID(geo_similar_request.item_id)
-    number_of_results = 1000
+    number_of_results = 5000
     packed = np.asarray([vector])
     distances, indexes = app_state.cache.search(packed, number_of_results)
     indexes = indexes[0]
@@ -122,7 +132,8 @@ def geo_similar_search(
         results = model.get_cutoff_constrained_results(
             result_IDs, geo_similar_request)
     else:
-        results = model.get_constrained_results(geo_similar_request, result_IDs)
+        results = model.get_constrained_results(
+            geo_similar_request, result_IDs)
     return results
 
 
