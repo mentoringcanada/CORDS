@@ -15,9 +15,9 @@ def dbify_vector(vector):
     return smaller_vector
 
 
-def get_all_vectors_and_IDs(resource_type='employment'):
+def get_all_vectors_and_IDs(resource_type='211'):
     # loading app state
-    vectors_and_IDs = model.execute(queries.get_all_vectors_and_IDs_of_resource_type, resource_type)
+    vectors_and_IDs = model.execute(queries.get_all_vectors_and_IDs_of_resource_type.format(resource_type))
     # vectors_and_IDs = model.execute(queries.get_all_vectors_and_IDs)
     # got all vectors
     vectors = np.asarray([np.asarray(row['description_vector']).astype(np.float32)
@@ -44,17 +44,20 @@ def assign_clusters_to_vectors(n_clusters=100, resource_type='employment'):
     # pull all vectors and IDs
     # cluster so that everything has a non-zero label
     # assign the labels back into the database
+    print('getting vectors')
     vectors, index_to_ID = get_all_vectors_and_IDs(resource_type)
     # creating clusterer
     clusterer = KMeans(n_clusters=n_clusters)
     # fitting and predicting
+    print('clustering')
     labels = clusterer.fit_predict(vectors)
-    max_cluster_starting_number = (model.execute("SELECT MAX(cluster_id) cluster_id FROM resources;")[0]['cluster_id'] or -1) + 1
+    print('getting max cluster label')
+    max_cluster_starting_number = model.execute("SELECT COALESCE(MAX(cluster_id), -1) cluster_id FROM resources;")[0]['cluster_id'] + 1
+    labels = [l + max_cluster_starting_number for l in labels]
 
     # found all labels
     clusters_data = {}
     for label in list(set(labels)):
-        label += max_cluster_starting_number
         clusters_data[str(label)] = {'label': int(label)}
         clusters_data[str(label)]['services_count'] = list(labels).count(label)
         clusters_in_label = []
@@ -62,32 +65,34 @@ def assign_clusters_to_vectors(n_clusters=100, resource_type='employment'):
             if labels[idx] == label:
                 clusters_in_label.append(vectors[idx])
         clusters_in_label = np.asarray(clusters_in_label)
-        clusters_data[str(label)]['centre'] = np.asarray(np.matrix(
-            clusters_in_label).mean(0)[0])
-    centres = []
-    centre_IDs = []
-    for data in clusters_data:
-        centre_IDs.append(clusters_data[data]['label'])
-        centres.append(clusters_data[data]['centre'])
-    centres = np.asarray([c[0] for c in centres])
-    pca = PCA(n_components=2)
-    two_dim_points = pca.fit_transform(centres)
-    two_dim_dict = {}
-    for idx in range(len(centre_IDs)):
-        two_dim_dict[centre_IDs[idx]] = two_dim_points[idx]
-    model.execute("DELETE FROM clusters;")
+        # clusters_data[str(label)]['centre'] = np.asarray(np.matrix(
+        #     clusters_in_label).mean(0)[0])
+    # centres = []
+    # centre_IDs = []
+    # for data in clusters_data:
+    #     centre_IDs.append(clusters_data[data]['label'])
+    #     centres.append(clusters_data[data]['centre'])
+    # centres = np.asarray([c[0] for c in centres])
+    # pca = PCA(n_components=2)
+    # two_dim_points = pca.fit_transform(centres)
+    # two_dim_dict = {}
+    # for idx in range(len(centre_IDs)):
+    #     two_dim_dict[centre_IDs[idx]] = two_dim_points[idx]
+    model.execute("DELETE FROM clusters WHERE resource_type = %s;".format(resource_type))
     for data in clusters_data:
         model.execute("""INSERT INTO clusters (cluster_id, centre, two_dim, num_services) VALUES (
             {0}, array{1}, point({2}, {3}), {4}
         );""".format(
             clusters_data[data]['label'],
-            dbify_vector(clusters_data[data]['centre']),
-            two_dim_dict[clusters_data[data]['label']][0],
-            two_dim_dict[clusters_data[data]['label']][1],
+            # dbify_vector(clusters_data[data]['centre']),
+            '',
+            # two_dim_dict[clusters_data[data]['label']][0],
+            # two_dim_dict[clusters_data[data]['label']][1],
+            0,0,
             clusters_data[data]['services_count']))
     data = []
     for i in range(len(labels)):
-        data.append([int(labels[i]) + max_cluster_starting_number, index_to_ID[i]])
+        data.append([int(labels[i]), index_to_ID[i]])
     model.execute_many(queries.assign_clusters_to_vectors, data)
 
 
@@ -113,7 +118,7 @@ def assign_summaries():
     """, summary_output)
 
 
-def recluster(n_clusters=250):
+def recluster(n_clusters=100):
     types = model.execute("SELECT DISTINCT resource_type FROM resources;")
     types = [t['resource_type'] for t in types]
     for t in types:

@@ -95,7 +95,7 @@ FROM clusters c"""
 get_all_vectors_and_IDs_of_resource_type = """SELECT resource_agency_number, description_vector
     FROM resources
     WHERE description_vector IS NOT NULL
-    AND resource_type = %s;"""
+    AND resource_type = '{0}';"""
 
 get_all_vectors_and_IDs = """SELECT resource_agency_number, description_vector
     FROM resources
