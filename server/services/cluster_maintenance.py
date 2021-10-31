@@ -85,7 +85,7 @@ def assign_clusters_to_vectors(n_clusters=100, resource_type='employment'):
         );""".format(
             clusters_data[data]['label'],
             # dbify_vector(clusters_data[data]['centre']),
-            '',
+            dbify_vector([[1,2]]),
             # two_dim_dict[clusters_data[data]['label']][0],
             # two_dim_dict[clusters_data[data]['label']][1],
             0,0,
@@ -124,5 +124,5 @@ def recluster(n_clusters=100):
     for t in types:
         assign_clusters_to_vectors(n_clusters, t)
     
-    assign_clusters_to_taxonomies()
-    assign_summaries()
+    # assign_clusters_to_taxonomies()
+    # assign_summaries()
