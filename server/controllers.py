@@ -40,11 +40,11 @@ def search(
 
     if search_request.cutoff is not None:
         results = model.get_proximity_results(
-            result_IDs, search_request.page, search_request.size, search_request.lat, 
+            result_IDs, search_request.page, search_request.size, search_request.lat,
             search_request.lng, search_employment, search_volunteer, search_community_services)
     else:
         results = model.get_results(
-            result_IDs, search_request.page, search_request.size, search_employment, 
+            result_IDs, search_request.page, search_request.size, search_employment,
             search_volunteer, search_community_services)
 
     return results
@@ -100,7 +100,8 @@ def geo_search(
         results = model.get_cutoff_constrained_results(
             result_IDs, geo_search_request, search_employment, search_volunteer, search_community_services)
     else:
-        results = model.get_constrained_results(geo_search_request, result_IDs)
+        results = model.get_constrained_results(
+            geo_search_request, result_IDs, False, search_employment, search_volunteer, search_community_services)
 
     return results
 

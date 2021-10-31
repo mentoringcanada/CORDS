@@ -108,7 +108,8 @@ def get_proximity_results(result_IDs: list, page: int, size: int, lat: float,
     result_IDs_string = ', '.join(result_IDs)
     limit = page*size
 
-    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
+    inclusion_filter = converters.build_inclusion_filter(
+        search_employment, search_volunteer, search_community_services)
 
     query_results = execute((queries.get_proximity_results + inclusion_filter + queries.get_proximity_results_2).format(
         result_IDs_string, lat, lng, limit))
@@ -124,15 +125,16 @@ def get_proximity_results(result_IDs: list, page: int, size: int, lat: float,
     return {'items': items, 'totalResults': total_results}
 
 
-def get_results(result_IDs: list, page: int, size: int, search_employment: bool = False, 
-            search_volunteer: bool = False, search_community_services: bool = True):
+def get_results(result_IDs: list, page: int, size: int, search_employment: bool = False,
+                search_volunteer: bool = False, search_community_services: bool = True):
     if not page:
         page = 1
     else:
         page = max(page, 1)
     result_IDs_string = ', '.join(result_IDs)
 
-    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
+    inclusion_filter = converters.build_inclusion_filter(
+        search_employment, search_volunteer, search_community_services)
 
     query_results = execute((queries.get_results + inclusion_filter + queries.get_results_2).format(
         result_IDs_string, result_IDs))
@@ -156,7 +158,8 @@ def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, 
         result_IDs = [specific_id] + result_IDs
     result_IDs = ', '.join(result_IDs)
 
-    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
+    inclusion_filter = converters.build_inclusion_filter(
+        search_employment, search_volunteer, search_community_services)
 
     query_results = execute(queries.get_cutoff_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + (queries.get_cutoff_constrained_results_2 + inclusion_filter + queries.get_cutoff_constrained_results_3).format(request.lat, request.lng, request.distance))
@@ -181,7 +184,8 @@ def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, 
     return {'items': items, 'totalResults': total_results}
 
 
-def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False):
+def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False,
+                            search_employment=False, search_volunteer=False, search_community_services=True):
     if specific_id:
         result_IDs.remove(specific_id)
         result_IDs = [specific_id] + result_IDs
