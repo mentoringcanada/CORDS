@@ -31,7 +31,7 @@ class Item(BaseModel):
                         distance=db_row['distance'],
                         address=parse.unquote(db_row['physical_address'] or ''),
                         link=db_row['link'],
-                        phone=parse.unquote(db_row['phone']))
+                        phone=parse.unquote(db_row['phone'] or ''))
         else:
             return Item(name=parse.unquote(db_row['public_name'] or ''),
                         nom=db_row['nom_publique'] or '',
