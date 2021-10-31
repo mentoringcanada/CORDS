@@ -11,7 +11,7 @@ import sentry_sdk
 # import local modules
 import controllers
 from helper_classes.other_classes.itemList import ItemList
-from helper_classes.other_classes.itemIdList import ItemIdList
+from helper_classes.request_classes.itemIdList import ItemIdList
 from helper_classes.other_classes.received import Received
 from helper_classes.other_classes.session import Session
 from helper_classes.other_classes.basketItem import BasketItem
