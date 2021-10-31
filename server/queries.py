@@ -5,8 +5,9 @@ WHERE resource_agency_number in (
 """
 get_cutoff_constrained_results_2 = """)
 AND 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
-+cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 < {2}
-ORDER BY asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
++cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 < {2} """
+
+get_cutoff_constrained_results_3 = """ ORDER BY asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
 +cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))
 LIMIT 50;
 """

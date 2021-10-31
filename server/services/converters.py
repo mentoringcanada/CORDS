@@ -27,7 +27,7 @@ def items2str(indexes, index_to_ID, item_id = None):
 def build_inclusion_filter(search_employment, search_volunteer, search_community_services):
     include_resource_types = " "
     if search_employment or search_volunteer or search_community_services:
-        include_resource_types = " AND resource type in ("
+        include_resource_types = " AND resource_type in ("
         types = []
         if search_employment:
             types.append("'employment'")

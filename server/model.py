@@ -156,18 +156,10 @@ def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, 
         result_IDs = [specific_id] + result_IDs
     result_IDs = ', '.join(result_IDs)
 
-    include_resource_types = " AND resource type in ("
-    types = []
-    if search_employment:
-        types.append("'employment'")
-    if search_volunteer:
-        types.append("'volunteering'")
-    if search_community_services:
-        types.append("'211'")
-    include_resource_types += ', '.join(types) + ') '
+    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
 
     query_results = execute(queries.get_cutoff_constrained_results_1.format(request.lat, request.lng) +
-                            result_IDs + queries.get_cutoff_constrained_results_2.format(request.lat, request.lng, request.distance))
+                            result_IDs + (queries.get_cutoff_constrained_results_2 + inclusion_filter + queries.get_cutoff_constrained_results_3).format(request.lat, request.lng, request.distance))
 
     total_results = len(query_results)
 
