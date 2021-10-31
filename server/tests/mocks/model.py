@@ -1,4 +1,4 @@
-def get_results(ignored, ignored2, size=10):
+def get_results(ignored, ignored2, size, one, two, three):
     return {'items':['get_results'] * size, 'totalResults': 50}
 
 

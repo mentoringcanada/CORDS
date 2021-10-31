@@ -1,4 +1,3 @@
-from numpy.lib.shape_base import apply_over_axes
 import controllers
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest

@@ -1,5 +1,4 @@
 # import 3rd party modules
-import requests
 from helper_classes.other_classes.cluster import Cluster
 from helper_classes.other_classes.clusterList import ClusterList
 from helper_classes.other_classes.taxonomyList import TaxonomyList
@@ -7,7 +6,6 @@ from fastapi import FastAPI
 from fastapi.requests import Request
 import os
 import sentry_sdk
-from typing import Optional
 
 
 # import local modules
