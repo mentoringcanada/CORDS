@@ -28,7 +28,7 @@ class Item(BaseModel):
                         item_id=db_row['resource_agency_number'],
                         lat=float(geocoordinates[0]),
                         lng=float(geocoordinates[1]),
-                        distance=db_row['distance'],
+                        distance=int(db_row['distance']*100)/100,
                         address=parse.unquote(db_row['physical_address'] or ''),
                         link=db_row['link'] or '',
                         phone=parse.unquote(db_row['phone'] or ''))
