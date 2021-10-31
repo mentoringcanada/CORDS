@@ -78,7 +78,7 @@ def assign_clusters_to_vectors(n_clusters=100, resource_type='employment'):
     # two_dim_dict = {}
     # for idx in range(len(centre_IDs)):
     #     two_dim_dict[centre_IDs[idx]] = two_dim_points[idx]
-    model.execute("DELETE FROM clusters WHERE resource_type = '{0}';".format(resource_type))
+    model.execute("DELETE FROM clusters WHERE cluster_id > {0};".format(max_cluster_starting_number))
     for data in clusters_data:
         model.execute("""INSERT INTO clusters (cluster_id, centre, two_dim, num_services) VALUES (
             {0}, array{1}, point({2}, {3}), {4}
