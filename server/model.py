@@ -108,17 +108,9 @@ def get_proximity_results(result_IDs: list, page: int, size: int, lat: float,
     result_IDs_string = ', '.join(result_IDs)
     limit = page*size
 
-    include_resource_types = " AND resource type in ("
-    types = []
-    if search_employment:
-        types.append("'employment'")
-    if search_volunteer:
-        types.append("'volunteering'")
-    if search_community_services:
-        types.append("'211'")
-    include_resource_types += ', '.join(types) + ') '
+    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
 
-    query_results = execute((queries.get_proximity_results + include_resource_types + queries.get_proximity_results_2).format(
+    query_results = execute((queries.get_proximity_results + inclusion_filter + queries.get_proximity_results_2).format(
         result_IDs_string, lat, lng, limit))
     total_results = len(query_results)
     query_results = query_results[limit-size:limit]
@@ -132,13 +124,17 @@ def get_proximity_results(result_IDs: list, page: int, size: int, lat: float,
     return {'items': items, 'totalResults': total_results}
 
 
-def get_results(result_IDs: list, page: int, size: int):
+def get_results(result_IDs: list, page: int, size: int, search_employment: bool = False, 
+            search_volunteer: bool = False, search_community_services: bool = True):
     if not page:
         page = 1
     else:
         page = max(page, 1)
     result_IDs_string = ', '.join(result_IDs)
-    query_results = execute(queries.get_results.format(
+
+    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
+
+    query_results = execute((queries.get_results + inclusion_filter + queries.get_results_2).format(
         result_IDs_string, result_IDs))
     total_results = len(query_results)
     limit = page*size

@@ -34,8 +34,9 @@ LIMIT {3};
 
 get_results = """SELECT *
 FROM resources
-WHERE resource_agency_number in ({0})
-ORDER BY array_position(ARRAY[{0}]::varchar[], resource_agency_number)
+WHERE resource_agency_number in ({0}) """
+
+get_results_2 = """ ORDER BY array_position(ARRAY[{0}]::varchar[], resource_agency_number)
 LIMIT 50;
 """
 
