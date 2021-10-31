@@ -22,6 +22,7 @@ class Item(BaseModel):
         geocoordinates = db_row['geocoordinates'][1:-1].split(',')
         if 'distance' in db_row:
             return Item(name=parse.unquote(db_row['public_name'] or ''),
+                        resource_type=db_row['resource_type'],
                         nom=db_row['nom_publique'] or '',
                         description=parse.unquote(db_row['resource_description'] or ''),
                         description_fr=parse.unquote(db_row['description_francais'] or ''),
@@ -34,6 +35,7 @@ class Item(BaseModel):
                         phone=parse.unquote(db_row['phone'] or ''))
         else:
             return Item(name=parse.unquote(db_row['public_name'] or ''),
+                        resource_type=db_row['resource_type'],
                         nom=db_row['nom_publique'] or '',
                         description=parse.unquote(db_row['resource_description'] or ''),
                         description_fr=parse.unquote(db_row['description_francais'] or ''),

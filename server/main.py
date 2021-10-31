@@ -11,6 +11,7 @@ import sentry_sdk
 # import local modules
 import controllers
 from helper_classes.other_classes.itemList import ItemList
+from helper_classes.other_classes.itemIdList import ItemIdList
 from helper_classes.other_classes.received import Received
 from helper_classes.other_classes.session import Session
 from helper_classes.other_classes.basketItem import BasketItem
@@ -20,7 +21,6 @@ from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 import startup
 from fastapi.responses import HTMLResponse
-from fastapi import Header
 from services import cluster_explorer
 from services import cluster_recommendations
 
@@ -150,6 +150,13 @@ def get_clusters_from_taxonomies(items: str = ''):
     results = controllers.get_recommended_clusters_from_taxonomies(
         items)
     return results
+
+
+@app.get("/recommend", response_model=ItemList)
+def get_clusters_from_taxonomies(itemList: ItemIdList):
+    results = controllers.get_recommended_clusters_from_items(
+        itemList.items)
+    return ItemList(itemList=[])
 
 
 @app.get("/clusters", response_model=ClusterList)

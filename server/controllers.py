@@ -152,6 +152,11 @@ def get_recommended_clusters_from_taxonomies(taxonomies):
     return output
 
 
+def get_recommended_clusters_from_items(items):
+    items = [model.clean_text(i) for i in items]
+    
+
+
 def save_feedback(data):
     item = [
         data.query,

@@ -83,7 +83,7 @@ def get_vector_from_ID(item_id):
 def clean_text(text):
     cleaned_text = ''
     ok_chars = set(
-        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-')
     for char in text:
         if char in ok_chars:
             cleaned_text += char
