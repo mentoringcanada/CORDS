@@ -1,5 +1,6 @@
 import {
     SelectStyles,
+    StyledDataFilter,
     StyledDistanceSelect,
     StyledFilterBar,
     StyledLocationSelect,
@@ -25,6 +26,9 @@ const FilterBar = () => {
         language,
         useOnLanguageChange,
         getFilterLabel,
+        dataSelectOptions,
+        handleDataSource,
+        getDataSources,
     } = LocationBarLogic();
     useLocationChange(locationValue);
     useSetState();
@@ -74,11 +78,22 @@ const FilterBar = () => {
                             value: search.filter,
                         }}
                         options={searchFilters}
-                        styles={SelectStyles(false)}
+                        styles={SelectStyles(true)}
                         onChange={handleFilterChange}
                         isSearchable={false}
                     />
                 </StyledServicesFilter>
+
+                <StyledDataFilter>
+                    <Select
+                        value={getDataSources()}
+                        options={dataSelectOptions}
+                        isMulti
+                        styles={SelectStyles(false)}
+                        onChange={handleDataSource}
+                        isSearchable={false}
+                    />
+                </StyledDataFilter>
             </StyledFilterBar>
         </>
     );

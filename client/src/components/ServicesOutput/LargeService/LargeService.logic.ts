@@ -31,6 +31,10 @@ const LargeServiceLogic = () => {
                 distance: Number(query.get("distance")),
                 page,
             };
+            setSearch({
+                ...search,
+                historyLog: search.historyLog.push(`${id}`),
+            });
             setSearch({ ...search, state: "searching" });
             // Gets service data on component startup
             getService(similarBody).then((res) => {
@@ -43,8 +47,12 @@ const LargeServiceLogic = () => {
                     } else {
                         setSimilar(res.items);
                     }
-                    setSearch({ ...search, state: "" });
+                    setSearch({
+                        ...search,
+                        state: "",
+                    });
                     setMaxPages(Math.ceil(res.totalResults / 10));
+                    console.log("no error");
                 })
                 .catch(() => {
                     setSearch({ ...search, state: "error", services: [] });

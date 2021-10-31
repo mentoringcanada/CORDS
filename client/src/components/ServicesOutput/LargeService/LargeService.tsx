@@ -1,5 +1,4 @@
 // Imports
-import { FaSave } from "react-icons/fa";
 import {
     StyledDescription,
     StyledInfo,
@@ -8,14 +7,12 @@ import {
 } from "./LargeService.styles";
 import LargeServiceLogic from "./LargeService.logic";
 import { StyledContainer } from "../../../styles/StyledContainer";
-import {
-    StyledLogo,
-    StyledSelectButton,
-} from "../SmallService/SmallService.styles";
+import { StyledLogo } from "../SmallService/SmallService.styles";
 import ServicesList from "../ServicesList/ServicesList";
 import { getDescription, getName } from "../../../helper/Services";
-import { addSelection } from "../../../helper/API";
-import Logo211 from "../../../media/logo-211.png";
+import Logo211 from "../../../media/211-logo.png";
+import LogoMentor from "../../../media/mentor-logo.jpg";
+import LogoMagnet from "../../../media/magnet-logo.png";
 import Map from "./Map/Map";
 
 // Component
@@ -80,20 +77,6 @@ const LargeService = () => {
                                                 {service.phone}
                                             </p>
                                         )}
-                                        <StyledSelectButton
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                addSelection(id).catch(() =>
-                                                    console.log(
-                                                        "Error adding selection"
-                                                    )
-                                                );
-                                            }}
-                                            data-testid="save-link"
-                                            className="large"
-                                        >
-                                            <FaSave />
-                                        </StyledSelectButton>
                                         <StyledDescription
                                             className="info-desc"
                                             dangerouslySetInnerHTML={{
@@ -110,7 +93,23 @@ const LargeService = () => {
                                         target="_blank"
                                         rel="noreferrer"
                                     >
-                                        <img src={Logo211} alt="Company logo" />
+                                        {service.resource_type === "211" && (
+                                            <img src={Logo211} alt="211 logo" />
+                                        )}
+                                        {service.resource_type ===
+                                            "volunteer" && (
+                                            <img
+                                                src={LogoMentor}
+                                                alt="Mentor logo"
+                                            />
+                                        )}
+                                        {service.resource_type ===
+                                            "employment" && (
+                                            <img
+                                                src={LogoMagnet}
+                                                alt="Magnet logo"
+                                            />
+                                        )}
                                     </StyledLogo>
                                 </div>
                                 <StyledMapsContainer>
@@ -129,11 +128,6 @@ const LargeService = () => {
                         type={"similar"}
                         services={similar}
                         maxPages={maxPages}
-                        handleSelect={(id: string) =>
-                            addSelection(id).catch(() =>
-                                console.log("Error adding selection")
-                            )
-                        }
                     />
                 </>
             )}

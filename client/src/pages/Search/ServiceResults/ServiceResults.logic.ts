@@ -29,7 +29,7 @@ const ServiceResultsLogic = () => {
         useEffect(() => {
             setSearch({ ...search, state: "searching" });
 
-            getGeoSearchResults(params)
+            getGeoSearchResults(params, search.dataSource)
                 .then((res) => {
                     if (Array.isArray(res) && !res.length) {
                         setSearch({

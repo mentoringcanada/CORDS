@@ -1,33 +1,30 @@
-import { FaMinus, FaSave } from "react-icons/fa";
 import Feedback from "./Feedback/Feedback";
 import { StyledInfo } from "../LargeService/LargeService.styles";
-import {
-    StyledSmallService,
-    StyledSelectButton,
-    StyledLogo,
-} from "./SmallService.styles";
+import { StyledSmallService, StyledLogo } from "./SmallService.styles";
 import { useHistory } from "react-router-dom";
 import { useContext } from "react";
-import Logo211 from "../../../media/logo-211.png";
+import Logo211 from "../../../media/211-logo.png";
+import LogoMentor from "../../../media/mentor-logo.jpg";
+import LogoMagnet from "../../../media/magnet-logo.png";
 import SearchContext from "../../../pages/Search/SearchContext";
 import LanguageContext from "../../../helper/LanguageContext";
 
 interface Props {
-    handleSelect: (id: string) => void;
     id: string;
     name: string;
     link: string;
     description: string;
+    resource_type: string;
     distance: number;
     type: string;
 }
 
 // Component
 const SmallService = ({
-    handleSelect,
     id,
     name,
     description,
+    resource_type,
     link,
     distance,
     type,
@@ -46,15 +43,6 @@ const SmallService = ({
             className={type}
         >
             <h3 className="service-title">{name}</h3>
-            <StyledSelectButton
-                onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelect(id);
-                }}
-                data-testid="save-link"
-            >
-                {type === "selections" ? <FaMinus /> : <FaSave />}
-            </StyledSelectButton>
             <StyledInfo>
                 {distance && (
                     <p className="info">
@@ -65,7 +53,15 @@ const SmallService = ({
             </StyledInfo>
             <div className="lower">
                 <StyledLogo href={link} target="_blank" rel="noreferrer">
-                    <img src={Logo211} alt="Company logo" />
+                    {resource_type === "211" && (
+                        <img src={Logo211} alt="211 logo" />
+                    )}
+                    {resource_type === "volunteer" && (
+                        <img src={LogoMentor} alt="Mentor logo" />
+                    )}
+                    {resource_type === "volunteer" && (
+                        <img src={LogoMagnet} alt="Magnet logo" />
+                    )}
                 </StyledLogo>
                 {/* <StyledDescription
                 dangerouslySetInnerHTML={{ __html: description }}

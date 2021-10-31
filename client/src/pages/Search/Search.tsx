@@ -39,7 +39,7 @@ const Search = () => {
                             className="right"
                             exact
                         >
-                            Selections
+                            Selected for you
                         </NavLink>
                     </StyledTabs>
                     <SearchState />

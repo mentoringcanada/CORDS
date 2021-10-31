@@ -4,7 +4,7 @@ import { getSearchResults } from "../../helper/API";
 import { GET_DEMO_CONTENT } from "../../helper/CMS";
 import LanguageContext from "../../helper/LanguageContext";
 import { useQueryParams } from "../../helper/Services";
-import { Search, SearchBody, Service } from "../../types";
+import { SearchBody, Service } from "../../types";
 
 const DemoLogic = () => {
     const params = useQueryParams();
@@ -15,7 +15,7 @@ const DemoLogic = () => {
     const [queryValue, setQueryValue] = useState("");
     const [services, setServices] = useState<Service[]>([]);
     const [maxPages, setMaxPages] = useState(2);
-    const [search, setSearch] = useState<Search>({
+    const [search, setSearch] = useState<any>({
         query: query,
         distance: 50,
         filter: "best",

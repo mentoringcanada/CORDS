@@ -20,7 +20,7 @@ const SearchBar = () => {
             onSubmit={(e) => {
                 e.preventDefault();
                 history.push(
-                    `/search/results?ln=${language}&query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&page=1`
+                    `/search/results?ln=${language}&query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&source=${search.dataSource}&page=1`
                 );
             }}
         >

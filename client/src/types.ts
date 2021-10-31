@@ -10,6 +10,7 @@ export interface Service {
     description_fr: string;
     distance: number;
     phone: string;
+    resource_type: string;
 }
 
 export interface Location {
@@ -43,6 +44,8 @@ export interface Search {
     filter: string;
     state: string;
     location: Location;
+    dataSource: any;
+    historyLog: any;
 }
 
 export interface Demos {

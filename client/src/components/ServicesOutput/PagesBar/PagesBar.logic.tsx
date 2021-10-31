@@ -12,7 +12,7 @@ const PagesBarLogic = (maxPages: number) => {
             pathname: history.location.pathname,
             search: `${history.location.search.substring(
                 0,
-                history.location.search.length - 1
+                history.location.search.length - page.toString().length
             )}${x}`,
         });
     };
@@ -31,16 +31,18 @@ const PagesBarLogic = (maxPages: number) => {
 
     // Generates Boxes
     const boxes: JSX.Element[] = [];
-    for (let i = 1; i <= maxPages; i++) {
-        boxes.push(
-            <StyledPageBox
-                onClick={() => handleSelectPage(i)}
-                className={page === i ? "current-page" : ""}
-                key={i}
-            >
-                {i}
-            </StyledPageBox>
-        );
+    for (let i = -2; i <= 2; i++) {
+        if (page + i > 0 && page + i < maxPages + 1) {
+            boxes.push(
+                <StyledPageBox
+                    onClick={() => handleSelectPage(page + i)}
+                    className={page === page + i ? "current-page" : ""}
+                    key={page + i}
+                >
+                    {page + i}
+                </StyledPageBox>
+            );
+        }
     }
 
     return { boxes, handleMutatePage };

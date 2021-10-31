@@ -18,6 +18,11 @@ const distanceSelectOptions = [
     { value: 50, label: "50km" },
     { value: 100, label: "100km" },
 ];
+const dataSelectOptions = [
+    { value: "211", label: "211" },
+    { value: "Magnet", label: "Magnet" },
+    { value: "Mentor", label: "Mentor" },
+];
 
 const sortSelectOptions = [
     { value: "best", label: "Best Match" },
@@ -33,6 +38,7 @@ const LocationBarLogic = () => {
     const { search, setSearch } = useContext(SearchContext);
     const [locationValue, setLocationValue] = useState<any>();
     const [sortValue, setSortValue] = useState<any>();
+    const [dataSource, setDataSource] = useState<any>();
 
     const setValueLocation = async (location: Location) => {
         const res = await geocodeByLatLng(location);
@@ -98,6 +104,33 @@ const LocationBarLogic = () => {
         });
     };
 
+    const handleDataSource = (dataSource: any) => {
+        setDataSource(dataSource);
+        let data = [];
+        for (let i of dataSource) {
+            data.push(i.value);
+        }
+        setSearch({
+            ...search,
+            dataSource: data,
+        });
+    };
+
+    const getDataSources = () => {
+        let data = [];
+        if (search.dataSource) {
+            for (let i of search.dataSource) {
+                data.push({
+                    label: i,
+                    value: i,
+                });
+            }
+        } else {
+            return { label: "211", value: "211" };
+        }
+        return data;
+    };
+
     const useOnLanguageChange = (language: string) => {
         useEffect(() => {
             language === "fr-CA"
@@ -152,6 +185,9 @@ const LocationBarLogic = () => {
         sortValue,
         changeToSelections,
         getFilterLabel,
+        dataSelectOptions,
+        getDataSources,
+        handleDataSource,
     };
 };
 

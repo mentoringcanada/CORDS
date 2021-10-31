@@ -12,7 +12,6 @@ import ServicesList from "../../components/ServicesOutput/ServicesList/ServicesL
 import { Route, Switch, useHistory } from "react-router-dom";
 import SearchContext from "../Search/SearchContext";
 import SearchState from "../Search/SearchState/SearchState";
-import { addSelection } from "../../helper/API";
 import { MdEdit } from "react-icons/md";
 
 interface Props {
@@ -133,11 +132,6 @@ const Demo = ({ description, title }: Props) => {
                         type="demo"
                         services={services}
                         maxPages={maxPages}
-                        handleSelect={(id: string) =>
-                            addSelection(id).catch(() =>
-                                console.log("Error adding selection")
-                            )
-                        }
                     />
                 </StyledDemo>
             </SearchContext.Provider>

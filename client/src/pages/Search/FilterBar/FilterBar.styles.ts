@@ -53,3 +53,8 @@ export const StyledServicesFilter = styled.div`
     min-width: 5rem;
     width: 130px;
 `;
+
+export const StyledDataFilter = styled.div`
+    margin-top: 0.4rem;
+    min-width: 10rem;
+`;

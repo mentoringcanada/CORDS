@@ -2,15 +2,10 @@ import ServicesList from "../../../components/ServicesOutput/ServicesList/Servic
 import SelectionsLogic from "./Selections.logic";
 
 const Selections = () => {
-    const { useOnStartup, getServices, handleSelect } = SelectionsLogic();
+    const { useOnStartup, getServices } = SelectionsLogic();
     useOnStartup();
     return (
-        <ServicesList
-            services={getServices()}
-            type="selections"
-            maxPages={1}
-            handleSelect={handleSelect}
-        />
+        <ServicesList services={getServices()} type="selections" maxPages={1} />
     );
 };
 

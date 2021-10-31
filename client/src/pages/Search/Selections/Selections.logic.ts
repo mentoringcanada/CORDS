@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { getSelections, removeSelection } from "../../../helper/API";
+import { getSelections } from "../../../helper/API";
 import { Service } from "../../../types";
 import SearchContext from "../SearchContext";
 
@@ -17,21 +17,21 @@ const SelectionsLogic = () => {
         }
     };
 
-    const handleSelect = async (id: string) => {
-        removeSelection(id)
-            .then(() => {
-                const newServices = services.filter((a) => a.item_id !== id);
-                setServices(newServices);
-            })
-            .catch(() => {
-                console.log("remove error");
-                setSearch({ ...search, state: "error" });
-            });
-    };
+    // const handleSelect = async (id: string) => {
+    //     removeSelection(id)
+    //         .then(() => {
+    //             const newServices = services.filter((a) => a.item_id !== id);
+    //             setServices(newServices);
+    //         })
+    //         .catch(() => {
+    //             console.log("remove error");
+    //             setSearch({ ...search, state: "error" });
+    //         });
+    // };
 
     const useOnStartup = () => {
         useEffect(() => {
-            getSelections()
+            getSelections(search, search.dataSource)
                 .then((res) => {
                     setServices(res.items);
                 })
@@ -44,6 +44,6 @@ const SelectionsLogic = () => {
         }, []);
     };
 
-    return { services, useOnStartup, getServices, handleSelect };
+    return { services, useOnStartup, getServices };
 };
 export default SelectionsLogic;

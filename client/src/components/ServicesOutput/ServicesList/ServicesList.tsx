@@ -8,10 +8,9 @@ interface Props {
     maxPages: number;
     services: Service[];
     type: string;
-    handleSelect: (id: string) => void;
 }
 
-const ServicesList = ({ type, maxPages, services, handleSelect }: Props) => {
+const ServicesList = ({ type, maxPages, services }: Props) => {
     const { language } = ServicesListLogic();
 
     return (
@@ -20,13 +19,13 @@ const ServicesList = ({ type, maxPages, services, handleSelect }: Props) => {
                 <SmallService
                     key={service.item_id}
                     id={service.item_id}
+                    resource_type={service.resource_type}
                     name={getName(service, language)}
                     link={service.link}
                     description={getDescription(service, language)}
                     distance={service.distance}
                     data-testid="small-service"
                     type={type}
-                    handleSelect={handleSelect}
                 />
             ))}
             {services.length > 0 && maxPages !== 1 && (

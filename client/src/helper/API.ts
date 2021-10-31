@@ -8,17 +8,15 @@ import { SearchBody, SimilarBody, FeedbackBody, GeoSearchBody } from "../types";
 export const getSimilar = async (similarBody: SimilarBody) => {
     try {
         const res = await axios.post(
-            `/similar`,
+            `/recommend`,
             {
-                item_id: similarBody.resourceId,
-                lat: similarBody.lat
-                    ? Number(similarBody.lat.toFixed(4))
-                    : 43.6532,
-                lng: similarBody.lng
-                    ? Number(similarBody.lng.toFixed(4))
-                    : -79.3832,
+                items: [`${similarBody.resourceId}`],
+                lat: similarBody.lat,
+                lng: similarBody.lng,
                 distance: similarBody.distance,
-                page: similarBody.page,
+                community_services: true,
+                employment: false,
+                volunteer: false,
             },
             {
                 headers: {
@@ -63,7 +61,10 @@ export const getSearchResults = async (searchBody: SearchBody) => {
         throw err;
     }
 };
-export const getGeoSearchResults = async (geoSearch: GeoSearchBody) => {
+export const getGeoSearchResults = async (
+    geoSearch: GeoSearchBody,
+    dataSource: any
+) => {
     try {
         const res = await axios.post(
             "/geosearch",
@@ -75,6 +76,9 @@ export const getGeoSearchResults = async (geoSearch: GeoSearchBody) => {
                     : -79.3832,
                 distance: geoSearch.distance,
                 page: geoSearch.page,
+                community_services: dataSource.includes("211") ? true : false,
+                employment: dataSource.includes("Magnet") ? true : false,
+                volunteer: dataSource.includes("Mentor") ? true : false,
             },
             {
                 headers: {
@@ -91,7 +95,7 @@ export const getGeoSearchResults = async (geoSearch: GeoSearchBody) => {
 
 export const sendFeedback = async (feedbackBody: FeedbackBody) => {
     try {
-        const res = await axios.post("/feeback", {
+        const res = await axios.post("/feedback", {
             query: feedbackBody.query,
             item_id: feedbackBody.item_id,
             sortOrder: feedbackBody.sortOrder,
@@ -182,59 +186,61 @@ export const setSession = async () => {
 // SELECTIONS - TODO //
 
 //Adds a selection
-export const addSelection = async (id: string) => {
-    try {
-        let session = localStorage.getItem("session_token");
-        if (session) {
-            const res = await axios.post(
-                "/add_item",
-                { item_id: id },
-                {
-                    headers: {
-                        session_token: session,
-                    },
-                }
-            );
-            const data = await res.data;
-            return data.items;
-        }
-    } catch (err) {
-        throw err;
-    }
-};
-export const removeSelection = async (id: string) => {
-    try {
-        let session = localStorage.getItem("session_token");
-        if (session) {
-            const res = await axios.post(
-                "/remove_item",
-                { item_id: id },
-                {
-                    headers: {
-                        session_token: session,
-                    },
-                }
-            );
-            const data = await res.data;
-            return data.items;
-        }
-    } catch (err) {
-        throw err;
-    }
-};
-export const getSelections = async () => {
+// export const addSelection = async (id: string) => {
+//     try {
+//         let session = localStorage.getItem("session_token");
+//         if (session) {
+//             const res = await axios.post(
+//                 "/add_item",
+//                 { item_id: id },
+//                 {
+//                     headers: {
+//                         session_token: session,
+//                     },
+//                 }
+//             );
+//             const data = await res.data;
+//             return data.items;
+//         }
+//     } catch (err) {
+//         throw err;
+//     }
+// };
+// export const removeSelection = async (id: string) => {
+//     try {
+//         let session = localStorage.getItem("session_token");
+//         if (session) {
+//             const res = await axios.post(
+//                 "/remove_item",
+//                 { item_id: id },
+//                 {
+//                     headers: {
+//                         session_token: session,
+//                     },
+//                 }
+//             );
+//             const data = await res.data;
+//             return data.items;
+//         }
+//     } catch (err) {
+//         throw err;
+//     }
+// };
+export const getSelections = async (search: any, dataSource: any) => {
     //Get selections with session id
+    const payload = {
+        items: search.historyLog,
+        lat: search.location.lat,
+        lng: search.location.lng,
+        distance: search.distance,
+        community_services: dataSource.includes("211") ? true : false,
+        employment: dataSource.includes("Magnet") ? true : false,
+        volunteer: dataSource.includes("Mentor") ? true : false,
+    };
     try {
-        let session = localStorage.getItem("session_token");
-        if (session) {
-            const res = await axios.get("/items", {
-                headers: {
-                    session_token: session,
-                },
-            });
-            const data = await res.data;
-            return data;
-        }
+        const res = await axios.post("/recommend", payload);
+        const data = await res.data;
+        return data;
     } catch (err) {
         throw err;
     }
