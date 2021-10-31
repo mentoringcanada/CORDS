@@ -30,7 +30,7 @@ class Item(BaseModel):
                         lng=float(geocoordinates[1]),
                         distance=db_row['distance'],
                         address=parse.unquote(db_row['physical_address'] or ''),
-                        link=db_row['link'],
+                        link=db_row['link'] or '',
                         phone=parse.unquote(db_row['phone'] or ''))
         else:
             return Item(name=parse.unquote(db_row['public_name'] or ''),
@@ -41,5 +41,5 @@ class Item(BaseModel):
                         lat=float(geocoordinates[0]),
                         lng=float(geocoordinates[1]),
                         address=parse.unquote(db_row['physical_address'] or ''),
-                        link=db_row['link'],
+                        link=db_row['link'] or '',
                         phone=parse.unquote(db_row['phone'] or ''))
