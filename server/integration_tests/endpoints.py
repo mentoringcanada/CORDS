@@ -1,5 +1,5 @@
 "These tests are not tests yet but they print the outputs and that's nice."
-
+import json
 import requests
 
 
@@ -13,9 +13,9 @@ sample_element = None
 
 def test_search():
     response = requests.post(SERVER + '/search', json={
-        'query': 'i need clothes for an interview',
-        'employment': True,
-        'community_services': False
+        'query': 'COMMUNICATIONS PRACTICUM PLACEMENT (MEDIA AND SOCIAL MEDIA) - City of Vaughan',
+        'employment': False,
+        'community_services': True
     })
     data = response.json()
     assert len(data['items']) == 10
@@ -130,7 +130,7 @@ def test_recommend():
         'lng': -79.5,
         'distance': 5000
     })
-    print(response.json())
+    assert len(response.json()['items']) == 50
 
 
 

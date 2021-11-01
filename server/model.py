@@ -259,12 +259,11 @@ def cluster_filtering_items(items, lat, lng, distance, community_services, emplo
         if distance > 500:
             distance = 500
         distance_filter = queries.distance.format(lat, lng)
-        print(queries.cluster_filtering_1 + ' , ' + distance_filter + " as distance " +
-              queries.cluster_filtering_2.format(items) + distance_filter + ' < ' + str(distance) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
         results = execute(queries.cluster_filtering_1 + ' , ' + distance_filter + " as distance " +
                           queries.cluster_filtering_2.format(items) + distance_filter + ' < ' + str(distance) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
     else:
         results = execute(queries.cluster_filtering_1 +
                           queries.cluster_filtering_2.format(items) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
 
+    results = [Item.from_db_row(r) for r in results]
     return results
