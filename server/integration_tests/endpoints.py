@@ -125,7 +125,10 @@ def test_recommend():
     response = requests.post(SERVER + '/recommend', json= {
         'items': [item_id],
         'community_services': False,
-        'employment': True
+        'employment': True,
+        'lat': 43.8,
+        'lng': -79.5,
+        'distance': 5000
     })
     print(response.json())
 
