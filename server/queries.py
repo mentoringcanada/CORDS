@@ -119,9 +119,9 @@ assign_cluster_id_to_referrals = """UPDATE
         referrals as rd
     SET
         cluster_ID = e.cluster_id
-        FROM (VALUES %s) AS e(cluster_id, service_id) 
+        FROM (VALUES %s) AS e(cluster_id, services) 
     WHERE
-        service_id = e.service_id;
+        service_id = e.services;
     """
 
 create_recommendations_table = """CREATE TABLE IF NOT EXISTS rec_data (
