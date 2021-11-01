@@ -1,4 +1,5 @@
 from helper_classes.other_classes.itemList import ItemList
+from helper_classes.request_classes.itemIdList import ItemIdList
 from helper_classes.other_classes.cluster import Cluster
 from helper_classes.other_classes.clusterList import ClusterList
 from helper_classes.other_classes.appState import AppState
@@ -152,9 +153,20 @@ def get_recommended_clusters_from_taxonomies(taxonomies):
     return output
 
 
-def get_recommended_clusters_from_items(items):
-    items = [model.clean_text(i) for i in items]
-    
+def get_recommended_clusters_from_items(itemIdList: ItemIdList):
+    items = [model.clean_text(i) for i in itemIdList.items]
+
+    results = model.cluster_filtering_items(
+        items,
+        itemIdList.lat,
+        itemIdList.lng,
+        itemIdList.distance,
+        itemIdList.community_services,
+        itemIdList.employment,
+        itemIdList.volunteer
+    )
+
+    return results
 
 
 def save_feedback(data):

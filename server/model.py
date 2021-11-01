@@ -245,3 +245,26 @@ def get_items(session):
     session = sanitize_basket(session)
     results = execute(queries.get_items_by_session, (session,))
     return [Item.from_db_row(r) for r in results]
+
+
+def cluster_filtering_items(items, lat, lng, distance, community_services, employment, volunteer):
+    inclusion_filter = converters.build_inclusion_filter(
+        employment, volunteer, community_services)
+
+    if lat is not None and lng is not None:
+        if distance is None:
+            distance = 50
+        if distance < 3:
+            distance = 3
+        if distance > 500:
+            distance = 500
+        distance_filter = queries.distance.format(lat, lng)
+        print(queries.cluster_filtering_1 + ' , ' + distance_filter + " as distance " +
+              queries.cluster_filtering_2.format(items) + distance_filter + ' < ' + str(distance) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
+        results = execute(queries.cluster_filtering_1 + ' , ' + distance_filter + " as distance " +
+                          queries.cluster_filtering_2.format(items) + distance_filter + ' < ' + str(distance) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
+    else:
+        results = execute(queries.cluster_filtering_1 +
+                          queries.cluster_filtering_2.format(items) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
+
+    return results

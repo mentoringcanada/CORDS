@@ -152,11 +152,11 @@ def get_clusters_from_taxonomies(items: str = ''):
     return results
 
 
-@app.get("/recommend", response_model=ItemList)
-def get_clusters_from_taxonomies(itemList: ItemIdList):
+@app.post("/recommend", response_model=ItemList)
+def get_clusters_from_taxonomies(itemIdList: ItemIdList):
     results = controllers.get_recommended_clusters_from_items(
-        itemList.items)
-    return ItemList(itemList=[])
+        itemIdList)
+    return ItemList(itemList=results)
 
 
 @app.get("/clusters", response_model=ClusterList)

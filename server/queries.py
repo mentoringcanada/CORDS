@@ -213,3 +213,24 @@ remove_item = """DELETE FROM baskets WHERE item_id = %s AND session = %s;"""
 
 get_items_by_session = """SELECT * FROM resources WHERE resource_agency_number
 IN (SELECT item_id FROM baskets WHERE session = %s);"""
+
+cluster_filtering_1 = """SELECT resources.* """
+
+distance = """ 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
++cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 """
+
+cluster_filtering_2 = """ FROM resources
+INNER JOIN
+(SELECT SUM(start_referrals.points) as cluster_points, r3.cluster_id
+FROM referrals r3
+INNER JOIN
+(SELECT COUNT(*) as points, r2.referral_id FROM referrals r2 WHERE r2.cluster_id IN
+(SELECT distinct cluster_id FROM resources r1 WHERE r1.resource_agency_number = ANY(%s)) GROUP BY r2.referral_id) start_referrals
+ON r3.referral_id = start_referrals.referral_id GROUP BY r3.cluster_id) clusters
+ON resources.cluster_id = clusters.cluster_id
+WHERE """ 
+
+cluster_filtering_3 = """ ORDER BY asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
++cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))
+LIMIT 50;
+"""
