@@ -1,6 +1,5 @@
 "These tests are not tests yet but they print the outputs and that's nice."
 
-import re
 import requests
 
 
@@ -14,7 +13,9 @@ sample_element = None
 
 def test_search():
     response = requests.post(SERVER + '/search', json={
-        'query': 'i need clothes for an interview'
+        'query': 'i need clothes for an interview',
+        'employment': True,
+        'community_services': False
     })
     data = response.json()
     assert len(data['items']) == 10
@@ -119,6 +120,17 @@ def test_add_remove_basket():
     assert response.json()['status']
 
 
+def test_recommend():
+    item_id = sample_element
+    response = requests.post(SERVER + '/recommend', json= {
+        'items': [item_id],
+        'community_services': False,
+        'employment': True
+    })
+    print(response.json())
+
+
+
 test_search()
 test_similar()
 test_geo_similar()
@@ -126,4 +138,5 @@ test_geo_search()
 test_geo_search_pages()
 test_geo_similar_search_pages()
 test_add_remove_basket()
+test_recommend()
 print('no errors!')
