@@ -87,6 +87,9 @@ GROUP BY cluster_id, taxonomy_code) pair_counts
 ON tax_counts.taxonomy_code = pair_counts.taxonomy_code
 ORDER BY 3 ASC;"""
 
+get_cluster_per_service = """SELECT cluster_id, resource_agency_number
+FROM resources;"""
+
 get_clusters_data = """SELECT *,
 (two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
 (two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
@@ -110,6 +113,15 @@ assign_cluster_id_to_taxonomy = """UPDATE
         FROM (VALUES %s) AS e(cluster_id, tax_code) 
     WHERE
         taxonomy_code = e.tax_code;
+    """
+
+assign_cluster_id_to_referrals = """UPDATE
+        referrals as rd
+    SET
+        cluster_ID = e.cluster_id
+        FROM (VALUES %s) AS e(cluster_id, service_id) 
+    WHERE
+        service_id = e.service_id;
     """
 
 create_recommendations_table = """CREATE TABLE IF NOT EXISTS rec_data (

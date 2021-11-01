@@ -40,6 +40,13 @@ def assign_clusters_to_taxonomies():
     model.execute_many(queries.assign_cluster_id_to_taxonomy, data)
 
 
+def assign_clusters_to_referrals():
+    pairs = model.execute(queries.get_likelihood_of_vector_to_cluster)
+    # pairs = model.execute(queries.get_taxonomies_clusters)
+    data = [[p['cluster_id'], p['resource_agency_number']] for p in pairs]
+    model.execute_many(queries.assign_cluster_id_to_referrals, data)
+
+
 def assign_clusters_to_vectors(n_clusters=100, resource_type='employment'):
     # pull all vectors and IDs
     # cluster so that everything has a non-zero label
@@ -124,5 +131,5 @@ def recluster(n_clusters=100):
     for t in types:
         assign_clusters_to_vectors(n_clusters, t)
     
-    # assign_clusters_to_taxonomies()
+    assign_clusters_to_referrals()
     # assign_summaries()
