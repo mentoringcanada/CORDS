@@ -166,7 +166,10 @@ def get_recommended_clusters_from_items(itemIdList: ItemIdList):
         itemIdList.volunteer
     )
 
-    return results
+    cluster_ids = list(set([c['cluster_id'] for c in results]))
+    summaries = model.get_summaries_for_clusters(cluster_ids)
+
+    return results, summaries
 
 
 def save_feedback(data):

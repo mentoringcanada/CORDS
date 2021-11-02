@@ -246,3 +246,6 @@ cluster_filtering_3 = """ ORDER BY asin(sqrt(pow(sin(radians({0}-geocoordinates[
 +cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))
 LIMIT 50;
 """
+
+get_summaries_for_clusters = """SELECT summary FROM clusters WHERE cluster_id = ANY(array{0}::int[]);
+"""
