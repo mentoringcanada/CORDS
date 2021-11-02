@@ -3,9 +3,9 @@ import json
 import requests
 
 
-SERVER = 'http://localhost:8000'
+# SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
-# SERVER = 'https://server.cordsconnect.ca'
+SERVER = 'https://server.cordsconnect.ca'
 
 
 # sample_element = None
@@ -146,7 +146,7 @@ def test_recommend(items = ['70089785']):
     return json.dumps(response.json())
 
 
-print(test_geo_search("Data analyst"))
+# print(test_geo_search("Data analyst"))
 # print(test_geo_similar("626084835"))
 
 # items = ['626084835', '626071976']
@@ -160,3 +160,19 @@ print(test_geo_search("Data analyst"))
 # print(test_add_remove_basket())
 
 # print('no errors!')
+
+
+(test_geo_search("Data analyst"))
+(test_geo_similar("626084835"))
+
+items = ['626084835', '626071976']
+# (test_recommend(items))
+
+
+(test_search('health care'))
+(test_similar())
+(test_geo_search_pages())
+(test_geo_similar_search_pages())
+(test_add_remove_basket())
+
+print('no errors!')
