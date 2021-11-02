@@ -156,7 +156,9 @@ def get_clusters_from_taxonomies(items: str = ''):
 def get_clusters_from_items(itemIdList: ItemIdList):
     results = controllers.get_recommended_clusters_from_items(
         itemIdList)
-    return ItemList(items=results)
+    return ItemList(
+        items=results,
+        suggestedSearches=["one two three", "four five six", "seven eight nine", "10 11 12", "13 14 15"])
 
 
 @app.get("/clusters", response_model=ClusterList)

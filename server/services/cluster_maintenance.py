@@ -133,3 +133,4 @@ def recluster(n_clusters=100):
 
 
     assign_clusters_to_referrals()
+    assign_summaries()

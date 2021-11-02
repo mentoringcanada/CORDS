@@ -163,6 +163,7 @@ def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, 
 
     query_results = execute(queries.get_cutoff_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + (queries.get_cutoff_constrained_results_2 + inclusion_filter + queries.get_cutoff_constrained_results_3).format(request.lat, request.lng, request.distance))
+    print('get_cutoff_constrained_results query_results length', len(query_results))
 
     total_results = len(query_results)
 
@@ -193,6 +194,9 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
 
     inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
 
+    print(queries.get_constrained_results_1.format(request.lat, request.lng) +
+                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs) +
+                            inclusion_filter + queries.get_constrained_results_3.format(result_IDs))
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs) +
                             inclusion_filter + queries.get_constrained_results_3.format(result_IDs))

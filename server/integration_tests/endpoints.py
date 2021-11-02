@@ -3,15 +3,15 @@ import json
 import requests
 
 
-# SERVER = 'http://localhost:8000'
+SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
-SERVER = 'https://server.cordsconnect.ca'
+# SERVER = 'https://server.cordsconnect.ca'
 
 
 # sample_element = None
 
 
-def test_search(search_term = 'health care'):
+def test_search(search_term='health care'):
     response = requests.post(SERVER + '/search', json={
         'query': search_term,
         'employment': True,
@@ -33,14 +33,16 @@ def test_similar(item_id='71087870'):
     return json.dumps(data)
 
 
-def test_geo_similar(item_id = '74599591'):
+def test_geo_similar(item_id='73443253'):
     response = requests.post(SERVER + '/similar', json={
-        'item_id': item_id,
-        'lat': 43.743388,
-        'lng': -80.71,
-        'distance': 150,
-        'employment': True,
-        'community_services': True
+        "item_id": item_id,
+        "lat": 43.6603315,
+        "lng": -79.4552396,
+        "distance": 100,
+        "size": 1,
+        "community_services": False,
+        "employment": True,
+        "volunteer": False
     })
     data = response.json()
     assert len(data['items']) <= 10
@@ -48,14 +50,14 @@ def test_geo_similar(item_id = '74599591'):
     return json.dumps(data)
 
 
-def test_geo_search(search_term = 'data analyst'):
+def test_geo_search(search_term='data analyst'):
     response = requests.post(SERVER + '/geosearch', json={
         'query': search_term,
         'lat': 44.5017,
         'lng': -79.5673,
         'distance': 500,
-        'employment': False,
-        'community_services': True
+        'employment': True,
+        'community_services': False
     })
     data = response.json()
     assert len(data['items']) == 10
@@ -133,8 +135,8 @@ def test_add_remove_basket():
     return json.dumps(response.json())
 
 
-def test_recommend(items = ['70089785']):
-    response = requests.post(SERVER + '/recommend', json= {
+def test_recommend(items=['70089785']):
+    response = requests.post(SERVER + '/recommend', json={
         'items': items,
         'community_services': True,
         'employment': True,
@@ -147,7 +149,7 @@ def test_recommend(items = ['70089785']):
 
 
 # print(test_geo_search("Data analyst"))
-# print(test_geo_similar("626084835"))
+print(test_geo_similar())
 
 # items = ['626084835', '626071976']
 # print(test_recommend(items))
@@ -162,17 +164,17 @@ def test_recommend(items = ['70089785']):
 # print('no errors!')
 
 
-(test_geo_search("Data analyst"))
-(test_geo_similar("626084835"))
+# test_geo_search("Data analyst")
+# test_geo_similar("626084835")
 
-items = ['626084835', '626071976']
-# (test_recommend(items))
+# items = ['626084835', '626071976']
+# test_recommend(items)
 
 
-(test_search('health care'))
-(test_similar())
-(test_geo_search_pages())
-(test_geo_similar_search_pages())
-(test_add_remove_basket())
+# test_search('health care')
+# test_similar()
+# test_geo_search_pages()
+# test_geo_similar_search_pages()
+# test_add_remove_basket()
 
-print('no errors!')
+# print('no errors!')
