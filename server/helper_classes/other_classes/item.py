@@ -35,7 +35,7 @@ class Item(BaseModel):
                         address=parse.unquote(db_row['physical_address'] or ''),
                         link=db_row['link'] or '',
                         phone=parse.unquote(db_row['phone'] or ''),
-                        clusterId=db_row['cluter_id'])
+                        clusterId=db_row['cluster_id'])
         else:
             return Item(name=parse.unquote(db_row['public_name'] or ''),
                         resource_type=db_row['resource_type'],
@@ -48,4 +48,4 @@ class Item(BaseModel):
                         address=parse.unquote(db_row['physical_address'] or ''),
                         link=db_row['link'] or '',
                         phone=parse.unquote(db_row['phone'] or ''),
-                        clusterId=db_row['cluter_id'])
+                        clusterId=db_row['cluster_id'])
