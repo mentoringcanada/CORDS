@@ -17,6 +17,7 @@ class Item(BaseModel):
     nom: Optional[str]
     description_fr: Optional[str]
     sortOrder: Optional[int]
+    clusterId: Optional[int]
 
     @classmethod
     def from_db_row(cls, db_row):
@@ -33,7 +34,8 @@ class Item(BaseModel):
                         distance=int(db_row['distance']*100)/100,
                         address=parse.unquote(db_row['physical_address'] or ''),
                         link=db_row['link'] or '',
-                        phone=parse.unquote(db_row['phone'] or ''))
+                        phone=parse.unquote(db_row['phone'] or ''),
+                        clusterId=db_row['cluter_id'])
         else:
             return Item(name=parse.unquote(db_row['public_name'] or ''),
                         resource_type=db_row['resource_type'],
@@ -45,4 +47,5 @@ class Item(BaseModel):
                         lng=float(geocoordinates[1]),
                         address=parse.unquote(db_row['physical_address'] or ''),
                         link=db_row['link'] or '',
-                        phone=parse.unquote(db_row['phone'] or ''))
+                        phone=parse.unquote(db_row['phone'] or ''),
+                        clusterId=db_row['cluter_id'])
