@@ -238,7 +238,7 @@ FROM referrals r3
 INNER JOIN
 (SELECT COUNT(*) as points, r2.referral_id FROM referrals r2 WHERE r2.cluster_id IN
 (SELECT distinct cluster_id FROM resources r1 WHERE r1.resource_agency_number = ANY(array{0}::varchar[])) GROUP BY r2.referral_id) start_referrals
-ON r3.referral_id = start_referrals.referral_id GROUP BY r3.cluster_id LIMIT 5) clusters
+ON r3.referral_id = start_referrals.referral_id GROUP BY r3.cluster_id ORDER BY SUM(start_referrals.points) DESC LIMIT 5) clusters
 ON resources.cluster_id = clusters.cluster_id
 WHERE """ 
 
