@@ -267,7 +267,7 @@ def cluster_filtering_items(items, lat, lng, distance, community_services, emplo
                           queries.cluster_filtering_2.format(items) + distance_filter + ' < ' + str(distance) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
     else:
         results = execute(queries.cluster_filtering_1 +
-                          queries.cluster_filtering_2.format(items) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
+                          queries.cluster_filtering_2.format(items) + ' 1=1 ' + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
 
     results = [Item.from_db_row(r) for r in results]
     return results
