@@ -130,6 +130,6 @@ def recluster(n_clusters=100):
     types = [t['resource_type'] for t in types]
     for t in types:
         assign_clusters_to_vectors(n_clusters, t)
-    
+
+
     assign_clusters_to_referrals()
-    # assign_summaries()

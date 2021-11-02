@@ -8,48 +8,58 @@ import requests
 SERVER = 'https://server.cordsconnect.ca'
 
 
-sample_element = None
+# sample_element = None
 
 
-def test_search():
+def test_search(search_term = 'health care'):
     response = requests.post(SERVER + '/search', json={
-        'query': 'COMMUNICATIONS PRACTICUM PLACEMENT (MEDIA AND SOCIAL MEDIA) - City of Vaughan',
+        'query': search_term,
+        'employment': True,
+        'community_services': True,
+        'lat': 43.7,
+        'lng': -79.7
+    })
+    data = response.json()
+    assert len(data['items']) == 10
+    # global sample_element
+    # sample_element = data['items'][0]['item_id']
+    return json.dumps(data)
+
+
+def test_similar(item_id='71087870'):
+    response = requests.get(SERVER + '/similar/' + item_id)
+    data = response.json()
+    assert len(data['items']) == 10
+    return json.dumps(data)
+
+
+def test_geo_similar(item_id = '74599591'):
+    response = requests.post(SERVER + '/similar', json={
+        'item_id': item_id,
+        'lat': 43.743388,
+        'lng': -80.71,
+        'distance': 150,
+        'employment': True,
+        'community_services': True
+    })
+    data = response.json()
+    assert len(data['items']) <= 10
+    # assert data['items'][0]['item_id'] == sample_element
+    return json.dumps(data)
+
+
+def test_geo_search(search_term = 'data analyst'):
+    response = requests.post(SERVER + '/geosearch', json={
+        'query': search_term,
+        'lat': 44.5017,
+        'lng': -79.5673,
+        'distance': 500,
         'employment': False,
         'community_services': True
     })
     data = response.json()
     assert len(data['items']) == 10
-    global sample_element
-    sample_element = data['items'][0]['item_id']
-
-
-def test_similar():
-    response = requests.get(SERVER + '/similar/' + sample_element)
-    data = response.json()
-    assert len(data['items']) == 10
-
-
-def test_geo_similar():
-    response = requests.post(SERVER + '/similar', json={
-        'item_id': sample_element,
-        'lat': 43.743388,
-        'lng': -80.71,
-        'distance': 150
-    })
-    data = response.json()
-    assert len(data['items']) <= 10
-    # assert data['items'][0]['item_id'] == sample_element
-
-
-def test_geo_search():
-    response = requests.post(SERVER + '/geosearch', json={
-        'query': 'bread',
-        'lat': 44.5017,
-        'lng': -79.5673,
-        # 'distance': 50
-    })
-    data = response.json()
-    assert len(data['items']) == 10
+    return json.dumps(data)
 
 
 def test_geo_search_pages():
@@ -70,6 +80,7 @@ def test_geo_search_pages():
     })
     data = response.json()
     assert item_1 != data['items'][0]['item_id']
+    return json.dumps(data)
 
 
 def test_geo_similar_search_pages():
@@ -99,6 +110,7 @@ def test_geo_similar_search_pages():
     })
     data = response.json()
     assert item_1 != data['items'][0]['item_id']
+    return json.dumps(data)
 
 
 def test_add_remove_basket():
@@ -118,28 +130,33 @@ def test_add_remove_basket():
         'session_token': session_token
     })
     assert response.json()['status']
+    return json.dumps(response.json())
 
 
-def test_recommend():
-    item_id = sample_element
+def test_recommend(items = ['70089785']):
     response = requests.post(SERVER + '/recommend', json= {
-        'items': [item_id],
-        'community_services': False,
+        'items': items,
+        'community_services': True,
         'employment': True,
         'lat': 43.8,
         'lng': -79.5,
         'distance': 5000
     })
     assert len(response.json()['items']) == 50
+    return json.dumps(response.json())
 
 
+print(test_geo_search("Data analyst"))
+# print(test_geo_similar("626084835"))
 
-test_search()
-test_similar()
-test_geo_similar()
-test_geo_search()
-test_geo_search_pages()
-test_geo_similar_search_pages()
-test_add_remove_basket()
-test_recommend()
-print('no errors!')
+# items = ['626084835', '626071976']
+# print(test_recommend(items))
+
+
+# print(test_search('health care'))
+# print(test_similar())
+# print(test_geo_search_pages())
+# print(test_geo_similar_search_pages())
+# print(test_add_remove_basket())
+
+# print('no errors!')

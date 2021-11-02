@@ -5,6 +5,7 @@ from urllib import parse
 
 class Item(BaseModel):
     name: Optional[str]
+    resource_type: Optional[str]
     description: Optional[str]
     item_id: str
     lat: Optional[float] = 0

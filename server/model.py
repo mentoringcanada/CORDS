@@ -190,8 +190,12 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
         result_IDs.remove(specific_id)
         result_IDs = [specific_id] + result_IDs
     result_IDs = ', '.join(result_IDs)
+
+    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
+
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
-                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))
+                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs) +
+                            inclusion_filter + queries.cluster_filtering_3.format(result_IDs))
 
     total_results = len(query_results)
 
