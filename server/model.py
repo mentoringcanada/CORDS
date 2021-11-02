@@ -274,5 +274,5 @@ def cluster_filtering_items(items, lat, lng, distance, community_services, emplo
 
 
 def get_summaries_for_clusters(cluster_IDs):
-    results = execute(queries.get_summaries_for_clusters, (cluster_IDs,))
+    results = execute(queries.get_summaries_for_clusters.format(cluster_IDs))
     return [r['summary'] for r in results]
