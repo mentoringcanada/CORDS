@@ -195,7 +195,7 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
 
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs) +
-                            inclusion_filter + queries.cluster_filtering_3.format(result_IDs))
+                            inclusion_filter + queries.get_constrained_results_3.format(result_IDs))
 
     total_results = len(query_results)
 

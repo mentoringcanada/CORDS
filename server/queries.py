@@ -21,7 +21,7 @@ get_constrained_results_2 = """)
 AND 2*asin(sqrt(pow(sin(radians({0}-geocoordinates[0])/2),2)
 +cos(radians({0}))*cos(radians(geocoordinates[0]))*pow(sin(radians({1}-geocoordinates[1])/2), 2)))*6372.8 < {2}"""
 
-get_constrained_results_3 = """ORDER BY array_position(ARRAY[{3}]::varchar[], resource_agency_number)
+get_constrained_results_3 = """ORDER BY array_position(ARRAY[{0}]::varchar[], resource_agency_number)
 LIMIT 50;
 """
 
@@ -237,7 +237,7 @@ INNER JOIN
 FROM referrals r3
 INNER JOIN
 (SELECT COUNT(*) as points, r2.referral_id FROM referrals r2 WHERE r2.cluster_id IN
-(SELECT distinct cluster_id FROM resources r1 WHERE r1.resource_agency_number = ANY(array{0})) GROUP BY r2.referral_id) start_referrals
+(SELECT distinct cluster_id FROM resources r1 WHERE r1.resource_agency_number = ANY(array{0}::varchar)) GROUP BY r2.referral_id) start_referrals
 ON r3.referral_id = start_referrals.referral_id GROUP BY r3.cluster_id) clusters
 ON resources.cluster_id = clusters.cluster_id
 WHERE """ 
