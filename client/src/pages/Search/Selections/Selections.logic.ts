@@ -6,6 +6,7 @@ import SearchContext from "../SearchContext";
 const SelectionsLogic = () => {
     const { search, setSearch } = useContext(SearchContext);
     const [services, setServices] = useState<Service[]>([]);
+    const [suggestedSearches, setSuggestedSearches] = useState([]);
 
     const getServices = () => {
         if (search.filter === "proximity") {
@@ -31,19 +32,36 @@ const SelectionsLogic = () => {
 
     const useOnStartup = () => {
         useEffect(() => {
-            getSelections(search, search.dataSource)
-                .then((res) => {
-                    setServices(res.items);
-                })
-                .catch(() => {
-                    setSearch({
-                        ...search,
-                        state: "error",
+            if (search.historyLog.length > 0) {
+                setSearch({ ...search, state: "searching" });
+                getSelections(search, search.dataSource)
+                    .then((res) => {
+                        if (Array.isArray(res) && !res.length) {
+                            setSearch({
+                                ...search,
+                                state: "no-results",
+                            });
+                        } else {
+                            setSearch({
+                                ...search,
+                                state: "",
+                            });
+                            setSuggestedSearches(res.suggestedSearches);
+                            setServices(res.items);
+                        }
+                    })
+                    .catch(() => {
+                        setSearch({
+                            ...search,
+                            state: "error",
+                        });
                     });
-                });
+            } else {
+                setSearch({ ...search, state: "no-results" });
+            }
         }, []);
     };
 
-    return { services, useOnStartup, getServices };
+    return { services, useOnStartup, getServices, suggestedSearches };
 };
 export default SelectionsLogic;

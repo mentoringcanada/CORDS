@@ -42,18 +42,21 @@ const Search = () => {
                             Selected for you
                         </NavLink>
                     </StyledTabs>
-                    <SearchState />
                     <Switch>
                         <Route exact path="/search">
+                            <SearchState />
                             <Home />
                         </Route>
                         <Route path="/search/service/:id">
                             <LargeService />
+                            <SearchState />
                         </Route>
                         <Route path="/search/results">
+                            <SearchState />
                             <ServiceResults />
                         </Route>
                         <Route path="/search/selections">
+                            <SearchState />
                             <Selections />
                         </Route>
                     </Switch>

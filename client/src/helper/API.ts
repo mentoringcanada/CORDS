@@ -3,9 +3,7 @@ import axios from "axios";
 // Types
 import { SearchBody, SimilarBody, FeedbackBody, GeoSearchBody } from "../types";
 
-// SEARCH //
-// Takes id and returns similar results array
-export const getSimilar = async (similarBody: SimilarBody) => {
+export const getSimilar = async (similarBody: SimilarBody, dataSource: any) => {
     try {
         const res = await axios.post(
             `/recommend`,
@@ -14,9 +12,9 @@ export const getSimilar = async (similarBody: SimilarBody) => {
                 lat: similarBody.lat,
                 lng: similarBody.lng,
                 distance: similarBody.distance,
-                community_services: true,
-                employment: false,
-                volunteer: false,
+                community_services: dataSource.includes("211") ? true : false,
+                employment: dataSource.includes("Magnet") ? true : false,
+                volunteer: dataSource.includes("Mentor") ? true : false,
             },
             {
                 headers: {
@@ -31,9 +29,18 @@ export const getSimilar = async (similarBody: SimilarBody) => {
     }
 };
 
-export const getService = async (similarBody: SimilarBody) => {
+export const getService = async (similarBody: SimilarBody, dataSource: any) => {
     try {
-        const res = await axios.get(`/similar/${similarBody.resourceId}`);
+        const res = await axios.post(`/similar`, {
+            item_id: `${similarBody.resourceId}`,
+            lat: similarBody.lat,
+            lng: similarBody.lng,
+            distance: similarBody.distance,
+            size: 1,
+            community_services: dataSource.includes("211") ? true : false,
+            employment: dataSource.includes("Magnet") ? true : false,
+            volunteer: dataSource.includes("Mentor") ? true : false,
+        });
         const data = await res.data;
         return data.items[0];
     } catch (err) {

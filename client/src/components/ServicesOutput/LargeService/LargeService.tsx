@@ -14,6 +14,7 @@ import Logo211 from "../../../media/211-logo.png";
 import LogoMentor from "../../../media/mentor-logo.jpg";
 import LogoMagnet from "../../../media/magnet-logo.png";
 import Map from "./Map/Map";
+import RecommendBox from "../RecommendBox/RecommendBox";
 
 // Component
 const LargeService = () => {
@@ -27,6 +28,7 @@ const LargeService = () => {
         maxPages,
         id,
         page,
+        suggestedSearches,
     } = LargeServiceLogic();
     useSetState(Number(id), page);
 
@@ -124,6 +126,7 @@ const LargeService = () => {
                             <h3>{largeServiceContent.similar}</h3>
                         </div>
                     </StyledLargeService>
+                    <RecommendBox suggestedSearches={suggestedSearches} />
                     <ServicesList
                         type={"similar"}
                         services={similar}

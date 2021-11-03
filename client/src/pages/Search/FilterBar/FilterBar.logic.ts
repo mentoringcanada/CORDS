@@ -21,7 +21,6 @@ const distanceSelectOptions = [
 const dataSelectOptions = [
     { value: "211", label: "211" },
     { value: "Magnet", label: "Magnet" },
-    { value: "Mentor", label: "Mentor" },
 ];
 
 const sortSelectOptions = [

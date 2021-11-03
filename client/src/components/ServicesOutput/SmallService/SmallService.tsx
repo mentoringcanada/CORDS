@@ -37,7 +37,7 @@ const SmallService = ({
         <StyledSmallService
             onClick={() => {
                 history.push(
-                    `/search/service/${id}?ln=${language}&query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&page=1`
+                    `/search/service/${id}?ln=${language}&query=${search.query}&distance=${search.distance}&lat=${search.location.lat}&lng=${search.location.lng}&filter=${search.filter}&source=${search.dataSource}&page=1`
                 );
             }}
             className={type}
@@ -52,14 +52,18 @@ const SmallService = ({
                 )}
             </StyledInfo>
             <div className="lower">
-                <StyledLogo href={link} target="_blank" rel="noreferrer">
+                <StyledLogo
+                    href={link}
+                    target={link !== "" ? "_blank" : ""}
+                    rel="noreferrer"
+                >
                     {resource_type === "211" && (
                         <img src={Logo211} alt="211 logo" />
                     )}
                     {resource_type === "volunteer" && (
                         <img src={LogoMentor} alt="Mentor logo" />
                     )}
-                    {resource_type === "volunteer" && (
+                    {resource_type === "employment" && (
                         <img src={LogoMagnet} alt="Magnet logo" />
                     )}
                 </StyledLogo>

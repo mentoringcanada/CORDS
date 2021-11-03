@@ -21,6 +21,7 @@ const LargeServiceLogic = () => {
     const { id } = useParams<Params>();
     const query = useQueryParams();
     const page = Number(query.get("page"));
+    const [suggestedSearches, setSuggestedSearches] = useState([]);
 
     const useSetState = (id: number, page: number) => {
         useEffect(() => {
@@ -37,10 +38,10 @@ const LargeServiceLogic = () => {
             });
             setSearch({ ...search, state: "searching" });
             // Gets service data on component startup
-            getService(similarBody).then((res) => {
+            getService(similarBody, search.dataSource).then((res) => {
                 setService(res);
             });
-            getSimilar(similarBody)
+            getSimilar(similarBody, search.dataSource)
                 .then((res) => {
                     if (page === 1) {
                         setSimilar(res.items.slice(1));
@@ -51,6 +52,7 @@ const LargeServiceLogic = () => {
                         ...search,
                         state: "",
                     });
+                    setSuggestedSearches(res.suggestedSearches);
                     setMaxPages(Math.ceil(res.totalResults / 10));
                     console.log("no error");
                 })
@@ -77,6 +79,7 @@ const LargeServiceLogic = () => {
         maxPages,
         id,
         page,
+        suggestedSearches,
     };
 };
 
