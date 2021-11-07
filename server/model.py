@@ -154,8 +154,11 @@ def get_results(result_IDs: list, page: int, size: int, search_employment: bool 
 def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, specific_id: str = False,
                                    search_employment: bool = False, search_volunteer: bool = False, search_community_services: bool = True):
     if specific_id:
-        result_IDs.remove(specific_id)
-        result_IDs = [specific_id] + result_IDs
+        results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) + str(result_IDs[0]) + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))
+        total_results = 1
+        items = [Item.from_db_row(i) for i in results]
+        return {'items': items, 'totalResults': total_results}
+
     result_IDs = ', '.join(result_IDs)
 
     inclusion_filter = converters.build_inclusion_filter(
@@ -267,7 +270,7 @@ def cluster_filtering_items(items, lat, lng, distance, community_services, emplo
                           queries.cluster_filtering_2.format(items) + distance_filter + ' < ' + str(distance) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
     else:
         results = execute(queries.cluster_filtering_1 +
-                          queries.cluster_filtering_2.format(items) + ' 1=1 ' + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
+                          queries.cluster_filtering_2.format(items) + ' 1=1 ' + inclusion_filter + " LIMIT 50;")
 
     results = [Item.from_db_row(r) for r in results]
     return results

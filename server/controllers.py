@@ -116,26 +116,28 @@ def geo_similar_search(
     Obtenez des services pareilles de la description d'une service et coordonees.
     """
     # Get description from item ID, create a SearchRequest, then call search()
-    geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
-    vector = model.get_vector_from_ID(geo_similar_request.item_id)
-    number_of_results = 5000
-    packed = np.asarray([vector])
-    distances, indexes = app_state.cache.search(packed, number_of_results)
-    indexes = indexes[0]
-    distances = distances[0]
+    # geo_similar_request.item_id = model.clean_text(geo_similar_request.item_id)
+    # vector = model.get_vector_from_ID(geo_similar_request.item_id)
+    # number_of_results = 5000
+    # packed = np.asarray([vector])
+    # distances, indexes = app_state.cache.search(packed, number_of_results)
+    # indexes = indexes[0]
+    # distances = distances[0]
 
-    if geo_similar_request.cutoff is not None:
-        indexes = filter_indexes_by_cutoff(
-            indexes, distances, geo_similar_request.cutoff, number_of_results)
+    # if geo_similar_request.cutoff is not None:
+    #     indexes = filter_indexes_by_cutoff(
+    #         indexes, distances, geo_similar_request.cutoff, number_of_results)
 
-    result_IDs = converters.items2str(
-        indexes, app_state.index_to_ID, geo_similar_request.item_id)
-    if geo_similar_request.cutoff is not None:
-        results = model.get_cutoff_constrained_results(
-            result_IDs, geo_similar_request)
-    else:
-        results = model.get_constrained_results(
-            geo_similar_request, result_IDs)
+    # result_IDs = converters.items2str(
+    #     indexes, app_state.index_to_ID, geo_similar_request.item_id)
+    # if geo_similar_request.cutoff is not None:
+    #     results = model.get_cutoff_constrained_results(
+    #         result_IDs, geo_similar_request)
+    # else:
+    #     results = model.get_constrained_results(
+    #         geo_similar_request, result_IDs)
+    result_IDs = ["'" + str(geo_similar_request.item_id) + "'"]
+    results = model.get_constrained_results(geo_similar_request, result_IDs, result_IDs[0])
     return results
 
 
