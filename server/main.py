@@ -19,14 +19,14 @@ from helper_classes.request_classes.feedbackRequest import FeedbackRequest
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
-import startup
+# import startup
 from fastapi.responses import HTMLResponse
 from services import cluster_explorer
 from services import cluster_recommendations
 
 
 app = FastAPI()
-app_state, vector_model = startup.load()
+# app_state, vector_model = startup.load()
 
 
 if os.environ['production'] == 'TRUE':
