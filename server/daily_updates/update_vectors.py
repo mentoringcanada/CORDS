@@ -61,3 +61,4 @@ if __name__ == '__main__':
     print('executing script')
     psql_connection_string = os.environ['PSQL_CONNECT_STR']
     fill_outdated_vector_descriptions(psql_connection_string)
+    print('done')

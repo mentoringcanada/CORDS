@@ -11,33 +11,36 @@ import numpy as np
 from services import converters
 from services.cutoff_filter import filter_indexes_by_cutoff
 from services import cluster_recommendations
-
+from services import external
 
 def search(
     session_token: str,
-    search_request: SearchRequest,
-    app_state: AppState,
-    vector_model
-):
+    search_request: SearchRequest):
     """Gets the search query, vectorizes, searches cache, returns services.
     Obtient les resultats de la recherche, mets en vecteur, cherche parmis les
     resultats et les retourne. 
     """
-    vector = np.asarray(vector_model(search_request.query))
-    number_of_results = 5000
-    distances, indexes = app_state.cache.search(vector, number_of_results)
-    indexes = indexes[0]
-    distances = distances[0]
+    print(search_request.query)
+    vector = external.get_vector(search_request.query)
+
+    # print(vector)
+    response = external.search_cache(vector)
+    # print(response)
+    # indexes = response['indexes']
+    distances = response['distances']
+    result_IDs = response['data']
+    # app_state = response['app_state']
 
     search_employment = search_request.employment
     search_volunteer = search_request.volunteer
     search_community_services = search_request.community_services
 
+    number_of_results = 5000
     if search_request.cutoff is not None:
-        indexes = filter_indexes_by_cutoff(
-            indexes, distances, search_request.cutoff, number_of_results)
+        result_IDs = filter_indexes_by_cutoff(
+            result_IDs, distances, search_request.cutoff, number_of_results)
 
-    result_IDs = converters.items2str(indexes, app_state.index_to_ID)
+    # result_IDs = converters.items2str(indexes, app_state.index_to_ID)
 
     if search_request.cutoff is not None:
         results = model.get_proximity_results(
@@ -53,10 +56,7 @@ def search(
 
 def get_similar(
     session_token: str,
-    item_id: str,
-    app_state: AppState,
-    vector_model
-):
+    item_id: str):
     """(OBSOLETE) Get similar services based on the item_id description.
     Obtenez des services pareilles de la description d'une service.
     """
@@ -70,32 +70,29 @@ def get_similar(
     search_request = SearchRequest(
         query=text,
     )
-    results = search(session_token, search_request, app_state, vector_model)
+    results = search(session_token, search_request)
     return results
 
 
 def geo_search(
         session_token: str,
-        geo_search_request: GeoSearchRequest,
-        app_state: AppState,
-        vector_model):
+        geo_search_request: GeoSearchRequest):
     """Return distance-constrained query."""
-    vector = np.asarray(vector_model(geo_search_request.query))
-    number_of_results = 5000
-    distances, indexes = app_state.cache.search(vector, number_of_results)
-    indexes = indexes[0]
-    distances = distances[0]
+    vector = external.get_vector(geo_search_request.query)
+
+    response = external.search_cache(vector)
+    distances = response['distances']
+    result_IDs = response['data']
 
     search_employment = geo_search_request.employment
     search_volunteer = geo_search_request.volunteer
     search_community_services = geo_search_request.community_services
 
     if geo_search_request.cutoff is not None:
-        indexes = filter_indexes_by_cutoff(
-            indexes, distances, geo_search_request.cutoff, number_of_results)
+        result_IDs = filter_indexes_by_cutoff(
+            result_IDs, distances, geo_search_request.cutoff, number_of_results)
 
-    result_IDs = converters.items2str(
-        indexes, app_state.index_to_ID, geo_search_request.item_id)
+    result_IDs = ["'" + str(geo_search_request.item_id) + "'"] + result_IDs
 
     if geo_search_request.cutoff is not None:
         results = model.get_cutoff_constrained_results(
@@ -109,9 +106,7 @@ def geo_search(
 
 def geo_similar_search(
     session_token: str,
-    geo_similar_request: GeoSimilarRequest,
-    app_state: AppState
-):
+    geo_similar_request: GeoSimilarRequest):
     """Get similar services based on the item_id description and coordinates.
     Obtenez des services pareilles de la description d'une service et coordonees.
     """

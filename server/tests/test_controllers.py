@@ -20,9 +20,9 @@ def test_search():
     )
     output = controllers.search(
         session_token,
-        search_request,
-        app_state,
-        vectorizer
+        search_request
+        # app_state,
+        # vectorizer
     )
     assert output['items'] == ['get_results'] * search_request.size
 
@@ -36,9 +36,9 @@ def test_search_size():
     )
     output = controllers.search(
         session_token,
-        search_request,
-        app_state,
-        vectorizer
+        search_request
+        # app_state,
+        # vectorizer
     )
     assert output['items'] == ['get_results'] * 11
 
@@ -52,9 +52,9 @@ def test_geo_search_size():
     )
     output = controllers.search(
         session_token,
-        search_request,
-        app_state,
-        vectorizer
+        search_request
+        # app_state,
+        # vectorizer
     )
     assert output['items'] == ['get_results'] * 12
 
@@ -69,9 +69,9 @@ def test_geo_search():
     )
     output = controllers.geo_search(
         session_token,
-        search_request,
-        app_state,
-        vectorizer
+        search_request
+        # app_state,
+        # vectorizer
     )
     assert output['items'] == ['get_constrained_results'] * 10
 
@@ -82,9 +82,9 @@ def test_get_similar():
     item_id = 'abcdef'
     output = controllers.get_similar(
         session_token,
-        item_id,
-        app_state,
-        vectorizer
+        item_id
+        # app_state,
+        # vectorizer
     )
     assert output['items'] == ['get_results'] * 10
 
@@ -99,7 +99,9 @@ def test_get_geo_similar():
     )
     output = controllers.geo_similar_search(
         session_token,
-        search_request,
-        app_state
+        search_request
+        # app_state
     )
     assert output['items'] == ['get_constrained_results'] * 10
+
+test_search()

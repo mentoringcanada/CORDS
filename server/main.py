@@ -19,14 +19,12 @@ from helper_classes.request_classes.feedbackRequest import FeedbackRequest
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
-# import startup
 from fastapi.responses import HTMLResponse
 from services import cluster_explorer
 from services import cluster_recommendations
 
 
 app = FastAPI()
-# app_state, vector_model = startup.load()
 
 
 if os.environ['production'] == 'TRUE':
@@ -80,7 +78,7 @@ def search(search_request: SearchRequest, request: Request):
     """
     session_token = request.headers.get('session_token')
     results = controllers.search(
-        session_token, search_request, app_state, vector_model)
+        session_token, search_request)
     return results
 
 
@@ -92,7 +90,7 @@ def get_item_by_id(item_id: str, request: Request):
     """
     session_token = request.headers.get('session_token')
     results = controllers.get_similar(
-        session_token, item_id, app_state, vector_model)
+        session_token, item_id)
     return results
 
 
@@ -103,7 +101,7 @@ def get_geo_search(geo_search_request: GeoSearchRequest, request: Request):
     """
     session_token = request.headers.get('session_token')
     results = controllers.geo_search(
-        session_token, geo_search_request, app_state, vector_model)
+        session_token, geo_search_request)
     return results
 
 
@@ -114,7 +112,7 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, request: Request):
     """
     session_token = request.headers.get('session_token')
     results = controllers.geo_similar_search(
-        session_token, geo_similar_request, app_state)
+        session_token, geo_similar_request)
     return results
 
 

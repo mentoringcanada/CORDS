@@ -2,11 +2,9 @@
 import json
 import requests
 
-
-# SERVER = 'http://localhost:8000'
+SERVER = 'http://localhost:8000'
 # SERVER = 'http://51.222.139.147'
-SERVER = 'https://server.cordsconnect.ca'
-
+# SERVER = 'https://server.cordsconnect.ca'
 
 # sample_element = None
 
@@ -144,6 +142,7 @@ def test_recommend(items=['70089785']):
         'lng': -79.5,
         'distance': 5000
     })
+    print(len(response.json()['items']))
     assert len(response.json()['items']) == 50
     return json.dumps(response.json())
 
@@ -152,10 +151,10 @@ def test_recommend(items=['70089785']):
 # print(test_geo_similar())
 
 items = ['626084835', '626071976']
-print(test_recommend(items))
+# print(test_recommend())
 
-
-# print(test_search('health care'))
+# test_search()
+# test_similar()
 # print(test_similar())
 # print(test_geo_search_pages())
 # print(test_geo_similar_search_pages())
@@ -171,10 +170,10 @@ print(test_recommend(items))
 # test_recommend(items)
 
 
-# test_search('health care')
-# test_similar()
-# test_geo_search_pages()
+test_search('health care')
+test_similar()
+test_geo_search_pages()
 # test_geo_similar_search_pages()
-# test_add_remove_basket()
+test_add_remove_basket()
 
-# print('no errors!')
+print('no errors!')

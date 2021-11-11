@@ -17,7 +17,7 @@ class Text(pydantic.BaseModel):
 class Vector(pydantic.BaseModel):
     data: List[float]
 
-@app.post("/")
+@app.post("/vectorize")
 def session(request: Text):
     output = vector_model(request.text)
     output = [float(y) for x in output for y in x]

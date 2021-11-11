@@ -247,5 +247,5 @@ cluster_filtering_3 = """ ORDER BY asin(sqrt(pow(sin(radians({0}-geocoordinates[
 LIMIT 50;
 """
 
-get_summaries_for_clusters = """SELECT summary FROM clusters WHERE cluster_id = ANY(array{0});
+get_summaries_for_clusters = """SELECT summary FROM clusters WHERE cluster_id = ANY(array{0}::integer[]);
 """
