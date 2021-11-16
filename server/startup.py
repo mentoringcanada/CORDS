@@ -33,16 +33,6 @@ def load_vector():
     return vector_model
 
 def cache_vectors():
-    # print('caching vectors')
-    # vectors_and_IDs = model.get_all_vectors()
-    # cache.load_index()
-    # vectors = np.asarray([converters.textvec2vec(row['description_vector']) for row in vectors_and_IDs])
-    # index = cache.add_vectors(vectors)
-    # print('cached vectors')
-    # app_state = AppState(
-    #     index_to_ID=[row['resource_agency_number'] for row in vectors_and_IDs],
-    #     cache=index)
-    # return app_state
     print('caching vectors')
     index = pinecone_ops.create_index(pinecone_index)
     # if not index:   # index name is already available
@@ -56,18 +46,6 @@ def cache_vectors():
     for i in range(0, len(vectors), increment_amount):
         print(f'batch {i}:{i+increment_amount-1}')
         pinecone_ops.insert_to_index(index, ids[i:i+increment_amount], vectors[i:i+increment_amount])
-    # print('batch 1: 10000 size')
-    # pinecone_ops.insert_to_index(index, ids[:10000], vectors[:10000])
-    # print('batch 2: remaining')
-    # pinecone_ops.insert_to_index(index, ids[10000:20000], vectors[10000:20000])
-    # print('batch 3: remaining')
-    # pinecone_ops.insert_to_index(index, ids[20000:30000], vectors[20000:30000])
-    # print('batch 4: 40000 size')
-    # pinecone_ops.insert_to_index(index, ids[30000:40000], vectors[30000:40000])
-    # print('batch 5: remaining')
-    # pinecone_ops.insert_to_index(index, ids[40000:50000], vectors[40000:50000])
-    # print('batch 6: remaining')
-    # pinecone_ops.insert_to_index(index, ids[50000:], vectors[50000:])
     print('cached vectors')
     return index
 
