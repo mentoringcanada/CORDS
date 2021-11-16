@@ -5,6 +5,9 @@ from services import cache
 from services import nlp_model
 from services import converters
 from services import pinecone_ops
+import os
+
+pinecone_index = os.environ("PINECONE_INDEX")
 
 
 def load():
@@ -41,26 +44,30 @@ def cache_vectors():
     #     cache=index)
     # return app_state
     print('caching vectors')
-    index = pinecone_ops.create_index("cordscache")
-    print(1)
+    index = pinecone_ops.create_index(pinecone_index)
     # if not index:   # index name is already available
     #     print('index already available')
     #     return pinecone_ops.connect_to_index("cordscache")
     vectors_and_IDs = model.get_all_vectors()
-    vectors = [row['description_vector'] for row in vectors_and_IDs]
+    vectors = [[row['description_vector'] for row in vectors_and_IDs]]
     ids = [row['resource_agency_number'] for row in vectors_and_IDs]
-    print('batch 1: 10000 size')
-    pinecone_ops.insert_to_index(index, ids[:10000], vectors[:10000])
-    print('batch 2: remaining')
-    pinecone_ops.insert_to_index(index, ids[10000:20000], vectors[10000:20000])
-    print('batch 3: remaining')
-    pinecone_ops.insert_to_index(index, ids[20000:30000], vectors[20000:30000])
-    print('batch 4: 40000 size')
-    pinecone_ops.insert_to_index(index, ids[30000:40000], vectors[30000:40000])
-    print('batch 5: remaining')
-    pinecone_ops.insert_to_index(index, ids[40000:50000], vectors[40000:50000])
-    print('batch 6: remaining')
-    pinecone_ops.insert_to_index(index, ids[50000:], vectors[50000:])
+    print(len(vectors), len(ids))
+    increment_amount = 500
+    for i in range(0, len(vectors), increment_amount):
+        print(f'batch {i}:{i+increment_amount-1}')
+        pinecone_ops.insert_to_index(index, ids[i:i+increment_amount], vectors[i:i+increment_amount])
+    # print('batch 1: 10000 size')
+    # pinecone_ops.insert_to_index(index, ids[:10000], vectors[:10000])
+    # print('batch 2: remaining')
+    # pinecone_ops.insert_to_index(index, ids[10000:20000], vectors[10000:20000])
+    # print('batch 3: remaining')
+    # pinecone_ops.insert_to_index(index, ids[20000:30000], vectors[20000:30000])
+    # print('batch 4: 40000 size')
+    # pinecone_ops.insert_to_index(index, ids[30000:40000], vectors[30000:40000])
+    # print('batch 5: remaining')
+    # pinecone_ops.insert_to_index(index, ids[40000:50000], vectors[40000:50000])
+    # print('batch 6: remaining')
+    # pinecone_ops.insert_to_index(index, ids[50000:], vectors[50000:])
     print('cached vectors')
     return index
 
