@@ -9,7 +9,7 @@ def create_index(index_name):
     if index_name in pinecone.list_indexes():
         # return False
         delete_index(index_name)
-    dimensions = 1
+    dimensions = 512
     pinecone.create_index(
         name=index_name, dimension=dimensions, metric="cosine", shards=1)
     index = pinecone.Index(index_name=index_name)
