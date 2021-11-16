@@ -7,7 +7,7 @@ from services import converters
 from services import pinecone_ops
 import os
 
-pinecone_index = os.environ("PINECONE_INDEX")
+pinecone_index = os.environ["PINECONE_INDEX"]
 
 
 def load():
