@@ -22,7 +22,7 @@ def get_result_IDs_and_distances(queried_data):
     ids, distances = [], []
     for matches in queried_data['results']:
         for match in matches['matches']:
-            ids.append(match['id'])
+            ids.append("'" + match['id'] + "'")
             distances.append(match['score'])
     return ids, distances
 
@@ -38,7 +38,7 @@ def session(request: Vector):
     # print(result_IDs)
     # return ResultIDs(data=result_IDs, distances=distances)
 
-    number_of_results = 5000
-    queried_data = pinecone_ops.query_from_index(index, request, number_of_results)
+    number_of_results = 10
+    queried_data = pinecone_ops.query_from_index(index, request.data, number_of_results)
     result_IDs, distances = get_result_IDs_and_distances(queried_data)
     return ResultIDs(data=result_IDs, distances=distances)

@@ -18,6 +18,7 @@ def test_search(search_term='health care'):
         'lng': -79.7
     })
     data = response.json()
+    print(data['items'])
     assert len(data['items']) == 10
     # global sample_element
     # sample_element = data['items'][0]['item_id']
@@ -172,7 +173,7 @@ items = ['626084835', '626071976']
 
 test_search('health care')
 test_similar()
-test_geo_search_pages()
+#test_geo_search_pages()
 # test_geo_similar_search_pages()
 test_add_remove_basket()
 

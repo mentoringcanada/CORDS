@@ -27,4 +27,4 @@ def insert_to_index(index, ids, vectors):
 
 
 def query_from_index(index, vectors, number_of_results):
-    return index.query(queries=vectors, top_k=number_of_results, include_values=True)
+    return index.query(queries=[vectors], top_k=number_of_results, include_values=True)
