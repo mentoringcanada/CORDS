@@ -1,7 +1,8 @@
 import pinecone
+import os
 
-pinecone.init(api_key="cba50e6f-1934-49a6-94f9-04e59805ba65",
-              environment="us-west1-gcp")
+pinecone.init(api_key=os.environ['API_KEY_PINECONE'],
+              environment=os.environ['ENV_PINECONE'])
 
 
 def create_index(index_name):
