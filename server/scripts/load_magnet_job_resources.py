@@ -1,6 +1,12 @@
-import model
 import csv
+import sys
+import os
 
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+
+import model
 
 data_dicts = []
 with open('PostingsData.csv') as csvfile:
