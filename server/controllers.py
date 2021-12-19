@@ -21,8 +21,8 @@ def search(
     resultats et les retourne. 
     """
     print(search_request.query)
-    vector = external.get_vector(search_request.query)
-
+    # vector = external.get_vector(search_request.query)
+    vector = external.get_huggingface_vector(search_request.query)  
     # print(vector)
     response = external.search_cache(vector)
     # print(response)
@@ -78,7 +78,8 @@ def geo_search(
         session_token: str,
         geo_search_request: GeoSearchRequest):
     """Return distance-constrained query."""
-    vector = external.get_vector(geo_search_request.query)
+    # vector = external.get_vector(geo_search_request.query)
+    vector = external.get_huggingface_vector(search_request.query)
 
     response = external.search_cache(vector)
     distances = response['distances']
