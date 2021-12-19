@@ -5,6 +5,7 @@ from services import cache
 from services import nlp_model
 from services import converters
 from services import pinecone_ops
+from sentence_transformers import SentenceTransformer
 import os
 
 pinecone_index = os.environ["PINECONE_INDEX"]
@@ -31,6 +32,12 @@ def load_vector():
     vector_model = nlp_model.load_model()
     print('loaded')
     return vector_model
+
+def huggingface_load_vector():
+    print('loading hugging face paraphrase-multilingual-MiniLM-L12-v2 model')
+    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+    print('loaded')
+    return model
 
 def cache_vectors():
     print('caching vectors')
