@@ -3,7 +3,6 @@ import os
 import psycopg2
 import tensorflow_hub as hub
 import tensorflow_text
-import startup
 
 def dbify_vector(vector):
     smaller_vector = []
@@ -19,9 +18,19 @@ def convert2text(html):
     output = h.handle(html)
     return output.replace('\n', ' ')
 
+def load_model():
+    print('loading model')
+    return hub.load("./model-directory/")
+
+def load_huggingface_model():
+    print('loading hugging face paraphrase-multilingual-MiniLM-L12-v2 model')
+    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+    print('loaded')
+    return model
+
 def fill_outdated_vector_descriptions(psql_connection_string):
-    # model = startup.load_model()
-    model = startup.load_huggingface_model()
+    # model = load_model()
+    model = load_huggingface_model()
     connection = psycopg2.connect(psql_connection_string)
     cursor = connection.cursor()
     cursor.execute("""SELECT resource_agency_number,
