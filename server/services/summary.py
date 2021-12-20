@@ -53,10 +53,3 @@ def summaries(descriptions, n_terms=5):
     indexes_to_terms = extract_vocabulary_from_model()
     output_pairs = find_keywords_for_each_cluster(tf_idf_vector, indexes_to_terms, cluster_ids, n_terms)
     return output_pairs
-
-
-# op1 =  summaries({1: 'austin\'s ', 2: 'business! austin', 4: 'joyal hello', 5: 'austin joyal'})
-# op2 = summaries({121: 'austining', 232: 'business is austin', 4121: 'joyal was hello', 115: 'austin for joyal'})
-# print(op1 == [['business hello joyal austin', 1], ['hello joyal austin business', 2], ['austin business joyal hello', 4], ['business hello austin joyal', 5]])
-# print(op2 == [['austin business hello joyal austining', 121], ['austining hello joyal austin business', 232], ['austin austining business joyal hello', 4121], ['austining business hello austin joyal', 115]])
-

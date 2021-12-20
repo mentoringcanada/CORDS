@@ -12,13 +12,9 @@ def dbify_vector(vector):
     return smaller_vector
 
 
-def load_model():
-    print('loading model')
-    return hub.load("./model-directory/")
-
-
 def fill_missing_vector_descriptions(psql_connection_string):
-    model = load_model()
+    # model = startup.load_model()
+    model = startup.load_huggingface_model()
     connection = psycopg2.connect(psql_connection_string)
     cursor = connection.cursor()
     cursor.execute("""SELECT resource_agency_number,

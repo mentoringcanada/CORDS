@@ -6,7 +6,7 @@ from fastapi import FastAPI
 import startup
 
 app = FastAPI()
-vector_model = startup.load_vector()
+model = startup.load_model()
 
 # Classes:
 # Input request
@@ -19,6 +19,6 @@ class Vector(pydantic.BaseModel):
 
 @app.post("/vectorize")
 def session(request: Text):
-    output = vector_model(request.text)
+    output = model(request.text)
     output = [float(y) for x in output for y in x]
     return Vector(data=output)

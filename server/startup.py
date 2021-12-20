@@ -27,13 +27,13 @@ def load():
     print('loaded app state')
     return app_state, vector_model
 
-def load_vector():
+def load_model():
     print('loading NLP model')
-    vector_model = nlp_model.load_model()
+    model = nlp_model.load_model()
     print('loaded')
-    return vector_model
+    return model
 
-def huggingface_load_vector():
+def load_huggingface_model():
     print('loading hugging face paraphrase-multilingual-MiniLM-L12-v2 model')
     model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
     print('loaded')
