@@ -3,6 +3,7 @@ import os
 import psycopg2
 import tensorflow_hub as hub
 import tensorflow_text
+from sentence_transformers import SentenceTransformer
 
 def dbify_vector(vector):
     smaller_vector = []
@@ -29,8 +30,7 @@ def load_huggingface_model():
     return model
 
 def fill_outdated_vector_descriptions(psql_connection_string):
-    # model = load_model()
-    model = load_huggingface_model()
+    model = load_model()
     connection = psycopg2.connect(psql_connection_string)
     cursor = connection.cursor()
     cursor.execute("""SELECT resource_agency_number,
@@ -60,9 +60,43 @@ def fill_outdated_vector_descriptions(psql_connection_string):
         ))
         connection.commit()
 
+def hugging_face_fill_outdated_vector_descriptions(psql_connection_string):
+    model = load_huggingface_model()
+    connection = psycopg2.connect(psql_connection_string)
+    cursor = connection.cursor()
+    cursor.execute("""SELECT resource_agency_number,
+    data_partner_id,
+    public_name,
+    nom_publique,
+    resource_description,
+    description_francais
+    FROM resources
+    WHERE description_updated > vectors_updated OR description_vector IS NULL;""")
+    items = cursor.fetchall()
+
+    for item in items:
+        text = (item[2] or '') + ' ' + \
+            (item[3] or '') + ' ' + \
+            (item[4] or '') + ' ' + \
+            (item[5] or '')
+        text = convert2text(text)
+        vector = model.encode(text)
+        cursor.execute("""UPDATE resources
+        SET description_vector = array{0},
+        vectors_updated = NOW()
+        WHERE resource_agency_number = '{1}' and data_partner_id = {2};""".format(
+            dbify_vector(vector),
+            item[0],
+            item[1]
+        ))
+        connection.commit()
+
 
 if __name__ == '__main__':
     print('executing script')
     psql_connection_string = os.environ['PSQL_CONNECT_STR']
-    fill_outdated_vector_descriptions(psql_connection_string)
+    if (os.environ['VECTOR_SERVICE_TYPE'] == 'HF'):
+        hugging_face_fill_outdated_vector_descriptions(psql_connection_string)
+    else:
+        fill_outdated_vector_descriptions(psql_connection_string)
     print('done')

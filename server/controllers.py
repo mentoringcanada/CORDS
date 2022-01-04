@@ -12,6 +12,20 @@ from services import converters
 from services.cutoff_filter import filter_indexes_by_cutoff
 from services import cluster_recommendations
 from services import external
+import os
+
+VECTOR_SERVICE_TYPE = os.environ['VECTOR_SERVICE_TYPE']
+
+def get_vector(query_string):
+    """Gets the vector for the query string by invoking the appropriate service.
+    HuggingFace vector service if VECTOR_SERVICE_TYPE configured in .env.sh is 'HF',
+    else calls the existing vector service.
+    """
+    print("VECTOR_SERVICE_TYPE ", VECTOR_SERVICE_TYPE)
+    if VECTOR_SERVICE_TYPE == 'HF':     # If using HuggingFace model and vectorizing (service running on port 8003)..
+        return external.get_huggingface_vector(query_string)
+    else:       # IF using model_directory model and vectorizing (service running on port 8001)
+        return external.get_vector(query_string)
 
 def search(
     session_token: str,
@@ -20,12 +34,8 @@ def search(
     Obtient les resultats de la recherche, mets en vecteur, cherche parmis les
     resultats et les retourne. 
     """
-    print(search_request.query)
-    # vector = external.get_vector(search_request.query)
-    vector = external.get_huggingface_vector(search_request.query)  
-    # print(vector)
+    vector = get_vector(search_request.query)
     response = external.search_cache(vector)
-    # print(response)
     # indexes = response['indexes']
     distances = response['distances']
     result_IDs = response['data']
@@ -50,7 +60,6 @@ def search(
         results = model.get_results(
             result_IDs, search_request.page, search_request.size, search_employment,
             search_volunteer, search_community_services)
-
     return results
 
 
@@ -78,8 +87,7 @@ def geo_search(
         session_token: str,
         geo_search_request: GeoSearchRequest):
     """Return distance-constrained query."""
-    # vector = external.get_vector(geo_search_request.query)
-    vector = external.get_huggingface_vector(search_request.query)
+    vector = get_vector(geo_search_request.query)
 
     response = external.search_cache(vector)
     distances = response['distances']
@@ -89,6 +97,7 @@ def geo_search(
     search_volunteer = geo_search_request.volunteer
     search_community_services = geo_search_request.community_services
 
+    number_of_results = 5000
     if geo_search_request.cutoff is not None:
         result_IDs = filter_indexes_by_cutoff(
             result_IDs, distances, geo_search_request.cutoff, number_of_results)
@@ -101,7 +110,6 @@ def geo_search(
     else:
         results = model.get_constrained_results(
             geo_search_request, result_IDs, False, search_employment, search_volunteer, search_community_services)
-
     return results
 
 

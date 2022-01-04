@@ -132,7 +132,7 @@ def get_results(result_IDs: list, page: int, size: int, search_employment: bool 
     else:
         page = max(page, 1)
     result_IDs_string = ', '.join(result_IDs)
-
+    
     inclusion_filter = converters.build_inclusion_filter(
         search_employment, search_volunteer, search_community_services)
     query_results = execute((queries.get_results + inclusion_filter + queries.get_results_2).format(
@@ -198,7 +198,7 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs) +
                             inclusion_filter + queries.get_constrained_results_3.format(result_IDs))
-
+                            
     total_results = len(query_results)
 
     if not request.page:
