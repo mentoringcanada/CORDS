@@ -1,0 +1,1 @@
+source scripts/.env.sh && python3 -c 'from services import cluster_maintenance; cluster_maintenance.recluster(100)'

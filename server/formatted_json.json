@@ -1,0 +1,480 @@
+{
+    "links": {
+        "self": {
+            "href": "https://connect-server.mentor-canada.dev/api/program"
+        },
+        "next": {
+            "href": "https://connect-server.mentor-canada.dev/api/program?page%5Blimit%5D=10&page%5Boffset%5D=10"
+        }
+    },
+    "total": 224,
+    "data": [
+        {
+            "id": "deeb0be2-7157-4e9f-a981-5128dc66fada",
+            "attributes": {
+                "id": "deeb0be2-7157-4e9f-a981-5128dc66fada",
+                "name": {
+                    "en": "Programme de mentorat traditionnel",
+                    "fr": "Programme de mentorat traditionnel"
+                },
+                "description": {
+                    "fr": "Le programme de mentorat traditionnel offre aux gar\u00e7ons, filles et adolescent(e)s de 6 \u00e0 17 ans la possibilit\u00e9 d\u2019avoir un Grand Fr\u00e8re ou une Grande Soeur. Gr\u00e2ce \u00e0 des activit\u00e9s r\u00e9guli\u00e8res, une relation \u00e9troite se tisse entre le mentor et le jeune. C\u2019est une relation bas\u00e9e sur la confiance et le partage d\u2019int\u00e9r\u00eats communs. Tout au long de cette amiti\u00e9, tant le mentor que le jeune sont soutenus par des intervenants exp\u00e9riment\u00e9s. Cette exp\u00e9rience permet au mentor et au jeune de vivre une exp\u00e9rience qui changera le cours de leur vie respective."
+                },
+                "locations": [
+                    {
+                        "lat": 46.342982,
+                        "lng": -72.5420716,
+                        "name": "Trois-Rivi\u00e8res, QC, Canada"
+                    },
+                    {
+                        "lat": 46.5618559,
+                        "lng": -72.7435254,
+                        "name": "Shawinigan, QC, Canada"
+                    },
+                    {
+                        "lat": 46.2559944,
+                        "lng": -72.9432214,
+                        "name": "Louiseville, QC, Canada"
+                    },
+                    {
+                        "lat": 46.3506215,
+                        "lng": -72.4350552,
+                        "name": "B\u00e9cancour, QC, Canada"
+                    },
+                    {
+                        "lat": 46.2274055,
+                        "lng": -72.6191742,
+                        "name": "Nicolet, QC, Canada"
+                    },
+                    {
+                        "lat": 47.0929111,
+                        "lng": -73.3187817,
+                        "name": "M\u00e9kinac, QC, Canada"
+                    },
+                    {
+                        "lat": 46.494521,
+                        "lng": -72.2513,
+                        "name": "Batiscan, QC G0X 1A0, Canada"
+                    },
+                    {
+                        "lat": 46.4409094,
+                        "lng": -72.3450988,
+                        "name": "Champlain, QC, Canada"
+                    },
+                    {
+                        "lat": 46.4875883,
+                        "lng": -72.6565368,
+                        "name": "Notre-Dame-du-Mont-Carmel, QC G0X 3J0, Canada"
+                    },
+                    {
+                        "lat": 46.5720839,
+                        "lng": -72.204901,
+                        "name": "Sainte-Anne-de-la-P\u00e9rade, QC G0X 2J0, Canada"
+                    },
+                    {
+                        "lat": 46.5296048,
+                        "lng": -72.3393038,
+                        "name": "Sainte-Genevi\u00e8ve-de-Batiscan, QC G0X 2R0, Canada"
+                    },
+                    {
+                        "lat": 46.49594,
+                        "lng": -72.419499,
+                        "name": "Saint-Luc-de-Vincennes, QC G0X 3K0, Canada"
+                    },
+                    {
+                        "lat": 46.471499,
+                        "lng": -72.5375551,
+                        "name": "Saint-Maurice, QC G0X 2X0, Canada"
+                    },
+                    {
+                        "lat": 46.563369,
+                        "lng": -72.473253,
+                        "name": "Saint-Narcisse, QC G0X 2Y0, Canada"
+                    },
+                    {
+                        "lat": 49.007526,
+                        "lng": -72.176134,
+                        "name": "Saint-Stanislas, QC G8L 7B7, Canada"
+                    }
+                ],
+                "phone": "819-840-0965",
+                "website": "https://gfgstr.com/nos-programmes/programma-traditionnel/"
+            }
+        },
+        {
+            "id": "6c83aec2-0998-4d1c-993a-9a7bc3d8d6e5",
+            "attributes": {
+                "id": "6c83aec2-0998-4d1c-993a-9a7bc3d8d6e5",
+                "name": {
+                    "en": "Programme de mentorat virtuel",
+                    "fr": "Programme de mentorat virtuel"
+                },
+                "description": {
+                    "fr": "Le programme de mentorat virtuel est offert \u00e0 de jeunes gar\u00e7ons, filles et adolescent(e)s de 10 \u00e0 17 ans. Comme l\u2019adolescence est un moment de questionnements et de changements, le fait d\u2019avoir une personne avec qui d\u00e9velopper une relation significative peut \u00eatre d\u00e9terminant pour un jeune. Tout au long de leur amiti\u00e9, les Grands Fr\u00e8res, Grandes S\u0153urs, Petit Fr\u00e8res et Petites S\u0153urs seront encadr\u00e9s par des intervenants exp\u00e9riment\u00e9s. Cette relation permet au mentor et au jeune de vivre une exp\u00e9rience unique et adapt\u00e9e selon leurs besoins."
+                },
+                "locations": [
+                    {
+                        "lat": 46.0824975,
+                        "lng": -72.2162753,
+                        "name": "Centre-du-Qu\u00e9bec, QC, Canada"
+                    },
+                    {
+                        "lat": 46.342982,
+                        "lng": -72.5420716,
+                        "name": "Trois-Rivi\u00e8res, QC, Canada"
+                    },
+                    {
+                        "lat": 46.5618559,
+                        "lng": -72.7435254,
+                        "name": "Shawinigan, QC, Canada"
+                    },
+                    {
+                        "lat": 46.2559944,
+                        "lng": -72.9432214,
+                        "name": "Louiseville, QC, Canada"
+                    },
+                    {
+                        "lat": 47.4383405,
+                        "lng": -72.7839311,
+                        "name": "La Tuque, QC, Canada"
+                    },
+                    {
+                        "lat": 46.4409094,
+                        "lng": -72.3450988,
+                        "name": "Champlain, QC, Canada"
+                    },
+                    {
+                        "lat": 46.494521,
+                        "lng": -72.2513,
+                        "name": "Batiscan, QC G0X 1A0, Canada"
+                    },
+                    {
+                        "lat": 46.5720839,
+                        "lng": -72.204901,
+                        "name": "Sainte-Anne-de-la-P\u00e9rade, QC G0X 2J0, Canada"
+                    },
+                    {
+                        "lat": 46.4875883,
+                        "lng": -72.6565368,
+                        "name": "Notre-Dame-du-Mont-Carmel, QC G0X 3J0, Canada"
+                    },
+                    {
+                        "lat": 46.5296048,
+                        "lng": -72.3393038,
+                        "name": "Sainte-Genevi\u00e8ve-de-Batiscan, QC G0X 2R0, Canada"
+                    },
+                    {
+                        "lat": 46.49594,
+                        "lng": -72.419499,
+                        "name": "Saint-Luc-de-Vincennes, QC G0X 3K0, Canada"
+                    },
+                    {
+                        "lat": 46.471499,
+                        "lng": -72.5375551,
+                        "name": "Saint-Maurice, QC G0X 2X0, Canada"
+                    },
+                    {
+                        "lat": 46.563369,
+                        "lng": -72.473253,
+                        "name": "Saint-Narcisse, QC G0X 2Y0, Canada"
+                    },
+                    {
+                        "lat": 46.2128391,
+                        "lng": -70.4790446,
+                        "name": "Saint-Prosper, QC, Canada"
+                    },
+                    {
+                        "lat": 46.6109075,
+                        "lng": -72.3845431,
+                        "name": "Saint-Stanislas-de-Champlain, QC G0X 3E0, Canada"
+                    },
+                    {
+                        "lat": 47.0929111,
+                        "lng": -73.3187817,
+                        "name": "M\u00e9kinac, QC, Canada"
+                    }
+                ],
+                "phone": "819-840-0965",
+                "website": "www.gfgstr.com"
+            }
+        },
+        {
+            "id": "ddd3349c-ab83-46fa-85b3-2fe4f22afff7",
+            "attributes": {
+                "id": "ddd3349c-ab83-46fa-85b3-2fe4f22afff7",
+                "name": {
+                    "en": "Community Mentoring "
+                },
+                "description": {
+                    "en": "Any gender adult (19+) will support any gender youth (6-16) , 1-1 for 2-4 hours per week in a variety of activities to help that youth meet their potential"
+                },
+                "locations": [
+                    {
+                        "lat": 49.1922303,
+                        "lng": -123.9878575,
+                        "name": "2030 Northfield Rd, Nanaimo, BC V9S 3B8, Canada"
+                    }
+                ],
+                "phone": "250-756-2447",
+                "website": "www.bigcvi.ca "
+            }
+        },
+        {
+            "id": "db3b76bc-976e-4340-abd6-1396e47b556c",
+            "attributes": {
+                "id": "db3b76bc-976e-4340-abd6-1396e47b556c",
+                "name": {
+                    "en": "In-School Mentoring"
+                },
+                "description": {
+                    "en": "The In-School Mentoring program provides youth with an adult role model and a friend to talk to and share the experiences of growing up within school grounds. For one hour a week, mentors meet with their mentee and engage in activities such as board games, crafts or just hang out on school grounds. The In-School Mentoring program requires a weekly visit of one hour for the duration of the school year. Matches do not meet over the summer break or during other school holidays. Virtual mentoring options are available."
+                },
+                "locations": [
+                    {
+                        "lat": 45.2733153,
+                        "lng": -66.0633081,
+                        "name": "Saint John, NB, Canada"
+                    },
+                    {
+                        "lat": 45.7236192,
+                        "lng": -65.5108761,
+                        "name": "Sussex, NB, Canada"
+                    },
+                    {
+                        "lat": 45.1306531,
+                        "lng": -66.8261982,
+                        "name": "Saint George, NB E5C, Canada"
+                    },
+                    {
+                        "lat": 45.1941651,
+                        "lng": -67.2755622,
+                        "name": "Saint Stephen, NB, Canada"
+                    },
+                    {
+                        "lat": 45.0588866,
+                        "lng": -66.7849745,
+                        "name": "Blacks Harbour, NB E5H, Canada"
+                    },
+                    {
+                        "lat": 45.4321713,
+                        "lng": -65.9462583,
+                        "name": "Quispamsis, NB, Canada"
+                    },
+                    {
+                        "lat": 45.3888261,
+                        "lng": -65.9942973,
+                        "name": "Rothesay, NB, Canada"
+                    },
+                    {
+                        "lat": 45.5329511,
+                        "lng": -65.8321685,
+                        "name": "Hampton, NB, Canada"
+                    }
+                ],
+                "phone": "5066351145",
+                "website": "www.saintjohn.bigbrothersbigsisters.ca/"
+            }
+        },
+        {
+            "id": "1718b6d3-1747-49a9-a348-34b986fbdc5d",
+            "attributes": {
+                "id": "1718b6d3-1747-49a9-a348-34b986fbdc5d",
+                "name": {
+                    "en": "Go Girls "
+                },
+                "description": {
+                    "en": "This group mentoring program is for girls aged 11-13 that focuses on physical activity, balanced eating and building self-esteem. The program consists of seven weekly 1-2 hour mentoring sessions, held after school, within school facilities or online."
+                },
+                "locations": [
+                    {
+                        "lat": 49.1922303,
+                        "lng": -123.9878575,
+                        "name": "2030 Northfield Rd, Nanaimo, BC V9S 3B8, Canada"
+                    },
+                    {
+                        "lat": 49.1658836,
+                        "lng": -123.9400647,
+                        "name": "Nanaimo, BC, Canada"
+                    }
+                ],
+                "phone": "250-756-2447",
+                "website": "www.bigcvi.ca"
+            }
+        },
+        {
+            "id": "c3bc355e-f8b2-48b4-b913-af837b59002d",
+            "attributes": {
+                "id": "c3bc355e-f8b2-48b4-b913-af837b59002d",
+                "name": {
+                    "en": "Community Based Mentoring"
+                },
+                "description": {
+                    "en": "The Big Brothers, Big Sisters, and Big Couple Mentoring programs provides young people with a role model to talk to and share the experiences of growing up with. Through regular outings, a relationship is developed between the mentor and the mentee, which is built on trust and common interests, and is supported by our experienced case-workers. This 1:1 Mentoring program usually requires two regularly scheduled outings a month of a few hours each and a minimum of a one year commitment.\n"
+                },
+                "locations": [
+                    {
+                        "lat": 45.2733153,
+                        "lng": -66.0633081,
+                        "name": "Saint John, NB, Canada"
+                    },
+                    {
+                        "lat": 45.7236192,
+                        "lng": -65.5108761,
+                        "name": "Sussex, NB, Canada"
+                    },
+                    {
+                        "lat": 45.4321713,
+                        "lng": -65.9462583,
+                        "name": "Quispamsis, NB, Canada"
+                    },
+                    {
+                        "lat": 45.3888261,
+                        "lng": -65.9942973,
+                        "name": "Rothesay, NB, Canada"
+                    },
+                    {
+                        "lat": 45.5329511,
+                        "lng": -65.8321685,
+                        "name": "Hampton, NB, Canada"
+                    },
+                    {
+                        "lat": 45.1306531,
+                        "lng": -66.8261982,
+                        "name": "Saint George, NB E5C, Canada"
+                    },
+                    {
+                        "lat": 45.0588866,
+                        "lng": -66.7849745,
+                        "name": "Blacks Harbour, NB E5H, Canada"
+                    },
+                    {
+                        "lat": 45.1941651,
+                        "lng": -67.2755622,
+                        "name": "Saint Stephen, NB, Canada"
+                    }
+                ],
+                "phone": "5066351145",
+                "website": "www.saintjohn.bigbrothersbigsisters.ca/"
+            }
+        },
+        {
+            "id": "6f70ec69-19e0-41f0-a498-fe62b070a649",
+            "attributes": {
+                "id": "6f70ec69-19e0-41f0-a498-fe62b070a649",
+                "name": {
+                    "en": "Go Girls! Group Mentoring Program"
+                },
+                "description": {
+                    "en": "Go Girls! is a group mentoring program for girls ages 12-14 that focuses on physical activity, balanced eating and self-esteem. The single, most important goal of the program is to positively shape the lives of young women and girls by helping them build a positive self-image \u2013 setting them on a path to reach their full potential in life.\nGame On! is a group mentoring program for providing boys and young men with information and support to make informed choices about a range of healthy lifestyle practices. Through non-traditional physical activities, complemented with healthy eating support, participants are engaged in life skills, communication, and emotional health discussions designed to engage participants in the pursuit of life-long healthy lifestyles."
+                },
+                "locations": [
+                    {
+                        "lat": 45.2733153,
+                        "lng": -66.0633081,
+                        "name": "Saint John, NB, Canada"
+                    },
+                    {
+                        "lat": 45.7236192,
+                        "lng": -65.5108761,
+                        "name": "Sussex, NB, Canada"
+                    },
+                    {
+                        "lat": 45.4321713,
+                        "lng": -65.9462583,
+                        "name": "Quispamsis, NB, Canada"
+                    },
+                    {
+                        "lat": 45.3888261,
+                        "lng": -65.9942973,
+                        "name": "Rothesay, NB, Canada"
+                    },
+                    {
+                        "lat": 45.5329511,
+                        "lng": -65.8321685,
+                        "name": "Hampton, NB, Canada"
+                    },
+                    {
+                        "lat": 45.1306531,
+                        "lng": -66.8261982,
+                        "name": "Saint George, NB E5C, Canada"
+                    },
+                    {
+                        "lat": 45.0588866,
+                        "lng": -66.7849745,
+                        "name": "Blacks Harbour, NB E5H, Canada"
+                    },
+                    {
+                        "lat": 45.1941651,
+                        "lng": -67.2755622,
+                        "name": "Saint Stephen, NB, Canada"
+                    }
+                ],
+                "phone": "5066351145",
+                "website": "www.saintjohn.bigbrothersbigsisters.ca/"
+            }
+        },
+        {
+            "id": "7365c6f7-3c76-45e4-a6b4-c364f9be5fc7",
+            "attributes": {
+                "id": "7365c6f7-3c76-45e4-a6b4-c364f9be5fc7",
+                "name": {
+                    "en": "PROPEL Program"
+                },
+                "description": {
+                    "en": "The PROPEL program is module based learning opportunities that equip young people ages 14-21 with new skills and exposing them to opportunities that build better self-awareness and confidence to make informed decisions for their education and career goals. Designed by 3 defining objectives the PROPEL program includes; Exploring Self, Exploring Education and Exploring Careers. Students are given opportunities to work in groups and 1:1 with staff and mentors to support their short and long-term goals."
+                },
+                "locations": [
+                    {
+                        "lat": 45.2733153,
+                        "lng": -66.0633081,
+                        "name": "Saint John, NB, Canada"
+                    }
+                ],
+                "phone": "5066351145",
+                "website": "www.saintjohn.bigbrothersbigsisters.ca/"
+            }
+        },
+        {
+            "id": "7c78c0a4-8566-4640-8424-11c9d9e6bdc7",
+            "attributes": {
+                "id": "7c78c0a4-8566-4640-8424-11c9d9e6bdc7",
+                "name": {
+                    "en": "Game On "
+                },
+                "description": {
+                    "en": "This group mentoring program is for boys aged 11-13, with focus on physical activity, balanced eating and building self-esteem. \n"
+                },
+                "locations": [
+                    {
+                        "lat": 49.1922561,
+                        "lng": -123.9878356,
+                        "name": "2030 Northfield Rd, Nanaimo, BC V9S 3B8, Canada"
+                    }
+                ],
+                "phone": "250-756-2447",
+                "website": "www.bigscvi.ca "
+            }
+        },
+        {
+            "id": "35ec6079-6d84-43f6-b6d5-ef37cb6494f0",
+            "attributes": {
+                "id": "35ec6079-6d84-43f6-b6d5-ef37cb6494f0",
+                "name": {
+                    "en": "Virtual/In-school 1-1 Mentoring "
+                },
+                "description": {
+                    "en": "A mentor aged 15+ is matched with a youth grades k - 7 through a school based referral or parent inquiry.  This program runs during the school year with mentors meeting with their mentees once a week, one-on-one for a minimum of one hour per session. They can meet at the school the child attends, or virtually online during designated times approved by the Agency."
+                },
+                "locations": [
+                    {
+                        "lat": 49.1922303,
+                        "lng": -123.9878575,
+                        "name": "2030 Northfield Rd, Nanaimo, BC V9S 3B8, Canada"
+                    }
+                ],
+                "phone": "250-756-2447",
+                "website": "www.bigscvi.ca"
+            }
+        }
+    ]
+}

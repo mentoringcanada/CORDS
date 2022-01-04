@@ -83,7 +83,7 @@ def get_vector_from_ID(item_id):
 def clean_text(text):
     cleaned_text = ''
     ok_chars = set(
-        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-')
     for char in text:
         if char in ok_chars:
             cleaned_text += char
@@ -99,14 +99,19 @@ def get_codes_from_items(taxonomies):
     return taxonomies.split(',')
 
 
-def get_proximity_results(result_IDs: list, page: int, size: int, lat: float, lng: float):
+def get_proximity_results(result_IDs: list, page: int, size: int, lat: float,
+                          lng: float, search_employment: bool, search_volunteer: bool, search_community_services: bool):
     if not page:
         page = 1
     else:
         page = max(page, 1)
     result_IDs_string = ', '.join(result_IDs)
     limit = page*size
-    query_results = execute(queries.get_proximity_results.format(
+
+    inclusion_filter = converters.build_inclusion_filter(
+        search_employment, search_volunteer, search_community_services)
+
+    query_results = execute((queries.get_proximity_results + inclusion_filter + queries.get_proximity_results_2).format(
         result_IDs_string, lat, lng, limit))
     total_results = len(query_results)
     query_results = query_results[limit-size:limit]
@@ -120,13 +125,17 @@ def get_proximity_results(result_IDs: list, page: int, size: int, lat: float, ln
     return {'items': items, 'totalResults': total_results}
 
 
-def get_results(result_IDs: list, page: int, size: int):
+def get_results(result_IDs: list, page: int, size: int, search_employment: bool = False,
+                search_volunteer: bool = False, search_community_services: bool = True):
     if not page:
         page = 1
     else:
         page = max(page, 1)
     result_IDs_string = ', '.join(result_IDs)
-    query_results = execute(queries.get_results.format(
+    
+    inclusion_filter = converters.build_inclusion_filter(
+        search_employment, search_volunteer, search_community_services)
+    query_results = execute((queries.get_results + inclusion_filter + queries.get_results_2).format(
         result_IDs_string, result_IDs))
     total_results = len(query_results)
     limit = page*size
@@ -141,13 +150,21 @@ def get_results(result_IDs: list, page: int, size: int):
     return {'items': items, 'totalResults': total_results}
 
 
-def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, specific_id: str = False):
+def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, specific_id: str = False,
+                                   search_employment: bool = False, search_volunteer: bool = False, search_community_services: bool = True):
     if specific_id:
-        result_IDs.remove(specific_id)
-        result_IDs = [specific_id] + result_IDs
+        results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) + str(result_IDs[0]) + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))
+        total_results = 1
+        items = [Item.from_db_row(i) for i in results]
+        return {'items': items, 'totalResults': total_results}
+
     result_IDs = ', '.join(result_IDs)
+
+    inclusion_filter = converters.build_inclusion_filter(
+        search_employment, search_volunteer, search_community_services)
+
     query_results = execute(queries.get_cutoff_constrained_results_1.format(request.lat, request.lng) +
-                            result_IDs + queries.get_cutoff_constrained_results_2.format(request.lat, request.lng, request.distance))
+                            result_IDs + (queries.get_cutoff_constrained_results_2 + inclusion_filter + queries.get_cutoff_constrained_results_3).format(request.lat, request.lng, request.distance))
 
     total_results = len(query_results)
 
@@ -169,14 +186,19 @@ def get_cutoff_constrained_results(result_IDs: list, request: GeoSearchRequest, 
     return {'items': items, 'totalResults': total_results}
 
 
-def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False):
+def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False,
+                            search_employment=False, search_volunteer=False, search_community_services=True):
     if specific_id:
         result_IDs.remove(specific_id)
         result_IDs = [specific_id] + result_IDs
     result_IDs = ', '.join(result_IDs)
-    query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
-                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs))
 
+    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
+
+    query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
+                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs) +
+                            inclusion_filter + queries.get_constrained_results_3.format(result_IDs))
+                            
     total_results = len(query_results)
 
     if not request.page:
@@ -229,3 +251,30 @@ def get_items(session):
     session = sanitize_basket(session)
     results = execute(queries.get_items_by_session, (session,))
     return [Item.from_db_row(r) for r in results]
+
+
+def cluster_filtering_items(items, lat, lng, distance, community_services, employment, volunteer):
+    inclusion_filter = converters.build_inclusion_filter(
+        employment, volunteer, community_services)
+
+    if lat is not None and lng is not None:
+        if distance is None:
+            distance = 50
+        if distance < 3:
+            distance = 3
+        if distance > 500:
+            distance = 500
+        distance_filter = queries.distance.format(lat, lng)
+        results = execute(queries.cluster_filtering_1 + ' , ' + distance_filter + " as distance " +
+                          queries.cluster_filtering_2.format(items) + distance_filter + ' < ' + str(distance) + inclusion_filter + queries.cluster_filtering_3.format(lat, lng))
+    else:
+        results = execute(queries.cluster_filtering_1 +
+                          queries.cluster_filtering_2.format(items) + ' 1=1 ' + inclusion_filter + " LIMIT 50;")
+
+    results = [Item.from_db_row(r) for r in results]
+    return results
+
+
+def get_summaries_for_clusters(cluster_IDs):
+    results = execute(queries.get_summaries_for_clusters.format(cluster_IDs))
+    return [r['summary'] for r in results]

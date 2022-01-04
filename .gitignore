@@ -7,3 +7,4 @@ server/scripts/.env.sh
 */data/2019.csv
 */data/2020.csv
 */test_results.csv
+env

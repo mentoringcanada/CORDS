@@ -7,3 +7,4 @@ from helper_classes.other_classes.item import Item
 class ItemList(BaseModel):
     items: List[Item]
     totalResults: Optional[int]
+    suggestedSearches: Optional[List[str]]

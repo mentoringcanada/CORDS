@@ -1,0 +1,2 @@
+ALTER TABLE resources ADD COLUMN resource_type VARCHAR;
+UPDATE resources SET resource_type = '211'; -- this means communith services

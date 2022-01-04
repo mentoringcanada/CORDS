@@ -9,3 +9,6 @@ class SearchRequest(BaseModel):
     page: Optional[int]
     size: Optional[int] = 10
     cutoff: Optional[float]
+    community_services: Optional[bool] = True
+    employment: Optional[bool] = False
+    volunteer: Optional[bool] = False

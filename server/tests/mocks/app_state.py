@@ -1,7 +1,7 @@
 from random import randrange
 
 
-cache_size = 1000
+cache_size = 10000
 
 
 class AppState:

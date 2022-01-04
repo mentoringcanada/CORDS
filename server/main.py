@@ -1,5 +1,4 @@
 # import 3rd party modules
-import requests
 from helper_classes.other_classes.cluster import Cluster
 from helper_classes.other_classes.clusterList import ClusterList
 from helper_classes.other_classes.taxonomyList import TaxonomyList
@@ -7,12 +6,12 @@ from fastapi import FastAPI
 from fastapi.requests import Request
 import os
 import sentry_sdk
-from typing import Optional
 
 
 # import local modules
 import controllers
 from helper_classes.other_classes.itemList import ItemList
+from helper_classes.request_classes.itemIdList import ItemIdList
 from helper_classes.other_classes.received import Received
 from helper_classes.other_classes.session import Session
 from helper_classes.other_classes.basketItem import BasketItem
@@ -20,15 +19,12 @@ from helper_classes.request_classes.feedbackRequest import FeedbackRequest
 from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
-import startup
 from fastapi.responses import HTMLResponse
-from fastapi import Header
 from services import cluster_explorer
 from services import cluster_recommendations
 
 
 app = FastAPI()
-app_state, vector_model = startup.load()
 
 
 if os.environ['production'] == 'TRUE':
@@ -82,7 +78,7 @@ def search(search_request: SearchRequest, request: Request):
     """
     session_token = request.headers.get('session_token')
     results = controllers.search(
-        session_token, search_request, app_state, vector_model)
+        session_token, search_request)
     return results
 
 
@@ -94,7 +90,7 @@ def get_item_by_id(item_id: str, request: Request):
     """
     session_token = request.headers.get('session_token')
     results = controllers.get_similar(
-        session_token, item_id, app_state, vector_model)
+        session_token, item_id)
     return results
 
 
@@ -105,7 +101,7 @@ def get_geo_search(geo_search_request: GeoSearchRequest, request: Request):
     """
     session_token = request.headers.get('session_token')
     results = controllers.geo_search(
-        session_token, geo_search_request, app_state, vector_model)
+        session_token, geo_search_request)
     return results
 
 
@@ -116,7 +112,7 @@ def get_geo_search(geo_similar_request: GeoSimilarRequest, request: Request):
     """
     session_token = request.headers.get('session_token')
     results = controllers.geo_similar_search(
-        session_token, geo_similar_request, app_state)
+        session_token, geo_similar_request)
     return results
 
 
@@ -152,6 +148,15 @@ def get_clusters_from_taxonomies(items: str = ''):
     results = controllers.get_recommended_clusters_from_taxonomies(
         items)
     return results
+
+
+@app.post("/recommend", response_model=ItemList)
+def get_clusters_from_items(itemIdList: ItemIdList):
+    results, summaries = controllers.get_recommended_clusters_from_items(
+        itemIdList)
+    return ItemList(
+        items=results,
+        suggestedSearches=summaries)
 
 
 @app.get("/clusters", response_model=ClusterList)
