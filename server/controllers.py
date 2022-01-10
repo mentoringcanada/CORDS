@@ -10,7 +10,6 @@ import model
 import numpy as np
 from services import converters
 from services.cutoff_filter import filter_indexes_by_cutoff
-from services import cluster_recommendations
 from services import external
 import os
 
@@ -21,7 +20,6 @@ def get_vector(query_string):
     HuggingFace vector service if VECTOR_SERVICE_TYPE configured in .env.sh is 'HF',
     else calls the existing vector service.
     """
-    print("VECTOR_SERVICE_TYPE ", VECTOR_SERVICE_TYPE)
     if VECTOR_SERVICE_TYPE == 'HF':     # If using HuggingFace model and vectorizing (service running on port 8003)..
         return external.get_huggingface_vector(query_string)
     else:       # IF using model_directory model and vectorizing (service running on port 8001)
@@ -141,27 +139,14 @@ def geo_similar_search(
     #     results = model.get_constrained_results(
     #         geo_similar_request, result_IDs)
     result_IDs = ["'" + str(geo_similar_request.item_id) + "'"]
-    results = model.get_constrained_results(geo_similar_request, result_IDs, result_IDs[0])
+    results = model.get_constrained_results(geo_similar_request, result_IDs, result_IDs[0],
+                    geo_similar_request.employment, geo_similar_request.volunteer, geo_similar_request.community_services)
     return results
 
-
-def get_recommended_clusters_from_taxonomies(taxonomies):
-    # sanitize inputs
-    taxonomy_codes = model.get_codes_from_items(taxonomies)
-    cluster_IDs = cluster_recommendations.get_cluster_recommendations_from_taxonomies(
-        taxonomy_codes, 5)
-    data = model.execute("""SELECT *,
-    (two_dim[0] - (select min(two_dim[0]) from clusters)) / (select max(two_dim[0]) - min(two_dim[0]) from clusters) as scaled_x,
-    (two_dim[1] - (select min(two_dim[1]) from clusters)) / (select max(two_dim[1]) - min(two_dim[1]) from clusters) as scaled_y
-    FROM clusters 
-    WHERE cluster_id = any(%s)""", (cluster_IDs,))
-    output = ClusterList(clusters=[Cluster.from_db_row(d) for d in data])
-    return output
 
 
 def get_recommended_clusters_from_items(itemIdList: ItemIdList):
     items = [model.clean_text(i) for i in itemIdList.items]
-
     results = model.cluster_filtering_items(
         items,
         itemIdList.lat,
@@ -187,16 +172,6 @@ def save_feedback(data):
         data.type,
     ]
     model.save_feedback(item)
-
-
-def add_item(basketItem, session):
-    item_id = basketItem.item_id
-    model.save_item(item_id, session)
-
-
-def remove_item(basketItem, session):
-    item_id = basketItem.item_id
-    model.remove_item(item_id, session)
 
 
 def get_items(session):

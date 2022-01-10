@@ -28,18 +28,6 @@ def get_all_vectors_and_IDs(resource_type='211'):
     return vectors, index_to_ID
 
 
-def assign_clusters_to_taxonomies():
-    pairs = model.execute(queries.get_likelihood_of_vector_to_cluster)
-    # pairs = model.execute(queries.get_taxonomies_clusters)
-    taxonomies = {}
-    max_ratio = {}
-    for pair in pairs:
-        if pair['taxonomy_code'] not in max_ratio or pair['taxonomy_code'] < pair['ratio']:
-            taxonomies[pair['taxonomy_code']] = pair['cluster_id']
-    data = [[x[1], x[0]] for x in taxonomies.items()]
-    model.execute_many(queries.assign_cluster_id_to_taxonomy, data)
-
-
 def assign_clusters_to_referrals():
     pairs = model.execute(queries.get_cluster_per_service)
     # pairs = model.execute(queries.get_taxonomies_clusters)

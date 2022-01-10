@@ -4,6 +4,7 @@ from helper_classes.other_classes.clusterList import ClusterList
 from helper_classes.other_classes.taxonomyList import TaxonomyList
 from fastapi import FastAPI
 from fastapi.requests import Request
+from fastapi.openapi.utils import get_openapi
 import os
 import sentry_sdk
 
@@ -21,7 +22,6 @@ from helper_classes.request_classes.geoSimilarRequest import GeoSimilarRequest
 from helper_classes.request_classes.searchRequest import SearchRequest
 from fastapi.responses import HTMLResponse
 from services import cluster_explorer
-from services import cluster_recommendations
 
 
 app = FastAPI()
@@ -36,36 +36,35 @@ if os.environ['production'] == 'TRUE':
 
 # CORDS portal
 
-@app.post("/session", response_model=Session)
-def session():
-    """Create a new session.
-    Creer une nouvelle session.
+def my_schema():
+    """Defining the schema for the openapi.
     """
-    return Session()
+    if app.openapi_schema:
+        # return the openapi schema if it already exists (avoids creating the schema again)
+        return app.openapi_schema
 
+    DOCS_TITLE = "The CORDS Endpoints"
+    DOCS_VERSION = "1.0"
+    openapi_schema = get_openapi(
+       title=DOCS_TITLE,
+       version=DOCS_VERSION,
+       routes=app.routes,
+    )
+    openapi_schema["info"] = {
+       "title" : DOCS_TITLE,
+       "version" : DOCS_VERSION,
+       "description" : "This contains several endpoints for different GET and POST requests!"
+    }
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
 
-@app.post("/add_item", response_model=Received)
-def add_item(basket_item: BasketItem, request: Request):
-    """Adds item to session's basket.
-    Ajoute objet au panier du session."""
-    session_token = request.headers.get('session_token')
-    controllers.add_item(basket_item, session_token)
-    return Received()
-
-
-@app.post("/remove_item", response_model=Received)
-def remove_item(basket_item: BasketItem, request: Request):
-    """Removes item from session's basket.
-    Supprime un objet du panier du session."""
-    session_token = request.headers.get('session_token')
-    controllers.remove_item(basket_item, session_token)
-    return Received()
+app.openapi = my_schema
 
 
 @app.get("/items", response_model=ItemList)
 def get_items(request: Request):
-    """See what items you have.
-    Voir quels object vous avez."""
+    """(EN) See what items you have.\n
+    (FR) Voir quels object vous avez."""
     session_token = request.headers.get('session_token')
     results = controllers.get_items(session_token)
     return results
@@ -73,8 +72,8 @@ def get_items(request: Request):
 
 @app.post("/search", response_model=ItemList)
 def search(search_request: SearchRequest, request: Request):
-    """Text search through resources and opportunities.
-    Chercher a travers les resources et opportunites par texte.
+    """(EN) Text search through resources and opportunities.\n
+    (FR) Chercher a travers les resources et opportunites par texte.
     """
     session_token = request.headers.get('session_token')
     results = controllers.search(
@@ -85,7 +84,7 @@ def search(search_request: SearchRequest, request: Request):
 @app.get("/similar/{item_id}", response_model=ItemList)
 def get_item_by_id(item_id: str, request: Request):
     """(EN) Returns similar resources and opportunities based on description text.
-    Also stores the session-item pair in order to make future recommendations.
+    Also stores the session-item pair in order to make future recommendations.\n
     (FR) Retourne des resources et opportunites selon le texte similier a l'object.
     """
     session_token = request.headers.get('session_token')
@@ -96,7 +95,7 @@ def get_item_by_id(item_id: str, request: Request):
 
 @app.post("/geosearch", response_model=ItemList)
 def get_geo_search(geo_search_request: GeoSearchRequest, request: Request):
-    """(EN) Returns resources and opportunities based on search, geographically constrained.
+    """(EN) Returns resources and opportunities based on search, geographically constrained.\n
     (FR) Retourne des resources and opportunies selon le texte, proche des coordonees partages.
     """
     session_token = request.headers.get('session_token')
@@ -107,7 +106,7 @@ def get_geo_search(geo_search_request: GeoSearchRequest, request: Request):
 
 @app.post("/similar", response_model=ItemList)
 def get_geo_search(geo_similar_request: GeoSimilarRequest, request: Request):
-    """(EN) Returns resources and opportunities based on search, geographically constrained.
+    """(EN) Returns resources and opportunities based on search, geographically constrained.\n
     (FR) Retourne des resources and opportunies selon le texte, proche des coordonees partages.
     """
     session_token = request.headers.get('session_token')
@@ -130,24 +129,7 @@ def main_demos_page():
     return open("./views/demo.html", "r").read()
 
 
-@app.get("/scripts/winbox.js", response_class=HTMLResponse)
-def main_demos_page():
-    return open("./static/winbox.js", "r").read()
-
-
 # DEMO API
-
-@app.get("/taxonomies", response_model=TaxonomyList)
-def get_all_taxonomies():
-    results = cluster_recommendations.get_all_taxonomies()
-    return results
-
-
-@app.get("/recommendations", response_model=ClusterList)
-def get_clusters_from_taxonomies(items: str = ''):
-    results = controllers.get_recommended_clusters_from_taxonomies(
-        items)
-    return results
 
 
 @app.post("/recommend", response_model=ItemList)
@@ -165,7 +147,7 @@ def get_all_clusters():
     return clusters
 
 
-@app.get("/cluster", response_model=Cluster)
+@app.get("/cluster/{clusterId}", response_model=Cluster)
 def get_cluster(clusterId: int):
     cluster_id = int(clusterId)
     cluster = cluster_explorer.get_cluster(cluster_id)

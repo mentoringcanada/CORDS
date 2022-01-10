@@ -42,9 +42,9 @@ def load_huggingface_model():
 def cache_vectors():
     print('caching vectors')
     index = pinecone_ops.create_index(pinecone_index)
-    # if not index:   # index name is already available
-    #     print('index already available')
-    #     return pinecone_ops.connect_to_index("cordscache")
+    if not index:   # index name is already available
+        print('index already available')
+        return pinecone_ops.connect_to_index(pinecone_index)
     vectors_and_IDs = model.get_all_vectors()
     vectors = [row['description_vector'] for row in vectors_and_IDs]
     ids = [row['resource_agency_number'] for row in vectors_and_IDs]

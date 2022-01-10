@@ -17,8 +17,8 @@ def get_dimensions():
 def create_index(index_name):
     # Delete the index, if an index of the same name already exists
     if index_name in pinecone.list_indexes():
-        # return False
-        delete_index(index_name)
+        return False
+        # delete_index(index_name)
     pinecone.create_index(
         name=index_name, dimension=get_dimensions(), metric="cosine", shards=1)
     index = pinecone.Index(index_name=index_name)

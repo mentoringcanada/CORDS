@@ -1,3 +1,4 @@
+from functools import total_ordering
 import os
 from services import converters
 import pandas
@@ -139,6 +140,7 @@ def get_results(result_IDs: list, page: int, size: int, search_employment: bool 
         result_IDs_string, result_IDs))
     total_results = len(query_results)
     limit = page*size
+    print('PAGE: ', page, ' SIZE: ', size, ' LIMIT: ', limit)
     query_results = query_results[limit-size:limit]
     items = []
     sort_order = 1
@@ -192,15 +194,12 @@ def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specifi
         result_IDs.remove(specific_id)
         result_IDs = [specific_id] + result_IDs
     result_IDs = ', '.join(result_IDs)
-
     inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
 
     query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
                             result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs) +
                             inclusion_filter + queries.get_constrained_results_3.format(result_IDs))
-                            
     total_results = len(query_results)
-
     if not request.page:
         request.page = 1
     else:
@@ -233,19 +232,6 @@ def sanitize_basket(text):
         if char in ok_chars:
             cleaned_text += char
     return cleaned_text
-
-
-def save_item(item_id, session):
-    item_id = sanitize_basket(item_id)
-    session = sanitize_basket(session)
-    execute(queries.save_item, (item_id, session,))
-
-
-def remove_item(item_id, session):
-    item_id = sanitize_basket(item_id)
-    session = sanitize_basket(session)
-    execute(queries.remove_item, (item_id, session,))
-
 
 def get_items(session):
     session = sanitize_basket(session)
