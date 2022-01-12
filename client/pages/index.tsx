@@ -1,5 +1,14 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import SearchBar from "../components/search/SearchBar";
+import { FaSearch } from "react-icons/fa";
+
+const exampleSearches = [
+	"Food bank",
+	"Youth volunteering",
+	"Clothing drive",
+	"Mental health",
+];
 
 const Home: NextPage = () => {
 	return (
@@ -12,6 +21,22 @@ const Home: NextPage = () => {
 				Search over 50,000 services across Canada!
 			</p>
 			<SearchBar />
+			<hr className="my-16 w-10 mx-auto border-primary" />
+			<section>
+				<h3 className="font-bold text-xl text-text text-opacity-70">
+					Example Searches
+				</h3>
+				<div className="flex mt-8 justify-between">
+					{exampleSearches.map((search, i) => (
+						<Link href={`/search?q=${search}`} key={i}>
+							<a className="button-filled flex items-center">
+								<FaSearch className="h-4 w-4 mb-[2px] mr-2" />{" "}
+								{search}
+							</a>
+						</Link>
+					))}
+				</div>
+			</section>
 		</section>
 	);
 };

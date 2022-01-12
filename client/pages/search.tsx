@@ -6,22 +6,22 @@ import SearchBar from "../components/search/SearchBar";
 import Service from "../components/search/Service";
 import Spinner from "../components/common/Spinner";
 
-const getServices = async (query: any) => {
+const getServices = async ({ q = "", page = 1 }: any) => {
 	const res = await axios.post("https://server.cordsconnect.ca/geosearch", {
-		query: query.q || "",
+		query: q,
 		lat: 43.6532,
 		lng: -79.3832,
 		distance: 100,
-		page: 1,
+		page,
 	});
 	return res.data;
 };
 
 const Search: NextPage = () => {
-	const router = useRouter();
+	const { query } = useRouter();
 	const { isLoading, isError, error, data } = useQuery<any, Error>(
-		["search", router.query],
-		() => getServices(router.query),
+		["search", query],
+		() => getServices(query),
 		{ refetchOnWindowFocus: false }
 	);
 

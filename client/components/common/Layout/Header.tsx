@@ -23,9 +23,7 @@ const Header = () => {
 					</a>
 				</Link>
 				<Link href="/search">
-					<a className="font-semibold text-primary px-6 py-2 border-2 border-primary rounded hover:bg-primary hover:bg-opacity-[0.13] transition">
-						Search
-					</a>
+					<a className="button-ghost">Search</a>
 				</Link>
 			</nav>
 		</header>

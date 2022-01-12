@@ -13,7 +13,7 @@ const getService = async (item_id: any) => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const queryClient = new QueryClient();
-	await queryClient.prefetchQuery("service", () =>
+	await queryClient.prefetchQuery(["service", params?.item_id], () =>
 		getService(params?.item_id)
 	);
 	return {
@@ -35,8 +35,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const Service = () => {
 	const { query } = useRouter();
-	const { isLoading, isError, error, data } = useQuery("service", () =>
-		getService(query.item_id)
+	const { isLoading, isError, error, data } = useQuery(
+		["service", query.item_id],
+		() => getService(query.item_id)
 	);
 	const { name, phone, address, description, resource_type }: Service =
 		data.items[0];

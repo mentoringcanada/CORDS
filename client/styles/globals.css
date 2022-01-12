@@ -6,3 +6,11 @@ html,
 body {
 	@apply font-base text-text;
 }
+
+.button-filled {
+	@apply bg-primary text-white px-6 py-2 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition;
+}
+
+.button-ghost {
+	@apply font-semibold text-primary px-6 py-2 border-2 border-primary rounded hover:bg-primary hover:bg-opacity-[0.13] transition;
+}

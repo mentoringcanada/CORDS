@@ -1,6 +1,7 @@
 import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const SearchBar = () => {
 	const { register, handleSubmit } = useForm();
@@ -8,7 +9,10 @@ const SearchBar = () => {
 
 	const search = (data: any) => {
 		router.push(
-			{ pathname: "/search", query: { q: data.query } },
+			{
+				pathname: "/search",
+				query: { q: data.query, loc: data.location, page: 1 },
+			},
 			undefined,
 			{
 				shallow: true,
@@ -28,6 +32,7 @@ const SearchBar = () => {
 				className="mx-2 p-2 grow outline-none border-0"
 				{...register("query")}
 				placeholder="Search..."
+				defaultValue={router.query.q}
 			/>
 			<label htmlFor="location">
 				<FaMapMarkerAlt className="w-6 h-6 opacity-50" />
@@ -36,12 +41,9 @@ const SearchBar = () => {
 				className="mx-2 p-2 grow outline-none border-0"
 				{...register("location")}
 				placeholder="Location..."
+				defaultValue={router.query.loc}
 			/>
-			<input
-				type="submit"
-				value="Search"
-				className="bg-primary text-white px-6 py-2 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition"
-			/>
+			<input type="submit" value="Search" className="button-filled" />
 		</form>
 	);
 };

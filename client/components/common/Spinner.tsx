@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SpinnerSVG from "../../public/spinner.svg";
+import SpinnerSVG from "public/spinner.svg";
 
 const Spinner = () => {
 	return (
