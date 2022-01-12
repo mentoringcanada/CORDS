@@ -30,7 +30,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 			},
 		},
 	];
-	return { paths, fallback: "blocking" };
+	return { paths, fallback: true };
 };
 
 const Service = () => {
@@ -39,18 +39,22 @@ const Service = () => {
 		["service", query.item_id],
 		() => getService(query.item_id)
 	);
-	const { name, phone, address, description, resource_type }: Service =
-		data.items[0];
 
 	return (
-		<div className="border-[1px] border-outline border-opacity-50 rounded shadow-lg p-4">
-			{isLoading && <Spinner />}
-			<h1>{name}</h1>
-			<p>{phone}</p>
-			<p>{address}</p>
-			<p>{description}</p>
-			<p>{resource_type}</p>
-		</div>
+		<>
+			<div className="border-[1px] border-outline border-opacity-50 rounded shadow-lg p-4">
+				{isLoading && <Spinner />}
+				{data && (
+					<>
+						<h1>{data.items[0].name}</h1>
+						<p>{data.items[0].phone}</p>
+						<p>{data.items[0].address}</p>
+						<p>{data.items[0].description}</p>
+						<p>{data.items[0].resource_type}</p>
+					</>
+				)}
+			</div>
+		</>
 	);
 };
 

@@ -1,3 +1,4 @@
+import { Loader } from "@googlemaps/js-api-loader";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
 
@@ -13,7 +14,6 @@ const LocationInput = () => {
 		if (geometry?.location) {
 			router.push(
 				{
-					pathname: "/search",
 					query: {
 						...router.query,
 						loc: formatted_address,
@@ -31,13 +31,24 @@ const LocationInput = () => {
 	};
 
 	useEffect(() => {
-		if (input.current) {
-			autocomplete = new google.maps.places.Autocomplete(input.current, {
-				fields: ["formatted_address", "geometry"],
-				componentRestrictions: { country: ["CA"] },
-			});
-			autocomplete.addListener("place_changed", onLocationChange);
-		}
+		const loader = new Loader({
+			apiKey: `${process.env.NEXT_PUBLIC_GOOGLE_LOCATION_API}`,
+			libraries: ["places"],
+			version: "weekly",
+		});
+
+		loader.load().then(() => {
+			if (input.current) {
+				autocomplete = new google.maps.places.Autocomplete(
+					input.current,
+					{
+						fields: ["formatted_address", "geometry"],
+						componentRestrictions: { country: ["CA"] },
+					}
+				);
+				autocomplete.addListener("place_changed", onLocationChange);
+			}
+		});
 	});
 
 	return (
