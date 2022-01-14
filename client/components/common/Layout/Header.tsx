@@ -12,7 +12,7 @@ const Header = () => {
 					src={Logo}
 					alt="CORDS logo image"
 				/>
-				<h1 className="font-bold text-2xl ml-1 mt-4 text-primary">
+				<h1 className="font-bold text-2xl ml-1 mt-4 text-primary hidden md:block">
 					CORDS
 				</h1>
 			</div>

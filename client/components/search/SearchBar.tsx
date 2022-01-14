@@ -1,17 +1,22 @@
-import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import LocationInput from "./LocationInput";
+import { useEffect } from "react";
+
+interface FormData {
+	q: string;
+}
 
 const SearchBar = () => {
-	const { register, handleSubmit } = useForm();
 	const router = useRouter();
+	const { register, handleSubmit, reset } = useForm<FormData>();
 
-	const search = (data: any) => {
+	const search = (data: FormData) => {
 		router.push(
 			{
 				pathname: "/search",
-				query: { ...router.query, q: data.query, page: 1 },
+				query: { ...router.query, q: data.q, page: 1 },
 			},
 			undefined,
 			{
@@ -20,25 +25,32 @@ const SearchBar = () => {
 		);
 	};
 
+	useEffect(() => {
+		if (router.query) reset(router.query);
+	}, [router.query]);
+
 	return (
 		<form
 			onSubmit={handleSubmit(search)}
-			className="border-2 border-outline border-opacity-50 flex p-2 rounded items-center shadow-xl hover:border-opacity-70 transition"
+			className="flex items-center flex-col md:flex-row"
 		>
-			<label htmlFor="query">
-				<FaSearch className="w-5 h-5 opacity-50" />
-			</label>
-			<input
-				className="mx-2 p-2 grow outline-none border-0"
-				{...register("query")}
-				placeholder="Search..."
-				defaultValue={router.query.q}
-			/>
-			<label htmlFor="location">
-				<FaMapMarkerAlt className="w-6 h-6 opacity-50" />
-			</label>
+			<div className="flex items-center py-[1px] w-full md:w-fit md:mr-2 rounded border-2 border-outline border-opacity-50 shadow-xl hover:border-opacity-70 transition grow mb-4 md:mb-0">
+				<label htmlFor="q">
+					<FaSearch className="w-5 h-5 opacity-50 ml-2" />
+				</label>
+				<input
+					{...register("q")}
+					className="p-2 w-full outline-none border-0"
+					placeholder="Search..."
+					defaultValue={""}
+				/>
+			</div>
 			<LocationInput />
-			<input type="submit" value="Search" className="button-filled" />
+			<input
+				type="submit"
+				value="Search"
+				className="button-filled w-full md:w-auto"
+			/>
 		</form>
 	);
 };

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import SearchBar from "../components/search/SearchBar";
 import Service from "../components/search/Service";
 import Spinner from "../components/common/Spinner";
+import Pagination from "components/search/Pagination";
 
 const getServices = async ({
 	q = "",
@@ -41,22 +42,30 @@ const Search: NextPage = () => {
 			)}
 			{isError && error && <p>{error.message}</p>}
 			{data && (
-				<section className="min-h-[300px] flex flex-col max-w-[70%]">
-					<p className="opacity-50 mt-4">
-						{data.totalResults} total results
-					</p>
-					{data.items.map((service: any) => {
-						return (
-							<Service
-								key={service.item_id}
-								item_id={service.item_id}
-								name={service.name}
-								distance={service.distance}
-								description={service.description}
-							/>
-						);
-					})}
-				</section>
+				<>
+					<section className="flex flex-col md:max-w-[70%]">
+						<p className="opacity-50 mt-4">
+							{data.totalResults} total results
+						</p>
+						{data.items.map((service: any) => {
+							return (
+								<Service
+									key={service.item_id}
+									item_id={service.item_id}
+									name={service.name}
+									distance={service.distance}
+									description={service.description}
+								/>
+							);
+						})}
+					</section>
+					{query.page && (
+						<Pagination
+							page={Number(query.page)}
+							pageCount={Math.ceil(data.totalResults / 10)}
+						/>
+					)}
+				</>
 			)}
 		</section>
 	);

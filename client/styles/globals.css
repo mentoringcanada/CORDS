@@ -8,7 +8,7 @@ body {
 }
 
 .button-filled {
-	@apply bg-primary text-white px-6 py-2 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition;
+	@apply bg-primary text-white px-6 py-2 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition border-primary border-2;
 }
 
 .button-ghost {

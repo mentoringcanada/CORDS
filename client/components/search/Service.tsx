@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-interface Props {
+export interface Props {
 	item_id: number;
 	name: string;
 	distance: number;
