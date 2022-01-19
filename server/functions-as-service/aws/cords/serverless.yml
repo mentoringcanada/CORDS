@@ -1,0 +1,15 @@
+service: cords
+frameworkVersion: '2 || 3'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: '20201221'
+
+functions:
+  search:
+    handler: search/lambda_function.lambda_handler
+    events:
+      - httpApi:
+          path: /search
+          method: post
