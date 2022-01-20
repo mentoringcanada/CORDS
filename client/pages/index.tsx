@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import SearchBar from "../components/search/SearchBar";
+import SearchBar from "../components/search/SearchForm";
 import { FaSearch } from "react-icons/fa";
 
 const exampleSearches = [
@@ -10,7 +10,7 @@ const exampleSearches = [
 	"Clothing Drive",
 ];
 
-const home: NextPage = () => {
+const HomePage: NextPage = () => {
 	return (
 		<section className="text-center max-w-screen-lg m-auto sm:p-10  md:p-16">
 			<h2 className="text-5xl sm:text-6xl md:text-7xl font-bold">
@@ -41,4 +41,4 @@ const home: NextPage = () => {
 	);
 };
 
-export default home;
+export default HomePage;

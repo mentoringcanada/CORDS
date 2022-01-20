@@ -1,4 +1,4 @@
-interface similarResult {
+interface SimilarResult {
 	items: Service[];
 	totalResults: number;
 }

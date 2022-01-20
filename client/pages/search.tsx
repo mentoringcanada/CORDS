@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import SearchBar from "../components/search/SearchBar";
+import SearchBar from "../components/search/SearchForm";
 import Service from "../components/search/Service";
 import Spinner from "../components/common/Spinner";
 import Pagination from "components/search/Pagination";
@@ -24,9 +24,9 @@ const getServices = async ({
 	return await res.data;
 };
 
-const search: NextPage = () => {
+const SearchPage: NextPage = () => {
 	const { query } = useRouter();
-	const { isLoading, isError, error, data } = useQuery<searchResult, Error>(
+	const { isLoading, isError, error, data } = useQuery<SearchResult, Error>(
 		["search", query],
 		() => getServices(query),
 		{ refetchOnWindowFocus: false, enabled: !!query.q }
@@ -71,4 +71,4 @@ const search: NextPage = () => {
 	);
 };
 
-export default search;
+export default SearchPage;

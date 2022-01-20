@@ -34,10 +34,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	return { paths, fallback: true };
 };
 
-const service: NextPage = () => {
+const ServicePage: NextPage = () => {
 	const router = useRouter(),
 		{ query } = router;
-	const { isLoading, isError, error, data } = useQuery<similarResult, Error>(
+	const { isLoading, isError, error, data } = useQuery<SimilarResult, Error>(
 		["service", query.item_id],
 		() => getService(query.item_id),
 		{ refetchOnWindowFocus: false, enabled: !!query.item_id }
@@ -88,4 +88,4 @@ const service: NextPage = () => {
 	);
 };
 
-export default service;
+export default ServicePage;

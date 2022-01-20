@@ -1,11 +1,12 @@
-interface search {
-	query: string;
-	lat: number;
-	lng: number;
-	distance: number;
+interface Search {
+	query?: string;
+	lat?: number;
+	lng?: number;
+	loc?: string;
+	distance?: number;
+	page?: number;
 }
-
-interface searchResult {
+interface SearchResult {
 	items: Service[];
 	totalResults: number;
 }

@@ -5,7 +5,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 
 let autocomplete: google.maps.places.Autocomplete;
 
-let options = {
+const options = {
 	fields: ["formatted_address", "geometry"],
 	componentRestrictions: { country: ["CA"] },
 };
@@ -14,41 +14,46 @@ const LocationInput = () => {
 	const router = useRouter();
 	const input = useRef<HTMLInputElement>(null);
 
-	const onLocationChange = () => {
-		if (autocomplete.getPlace() === null) {
-			let { loc, lat, lng, ...rest } = router.query;
-			router.push(
-				{
-					query: {
-						...rest,
-						page: 1,
-					},
-				},
-				undefined,
-				{ shallow: true }
-			);
-		} else {
-			let { formatted_address, geometry } = autocomplete.getPlace();
-
-			if (geometry?.location && formatted_address) {
+	useEffect(() => {
+		const onLocationChange = () => {
+			if (
+				autocomplete.getPlace() === null ||
+				autocomplete.getPlace() === undefined
+			) {
+				let { loc, lat, lng, ...rest } = router.query;
 				router.push(
 					{
+						pathname: "/search",
 						query: {
-							...router.query,
-							loc: formatted_address,
-							lat: geometry.location.lat(),
-							lng: geometry.location.lng(),
+							...rest,
 							page: 1,
 						},
 					},
 					undefined,
 					{ shallow: true }
 				);
-			}
-		}
-	};
+			} else {
+				let { formatted_address, geometry } = autocomplete.getPlace();
 
-	useEffect(() => {
+				if (geometry?.location && formatted_address) {
+					router.push(
+						{
+							pathname: "/search",
+							query: {
+								...router.query,
+								loc: formatted_address,
+								lat: geometry.location.lat(),
+								lng: geometry.location.lng(),
+								page: 1,
+							},
+						},
+						undefined,
+						{ shallow: true }
+					);
+				}
+			}
+		};
+
 		const loader = new Loader({
 			apiKey: `${process.env.NEXT_PUBLIC_GOOGLE_LOCATION_API}`,
 			libraries: ["places"],
@@ -64,7 +69,7 @@ const LocationInput = () => {
 				autocomplete.addListener("place_changed", onLocationChange);
 			}
 		});
-	}, []);
+	}, [router]);
 
 	return (
 		<div className="flex items-center py-[1px] w-full md:w-fit md:mr-2 rounded border-2 border-outline border-opacity-50 shadow-xl transition mb-4 md:mb-0 md:flex-[1_1_0px] relative">
