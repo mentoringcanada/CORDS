@@ -1,0 +1,7 @@
+.pac-container {
+	@apply hover:border-opacity-70 rounded-t-none after:h-0 after:m-0 after:p-0 after:bg-none before:m-0 before:p-0 shadow-[0px_0px_0px_2px_#aaa] mt-[2px] overflow-y-hidden font-base !important;
+}
+
+.pac-item {
+	@apply px-[13px] hover:bg-outline hover:bg-opacity-[0.15] transition cursor-pointer;
+}

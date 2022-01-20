@@ -4,7 +4,7 @@
 
 html,
 body {
-	@apply font-base text-text;
+	@apply font-base text-text box-border;
 }
 
 .button-filled {

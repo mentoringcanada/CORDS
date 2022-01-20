@@ -64,15 +64,15 @@ const LocationInput = () => {
 				autocomplete.addListener("place_changed", onLocationChange);
 			}
 		});
-	});
+	}, []);
 
 	return (
-		<div className="flex items-center py-[1px] w-full md:w-fit md:mr-2 rounded border-2 border-outline border-opacity-50 shadow-xl hover:border-opacity-70 transition grow mb-4 md:mb-0">
-			<label htmlFor="location">
+		<div className="flex items-center py-[1px] w-full md:w-fit md:mr-2 rounded border-2 border-outline border-opacity-50 shadow-xl transition mb-4 md:mb-0 md:flex-[1_1_0px] relative">
+			<label htmlFor="location" className="absolute">
 				<FaMapMarkerAlt className="w-6 h-6 opacity-50 ml-2" />
 			</label>
 			<input
-				className="p-2 w-full outline-none border-0 "
+				className="py-2 px-10 w-full outline-none border-0"
 				placeholder="Location..."
 				type="text"
 				defaultValue={router.query.loc}
@@ -80,7 +80,7 @@ const LocationInput = () => {
 			/>
 			{input.current && input.current.value != "" && (
 				<div
-					className="font-bold text-text opacity-50 p-2 cursor-pointer transition"
+					className="font-bold text-text opacity-50 p-2 cursor-pointer transition absolute right-0"
 					title="Clear location"
 					onClick={() => {
 						autocomplete.set("place", null);

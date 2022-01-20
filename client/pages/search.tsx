@@ -24,9 +24,9 @@ const getServices = async ({
 	return await res.data;
 };
 
-const Search: NextPage = () => {
+const search: NextPage = () => {
 	const { query } = useRouter();
-	const { isLoading, isError, error, data } = useQuery<any, Error>(
+	const { isLoading, isError, error, data } = useQuery<searchResult, Error>(
 		["search", query],
 		() => getServices(query),
 		{ refetchOnWindowFocus: false, enabled: !!query.q }
@@ -47,11 +47,11 @@ const Search: NextPage = () => {
 						<p className="opacity-50 mt-4">
 							{data.totalResults} total results
 						</p>
-						{data.items.map((service: any) => {
+						{data.items.map((service: Service) => {
 							return (
 								<Service
 									key={service.item_id}
-									item_id={service.item_id}
+									item_id={Number(service.item_id)}
 									name={service.name}
 									distance={service.distance}
 									description={service.description}
@@ -71,4 +71,4 @@ const Search: NextPage = () => {
 	);
 };
 
-export default Search;
+export default search;

@@ -4,3 +4,8 @@ interface search {
 	lng: number;
 	distance: number;
 }
+
+interface searchResult {
+	items: Service[];
+	totalResults: number;
+}
