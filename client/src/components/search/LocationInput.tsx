@@ -23,7 +23,6 @@ const LocationInput = () => {
 				let { loc, lat, lng, ...rest } = router.query;
 				router.push(
 					{
-						pathname: "/search",
 						query: {
 							...rest,
 							page: 1,
@@ -38,7 +37,6 @@ const LocationInput = () => {
 				if (geometry?.location && formatted_address) {
 					router.push(
 						{
-							pathname: "/search",
 							query: {
 								...router.query,
 								loc: formatted_address,

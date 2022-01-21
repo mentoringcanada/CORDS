@@ -3,12 +3,10 @@ import { QueryClient, dehydrate, useQuery } from "react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Spinner from "../../components/common/Spinner";
-import Service from "components/search/Service";
+import Service from "src/components/search/Service";
 
 const getService = async (item_id: any) => {
-	const res = await axios.get(
-		`https://server.cordsconnect.ca/similar/${item_id}`
-	);
+	const res = await axios.get(`/similar/${item_id}`);
 	return res.data;
 };
 

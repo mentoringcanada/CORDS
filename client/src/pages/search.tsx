@@ -5,20 +5,26 @@ import { useRouter } from "next/router";
 import SearchBar from "../components/search/SearchForm";
 import Service from "../components/search/Service";
 import Spinner from "../components/common/Spinner";
-import Pagination from "components/search/Pagination";
+import Pagination from "src/components/search/Pagination";
 
 const getServices = async ({
 	q = "",
 	lat = 43.6532,
 	lng = -79.3832,
 	distance = 100,
+	community_services = true,
+	volunteer = true,
+	employment = true,
 	page = 1,
 }: any) => {
-	const res = await axios.post("https://server.cordsconnect.ca/geosearch", {
+	const res = await axios.post("/geosearch", {
 		query: q,
 		lat,
 		lng,
 		distance,
+		community_services,
+		volunteer,
+		employment,
 		page,
 	});
 	return await res.data;

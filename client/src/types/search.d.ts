@@ -5,6 +5,9 @@ interface Search {
 	loc?: string;
 	distance?: number;
 	page?: number;
+	community_services?: bool;
+	employment?: bool;
+	volunteer?: bool;
 }
 interface SearchResult {
 	items: Service[];

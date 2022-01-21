@@ -23,14 +23,22 @@ const SearchForm = () => {
 
 	// Sets defaults from url query params
 	useEffect(() => {
-		if (router.query) reset(router.query);
+		if (router.query) {
+			let form: any = router.query;
+			form.community_services = form.community_services != "false";
+			form.employment = form.employment != "false";
+			form.volunteer = form.volunteer != "false";
+			reset(router.query);
+		}
 	}, [router.query, reset]);
 
 	return (
 		<FormProvider {...form}>
 			<form onSubmit={handleSubmit(search)} className="flex flex-col">
 				<SearchBar />
-				<SearchFilters search={search} />
+				{router.pathname == "/search" && (
+					<SearchFilters search={search} />
+				)}
 			</form>
 		</FormProvider>
 	);
