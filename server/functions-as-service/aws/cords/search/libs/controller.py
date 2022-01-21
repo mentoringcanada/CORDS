@@ -1,8 +1,7 @@
 import model
-from services.cutoff_filter import filter_indexes_by_cutoff
 from services import external
+from services.cutoff_filter import filter_indexes_by_cutoff
 from helper_classes.request_classes.searchRequest import SearchRequest
-import os
 
 def search(input_request):
     """Gets the search query, vectorizes, searches cache, returns services.

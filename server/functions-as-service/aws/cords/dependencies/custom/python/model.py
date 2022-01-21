@@ -1,7 +1,7 @@
 import os
-from services import converters
 import psycopg
 import queries
+from services import converters
 from helper_classes.other_classes.item import Item
 
 
@@ -62,6 +62,35 @@ def get_results(result_IDs: list, page: int, size: int, search_employment: bool 
     limit = page*size
     print('PAGE: ', page, ' SIZE: ', size, ' LIMIT: ', limit)
     query_results = query_results[limit-size:limit]
+    items = []
+    sort_order = 1
+    for query_result in query_results:
+        items.append(Item.from_db_row(query_result))
+        items[-1].sortOrder = sort_order
+        sort_order += 1
+
+    return {'items': items, 'totalResults': total_results}
+
+def get_constrained_results(request: GeoSearchRequest, result_IDs: list, specific_id: str = False,
+                            search_employment=False, search_volunteer=False, search_community_services=True):
+    if specific_id:
+        result_IDs.remove(specific_id)
+        result_IDs = [specific_id] + result_IDs
+    result_IDs = ', '.join(result_IDs)
+    inclusion_filter = converters.build_inclusion_filter(search_employment, search_volunteer, search_community_services)
+
+    query_results = execute(queries.get_constrained_results_1.format(request.lat, request.lng) +
+                            result_IDs + queries.get_constrained_results_2.format(request.lat, request.lng, request.distance, result_IDs) +
+                            inclusion_filter + queries.get_constrained_results_3.format(result_IDs))
+    total_results = len(query_results)
+    if not request.page:
+        request.page = 1
+    else:
+        request.page = max(request.page, 1)
+
+    size = request.size
+    query_results = query_results[request.page*size-size:request.page*size]
+
     items = []
     sort_order = 1
     for query_result in query_results:
