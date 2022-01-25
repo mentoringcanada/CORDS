@@ -4,7 +4,10 @@ import { FaSearch } from "react-icons/fa";
 import LocationInput from "./LocationInput";
 
 const SearchBar = () => {
-	const { register } = useFormContext();
+	const {
+		register,
+		formState: { errors },
+	} = useFormContext();
 
 	return (
 		<div className="flex items-center flex-col md:flex-row">
@@ -15,8 +18,10 @@ const SearchBar = () => {
 				<input
 					autoComplete="off"
 					type="text"
-					{...register("q")}
-					className="search-text-input"
+					{...register("q", { required: true })}
+					className={`search-text-input ${
+						errors.q && "!border-error"
+					}`}
 					placeholder="Search..."
 					defaultValue={""}
 				/>

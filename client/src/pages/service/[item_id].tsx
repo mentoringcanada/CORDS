@@ -15,6 +15,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 	await queryClient.prefetchQuery(["service", params?.item_id], () =>
 		getService(params?.item_id)
 	);
+
 	return {
 		props: { dehydratedState: dehydrate(queryClient) },
 		revalidate: 60,
@@ -29,7 +30,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 			},
 		},
 	];
-	return { paths, fallback: true };
+	return { paths, fallback: "blocking" };
 };
 
 const ServicePage: NextPage = () => {
@@ -40,14 +41,6 @@ const ServicePage: NextPage = () => {
 		() => getService(query.item_id),
 		{ refetchOnWindowFocus: false, enabled: !!query.item_id }
 	);
-
-	if (router.isFallback) {
-		return (
-			<div className="border-[1px] border-outline border-opacity-50 rounded shadow-lg p-4">
-				<Spinner />
-			</div>
-		);
-	}
 
 	return (
 		<>

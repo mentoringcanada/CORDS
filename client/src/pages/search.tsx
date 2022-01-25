@@ -35,7 +35,10 @@ const SearchPage: NextPage = () => {
 	const { isLoading, isError, error, data } = useQuery<SearchResult, Error>(
 		["search", query],
 		() => getServices(query),
-		{ refetchOnWindowFocus: false, enabled: !!query.q }
+		{
+			refetchOnWindowFocus: false,
+			enabled: !!query.q && !!query.loc && !!query.lat && !!query.lng,
+		}
 	);
 
 	return (

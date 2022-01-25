@@ -10,6 +10,7 @@ module.exports = {
 			outline: "#555555",
 			text: "#333333",
 			white: "#FFFFFF",
+			error: "#F44336",
 		},
 		fontFamily: {
 			base: ["Open Sans", "sans-serif"],

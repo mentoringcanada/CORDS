@@ -1,13 +1,15 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, createContext } from "react";
 import SearchBar from "./SearchBar";
 import SearchFilters from "./SearchFilters";
+
+export const SearchContext = createContext<any>(null);
 
 const SearchForm = () => {
 	const router = useRouter();
 	const form = useForm<Search>(),
-		{ reset, handleSubmit } = form;
+		{ reset, handleSubmit, watch } = form;
 
 	// Updates the search based on data
 	const search = (data: Search) => {
@@ -33,14 +35,14 @@ const SearchForm = () => {
 	}, [router.query, reset]);
 
 	return (
-		<FormProvider {...form}>
-			<form onSubmit={handleSubmit(search)} className="flex flex-col">
-				<SearchBar />
-				{router.pathname == "/search" && (
-					<SearchFilters search={search} />
-				)}
-			</form>
-		</FormProvider>
+		<SearchContext.Provider value={{ search }}>
+			<FormProvider {...form}>
+				<form onSubmit={handleSubmit(search)} className="flex flex-col">
+					<SearchBar />
+					{router.pathname == "/search" && <SearchFilters />}
+				</form>
+			</FormProvider>
+		</SearchContext.Provider>
 	);
 };
 

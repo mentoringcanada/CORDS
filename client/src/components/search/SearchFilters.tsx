@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormContext } from "react-hook-form";
+import { SearchContext } from "./SearchForm";
 
 const distanceValues = [2, 5, 10, 25, 50, 100];
+
 const providerValues = [
 	{ value: "community_services", label: "211" },
 	{ value: "volunteer", label: "Mentor" },
 	{ value: "employment", label: "Magnet" },
 ];
 
-interface Props {
-	search: (data: Search) => void;
-}
-
-const SearchFilters = ({ search }: Props) => {
+const SearchFilters = () => {
+	const { search } = useContext(SearchContext);
 	const { register } = useFormContext();
 
 	return (
