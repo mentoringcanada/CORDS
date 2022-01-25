@@ -1,0 +1,3 @@
+.search-text-input {
+	@apply transition py-2 px-10 w-full outline-none border border-outline border-opacity-50 rounded focus:border-primary shadow-lg;
+}

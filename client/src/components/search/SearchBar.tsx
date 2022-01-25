@@ -8,15 +8,15 @@ const SearchBar = () => {
 
 	return (
 		<div className="flex items-center flex-col md:flex-row">
-			<div className="flex items-center py-[1px] w-full md:w-fit md:mr-2 rounded border-2 border-outline border-opacity-50 shadow-xl transition mb-4 md:mb-0 md:flex-[1_1_0px]">
-				<label htmlFor="q">
-					<FaSearch className="w-5 h-5 opacity-50 ml-2" />
+			<div className="flex items-center py-[1px] w-full md:w-fit md:mr-2 transition mb-4 md:mb-0 md:flex-[1_1_0px]">
+				<label htmlFor="q" className="absolute">
+					<FaSearch className="w-4 h-4 opacity-[35%] ml-2" />
 				</label>
 				<input
 					autoComplete="off"
 					type="text"
 					{...register("q")}
-					className="p-2 w-full outline-none border-0"
+					className="search-text-input"
 					placeholder="Search..."
 					defaultValue={""}
 				/>
