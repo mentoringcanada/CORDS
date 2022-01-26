@@ -1,0 +1,13 @@
+infrastructure/RDS/credentials.tf
+
+# Distribution / packaging
+cords/dependencies/built-in
+
+# Terraform directories
+infrastructure/RDS/.terraform
+infrastructure/RDS/.terraform.lock.hcl
+infrastructure/RDS/terraform.tfstate.backup
+infrastructure/RDS/terraform.tfstate
+
+# Serverless directories
+cords/.serverless
