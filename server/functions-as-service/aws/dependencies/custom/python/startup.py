@@ -1,15 +1,21 @@
-import model
-from services import pinecone_ops
-from sentence_transformers import SentenceTransformer
+
 import os
+import json
+import model
+import requests
+from services import pinecone_ops
 
 pinecone_index = os.environ["PINECONE_INDEX"]
+hugging_face_api_token = os.environ["HUGGING_FACE_API_TOKEN"]
 
-def load_huggingface_model():
-    print('loading hugging face paraphrase-multilingual-MiniLM-L12-v2 model')
-    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
-    print('loaded')
-    return model
+
+def query_huggingface(text):
+    data = json.dumps(text)
+    headers = {"Authorization": f"Bearer {hugging_face_api_token}"}
+    API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    response = requests.post(API_URL, headers=headers, data=data)
+    return response.json()
+
 
 def cache_vectors():
     print('caching vectors')

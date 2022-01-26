@@ -1,7 +1,9 @@
 infrastructure/RDS/credentials.tf
 
 # Distribution / packaging
-cords/dependencies/built-in
+dependencies/built-in/python
+dependencies/built-in/*.zip
+dependencies/custom/*.zip
 
 # Terraform directories
 infrastructure/RDS/.terraform

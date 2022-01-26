@@ -1,6 +1,8 @@
+from pydantic import BaseModel
 from typing import Optional
 
-class GeoSimilarRequest:
+
+class GeoSimilarRequest(BaseModel):
     item_id: str
     lat: float
     lng: float

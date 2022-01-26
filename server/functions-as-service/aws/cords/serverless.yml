@@ -5,6 +5,42 @@ provider:
   name: aws
   runtime: python3.8
   lambdaHashingVersion: '20201221'
+  layers:
+      - { Ref: BuiltinLambdaLayer }
+      - { Ref: CustomLambdaLayer }
+  environment:
+      PINECONE_INDEX: "cordscache"
+      API_KEY_PINECONE: "c3efae98-ad04-4177-9d7c-91b9f9bc55be"
+      ENV_PINECONE: "us-west1-gcp"
+      HUGGING_FACE_API_TOKEN: "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"
+
+  
+layers:
+  builtin:
+    path: ../dependencies/built-in # required, path to layer contents on disk
+    name: cords-builtin-dependencies-layer # optional, Deployed Lambda layer name
+    description: Built-in dependencies for the CORDS project. # optional, Description to publish to AWS
+    compatibleRuntimes: # optional, a list of runtimes this layer is compatible with
+      - python3.8
+      - python3.9
+    compatibleArchitectures: # optional, a list of architectures this layer is compatible with
+      - x86_64
+      - arm64
+    licenseInfo: GPLv3 
+    retain: false # optional, false by default. If true, layer versions are not deleted as new ones are created
+
+  custom:
+    path: ../dependencies/custom # required, path to layer contents on disk
+    name: cords-custom-dependencies-layer # optional, Deployed Lambda layer name
+    description: Custom dependencies for the CORDS project. # optional, Description to publish to AWS
+    compatibleRuntimes: # optional, a list of runtimes this layer is compatible with
+      - python3.8
+      - python3.9
+    compatibleArchitectures: # optional, a list of architectures this layer is compatible with
+      - x86_64
+      - arm64
+    licenseInfo: GPLv3 
+    retain: false # optional, false by default. If true, layer versions are not deleted as new ones are created
 
 functions:
   search:
@@ -13,3 +49,9 @@ functions:
       - httpApi:
           path: /search
           method: post
+  # similar:
+  #   handler: similar/lambda_function.lambda_handler
+  #   events:
+  #     - httpApi:
+  #         path: /similar
+  #         method: post

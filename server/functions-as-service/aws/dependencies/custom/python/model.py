@@ -1,17 +1,17 @@
 import os
-import psycopg
+import psycopg2
 import queries
 from services import converters
 from helper_classes.other_classes.item import Item
-
+from helper_classes.request_classes.geoSearchRequest import GeoSearchRequest
 
 PSQL_CONNECT_STR = os.environ.get('PSQL_CONNECT_STR')
 
 
 def execute(sql, params=()):
-    connection = psycopg.connect(
+    connection = psycopg2.connect(
         PSQL_CONNECT_STR)
-    cursor = connection.cursor(row_factory=psycopg.rows.dict_row)
+    cursor = connection.cursor(row_factory=psycopg2.rows.dict_row)
     cursor.execute(sql, params, prepared=True)
     connection.commit()
     try:

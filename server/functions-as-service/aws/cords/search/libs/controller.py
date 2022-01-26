@@ -9,7 +9,7 @@ def search(input_request):
     resultats et les retourne. 
     """
     search_request = SearchRequest(input_request)
-    vector = external.get_huggingface_vector(query_string)
+    vector = external.get_huggingface_vector(search_request.query)
     result_IDs, distances = external.search_cache(vector)
 
     search_employment = search_request.employment
