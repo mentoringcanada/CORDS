@@ -6,10 +6,12 @@ import SearchFilters from "./SearchFilters";
 
 export const SearchContext = createContext<any>(null);
 
+const distanceValues = [2, 5, 10, 25, 50, 100];
+
 const SearchForm = () => {
 	const router = useRouter();
-	const form = useForm<Search>(),
-		{ reset, handleSubmit, watch } = form;
+	const form = useForm<SearchState>(),
+		{ reset, handleSubmit } = form;
 
 	// Updates the search based on data
 	const search = (data: Search) => {
@@ -27,6 +29,8 @@ const SearchForm = () => {
 	useEffect(() => {
 		if (router.query) {
 			let form: any = router.query;
+			!distanceValues.includes(Number(form.distance)) &&
+				(form.distance = 100);
 			form.community_services = form.community_services != "false";
 			form.employment = form.employment != "false";
 			form.volunteer = form.volunteer != "false";

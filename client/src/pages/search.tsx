@@ -6,6 +6,8 @@ import SearchBar from "../components/search/SearchForm";
 import Service from "../components/search/Service";
 import Spinner from "../components/common/Spinner";
 import Pagination from "src/components/search/Pagination";
+import Image from "next/image";
+import NoResults from "public/no-results.svg";
 
 const getServices = async ({
 	q = "",
@@ -50,32 +52,48 @@ const SearchPage: NextPage = () => {
 				</div>
 			)}
 			{isError && error && <p>{error.message}</p>}
-			{data && (
-				<>
-					<section className="flex flex-col md:max-w-[70%]">
-						<p className="opacity-50 mt-4">
-							{data.totalResults} total results
-						</p>
-						{data.items.map((service: Service) => {
-							return (
-								<Service
-									key={service.item_id}
-									item_id={Number(service.item_id)}
-									name={service.name}
-									distance={service.distance}
-									description={service.description}
-								/>
-							);
-						})}
-					</section>
-					{query.page && (
-						<Pagination
-							page={Number(query.page)}
-							pageCount={Math.ceil(data.totalResults / 10)}
+			{data &&
+				(data.totalResults === 0 ? (
+					<div className="m-auto mt-20 flex items-center flex-col transition">
+						<Image
+							src={NoResults}
+							alt="No results image"
+							width={150}
+							height={150}
 						/>
-					)}
-				</>
-			)}
+						<h3 className="font-bold text-xl opacity-80 text-center mt-6">
+							No Results Found!
+						</h3>
+						<p className="opacity-50 w-fit mt-4">
+							Try a new search or change search options...
+						</p>
+					</div>
+				) : (
+					<>
+						<section className="flex flex-col md:max-w-[70%]">
+							<p className="opacity-50 mt-4">
+								{data.totalResults} total results
+							</p>
+							{data.items.map((service: Service) => {
+								return (
+									<Service
+										key={service.item_id}
+										item_id={Number(service.item_id)}
+										name={service.name}
+										distance={service.distance}
+										description={service.description}
+									/>
+								);
+							})}
+						</section>
+						{query.page && (
+							<Pagination
+								page={Number(query.page)}
+								pageCount={Math.ceil(data.totalResults / 10)}
+							/>
+						)}
+					</>
+				))}
 		</section>
 	);
 };

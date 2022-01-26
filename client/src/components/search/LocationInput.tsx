@@ -30,7 +30,7 @@ const LocationInput = () => {
 	const container = useRef<HTMLDivElement>(null);
 
 	const locationTextChange = (e: any) => {
-		e.target.value
+		e.target.value && e.target.value !== ""
 			? autocomplete.getPlacePredictions(
 					{ input: e.target.value, ...options },
 					(data) => setPredictions(data)
@@ -39,6 +39,7 @@ const LocationInput = () => {
 	};
 
 	const clearLocation = () => {
+		setPredictions(null);
 		setValue("loc", "");
 		setFocus("loc");
 		const { loc, lat, lng, ...rest } = router.query;
@@ -93,10 +94,11 @@ const LocationInput = () => {
 				predictions && "rounded-b-none shadow-none"
 			}`}
 		>
-			<div className="flex items-center w-full">
-				<label htmlFor="location" className="absolute">
-					<FaMapMarkerAlt className="w-5 h-5 opacity-[30%] ml-2" />
-				</label>
+			<label className="flex items-center w-full">
+				<FaMapMarkerAlt
+					className="absolute w-5 h-5 opacity-[30%] ml-2"
+					id="location"
+				/>
 				<input
 					{...register("loc", {
 						required: true,
@@ -108,13 +110,16 @@ const LocationInput = () => {
 					}`}
 					placeholder="Location..."
 					type="text"
+					id="loc"
+					aria-label="location"
 					autoComplete="off"
 					defaultValue={""}
 				/>
-			</div>
+			</label>
 			<div ref={container}>
 				{predictions && (
-					<ul className="absolute left-0 right-0 border border-t-0 border-primary rounded-b shadow-xl bg-white mt-[-1px] whitespace-nowrap">
+					<ul className="absolute left-0 right-0 border border-t-0 border-primary rounded-b shadow-xl bg-white mt-[-1px] whitespace-nowrap !text-left z-10">
+						<hr className="w-full px-2 h-px border-outline/[0.15] border-opacity-[0.15]" />
 						{predictions.map(
 							(
 								prediction: google.maps.places.AutocompletePrediction
