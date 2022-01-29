@@ -7,6 +7,7 @@ const moduleExports = {
 };
 
 const sentryWebpackPluginOptions = {
+	authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
 	silent: true, // Suppresses all logs
 };
 

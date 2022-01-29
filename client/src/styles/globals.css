@@ -12,5 +12,5 @@ body {
 }
 
 .button-ghost {
-	@apply font-semibold text-primary px-6 py-2 border-2 border-primary rounded hover:bg-primary hover:text-white transition shadow-md hover:shadow-lg;
+	@apply font-semibold text-primary text-opacity-80 px-6 py-2 border border-primary rounded hover:bg-primary hover:text-white transition shadow-md hover:shadow-lg;
 }

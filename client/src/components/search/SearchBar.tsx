@@ -12,7 +12,7 @@ const SearchBar = () => {
 
 	useEffect(() => {
 		setFocus("q");
-	}, []);
+	}, [setFocus]);
 
 	return (
 		<div className="flex items-center flex-col md:flex-row">
