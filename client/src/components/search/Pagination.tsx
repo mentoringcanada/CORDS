@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 interface Props {
 	pageCount: number;
@@ -17,13 +18,13 @@ const Pagination = ({ pageCount, page }: Props) => {
 	};
 
 	return (
-		<div className="mt-10  text-xs">
+		<div className="flex items-center mt-10 text-xs">
 			{page !== 1 && (
 				<button
 					onClick={() => onPageChange(page - 1)}
 					className="button-ghost mr-2"
 				>
-					{"<"}
+					<FaAngleLeft className="h-4" />
 				</button>
 			)}
 			{page > 1 && (
@@ -47,7 +48,7 @@ const Pagination = ({ pageCount, page }: Props) => {
 						onClick={() => onPageChange(page + 1)}
 						className="button-ghost"
 					>
-						{">"}
+						<FaAngleRight className="h-4" />
 					</button>
 				</>
 			)}

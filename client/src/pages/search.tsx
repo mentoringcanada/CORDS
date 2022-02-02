@@ -8,6 +8,7 @@ import Spinner from "../components/common/Spinner";
 import Pagination from "src/components/search/Pagination";
 import Image from "next/image";
 import NoResults from "public/no-results.svg";
+import PreResults from "public/pre-results.svg";
 
 const getServices = async ({
 	q = "",
@@ -39,7 +40,14 @@ const SearchPage: NextPage = () => {
 		() => getServices(query),
 		{
 			refetchOnWindowFocus: false,
-			enabled: !!query.q && !!query.loc && !!query.lat && !!query.lng,
+			enabled:
+				!!query.q &&
+				!!query.loc &&
+				!!query.lat &&
+				!!query.lng &&
+				(!!query.community_services ||
+					!!query.volunteer ||
+					!!query.employment),
 		}
 	);
 
@@ -52,8 +60,8 @@ const SearchPage: NextPage = () => {
 				</div>
 			)}
 			{isError && error && <p>{error.message}</p>}
-			{data &&
-				(data.totalResults === 0 ? (
+			{data ? (
+				data.totalResults === 0 ? (
 					<div className="m-auto mt-20 flex items-center flex-col transition">
 						<Image
 							src={NoResults}
@@ -93,7 +101,23 @@ const SearchPage: NextPage = () => {
 							/>
 						)}
 					</>
-				))}
+				)
+			) : (
+				!isError &&
+				!isLoading && (
+					<div className="m-auto mt-20 flex items-center flex-col transition">
+						<Image
+							src={PreResults}
+							alt="Pre results image"
+							width={150}
+							height={150}
+						/>
+						<h3 className="font-bold text-xl opacity-80 text-center mt-6">
+							Find the services you need!
+						</h3>
+					</div>
+				)
+			)}
 		</section>
 	);
 };

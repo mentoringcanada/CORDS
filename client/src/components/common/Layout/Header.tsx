@@ -18,14 +18,14 @@ const Header = () => {
 					</h1>
 				</div>
 			</Link>
-			<nav>
-				<Link href="/">
+			<nav className="flex items-center">
+				<Link href="/" passHref={true}>
 					<a className="mr-8 font-semibold opacity-70 transition hover:opacity-100">
 						Home
 					</a>
 				</Link>
-				<Link href="/search">
-					<a className="button-ghost">Search</a>
+				<Link href="/search" passHref={true}>
+					<button className="button-ghost">Search</button>
 				</Link>
 			</nav>
 		</header>

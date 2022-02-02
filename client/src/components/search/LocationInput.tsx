@@ -103,6 +103,10 @@ const LocationInput = () => {
 					{...register("loc", {
 						required: true,
 						onChange: locationTextChange,
+						onBlur: (e) => {
+							e.preventDefault();
+							setPredictions(null);
+						},
 					})}
 					className={`search-text-input ${
 						(errors.loc && "!border-error") ||
@@ -128,6 +132,7 @@ const LocationInput = () => {
 									className="py-2 px-10 hover:bg-outline hover:bg-opacity-[0.14] cursor-pointer transition text-text relative overflow-hidden overflow-ellipsis"
 									key={prediction.place_id}
 									onClick={() => selectPrediction(prediction)}
+									onMouseDown={(e) => e.preventDefault()}
 								>
 									<FaMapMarkerAlt className="absolute left-0 w-5 h-5 opacity-[30%] ml-2" />
 									{prediction.description}
@@ -139,7 +144,7 @@ const LocationInput = () => {
 			</div>
 			{watch("loc") && (
 				<div
-					className="font-bold text-text opacity-50 p-2 cursor-pointer transition absolute right-0"
+					className="font-bold text-text opacity-50 h-11 px-2 cursor-pointer transition absolute right-0 flex items-center"
 					title="Clear location"
 					onClick={clearLocation}
 				>

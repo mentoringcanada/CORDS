@@ -35,4 +35,7 @@ describe("Search", () => {
 		cy.findByRole("checkbox", { name: "Mentor" }).should("not.be.checked");
 		cy.findByRole("checkbox", { name: "Magnet" }).should("not.be.checked");
 	});
+	it("fails", () => {
+		expect(true).to.equal(false);
+	});
 });

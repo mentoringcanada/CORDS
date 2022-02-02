@@ -38,11 +38,11 @@ const SearchFilters = () => {
 								onChange: (e) =>
 									search({ [value]: e.target.checked }),
 							})}
-							className="mr-2"
+							className="mr-2 cursor-pointer"
 							id={value}
 							type="checkbox"
 						/>
-						<label className="mr-2" htmlFor={value}>
+						<label className="mr-2 cursor-pointer" htmlFor={value}>
 							{label}
 						</label>
 					</span>

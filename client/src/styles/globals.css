@@ -4,13 +4,13 @@
 
 html,
 body {
-	@apply font-base text-text box-border bg-primary/5;
+	@apply font-base text-text box-border bg-primary/[0.1%];
 }
 
 .button-filled {
-	@apply bg-primary text-white px-6 py-2 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition border-primary border shadow-md hover:shadow-lg;
+	@apply bg-primary text-white px-6 h-11 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition border-primary border shadow-md hover:shadow-lg text-center;
 }
 
 .button-ghost {
-	@apply font-semibold text-primary text-opacity-80 px-6 py-2 border border-primary rounded hover:bg-primary hover:text-white transition shadow-md hover:shadow-lg;
+	@apply font-semibold bg-white text-primary text-opacity-80 px-6 h-11 border border-primary rounded hover:bg-primary hover:text-white transition shadow-md hover:shadow-lg text-center;
 }
