@@ -1,0 +1,2 @@
+# This file will install all of the dependencies by pip3 install -r requirements.txt
+# This file installs all of the dependencies in /usr/bin/python3/whatever so that the app can use them without relative imports

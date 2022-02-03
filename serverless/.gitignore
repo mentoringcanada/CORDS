@@ -1,0 +1,8 @@
+aws/dependencies/python/*
+aws/infrastructure/RDS/.terraform
+aws/infrastructure/RDS/.terraform.lock.hcl
+aws/infrastructure/RDS/terraform.tfstate.backup
+aws/infrastructure/RDS/terraform.tfstate
+aws/infrastructure/RDS/credentials.tf
+aws/routes/serverless.yml
+aws/routes/.serverless
