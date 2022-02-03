@@ -1,0 +1,8 @@
+{
+	"home-button": "Home",
+	"search-button": "Search",
+	"placeholders": {
+		"query": "Search...",
+		"location": "Location..."
+	}
+}

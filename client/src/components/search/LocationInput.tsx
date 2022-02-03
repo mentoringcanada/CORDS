@@ -1,4 +1,5 @@
 import { Loader } from "@googlemaps/js-api-loader";
+import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -14,6 +15,7 @@ const options = {
 };
 
 const LocationInput = () => {
+	const { t } = useTranslation();
 	const { search } = useContext(SearchContext);
 	const {
 		register,
@@ -112,12 +114,12 @@ const LocationInput = () => {
 						(errors.loc && "!border-error") ||
 						(predictions && "!rounded-b-none !border-primary")
 					}`}
-					placeholder="Location..."
 					type="text"
 					id="loc"
 					aria-label="location"
 					autoComplete="off"
 					defaultValue={""}
+					placeholder={`${t("common:placeholders.location")}`}
 				/>
 			</label>
 			<div ref={container}>

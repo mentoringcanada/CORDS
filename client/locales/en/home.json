@@ -1,0 +1,15 @@
+{
+	"hero": {
+		"title": "<0>Find The <1>Opportunities</1> You Deserve</0>",
+		"exclamation": "Search over 50,000 services across Canada!"
+	},
+	"examples": {
+		"title": "Example Searches",
+		"example-text": {
+			"0": "Food Bank",
+			"1": "Mental Health",
+			"2": "Youth Jobs",
+			"3": "Clothing Drive"
+		}
+	}
+}

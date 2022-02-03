@@ -16,5 +16,5 @@ module.exports = {
 			base: ["Open Sans", "sans-serif"],
 		},
 	},
-	plugins: [],
+	plugins: [require("@tailwindcss/line-clamp")],
 };

@@ -9,6 +9,7 @@ import Pagination from "src/components/search/Pagination";
 import Image from "next/image";
 import NoResults from "public/no-results.svg";
 import PreResults from "public/pre-results.svg";
+import useTranslation from "next-translate/useTranslation";
 
 const getServices = async ({
 	q = "",
@@ -34,6 +35,7 @@ const getServices = async ({
 };
 
 const SearchPage: NextPage = () => {
+	const { t } = useTranslation();
 	const { query } = useRouter();
 	const { isLoading, isError, error, data } = useQuery<SearchResult, Error>(
 		["search", query],
@@ -62,7 +64,7 @@ const SearchPage: NextPage = () => {
 			{isError && error && <p>{error.message}</p>}
 			{data ? (
 				data.totalResults === 0 ? (
-					<div className="m-auto mt-20 flex items-center flex-col transition">
+					<div className="m-auto mt-10 md:mt-20 flex items-center flex-col transition">
 						<Image
 							src={NoResults}
 							alt="No results image"
@@ -105,7 +107,7 @@ const SearchPage: NextPage = () => {
 			) : (
 				!isError &&
 				!isLoading && (
-					<div className="m-auto mt-20 flex items-center flex-col transition">
+					<div className="m-auto mt-10 md:mt-20 flex items-center flex-col transition">
 						<Image
 							src={PreResults}
 							alt="Pre results image"
@@ -113,7 +115,7 @@ const SearchPage: NextPage = () => {
 							height={150}
 						/>
 						<h3 className="font-bold text-xl opacity-80 text-center mt-6">
-							Find the services you need!
+							{t("search:presearch-text")}
 						</h3>
 					</div>
 				)

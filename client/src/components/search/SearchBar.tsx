@@ -1,9 +1,11 @@
+import useTranslation from "next-translate/useTranslation";
 import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import LocationInput from "./LocationInput";
 
 const SearchBar = () => {
+	const { t } = useTranslation();
 	const {
 		register,
 		formState: { errors },
@@ -27,14 +29,14 @@ const SearchBar = () => {
 					}`}
 					id="q"
 					aria-label="query"
-					placeholder="Search..."
+					placeholder={`${t("common:placeholders.query")}`}
 					defaultValue={""}
 				/>
 			</label>
 			<LocationInput />
 			<input
 				type="submit"
-				value="Search"
+				value={`${t("common:search-button")}`}
 				className="button-filled w-full md:w-auto"
 			/>
 		</div>

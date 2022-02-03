@@ -1,8 +1,19 @@
+import useTranslation from "next-translate/useTranslation";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Logo from "/public/logo-primary.svg";
 
 const Header = () => {
+	const router = useRouter(),
+		{ pathname, asPath, query, locale } = router;
+	const { t } = useTranslation();
+
+	const changeLocale = (e: any) => {
+		const locale = e.target.value;
+		router.push({ pathname, query }, asPath, { locale });
+	};
+
 	return (
 		<header className="h-20 flex justify-between items-center p-4 max-w-screen-xl m-auto">
 			<Link href="/" passHref={true}>
@@ -19,13 +30,28 @@ const Header = () => {
 				</div>
 			</Link>
 			<nav className="flex items-center">
+				<select
+					onChange={changeLocale}
+					defaultValue={locale || "en"}
+					className="mr-6 appearance-none font-semibold opacity-70 bg-white !bg-opacity-0 border-none outline-none cursor-pointer hover:opacity-100 bg-no-repeat pr-5 pl-[2px]"
+					style={{
+						backgroundImage: `url('/down-arrow.svg')`,
+						backgroundPosition: "right 4px top 50%",
+						backgroundSize: "12px",
+					}}
+				>
+					<option value="en">EN</option>
+					<option value="fr">FR</option>
+				</select>
 				<Link href="/" passHref={true}>
 					<a className="mr-8 font-semibold opacity-70 transition hover:opacity-100">
-						Home
+						{t("common:home-button")}
 					</a>
 				</Link>
 				<Link href="/search" passHref={true}>
-					<button className="button-ghost">Search</button>
+					<button className="button-ghost">
+						{t("common:search-button")}
+					</button>
 				</Link>
 			</nav>
 		</header>

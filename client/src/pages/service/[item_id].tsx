@@ -53,11 +53,20 @@ const ServicePage: NextPage = () => {
 							{data.items[0].name}
 						</h1>
 						<p>{data.items[0].address}</p>
-						<p className="opacity-70 my-4">
-							{data.items[0].description}
-						</p>
-						<h3 className="text-md font-semibold mb-1">Contact</h3>
-						<p>{data.items[0].phone}</p>
+						<p
+							className="opacity-70 my-4"
+							dangerouslySetInnerHTML={{
+								__html: data.items[0].description,
+							}}
+						></p>
+						{data.items[0].phone && (
+							<>
+								<h3 className="text-md font-semibold mb-1">
+									Contact
+								</h3>
+								<p>{data.items[0].phone}</p>
+							</>
+						)}
 						<section className="flex flex-col overflow-y-scroll max-h-64 overflow-x-hidden mt-8">
 							{data.items.map(
 								(service: Service, index: number) =>

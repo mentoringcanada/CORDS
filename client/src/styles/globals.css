@@ -8,9 +8,9 @@ body {
 }
 
 .button-filled {
-	@apply bg-primary text-white px-6 h-11 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition border-primary border shadow-md hover:shadow-lg text-center;
+	@apply bg-primary text-white px-4 sm:px-5 md:px-6 h-11 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition border-primary border shadow-md hover:shadow-lg text-center;
 }
 
 .button-ghost {
-	@apply font-semibold bg-white text-primary text-opacity-80 px-6 h-11 border border-primary rounded hover:bg-primary hover:text-white transition shadow-md hover:shadow-lg text-center;
+	@apply font-semibold bg-white text-primary text-opacity-80 px-4 sm:px-5 md:px-6 h-11 border border-primary rounded hover:bg-primary hover:text-white transition shadow-md hover:shadow-lg text-center;
 }
