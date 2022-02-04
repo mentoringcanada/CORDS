@@ -1,6 +1,6 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useEffect, createContext } from "react";
+import { useEffect, createContext, useState } from "react";
 import SearchBar from "./SearchBar";
 import SearchFilters from "./SearchFilters";
 
@@ -27,7 +27,7 @@ const SearchForm = () => {
 
 	// Sets defaults from url query params
 	useEffect(() => {
-		if (router.query) {
+		if (router.isReady) {
 			let form: any = router.query;
 			!distanceValues.includes(Number(form.distance)) &&
 				(form.distance = 100);
@@ -36,7 +36,7 @@ const SearchForm = () => {
 			form.volunteer = form.volunteer != "false";
 			reset(router.query);
 		}
-	}, [router.query, reset]);
+	}, [router.isReady, reset]);
 
 	return (
 		<SearchContext.Provider value={{ search }}>

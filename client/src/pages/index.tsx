@@ -4,19 +4,18 @@ import SearchBar from "../components/search/SearchForm";
 import { FaSearch } from "react-icons/fa";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
-
-const exampleSearches = [
-	"Food Bank",
-	"Mental Health",
-	"Youth Jobs",
-	"Clothing Drive",
-];
+import Head from "next/head";
+import Meta from "src/components/common/Meta";
 
 const HomePage: NextPage = () => {
 	const { t } = useTranslation();
 
 	return (
 		<section className="text-center max-w-screen-lg m-auto sm:p-10  md:p-16">
+			<Meta
+				title="Search Engine For Services Across Canada | CORDS"
+				description="CORDS is a natural language search for over 50,000 services across Canada aimed to provide fast and easy lookup of the opportunities you need."
+			/>
 			<Trans
 				i18nKey="home:hero.title"
 				components={[

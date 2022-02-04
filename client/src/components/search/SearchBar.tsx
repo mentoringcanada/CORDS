@@ -29,14 +29,14 @@ const SearchBar = () => {
 					}`}
 					id="q"
 					aria-label="query"
-					placeholder={`${t("common:placeholders.query")}`}
+					placeholder={`${t("search:search-bar.placeholders.query")}`}
 					defaultValue={""}
 				/>
 			</label>
 			<LocationInput />
 			<input
 				type="submit"
-				value={`${t("common:search-button")}`}
+				value={`${t("search:search-bar.search-button")}`}
 				className="button-filled w-full md:w-auto"
 			/>
 		</div>

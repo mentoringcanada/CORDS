@@ -1,8 +1,18 @@
 {
-	"home-button": "Home",
-	"search-button": "Search",
-	"placeholders": {
-		"query": "Search...",
-		"location": "Location..."
+	"layout": {
+		"header": {
+			"nav": {
+				"home": "Home",
+				"search": "Search"
+			}
+		}
+	},
+	"404-page": {
+		"title": "Page not found",
+		"description": "The page you are looking for does not exist or an other error has occurred.",
+		"buttons": {
+			"back": "Go Back",
+			"home": "Go Home"
+		}
 	}
 }

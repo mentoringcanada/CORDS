@@ -1,13 +1,15 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export interface Props {
-	item_id: number;
-	name: string;
-	distance: number | null;
-	description: string;
+	service: Service;
 }
 
-const Service = ({ item_id, name, distance, description }: Props) => {
+const Service = ({
+	service: { item_id, name, nom, distance, description, description_fr },
+}: Props) => {
+	const { locale } = useRouter();
+
 	return (
 		<Link href={`/service/${item_id}`} passHref={true}>
 			<article className="border-outline border-[1px] rounded p-4 mt-4 cursor-pointer group border-opacity-50 shadow">
@@ -16,7 +18,7 @@ const Service = ({ item_id, name, distance, description }: Props) => {
 						!distance && "mb-2"
 					}`}
 				>
-					{name}
+					{locale === "fr" && nom !== "" ? nom : name}
 				</h3>
 				{typeof distance == "number" && (
 					<p className="my-2 opacity-50 !no-underline">
@@ -25,7 +27,12 @@ const Service = ({ item_id, name, distance, description }: Props) => {
 				)}
 				<p
 					className="opacity-70 !no-underline overflow-hidden overflow-ellipsis line-clamp-3"
-					dangerouslySetInnerHTML={{ __html: description }}
+					dangerouslySetInnerHTML={{
+						__html:
+							locale === "fr" && description_fr !== ""
+								? description_fr
+								: description,
+					}}
 				></p>
 			</article>
 		</Link>

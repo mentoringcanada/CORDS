@@ -9,11 +9,8 @@ const Header = () => {
 		{ pathname, asPath, query, locale } = router;
 	const { t } = useTranslation();
 
-	const changeLocale = (e: any) => {
-		const locale = e.target.value;
-		router.push({ pathname, query }, asPath, { locale });
-	};
-
+	const changeLocale = (e: any) =>
+		router.push({ pathname, query }, asPath, { locale: e.target.value });
 	return (
 		<header className="h-20 flex justify-between items-center p-4 max-w-screen-xl m-auto">
 			<Link href="/" passHref={true}>
@@ -45,12 +42,12 @@ const Header = () => {
 				</select>
 				<Link href="/" passHref={true}>
 					<a className="mr-8 font-semibold opacity-70 transition hover:opacity-100">
-						{t("common:home-button")}
+						{t("common:layout.header.nav.home")}
 					</a>
 				</Link>
 				<Link href="/search" passHref={true}>
 					<button className="button-ghost">
-						{t("common:search-button")}
+						{t("common:layout.header.nav.search")}
 					</button>
 				</Link>
 			</nav>

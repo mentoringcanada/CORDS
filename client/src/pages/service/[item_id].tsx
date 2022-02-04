@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Spinner from "../../components/common/Spinner";
 import Service from "src/components/search/Service";
+import Head from "next/head";
 
 const getService = async (item_id: any) => {
 	const res = await axios.get(`/similar/${item_id}`);
@@ -35,7 +36,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const ServicePage: NextPage = () => {
 	const router = useRouter(),
-		{ query } = router;
+		{ query, locale } = router;
 	const { isLoading, isError, error, data } = useQuery<SimilarResult, Error>(
 		["service", query.item_id],
 		() => getService(query.item_id),
@@ -73,10 +74,7 @@ const ServicePage: NextPage = () => {
 									index !== 0 && (
 										<Service
 											key={service.item_id}
-											item_id={Number(service.item_id)}
-											name={service.name}
-											distance={service.distance}
-											description={service.description}
+											service={service}
 										/>
 									)
 							)}

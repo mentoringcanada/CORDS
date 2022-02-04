@@ -1,3 +1,19 @@
 {
-	"presearch-text": "Trouvez les services dont vous avez besoin!"
+	"states": {
+		"pre-search": {
+			"description": "Trouvez les services dont vous avez besoin!"
+		},
+		"no-results": {
+			"title": "Aucun résultat trouvé!",
+			"description": "Essayez une nouvelle recherche ou modifiez les options de recherche..."
+		},
+		"total-results": "résultats totaux"
+	},
+	"search-bar": {
+		"placeholders": {
+			"query": "Recherche...",
+			"location": "Localisation..."
+		},
+		"search-button": "Recherche"
+	}
 }

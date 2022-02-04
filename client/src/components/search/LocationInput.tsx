@@ -119,7 +119,9 @@ const LocationInput = () => {
 					aria-label="location"
 					autoComplete="off"
 					defaultValue={""}
-					placeholder={`${t("common:placeholders.location")}`}
+					placeholder={`${t(
+						"search:search-bar.placeholders.location"
+					)}`}
 				/>
 			</label>
 			<div ref={container}>

@@ -17,9 +17,7 @@ interface Service {
 	description_fr: string;
 	distance: number;
 	phone: string;
-	address: string;
 	description: string;
-	lat: number;
 	clusterId: number;
 	resource_type: Provider;
 }

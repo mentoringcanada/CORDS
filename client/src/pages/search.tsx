@@ -10,6 +10,8 @@ import Image from "next/image";
 import NoResults from "public/no-results.svg";
 import PreResults from "public/pre-results.svg";
 import useTranslation from "next-translate/useTranslation";
+import Head from "next/head";
+import Meta from "src/components/common/Meta";
 
 const getServices = async ({
 	q = "",
@@ -55,6 +57,10 @@ const SearchPage: NextPage = () => {
 
 	return (
 		<section className="my-12">
+			<Meta
+				title="Search"
+				description="Natural language search for services across Canada!"
+			/>
 			<SearchBar />
 			{isLoading && (
 				<div className="mt-20">
@@ -72,26 +78,24 @@ const SearchPage: NextPage = () => {
 							height={150}
 						/>
 						<h3 className="font-bold text-xl opacity-80 text-center mt-6">
-							No Results Found!
+							{t("search:states.no-results.title")}
 						</h3>
-						<p className="opacity-50 w-fit mt-4">
-							Try a new search or change search options...
+						<p className="opacity-50 w-fit mt-4 text-center">
+							{t("search:states.no-results.description")}
 						</p>
 					</div>
 				) : (
 					<>
 						<section className="flex flex-col md:max-w-[70%]">
 							<p className="opacity-50 mt-4">
-								{data.totalResults} total results
+								{data.totalResults}{" "}
+								{t("search:states.total-results")}
 							</p>
 							{data.items.map((service: Service) => {
 								return (
 									<Service
 										key={service.item_id}
-										item_id={Number(service.item_id)}
-										name={service.name}
-										distance={service.distance}
-										description={service.description}
+										service={service}
 									/>
 								);
 							})}
@@ -115,7 +119,7 @@ const SearchPage: NextPage = () => {
 							height={150}
 						/>
 						<h3 className="font-bold text-xl opacity-80 text-center mt-6">
-							{t("search:presearch-text")}
+							{t("search:states.pre-search.description")}
 						</h3>
 					</div>
 				)
