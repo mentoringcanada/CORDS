@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import SearchBar from "../components/search/SearchForm";
+import SearchForm from "../components/search/SearchForm";
 import Service from "../components/search/Service";
 import Spinner from "../components/common/Spinner";
 import Pagination from "src/components/search/Pagination";
@@ -61,7 +61,7 @@ const SearchPage: NextPage = () => {
 				title="Search"
 				description="Natural language search for services across Canada!"
 			/>
-			<SearchBar />
+			<SearchForm />
 			{isLoading && (
 				<div className="mt-20">
 					<Spinner />

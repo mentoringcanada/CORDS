@@ -3,12 +3,22 @@ import { QueryClient, dehydrate, useQuery } from "react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Spinner from "../../components/common/Spinner";
-import Service from "src/components/search/Service";
-import Head from "next/head";
+import Similar from "src/components/service/Similar";
+import Map from "src/components/service/Map";
 
 const getService = async (item_id: any) => {
-	const res = await axios.get(`/similar/${item_id}`);
-	return res.data;
+	const res = await axios.post(`/similar`, {
+		item_id,
+		page: 1,
+		size: 1,
+		lat: 43.6532,
+		lng: -79.3832,
+		distance: 100,
+		community_services: true,
+		volunteer: true,
+		employment: true,
+	});
+	return await res.data.items[0];
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -37,7 +47,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const ServicePage: NextPage = () => {
 	const router = useRouter(),
 		{ query, locale } = router;
-	const { isLoading, isError, error, data } = useQuery<SimilarResult, Error>(
+	const { isLoading, isError, error, data } = useQuery<Service, Error>(
 		["service", query.item_id],
 		() => getService(query.item_id),
 		{ refetchOnWindowFocus: false, enabled: !!query.item_id }
@@ -45,43 +55,39 @@ const ServicePage: NextPage = () => {
 
 	return (
 		<>
-			<div className="border-[1px] border-outline border-opacity-50 rounded shadow-lg p-4">
+			<div className="border-[1px] border-outline border-opacity-50 rounded shadow-lg flex flex-col md:flex-row-reverse">
 				{isLoading && <Spinner />}
 				{isError && error && <p>{error.message}</p>}
-				{data && data.items[0] && (
+				{data && (
 					<>
-						<h1 className="text-2xl font-semibold mb-2">
-							{data.items[0].name}
-						</h1>
-						<p>{data.items[0].address}</p>
-						<p
-							className="opacity-70 my-4"
-							dangerouslySetInnerHTML={{
-								__html: data.items[0].description,
-							}}
-						></p>
-						{data.items[0].phone && (
-							<>
-								<h3 className="text-md font-semibold mb-1">
-									Contact
-								</h3>
-								<p>{data.items[0].phone}</p>
-							</>
-						)}
-						<section className="flex flex-col overflow-y-scroll max-h-64 overflow-x-hidden mt-8">
-							{data.items.map(
-								(service: Service, index: number) =>
-									index !== 0 && (
-										<Service
-											key={service.item_id}
-											service={service}
-										/>
-									)
+						<Map lat={data.lat} lng={data.lng} />
+						<section className="flex-grow-[2] p-4">
+							<h1 className="text-2xl font-semibold mb-2">
+								{data.name}
+							</h1>
+							<p>{data.address}</p>
+							<p
+								className="opacity-70 my-4"
+								dangerouslySetInnerHTML={{
+									__html: data.description,
+								}}
+							></p>
+							{data.phone && (
+								<>
+									<h3 className="text-md font-semibold mb-1">
+										Contact
+									</h3>
+									<p>{data.phone}</p>
+								</>
 							)}
 						</section>
 					</>
 				)}
 			</div>
+			<Similar
+				lat={Number(query.lat || (data && data.lat))}
+				lng={Number(query.lng || (data && data.lng))}
+			/>
 		</>
 	);
 };

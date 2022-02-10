@@ -9,15 +9,24 @@ export const SearchContext = createContext<any>(null);
 const distanceValues = [2, 5, 10, 25, 50, 100];
 
 const SearchForm = () => {
-	const router = useRouter();
+	const router = useRouter(),
+		{ query } = router;
 	const form = useForm<SearchState>(),
-		{ reset, handleSubmit } = form;
+		{ reset, handleSubmit, watch } = form;
 
-	// Updates the search based on data
 	const search = (data: Search) => {
 		router.push(
+			{ pathname: "/search", query: { ...query, ...data, page: 1 } },
+			undefined,
+			{ shallow: true }
+		);
+	};
+	console.log(watch());
+
+	// Updates the search based on data
+	const updateSearch = (data: Search) => {
+		router.push(
 			{
-				pathname: "/search",
 				query: { ...router.query, ...data, page: 1 },
 			},
 			undefined,
@@ -39,7 +48,7 @@ const SearchForm = () => {
 	}, [router.isReady, reset]);
 
 	return (
-		<SearchContext.Provider value={{ search }}>
+		<SearchContext.Provider value={{ updateSearch }}>
 			<FormProvider {...form}>
 				<form onSubmit={handleSubmit(search)} className="flex flex-col">
 					<SearchBar />

@@ -11,7 +11,7 @@ const providerValues = [
 ];
 
 const SearchFilters = () => {
-	const { search } = useContext(SearchContext);
+	const { updateSearch } = useContext(SearchContext);
 	const { register } = useFormContext();
 
 	return (
@@ -25,7 +25,7 @@ const SearchFilters = () => {
 				}}
 				defaultValue="100"
 				{...register("distance", {
-					onChange: (e) => search({ distance: e.target.value }),
+					onChange: (e) => updateSearch({ distance: e.target.value }),
 					valueAsNumber: true,
 				})}
 			>
@@ -45,7 +45,7 @@ const SearchFilters = () => {
 						<input
 							{...register(value, {
 								onChange: (e) =>
-									search({ [value]: e.target.checked }),
+									updateSearch({ [value]: e.target.checked }),
 							})}
 							className="mr-2 cursor-pointer"
 							id={value}

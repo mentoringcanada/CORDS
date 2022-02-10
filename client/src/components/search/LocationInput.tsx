@@ -16,7 +16,7 @@ const options = {
 
 const LocationInput = () => {
 	const { t } = useTranslation();
-	const { search } = useContext(SearchContext);
+	const { updateSearch } = useContext(SearchContext);
 	const {
 		register,
 		setValue,
@@ -64,7 +64,7 @@ const LocationInput = () => {
 			(data: google.maps.places.PlaceResult | null) => {
 				if (data) {
 					const { geometry } = data;
-					search({
+					updateSearch({
 						loc: description,
 						lat: geometry?.location?.lat(),
 						lng: geometry?.location?.lng(),

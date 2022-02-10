@@ -8,10 +8,10 @@ export interface Props {
 const Service = ({
 	service: { item_id, name, nom, distance, description, description_fr },
 }: Props) => {
-	const { locale } = useRouter();
+	const { query, locale } = useRouter();
 
 	return (
-		<Link href={`/service/${item_id}`} passHref={true}>
+		<Link href={{ pathname: `/service/${item_id}`, query }} passHref={true}>
 			<article className="border-outline border-[1px] rounded p-4 mt-4 cursor-pointer group border-opacity-50 shadow">
 				<h3
 					className={`text-lg font-semibold group-hover:underline ${

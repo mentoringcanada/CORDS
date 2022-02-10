@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
@@ -11,6 +12,8 @@ const SearchBar = () => {
 		formState: { errors },
 		setFocus,
 	} = useFormContext();
+	const router = useRouter(),
+		{ query } = router;
 
 	useEffect(() => {
 		setFocus("q");
