@@ -3,7 +3,7 @@ const nextTranslate = require("next-translate");
 const { withSentryConfig } = require("@sentry/nextjs");
 
 const moduleExports = nextTranslate({
-	reactStrictMode: true,
+	reactStrictMode: false,
 });
 
 const sentryWebpackPluginOptions = {

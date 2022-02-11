@@ -3,14 +3,13 @@ import { useQuery } from "react-query";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import SearchForm from "../components/search/SearchForm";
-import Service from "../components/search/Service";
+import Service from "../components/common/Service";
 import Spinner from "../components/common/Spinner";
 import Pagination from "src/components/search/Pagination";
 import Image from "next/image";
 import NoResults from "public/no-results.svg";
 import PreResults from "public/pre-results.svg";
 import useTranslation from "next-translate/useTranslation";
-import Head from "next/head";
 import Meta from "src/components/common/Meta";
 
 const getServices = async ({
@@ -38,13 +37,15 @@ const getServices = async ({
 
 const SearchPage: NextPage = () => {
 	const { t } = useTranslation();
-	const { query } = useRouter();
+	const router = useRouter(),
+		{ query } = router;
 	const { isLoading, isError, error, data } = useQuery<SearchResult, Error>(
 		["search", query],
 		() => getServices(query),
 		{
 			refetchOnWindowFocus: false,
 			enabled:
+				router.isReady &&
 				!!query.q &&
 				!!query.loc &&
 				!!query.lat &&

@@ -46,7 +46,7 @@ const Header = () => {
 					</a>
 				</Link>
 				<Link href="/search" passHref={true}>
-					<button className="button-ghost">
+					<button className="btn btn-ghost" aria-label="Search page">
 						{t("common:layout.header.nav.search")}
 					</button>
 				</Link>

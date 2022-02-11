@@ -4,6 +4,7 @@
 	"pages": {
 		"*": ["common"],
 		"/": ["home", "search"],
-		"/search": ["search"]
+		"/search": ["search"],
+		"/service/[item_id]": ["service"]
 	}
 }

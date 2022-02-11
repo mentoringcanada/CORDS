@@ -23,5 +23,5 @@
 		"utils/location.js",
 		"jest.setup.js"
 	],
-	"exclude": ["node_modules", "cypress"]
+	"exclude": ["node_modules", "tests/cypress"]
 }

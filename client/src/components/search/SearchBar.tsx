@@ -27,7 +27,7 @@ const SearchBar = () => {
 					autoComplete="off"
 					type="text"
 					{...register("q", { required: true })}
-					className={`search-text-input ${
+					className={`transition h-11 px-10 w-full outline-none border border-outline/50 rounded focus:border-primary shadow focus:shadow-md ${
 						errors.q && "!border-error"
 					}`}
 					id="q"
@@ -40,7 +40,7 @@ const SearchBar = () => {
 			<input
 				type="submit"
 				value={`${t("search:search-bar.search-button")}`}
-				className="button-filled w-full md:w-auto"
+				className="btn btn-primary w-full md:w-auto"
 			/>
 		</div>
 	);

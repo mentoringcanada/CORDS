@@ -21,13 +21,13 @@ const Custom404 = () => {
 			<p>{t("common:404-page.description")}</p>
 			<div className="flex justify-center mt-12">
 				<button
-					className="button-filled mr-4"
+					className="btn btn-filled mr-4"
 					onClick={() => router.back()}
 				>
 					{t("common:404-page.buttons.back")}
 				</button>
 				<Link href="/" passHref={true}>
-					<button className="button-ghost">
+					<button className="btn btn-ghost">
 						{t("common:404-page.buttons.home")}
 					</button>
 				</Link>

@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+	@apply px-4 sm:px-5 md:px-6 h-11 font-semibold rounded cursor-pointer hover:bg-opacity-90 transition border shadow-md hover:shadow-lg text-center border-primary;
+}
+.btn-primary {
+	@apply bg-primary text-white;
+}
+.btn-ghost {
+	@apply bg-white text-primary hover:bg-primary hover:text-white;
+}

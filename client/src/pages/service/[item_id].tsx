@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import Spinner from "../../components/common/Spinner";
 import Similar from "src/components/service/Similar";
 import Map from "src/components/service/Map";
+import ServiceDetails from "src/components/service/ServiceDetails";
+import Meta from "src/components/common/Meta";
 
 const getService = async (item_id: any) => {
 	const res = await axios.post(`/similar`, {
@@ -45,51 +47,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const ServicePage: NextPage = () => {
-	const router = useRouter(),
-		{ query, locale } = router;
+	const { query } = useRouter();
 	const { isLoading, isError, error, data } = useQuery<Service, Error>(
 		["service", query.item_id],
 		() => getService(query.item_id),
 		{ refetchOnWindowFocus: false, enabled: !!query.item_id }
 	);
 
-	return (
+	if (isLoading) return <Spinner />;
+	if (isError && error)
+		return <p className="text-center">{error?.message}</p>;
+
+	return data ? (
 		<>
+			<Meta title={data.name} description={data.description} />
 			<div className="border-[1px] border-outline border-opacity-50 rounded shadow-lg flex flex-col md:flex-row-reverse">
-				{isLoading && <Spinner />}
-				{isError && error && <p>{error.message}</p>}
-				{data && (
-					<>
-						<Map lat={data.lat} lng={data.lng} />
-						<section className="flex-grow-[2] p-4">
-							<h1 className="text-2xl font-semibold mb-2">
-								{data.name}
-							</h1>
-							<p>{data.address}</p>
-							<p
-								className="opacity-70 my-4"
-								dangerouslySetInnerHTML={{
-									__html: data.description,
-								}}
-							></p>
-							{data.phone && (
-								<>
-									<h3 className="text-md font-semibold mb-1">
-										Contact
-									</h3>
-									<p>{data.phone}</p>
-								</>
-							)}
-						</section>
-					</>
-				)}
+				<Map lat={data.lat} lng={data.lng} />
+				<ServiceDetails service={data} />
 			</div>
 			<Similar
-				lat={Number(query.lat || (data && data.lat))}
-				lng={Number(query.lng || (data && data.lng))}
+				lat={Number(query.lat || data.lat)}
+				lng={Number(query.lng || data.lng)}
 			/>
 		</>
-	);
+	) : null;
 };
 
 export default ServicePage;

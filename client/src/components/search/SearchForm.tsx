@@ -21,7 +21,6 @@ const SearchForm = () => {
 			{ shallow: true }
 		);
 	};
-	console.log(watch());
 
 	// Updates the search based on data
 	const updateSearch = (data: Search) => {

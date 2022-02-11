@@ -110,7 +110,7 @@ const LocationInput = () => {
 							setPredictions(null);
 						},
 					})}
-					className={`search-text-input ${
+					className={`transition h-11 px-10 w-full outline-none border border-outline/50 rounded focus:border-primary shadow focus:shadow-md ${
 						(errors.loc && "!border-error") ||
 						(predictions && "!rounded-b-none !border-primary")
 					}`}

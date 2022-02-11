@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useQuery } from "react-query";
 import Spinner from "../common/Spinner";
-import Service from "../search/Service";
+import Service from "../common/Service";
+import useTranslation from "next-translate/useTranslation";
 
 const getSimilar = async ({
 	item_id,
@@ -33,6 +34,7 @@ type Props = {
 
 const Similar = ({ lat, lng }: Props) => {
 	const { query } = useRouter();
+	const { t } = useTranslation();
 	const { isLoading, isError, data } = useQuery<SimilarResult, Error>(
 		["similar", { ...query, lat, lng }],
 		() => getSimilar({ ...query, lat, lng }),
@@ -44,7 +46,8 @@ const Similar = ({ lat, lng }: Props) => {
 	return (
 		<div className="border-[1px] border-outline border-opacity-50 rounded shadow-lg p-4 mt-4">
 			<h3 className="font-bold text-lg mb-4">
-				Similar Services {query.loc && `near ${query.loc}`}
+				{t("service:similar.title")}{" "}
+				{query.loc && `${t("service:similar.near")} ${query.loc}`}
 			</h3>
 			<section className="flex flex-col overflow-y-scroll max-h-64 overflow-x-hidden">
 				{data?.items.map(

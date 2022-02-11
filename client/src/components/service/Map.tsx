@@ -37,7 +37,7 @@ const Map = ({ lat, lng }: Props) => {
 		<div
 			className="min-h-[240px] md:mb-0 flex-grow min-w-[40%]"
 			ref={container}
-		></div>
+		/>
 	);
 };
 

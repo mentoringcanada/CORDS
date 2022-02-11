@@ -35,4 +35,12 @@ describe("Search", () => {
 		cy.findByRole("checkbox", { name: "Mentor" }).should("not.be.checked");
 		cy.findByRole("checkbox", { name: "Magnet" }).should("not.be.checked");
 	});
+	it("search with custom inputs", () => {
+		cy.visit("/search");
+
+		cy.findByRole("textbox", { name: "query" }).type("food");
+		cy.findByRole("textbox", { name: "location" }).type("toronto");
+		cy.findByText("Toronto, ON, Canada").click();
+		cy.findByRole("button", { name: "Search" }).click();
+	});
 });

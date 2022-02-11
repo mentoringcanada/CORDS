@@ -42,7 +42,7 @@ const HomePage: NextPage = () => {
 						});
 						return (
 							<Link href={`/search?q=${text}`} key={x}>
-								<a className="button-ghost flex items-center mb-4 w-fit m-auto">
+								<a className="btn btn-ghost flex items-center mb-4 w-fit m-auto">
 									<FaSearch className="h-4 w-4 mb-[2px] mr-2" />{" "}
 									{text}
 								</a>
