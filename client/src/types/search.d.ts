@@ -10,9 +10,9 @@ interface Search {
 }
 interface SearchState {
 	q?: string;
+	loc?: string;
 	lat?: number;
 	lng?: number;
-	loc?: string;
 	distance?: number;
 	page?: number;
 	community_services?: bool;

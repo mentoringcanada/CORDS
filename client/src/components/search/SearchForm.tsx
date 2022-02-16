@@ -1,28 +1,30 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useEffect, createContext, useState } from "react";
+import { useEffect, createContext } from "react";
 import SearchBar from "./SearchBar";
 import SearchFilters from "./SearchFilters";
+import { useQueryClient } from "react-query";
 
 export const SearchContext = createContext<any>(null);
 
 const distanceValues = [2, 5, 10, 25, 50, 100];
 
 const SearchForm = () => {
-	const router = useRouter(),
-		{ query } = router;
+	const router = useRouter();
 	const form = useForm<SearchState>(),
-		{ reset, handleSubmit, watch } = form;
+		{ reset, handleSubmit } = form;
+	const queryClient = useQueryClient();
 
+	// searches based on form data
 	const search = (data: Search) => {
-		router.push(
-			{ pathname: "/search", query: { ...query, ...data, page: 1 } },
-			undefined,
-			{ shallow: true }
-		);
+		queryClient.resetQueries(["search"]);
+		router.push({
+			pathname: "/search",
+			query: { ...router.query, ...data, page: 1 },
+		});
 	};
 
-	// Updates the search based on data
+	// updates the search based on data (used for filters)
 	const updateSearch = (data: Search) => {
 		router.push(
 			{
@@ -33,7 +35,6 @@ const SearchForm = () => {
 		);
 	};
 
-	// Sets defaults from url query params
 	useEffect(() => {
 		if (router.isReady) {
 			let form: any = router.query;
@@ -42,9 +43,9 @@ const SearchForm = () => {
 			form.community_services = form.community_services != "false";
 			form.employment = form.employment != "false";
 			form.volunteer = form.volunteer != "false";
-			reset(router.query);
+			reset(form);
 		}
-	}, [router.isReady, reset]);
+	}, [router, reset]);
 
 	return (
 		<SearchContext.Provider value={{ updateSearch }}>

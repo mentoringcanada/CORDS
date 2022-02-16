@@ -1,3 +1,7 @@
+// Defaults from url
+// Original defaults
+// Search works, requires location and query
+// Pagination works
 describe("Search", () => {
 	it("has correct default values", () => {
 		// visit basic search page
@@ -12,8 +16,7 @@ describe("Search", () => {
 		cy.findByRole("checkbox", { name: "211" }).should("be.checked");
 		cy.findByRole("checkbox", { name: "Mentor" }).should("be.checked");
 		cy.findByRole("checkbox", { name: "Magnet" }).should("be.checked");
-	});
-	it("correctly sets values from url", () => {
+
 		// visit search page with custom params
 		cy.visit(
 			"/search?q=food&loc=toronto&community_services=false&employment=false&volunteer=false&distance=50"

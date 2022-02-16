@@ -12,8 +12,6 @@ const SearchBar = () => {
 		formState: { errors },
 		setFocus,
 	} = useFormContext();
-	const router = useRouter(),
-		{ query } = router;
 
 	useEffect(() => {
 		setFocus("q");

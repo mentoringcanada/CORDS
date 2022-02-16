@@ -1,6 +1,5 @@
 import { Loader } from "@googlemaps/js-api-loader";
 import useTranslation from "next-translate/useTranslation";
-import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -24,13 +23,12 @@ const LocationInput = () => {
 		watch,
 		formState: { errors },
 	} = useFormContext();
-
 	const [predictions, setPredictions] = useState<
 		google.maps.places.AutocompletePrediction[] | null
 	>(null);
-	const router = useRouter();
 	const container = useRef<HTMLDivElement>(null);
 
+	// sets predictions based on loc value
 	const locationTextChange = (e: any) => {
 		e.target.value && e.target.value !== ""
 			? autocomplete.getPlacePredictions(
@@ -40,14 +38,11 @@ const LocationInput = () => {
 			: setPredictions(null);
 	};
 
+	// clears location from form and url
 	const clearLocation = () => {
 		setPredictions(null);
-		setValue("loc", "");
 		setFocus("loc");
-		const { loc, lat, lng, ...rest } = router.query;
-		router.push({ query: rest }, undefined, {
-			shallow: true,
-		});
+		updateSearch({ loc: "", lat: "", lng: "" });
 	};
 
 	const selectPrediction = ({
@@ -74,6 +69,7 @@ const LocationInput = () => {
 		);
 	};
 
+	// Load google places and autocomplete
 	useEffect(() => {
 		const loader = new Loader({
 			apiKey: `${process.env.NEXT_PUBLIC_GOOGLE_LOCATION_API}`,

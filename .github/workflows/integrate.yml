@@ -1,7 +1,9 @@
 name: Continuous Integration
 on:
     push:
-        branches: [rebuild]
+        branches: [main, staging]
+    pull_request:
+        branches: [main, staging]
 jobs:
     integrate-client:
         runs-on: ubuntu-latest

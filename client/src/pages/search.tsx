@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useQuery } from "react-query";
-import { NextPage } from "next";
+import { dehydrate, QueryClient, useQuery } from "react-query";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import SearchForm from "../components/search/SearchForm";
 import Service from "../components/common/Service";
