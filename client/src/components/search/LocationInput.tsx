@@ -41,6 +41,9 @@ const LocationInput = () => {
 	// clears location from form and url
 	const clearLocation = () => {
 		setPredictions(null);
+		setValue("loc", "");
+		setValue("lat", "");
+		setValue("lng", "");
 		setFocus("loc");
 		updateSearch({ loc: "", lat: "", lng: "" });
 	};
@@ -59,10 +62,14 @@ const LocationInput = () => {
 			(data: google.maps.places.PlaceResult | null) => {
 				if (data) {
 					const { geometry } = data;
+					const lat = geometry?.location?.lat();
+					const lng = geometry?.location?.lng();
+					setValue("lat", lat);
+					setValue("lng", lng);
 					updateSearch({
 						loc: description,
-						lat: geometry?.location?.lat(),
-						lng: geometry?.location?.lng(),
+						lat,
+						lng,
 					});
 				}
 			}
@@ -143,13 +150,14 @@ const LocationInput = () => {
 				)}
 			</div>
 			{watch("loc") && (
-				<div
+				<button
+					type="button"
 					className="font-bold text-text opacity-50 h-11 px-2 cursor-pointer transition absolute right-0 flex items-center"
-					title="Clear location"
+					title="clear location"
 					onClick={clearLocation}
 				>
 					&#10005;
-				</div>
+				</button>
 			)}
 		</div>
 	);

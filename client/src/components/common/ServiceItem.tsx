@@ -5,7 +5,7 @@ export interface Props {
 	service: Service;
 }
 
-const Service = ({
+const ServiceItem = ({
 	service: { item_id, name, nom, distance, description, description_fr },
 }: Props) => {
 	const { query, locale } = useRouter();
@@ -45,4 +45,4 @@ const Service = ({
 	);
 };
 
-export default Service;
+export default ServiceItem;

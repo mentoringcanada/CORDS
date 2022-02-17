@@ -23,6 +23,7 @@ const SearchFilters = () => {
 					backgroundPosition: "right 12px top 50%",
 					backgroundSize: "10px",
 				}}
+				aria-label="distance"
 				defaultValue="100"
 				{...register("distance", {
 					onChange: (e) => updateSearch({ distance: e.target.value }),

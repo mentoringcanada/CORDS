@@ -3,7 +3,7 @@ import { dehydrate, QueryClient, useQuery } from "react-query";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import SearchForm from "../components/search/SearchForm";
-import Service from "../components/common/Service";
+import ServiceItem from "../components/common/ServiceItem";
 import Spinner from "../components/common/Spinner";
 import Pagination from "src/components/search/Pagination";
 import Image from "next/image";
@@ -57,7 +57,7 @@ const SearchPage: NextPage = () => {
 	);
 
 	return (
-		<section className="my-12">
+		<section className="my-4 sm:my-8 md:my-12">
 			<Meta
 				title="Search"
 				description="Natural language search for services across Canada!"
@@ -94,7 +94,7 @@ const SearchPage: NextPage = () => {
 							</p>
 							{data.items.map((service: Service) => {
 								return (
-									<Service
+									<ServiceItem
 										key={service.item_id}
 										service={service}
 									/>

@@ -26,6 +26,7 @@ const SearchForm = () => {
 
 	// updates the search based on data (used for filters)
 	const updateSearch = (data: Search) => {
+		queryClient.resetQueries(["search"]);
 		router.push(
 			{
 				query: { ...router.query, ...data, page: 1 },
@@ -45,7 +46,7 @@ const SearchForm = () => {
 			form.volunteer = form.volunteer != "false";
 			reset(form);
 		}
-	}, [router, reset]);
+	}, [router.isReady, reset]);
 
 	return (
 		<SearchContext.Provider value={{ updateSearch }}>

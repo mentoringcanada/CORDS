@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useQuery } from "react-query";
 import Spinner from "../common/Spinner";
-import Service from "../common/Service";
+import ServiceItem from "../common/ServiceItem";
 import useTranslation from "next-translate/useTranslation";
 
 const getSimilar = async ({
@@ -53,7 +53,10 @@ const Similar = ({ lat, lng }: Props) => {
 				{data?.items.map(
 					(service: Service, index: number) =>
 						index !== 0 && (
-							<Service key={service.item_id} service={service} />
+							<ServiceItem
+								key={service.item_id}
+								service={service}
+							/>
 						)
 				)}
 			</section>
