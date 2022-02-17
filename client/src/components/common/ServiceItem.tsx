@@ -8,13 +8,16 @@ export interface Props {
 const ServiceItem = ({
 	service: { item_id, name, nom, distance, description, description_fr },
 }: Props) => {
-	const { query, locale } = useRouter();
+	const {
+		query: { item_id: item, ...rest },
+		locale,
+	} = useRouter();
 
 	return (
 		<Link
 			href={{
 				pathname: `/service/[item_id]`,
-				query: { item_id, ...query },
+				query: { ...rest, item_id },
 			}}
 			passHref={true}
 		>
