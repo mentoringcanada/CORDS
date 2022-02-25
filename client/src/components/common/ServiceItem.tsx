@@ -20,6 +20,7 @@ const ServiceItem = ({
 				query: { ...rest, item_id },
 			}}
 			passHref={true}
+			prefetch={false}
 		>
 			<article className="border-outline border-[1px] rounded p-4 mt-4 cursor-pointer group border-opacity-50 shadow">
 				<h3
